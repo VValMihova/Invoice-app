@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.model.entity;
 
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,6 +35,16 @@ public class CompanyDetails {
   public CompanyDetails() {
     this.bankAccounts = new HashSet<>();
   }
+  public CompanyDetails(CompanyDetailsDto companyDetailsDto) {
+    this();
+    
+    this.companyName = companyDetailsDto.getCompanyName();
+    this.address = companyDetailsDto.getAddress();
+    this.eik = companyDetailsDto.getEik();
+    this.vatNumber = companyDetailsDto.getVatNumber();
+    this.manager = companyDetailsDto.getManager();
+  }
+  
   
   public Long getId() {
     return id;

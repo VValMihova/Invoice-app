@@ -1,5 +1,7 @@
 package bg.softuni.invoice_app.model.entity;
 
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
+import bg.softuni.invoice_app.model.dto.binding.UserRegisterDto;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
 
@@ -41,6 +43,13 @@ public class User {
     this.roles = new HashSet<>();
     this.products = new HashSet<>();
     this.invoices = new OrderedHashSet<>();
+  }
+  public User(UserRegisterDto userRegisterDto, CompanyDetailsDto companyDetailsDto){
+    this();
+    
+    this.email = userRegisterDto.getEmail();
+    this.password = userRegisterDto.getPassword();
+    this.companyDetails = new CompanyDetails(companyDetailsDto);
   }
   
   public Long getId() {
