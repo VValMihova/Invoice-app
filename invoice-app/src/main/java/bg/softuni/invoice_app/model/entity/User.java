@@ -44,14 +44,6 @@ public class User {
     this.products = new HashSet<>();
     this.invoices = new OrderedHashSet<>();
   }
-  public User(UserRegisterDto userRegisterDto, CompanyDetailsDto companyDetailsDto){
-    this();
-    
-    this.email = userRegisterDto.getEmail();
-    this.password = userRegisterDto.getPassword();
-    this.companyDetails = new CompanyDetails(companyDetailsDto);
-  }
-  
   public Long getId() {
     return id;
   }

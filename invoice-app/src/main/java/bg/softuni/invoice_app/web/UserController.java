@@ -50,6 +50,11 @@ public class UserController {
     return "redirect:/users/login";
   }
   
+  @GetMapping("/login")
+  public String login() {
+    return "login";
+  }
+//  MODEL ATTRIBUTES
   @ModelAttribute("registerInfo")
   public UserRegisterDto userRegisterDto(){
     return new UserRegisterDto();
