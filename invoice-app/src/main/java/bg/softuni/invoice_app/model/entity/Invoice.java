@@ -41,6 +41,9 @@ public class Invoice {
   @Column(nullable = false)
   private BigDecimal amountDue;
   
+  @ManyToOne(optional = true)
+  private BankAccount bankAccount;
+  
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
@@ -48,6 +51,7 @@ public class Invoice {
   public Invoice() {
   this.items = new ArrayList<>();
   }
+  
   
   public Long getId() {
     return id;
@@ -136,6 +140,15 @@ public class Invoice {
   
   public Invoice setUser(User user) {
     this.user = user;
+    return this;
+  }
+  
+  public BankAccount getBankAccount() {
+    return bankAccount;
+  }
+  
+  public Invoice setBankAccount(BankAccount bankAccount) {
+    this.bankAccount = bankAccount;
     return this;
   }
 }

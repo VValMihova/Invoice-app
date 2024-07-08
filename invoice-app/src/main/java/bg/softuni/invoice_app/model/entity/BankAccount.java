@@ -10,9 +10,6 @@ public class BankAccount {
   private Long id;
   
   @Column(nullable = false)
-  private String bankName;
-  
-  @Column(nullable = false)
   private String iban;
   
   @Column(nullable = false)
@@ -24,21 +21,18 @@ public class BankAccount {
   public BankAccount() {
   }
   
+  public BankAccount(String iban, String bic, String currency) {
+    this.iban = iban;
+    this.bic = bic;
+    this.currency = currency;
+  }
+  
   public Long getId() {
     return id;
   }
   
   public BankAccount setId(Long id) {
     this.id = id;
-    return this;
-  }
-  
-  public String getBankName() {
-    return bankName;
-  }
-  
-  public BankAccount setBankName(String bankName) {
-    this.bankName = bankName;
     return this;
   }
   

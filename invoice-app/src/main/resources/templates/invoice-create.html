@@ -6,7 +6,12 @@
 <div class="container mt-5">
   <div class="form-container">
     <h2>Create Invoice</h2>
-    <form action="/invoices/create" method="post" id="invoiceForm">
+    <form
+        th:action="@{/invoices/create}"
+        th:method="post"
+        id="invoiceForm"
+        th:object="${invoiceData}">
+
       <!-- Invoice Number and Issue Date Side by Side -->
       <div class="row">
         <div class="col-md-6">
@@ -81,39 +86,40 @@
         </div>
       </div>
 
-<!--      &lt;!&ndash; Bank Account Details &ndash;&gt;-->
-<!--      <div class="row mt-3">-->
-<!--        <div class="col-md-12">-->
-<!--          <h4>Bank Account Details</h4>-->
-<!--          <div class="form-group">-->
-<!--            <label for="bankAccount">Select Bank Account:</label>-->
-<!--            <select id="bankAccount" name="bankAccount.id" class="form-control" onchange="updateBankDetails(this)">-->
-<!--              <option value="">Select a bank account</option>-->
-<!--              <option th:each="bankAccount : ${bankAccounts}" th:value="${bankAccount.id}"-->
-<!--                      th:text="${bankAccount.iban}"></option>-->
-<!--            </select>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-12">-->
-<!--          <div class="form-group">-->
-<!--            <label for="iban">IBAN:</label>-->
-<!--            <input type="text" id="iban" name="bankAccount.iban" class="form-control" readonly/>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="form-group">-->
-<!--            <label for="bic">BIC:</label>-->
-<!--            <input type="text" id="bic" name="bankAccount.bic" class="form-control" readonly/>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="form-group">-->
-<!--            <label for="currency">Currency:</label>-->
-<!--            <input type="text" id="currency" name="bankAccount.currency" class="form-control" readonly/>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--      &lt;!&ndash; Bank Account Details &ndash;&gt;-->
+      <!--      <div class="row mt-3">-->
+      <!--        <div class="col-md-12">-->
+      <!--          <h4>Bank Account Details</h4>-->
+      <!--          <div class="form-group">-->
+      <!--            <label for="bankAccount">Select Bank Account:</label>-->
+      <!--            <select id="bankAccount" name="bankAccount.id" class="form-control" onchange="updateBankDetails(this)">-->
+      <!--              <option value="">Select a bank account</option>-->
+      <!--              <option th:each="bankAccount : ${bankAccounts}" th:value="${bankAccount.id}"-->
+      <!--                      th:text="${bankAccount.iban}"></option>-->
+      <!--            </select>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <div class="col-md-12">-->
+      <!--          <div class="form-group">-->
+      <!--            <label for="iban">IBAN:</label>-->
+      <!--            <input type="text" id="iban" name="bankAccount.iban" class="form-control" readonly/>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <div class="col-md-6">-->
+      <!--          <div class="form-group">-->
+      <!--            <label for="bic">BIC:</label>-->
+      <!--            <input type="text" id="bic" name="bankAccount.bic" class="form-control" readonly/>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <div class="col-md-6">-->
+      <!--          <div class="form-group">-->
+      <!--            <label for="currency">Currency:</label>-->
+      <!--            <input type="text" id="currency" name="bankAccount.currency" class="form-control" readonly/>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
 
+      <!-- Invoice Items -->
       <!-- Invoice Items -->
       <h4>Items</h4>
       <table class="table text-center">
@@ -160,6 +166,7 @@
           </div>
         </div>
       </div>
+
 
       <button type="submit" class="btn btn-primary">Create Invoice</button>
     </form>
