@@ -21,7 +21,7 @@ public class User {
   @Column(nullable = false)
   private String password;
   
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "company_details_id", referencedColumnName = "id")
   private CompanyDetails companyDetails;
   

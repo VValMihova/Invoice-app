@@ -1,6 +1,5 @@
 package bg.softuni.invoice_app.model.dto.binding;
 
-import jakarta.persistence.Column;
 
 public class CompanyDetailsDto {
   private String companyName;

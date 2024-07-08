@@ -1,24 +1,34 @@
 package bg.softuni.invoice_app.service.impl;
 
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.binding.UserRegisterDto;
+import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.UserRepository;
+import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ModelMapper modelMapper;
+  private final UserHelperService userHelperService;
+  private final CompanyDetailsService companyDetailsService;
   
-  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, UserHelperService userHelperService, CompanyDetailsService companyDetailsService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.modelMapper = modelMapper;
+    this.userHelperService = userHelperService;
+    this.companyDetailsService = companyDetailsService;
   }
   
   
@@ -39,4 +49,15 @@ public class UserServiceImpl implements UserService {
   public User getUserByEmail(String email) {
     return this.userRepository.findByEmail(email).orElse(null);
   }
+  
+  @Override
+  public void updateCompany(CompanyDetailsDto companyData) {
+    companyDetailsService
+        .deleteCompany(userHelperService.getUser().getCompanyDetails().getId());
+    
+    userRepository.save(
+        userHelperService.getUser()
+            .setCompanyDetails(modelMapper.map(companyData, CompanyDetails.class)));
+  }
+  
 }

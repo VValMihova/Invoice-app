@@ -32,6 +32,9 @@ public class CompanyDetails {
   @JoinColumn(name = "company_details_id")
   private Set<BankAccount> bankAccounts;
   
+  @OneToOne(mappedBy = "companyDetails")
+  private User user;
+  
   public CompanyDetails() {
     this.bankAccounts = new HashSet<>();
   }
@@ -106,6 +109,15 @@ public class CompanyDetails {
   
   public CompanyDetails setBankAccounts(Set<BankAccount> bankAccounts) {
     this.bankAccounts = bankAccounts;
+    return this;
+  }
+  
+  public User getUser() {
+    return user;
+  }
+  
+  public CompanyDetails setUser(User user) {
+    this.user = user;
     return this;
   }
 }
