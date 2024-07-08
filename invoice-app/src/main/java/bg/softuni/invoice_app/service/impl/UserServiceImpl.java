@@ -1,7 +1,9 @@
 package bg.softuni.invoice_app.service.impl;
 
+import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateDto;
 import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.binding.UserRegisterDto;
+import bg.softuni.invoice_app.model.dto.binding.invoice.BankAccountDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
@@ -58,6 +60,28 @@ public class UserServiceImpl implements UserService {
     userRepository.save(
         userHelperService.getUser()
             .setCompanyDetails(modelMapper.map(companyData, CompanyDetails.class)));
+  }
+  
+  @Override
+  public void addBankAccount(BankAccountCreateDto bankAccountData) {
+    User user = userHelperService.getUser();
+    CompanyDetails companyDetails = user.getCompanyDetails();
+    BankAccount bankAccount = modelMapper.map(bankAccountData, BankAccount.class);
+    companyDetails.addBankAccount(bankAccount);
+    
+    user.setCompanyDetails(companyDetails);
+    this.userRepository.save(user);
+    
+  }
+  
+  @Override
+  public List<BankAccountDto> getAllBankAccounts() {
+    return
+        userHelperService.getUser()
+            .getCompanyDetails().getBankAccounts()
+            .stream()
+            .map(account -> modelMapper.map(account, BankAccountDto.class))
+            .toList();
   }
   
 }

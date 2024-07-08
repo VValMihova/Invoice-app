@@ -34,4 +34,9 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   public boolean exists(CompanyDetails companyDetails) {
     return this.companyDetailsRepository.findByEik(companyDetails.getEik()).isPresent();
   }
+  
+  @Override
+  public void save(CompanyDetails companyDetails) {
+    this.companyDetailsRepository.save(companyDetails);
+  }
 }

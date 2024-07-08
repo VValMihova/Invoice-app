@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+<div class="container mt-5">
+  <div class="form-container">
+    <h2>Edit Bank Account</h2>
+    <form th:action="@{/profile/edit-bank-account/{id}(id=${bankAccount.id})}"
+          th:object="${bankAccount}"
+          th:method="post">
+      <div class="form-group">
+        <label for="iban">IBAN:</label>
+        <input type="text" id="iban" th:field="*{iban}" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="bic">BIC:</label>
+        <input type="text" id="bic" th:field="*{bic}" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="currency">Currency:</label>
+        <input type="text" id="currency" th:field="*{currency}" class="form-control" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

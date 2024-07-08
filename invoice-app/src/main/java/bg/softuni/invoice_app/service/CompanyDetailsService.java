@@ -8,4 +8,6 @@ public interface CompanyDetailsService {
   void add(CompanyDetailsDto companyDetailsDto);
   CompanyDetails getByEik(String eik);
   boolean exists(CompanyDetails companyDetails);
+  
+  void save(CompanyDetails companyDetails);
 }

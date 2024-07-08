@@ -120,4 +120,8 @@ public class CompanyDetails {
     this.user = user;
     return this;
   }
+  
+  public void addBankAccount(BankAccount bankAccount) {
+    this.bankAccounts.add(bankAccount);
+  }
 }
