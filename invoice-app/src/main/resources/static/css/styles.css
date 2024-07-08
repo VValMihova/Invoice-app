@@ -1,7 +1,7 @@
 body {
     background-image: url("/images/global-background.jpg");
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-position: center center;
     height: 100vh;
     margin: 0;
@@ -68,3 +68,44 @@ body {
     cursor: pointer;
 }
 
+/*invoice create*/
+.table thead th {
+    text-align: center;
+}
+
+.table tbody td {
+    vertical-align: middle;
+}
+
+.btn-sm {
+    font-size: 0.75rem;
+    padding: 0.20rem 0.5rem;
+}
+
+
+/*profile*/
+.profile-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.profile-section {
+    margin-bottom: 20px;
+}
+
+.edit-icon {
+    float: right;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.edit-icon:hover {
+    color: #0056b3;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+}
