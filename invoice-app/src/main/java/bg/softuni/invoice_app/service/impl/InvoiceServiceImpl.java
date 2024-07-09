@@ -3,6 +3,7 @@ package bg.softuni.invoice_app.service.impl;
 import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceItemDto;
+import bg.softuni.invoice_app.model.dto.view.AllInvoicesView;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.Invoice;
 import bg.softuni.invoice_app.model.entity.InvoiceItem;
@@ -34,7 +35,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   public void create(InvoiceCreateDto invoiceData) {
     CompanyDetails recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
     CompanyDetails supplier = companyDetailsService.getByEik(invoiceData.getSupplier().getEik());
-    if (recipient==null) {
+    if (recipient == null) {
       companyDetailsService.add(invoiceData.getRecipient());
       recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
     }
@@ -43,6 +44,14 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setSupplier(supplier);
     
     invoiceRepository.save(invoice);
+  }
+  
+  @Override
+  public List<AllInvoicesView> getAllInvoices() {
+    return invoiceRepository.findAllByUserId(userHelperService.getUser().getId())
+        .stream().map(invoice -> modelMapper.map(invoice, AllInvoicesView.class))
+        .toList();
+    
   }
   
   private Invoice createInvoice(InvoiceCreateDto invoiceData) {

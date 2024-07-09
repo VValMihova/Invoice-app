@@ -20,11 +20,11 @@ public class Invoice {
   @Column(nullable = false)
   private LocalDate issueDate;
   
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "supplier_id", nullable = false)
   private CompanyDetails supplier;
   
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "recipient_id", nullable = false)
   private CompanyDetails recipient;
   

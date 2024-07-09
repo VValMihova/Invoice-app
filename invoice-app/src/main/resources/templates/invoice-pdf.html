@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+<div class="container mt-5">
+  <h2>My Invoices</h2>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Invoice Number</th>
+      <th>Issue Date</th>
+      <th>Recipient</th>
+      <th>Total Amount</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="invoice : ${invoices}">
+      <td th:text="${invoice.invoiceNumber}">12345</td>
+      <td th:text="${invoice.issueDate}">2024-01-01</td>
+      <td th:text="${invoice.recipient.companyName}">Company XYZ</td>
+      <td th:text="${invoice.totalAmount}">1000.00</td>
+      <td>
+        <a th:href="@{/invoices/edit/{id}(id=${invoice.id})}" class="btn btn-sm btn-primary">Edit</a>
+        <form th:action="@{/invoices/delete/{id}(id=${invoice.id})}" method="post" style="display:inline;">
+          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+        <a th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-sm btn-secondary">Download PDF</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

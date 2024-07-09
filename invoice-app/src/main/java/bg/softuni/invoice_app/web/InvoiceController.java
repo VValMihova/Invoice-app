@@ -55,7 +55,7 @@ public class InvoiceController {
     
     this.invoiceService.create(invoiceData);
     
-    return "redirect:/users/profile";
+    return "redirect:/profile";
   }
   
   //  MODEL ATTRIBUTES
