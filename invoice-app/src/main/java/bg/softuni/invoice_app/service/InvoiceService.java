@@ -6,6 +6,6 @@ import bg.softuni.invoice_app.model.dto.view.AllInvoicesView;
 import java.util.List;
 
 public interface InvoiceService {
-  void create(InvoiceCreateDto invoiceData);
+ // void create(InvoiceCreateDto invoiceData);
   List<AllInvoicesView> getAllInvoices();
 }

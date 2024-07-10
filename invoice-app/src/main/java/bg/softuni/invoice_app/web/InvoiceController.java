@@ -34,25 +34,25 @@ public class InvoiceController {
     modelAndView.setViewName("invoice-create");
     return modelAndView;
   }
-  @Transactional
-  @PostMapping("/create")
-  public String doCreateInvoice(
-      @Valid InvoiceCreateDto invoiceData,
-      BindingResult bindingResult,
-      RedirectAttributes redirectAttributes) {
-    
-    ModelAndView modelAndView = new ModelAndView();
-    modelAndView.addObject("invoiceData");
-    if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
-      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
-      return "redirect:/invoice-create";
-    }
-    
-    this.invoiceService.create(invoiceData);
-    
-    return "redirect:/profile";
-  }
+//  @Transactional
+//  @PostMapping("/create")
+//  public String doCreateInvoice(
+//      @Valid InvoiceCreateDto invoiceData,
+//      BindingResult bindingResult,
+//      RedirectAttributes redirectAttributes) {
+//
+//    ModelAndView modelAndView = new ModelAndView();
+//    modelAndView.addObject("invoiceData");
+//    if (bindingResult.hasErrors()) {
+//      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
+//      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+//      return "redirect:/invoice-create";
+//    }
+//
+//    this.invoiceService.create(invoiceData);
+//
+//    return "redirect:/profile";
+//  }
   
   //  MODEL ATTRIBUTES
   @ModelAttribute

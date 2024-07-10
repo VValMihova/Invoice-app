@@ -1,7 +1,9 @@
 package bg.softuni.invoice_app.service;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
+
+import java.util.Optional;
 
 public interface CompanyDetailsService {
   void deleteCompany(Long id);
@@ -13,5 +15,9 @@ public interface CompanyDetailsService {
   
   CompanyDetails getCompanyByName(String companyName);
   
-  void add(CompanyDetailsDto recipient);
+ // void add(CompanyDetailsDto recipient);
+  
+  CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData);
+  
+  CompanyDetails getByVatNumber(String vat);
 }

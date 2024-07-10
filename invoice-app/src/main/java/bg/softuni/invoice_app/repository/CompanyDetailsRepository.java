@@ -11,4 +11,6 @@ public interface CompanyDetailsRepository extends JpaRepository<CompanyDetails, 
   Optional<CompanyDetails> findByEik(String eik);
   
   Optional<CompanyDetails> findByCompanyName(String companyName);
+  
+  Optional<CompanyDetails> findByVatNumber(String vat);
 }

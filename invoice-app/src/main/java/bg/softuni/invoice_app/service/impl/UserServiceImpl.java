@@ -1,7 +1,7 @@
 package bg.softuni.invoice_app.service.impl;
 
 import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateBindingDto;
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.binding.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
   }
   
   private CompanyDetails createCompanyDetails(UserRegisterBindingDto registerData) {
-    return  new CompanyDetails()
+    return new CompanyDetails()
         .setCompanyName(registerData.getCompanyName())
         .setAddress(registerData.getAddress())
         .setEik(registerData.getEik())
@@ -65,13 +65,10 @@ public class UserServiceImpl implements UserService {
   }
   
   @Override
-  public void updateCompany(CompanyDetailsDto companyData) {
-    companyDetailsService
-        .deleteCompany(userHelperService.getUser().getCompanyDetails().getId());
-    
-    userRepository.save(
-        userHelperService.getUser()
-            .setCompanyDetails(modelMapper.map(companyData, CompanyDetails.class)));
+  public void updateCompany(CompanyDetails companyDetails) {
+    User user = userHelperService.getUser();
+    user.setCompanyDetails(companyDetails);
+    this.userRepository.save(user);
   }
   
   @Override

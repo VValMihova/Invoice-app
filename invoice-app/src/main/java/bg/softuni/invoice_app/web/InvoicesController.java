@@ -42,21 +42,21 @@ public class InvoicesController {
     return "edit-invoice";
   }
   
-  @PostMapping("/edit/{id}")
-  public String updateInvoice(
-      @PathVariable Long id,
-      @Valid InvoiceCreateDto invoiceData,
-      BindingResult bindingResult,
-      RedirectAttributes redirectAttributes) {
-    if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoice", bindingResult);
-      redirectAttributes.addFlashAttribute("invoice", invoiceData);
-      return "redirect:/invoices/edit/" + id;
-    }
-    
-    invoicesService.update(id, invoiceData);
-    return "redirect:/invoices";
-  }
+//  @PostMapping("/edit/{id}")
+//  public String updateInvoice(
+//      @PathVariable Long id,
+//      @Valid InvoiceCreateDto invoiceData,
+//      BindingResult bindingResult,
+//      RedirectAttributes redirectAttributes) {
+//    if (bindingResult.hasErrors()) {
+//      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoice", bindingResult);
+//      redirectAttributes.addFlashAttribute("invoice", invoiceData);
+//      return "redirect:/invoices/edit/" + id;
+//    }
+//
+//    invoicesService.update(id, invoiceData);
+//    return "redirect:/invoices";
+//  }
   
   @PostMapping("/delete/{id}")
   public String deleteInvoice(@PathVariable Long id) {

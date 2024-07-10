@@ -1,39 +1,45 @@
 package bg.softuni.invoice_app.model.dto.binding;
 
-import bg.softuni.invoice_app.validation.annotation.UniqueCompanyName;
+import bg.softuni.invoice_app.validation.annotation.CompanyEikEditable;
+import bg.softuni.invoice_app.validation.annotation.CompanyNameEditable;
+import bg.softuni.invoice_app.validation.annotation.CompanyVatEditable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class CompanyDetailsDto {
+public class CompanyDetailsEditBindingDto {
+  private Long id;
+  
+  @CompanyNameEditable
   @NotBlank
-  @UniqueCompanyName
   @Size(min = 2, max = 20, message = "{company.details.name.length}")
   private String companyName;
 
   @NotBlank
   @Size(min = 2, max = 20, message = "{company.details.address.length}")
   private String address;
-
+  
+  @CompanyEikEditable
   @NotBlank
   @Size(min = 10, max = 10, message = "{company.details.eik.length}")
   private String eik;
 
+  @CompanyVatEditable
   @NotBlank
-  @Size(min = 10, max = 10, message = "{company.details.vat.length}")
+  @Size(min = 12, max = 12, message = "{company.details.vat.length}")
   private String vatNumber;
 
   @NotBlank
   @Size(min = 2, max = 20, message = "{company.details.manager.length}")
   private String manager;
 
-  public CompanyDetailsDto() {
+  public CompanyDetailsEditBindingDto() {
   }
 
   public String getCompanyName() {
     return companyName;
   }
 
-  public CompanyDetailsDto setCompanyName(String companyName) {
+  public CompanyDetailsEditBindingDto setCompanyName(String companyName) {
     this.companyName = companyName;
     return this;
   }
@@ -42,7 +48,7 @@ public class CompanyDetailsDto {
     return address;
   }
 
-  public CompanyDetailsDto setAddress(String address) {
+  public CompanyDetailsEditBindingDto setAddress(String address) {
     this.address = address;
     return this;
   }
@@ -51,7 +57,7 @@ public class CompanyDetailsDto {
     return eik;
   }
 
-  public CompanyDetailsDto setEik(String eik) {
+  public CompanyDetailsEditBindingDto setEik(String eik) {
     this.eik = eik;
     return this;
   }
@@ -60,7 +66,7 @@ public class CompanyDetailsDto {
     return vatNumber;
   }
 
-  public CompanyDetailsDto setVatNumber(String vatNumber) {
+  public CompanyDetailsEditBindingDto setVatNumber(String vatNumber) {
     this.vatNumber = vatNumber;
     return this;
   }
@@ -69,8 +75,17 @@ public class CompanyDetailsDto {
     return manager;
   }
 
-  public CompanyDetailsDto setManager(String manager) {
+  public CompanyDetailsEditBindingDto setManager(String manager) {
     this.manager = manager;
+    return this;
+  }
+  
+  public Long getId() {
+    return id;
+  }
+  
+  public CompanyDetailsEditBindingDto setId(Long id) {
+    this.id = id;
     return this;
   }
 }

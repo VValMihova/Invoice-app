@@ -13,5 +13,5 @@ public interface InvoicesService {
   
   byte[] generatePdf(Long id);
   
-  void update(Long id, InvoiceCreateDto invoiceData);
+ // void update(Long id, InvoiceCreateDto invoiceData);
 }

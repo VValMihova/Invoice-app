@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.service.impl;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceItemDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
@@ -75,28 +75,28 @@ public class InvoicesServiceImpl implements InvoicesService {
   }
 
   
-  @Override
-  public void update(Long id, InvoiceCreateDto invoiceData) {
-    Invoice existingInvoice = invoiceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
-    
-    CompanyDetails recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
-    CompanyDetails supplier = companyDetailsService.getByEik(invoiceData.getSupplier().getEik());
-    if (recipient == null) {
-      companyDetailsService.add(invoiceData.getRecipient());
-      recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
-    }
-    existingInvoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
-    existingInvoice.setIssueDate(invoiceData.getIssueDate());
-    existingInvoice.setSupplier(supplier);
-    existingInvoice.setRecipient(recipient);
-    updateInvoiceItems(existingInvoice, invoiceData.getItems());
-    existingInvoice.setTotalAmount(invoiceData.getTotalAmount());
-    existingInvoice.setVat(invoiceData.getVat());
-    existingInvoice.setAmountDue(invoiceData.getAmountDue());
-    
-    invoiceRepository.save(existingInvoice);
-  }
-  
+//  @Override
+//  public void update(Long id, InvoiceCreateDto invoiceData) {
+//    Invoice existingInvoice = invoiceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
+//
+//    CompanyDetails recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
+//    CompanyDetails supplier = companyDetailsService.getByEik(invoiceData.getSupplier().getEik());
+//    if (recipient == null) {
+//      companyDetailsService.add(invoiceData.getRecipient());
+//      recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
+//    }
+//    existingInvoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
+//    existingInvoice.setIssueDate(invoiceData.getIssueDate());
+//    existingInvoice.setSupplier(supplier);
+//    existingInvoice.setRecipient(recipient);
+//    updateInvoiceItems(existingInvoice, invoiceData.getItems());
+//    existingInvoice.setTotalAmount(invoiceData.getTotalAmount());
+//    existingInvoice.setVat(invoiceData.getVat());
+//    existingInvoice.setAmountDue(invoiceData.getAmountDue());
+//
+//    invoiceRepository.save(existingInvoice);
+//  }
+//
   private void updateInvoiceItems(Invoice existingInvoice, List<InvoiceItemDto> newItems) {
     existingInvoice.getItems().clear();
     
@@ -110,7 +110,7 @@ public class InvoicesServiceImpl implements InvoicesService {
         .collect(Collectors.toList());
   }
 
-  private CompanyDetails mapToCompanyDetails(CompanyDetailsDto companyDetailsDto) {
+  private CompanyDetails mapToCompanyDetails(CompanyDetailsEditBindingDto companyDetailsDto) {
     return modelMapper.map(companyDetailsDto, CompanyDetails.class);
   }
 }

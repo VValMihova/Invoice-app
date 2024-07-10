@@ -1,7 +1,7 @@
 package bg.softuni.invoice_app.model.dto.binding.invoice;
 
 import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,8 +10,8 @@ import java.util.List;
 public class InvoiceCreateDto {
   private Long invoiceNumber;
   private LocalDate issueDate;
-  private CompanyDetailsDto supplier;
-  private CompanyDetailsDto recipient;
+  private CompanyDetailsEditBindingDto supplier;
+  private CompanyDetailsEditBindingDto recipient;
   private BankAccountViewDto bankAccount;
   private List<InvoiceItemDto> items;
   private BigDecimal totalAmount;
@@ -36,20 +36,20 @@ public class InvoiceCreateDto {
     return this;
   }
   
-  public CompanyDetailsDto getSupplier() {
+  public CompanyDetailsEditBindingDto getSupplier() {
     return supplier;
   }
   
-  public InvoiceCreateDto setSupplier(CompanyDetailsDto supplier) {
+  public InvoiceCreateDto setSupplier(CompanyDetailsEditBindingDto supplier) {
     this.supplier = supplier;
     return this;
   }
   
-  public CompanyDetailsDto getRecipient() {
+  public CompanyDetailsEditBindingDto getRecipient() {
     return recipient;
   }
   
-  public InvoiceCreateDto setRecipient(CompanyDetailsDto recipient) {
+  public InvoiceCreateDto setRecipient(CompanyDetailsEditBindingDto recipient) {
     this.recipient = recipient;
     return this;
   }

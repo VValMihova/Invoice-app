@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.service.impl;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceItemDto;
 import bg.softuni.invoice_app.model.dto.view.AllInvoicesView;
@@ -30,20 +30,20 @@ public class InvoiceServiceImpl implements InvoiceService {
   }
   
   
-  @Override
-  public void create(InvoiceCreateDto invoiceData) {
-    CompanyDetails recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
-    CompanyDetails supplier = companyDetailsService.getByEik(invoiceData.getSupplier().getEik());
-    if (recipient == null) {
-      companyDetailsService.add(invoiceData.getRecipient());
-      recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
-    }
-    Invoice invoice = createInvoice(invoiceData);
-    invoice.setRecipient(recipient);
-    invoice.setSupplier(supplier);
-    
-    invoiceRepository.save(invoice);
-  }
+//  @Override
+//  public void create(InvoiceCreateDto invoiceData) {
+//    CompanyDetails recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
+//    CompanyDetails supplier = companyDetailsService.getByEik(invoiceData.getSupplier().getEik());
+//    if (recipient == null) {
+//      companyDetailsService.add(invoiceData.getRecipient());
+//      recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
+//    }
+//    Invoice invoice = createInvoice(invoiceData);
+//    invoice.setRecipient(recipient);
+//    invoice.setSupplier(supplier);
+//
+//    invoiceRepository.save(invoice);
+//  }
   
   @Override
   public List<AllInvoicesView> getAllInvoices() {
@@ -69,7 +69,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         .toList();
   }
   
-  private CompanyDetails mapToCompanyDetails(CompanyDetailsDto companyDetailsDto) {
+  private CompanyDetails mapToCompanyDetails(CompanyDetailsEditBindingDto companyDetailsDto) {
     return modelMapper.map(companyDetailsDto, CompanyDetails.class);
   }
 }

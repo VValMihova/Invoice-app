@@ -2,9 +2,11 @@ package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.binding.BankAccountEditBindingDto;
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
+import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.service.BankAccountService;
+import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.UserService;
 import bg.softuni.invoice_app.service.impl.UserHelperService;
 import jakarta.validation.Valid;
@@ -21,11 +23,13 @@ public class ProfileController {
   private final UserService userService;
   private final BankAccountService bankAccountService;
   private final UserHelperService userHelperService;
+  private final CompanyDetailsService companyDetailsService;
   
-  public ProfileController(UserService userService, BankAccountService bankAccountService, UserHelperService userHelperService) {
+  public ProfileController(UserService userService, BankAccountService bankAccountService, UserHelperService userHelperService, CompanyDetailsService companyDetailsService) {
     this.userService = userService;
     this.bankAccountService = bankAccountService;
     this.userHelperService = userHelperService;
+    this.companyDetailsService = companyDetailsService;
   }
   
   @GetMapping
@@ -47,16 +51,17 @@ public class ProfileController {
   //  todo: must be with patch update for now works only with completely new data
   @PostMapping("/update-company")
   public String updateCompany(
-      @Valid CompanyDetailsDto companyData,
+      @Valid CompanyDetailsEditBindingDto companyData,
       BindingResult bindingResult,
-      RedirectAttributes redirectAttributes) {
+      Model model) {
     
     if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute("companyDetails", companyData);
-      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.companyDetails", bindingResult);
-      return "redirect:/profile/edit-company";
+      model.addAttribute("companyDetails", companyData);
+      model.addAttribute("org.springframework.validation.BindingResult.companyDetails", bindingResult);
+      return "edit-company";
     }
-    userService.updateCompany(companyData);
+    CompanyDetails updated = companyDetailsService.update(userHelperService.getCompanyDetails().getId(), companyData);
+    userService.updateCompany(updated);
     
     return "redirect:/profile";
   }
@@ -117,7 +122,7 @@ public class ProfileController {
   
   //  MODEL ATTRIBUTES
   @ModelAttribute()
-  public CompanyDetailsDto companyData() {
+  public CompanyDetailsEditBindingDto companyData() {
     return userHelperService.getCompanyDetails();
   }
   

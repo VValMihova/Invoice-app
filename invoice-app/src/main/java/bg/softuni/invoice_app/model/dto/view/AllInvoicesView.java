@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.model.dto.view;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
+import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ public class AllInvoicesView {
   private Long id;
   private Long invoiceNumber;
   private LocalDate issueDate;
-  private CompanyDetailsDto recipient;
+  private CompanyDetailsEditBindingDto recipient;
   private BigDecimal amountDue;
   
   public AllInvoicesView() {
@@ -33,11 +33,11 @@ public class AllInvoicesView {
     return this;
   }
   
-  public CompanyDetailsDto getRecipient() {
+  public CompanyDetailsEditBindingDto getRecipient() {
     return recipient;
   }
   
-  public AllInvoicesView setRecipient(CompanyDetailsDto recipient) {
+  public AllInvoicesView setRecipient(CompanyDetailsEditBindingDto recipient) {
     this.recipient = recipient;
     return this;
   }
