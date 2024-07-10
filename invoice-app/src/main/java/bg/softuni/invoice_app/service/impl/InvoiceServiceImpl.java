@@ -88,6 +88,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoiceRepository.save(invoice);
   }
   
+  @Override
+  public boolean checkInvoiceExists(Long invoiceNumber) {
+    return this.invoiceRepository
+        .findByUserIdAndInvoiceNumber(userHelperService.getUser().getId(), invoiceNumber)
+        .isPresent();
+  }
+  
   private CompanyDetails getOrCreateRecipient(CompanyDetailsDto recipientDto) {
     if (companyDetailsService.exists(mapToCompanyDetails(recipientDto))) {
       return companyDetailsService.getByEik(recipientDto.getEik());

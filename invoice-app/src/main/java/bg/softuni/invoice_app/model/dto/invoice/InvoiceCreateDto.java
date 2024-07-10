@@ -5,6 +5,7 @@ import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.GetCompanyDetailsDto;
+import bg.softuni.invoice_app.validation.UniqueInvoiceNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -15,6 +16,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class InvoiceCreateDto {
+  
+  @UniqueInvoiceNumber
   @NotNull(message = "{invoice.number.not.null}")
   @Positive(message = "{invoice.number.positive}")
   private Long invoiceNumber;

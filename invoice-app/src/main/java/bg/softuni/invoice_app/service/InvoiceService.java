@@ -9,4 +9,6 @@ public interface InvoiceService {
   List<AllInvoicesView> getAllInvoices();
   
   void createInvoice(InvoiceCreateDto invoiceData);
+  
+  boolean checkInvoiceExists(Long invoiceNumber);
 }
