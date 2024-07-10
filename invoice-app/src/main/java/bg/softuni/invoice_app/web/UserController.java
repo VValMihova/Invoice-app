@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.binding.UserRegisterBindingDto;
+import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

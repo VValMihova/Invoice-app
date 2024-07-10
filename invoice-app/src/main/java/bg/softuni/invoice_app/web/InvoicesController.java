@@ -1,20 +1,16 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceCreateDto;
+import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.entity.Invoice;
 import bg.softuni.invoice_app.service.InvoiceService;
 import bg.softuni.invoice_app.service.InvoicesService;
-import bg.softuni.invoice_app.service.impl.UserHelperService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/invoices")

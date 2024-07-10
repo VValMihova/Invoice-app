@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.service.impl;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;

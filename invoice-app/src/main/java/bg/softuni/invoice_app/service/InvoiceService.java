@@ -1,7 +1,6 @@
 package bg.softuni.invoice_app.service;
 
-import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceCreateDto;
-import bg.softuni.invoice_app.model.dto.view.AllInvoicesView;
+import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
 
 import java.util.List;
 

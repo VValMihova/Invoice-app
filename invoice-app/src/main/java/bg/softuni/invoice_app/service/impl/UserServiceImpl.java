@@ -1,9 +1,8 @@
 package bg.softuni.invoice_app.service.impl;
 
-import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateBindingDto;
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
-import bg.softuni.invoice_app.model.dto.binding.UserRegisterBindingDto;
-import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
+import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;

@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateBindingDto;
-import bg.softuni.invoice_app.model.dto.binding.BankAccountEditBindingDto;
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
-import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.service.BankAccountService;
 import bg.softuni.invoice_app.service.CompanyDetailsService;
@@ -48,7 +48,6 @@ public class ProfileController {
     return modelAndView;
   }
   
-  //  todo: must be with patch update for now works only with completely new data
   @PostMapping("/update-company")
   public String updateCompany(
       @Valid CompanyDetailsEditBindingDto companyData,

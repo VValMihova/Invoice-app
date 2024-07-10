@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.model.dto.binding;
+package bg.softuni.invoice_app.model.dto.user;
 
 import bg.softuni.invoice_app.validation.annotation.UniqueCompanyName;
 import bg.softuni.invoice_app.validation.annotation.UniqueEik;

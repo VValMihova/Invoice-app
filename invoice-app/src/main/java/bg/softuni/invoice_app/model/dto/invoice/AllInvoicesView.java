@@ -1,6 +1,6 @@
-package bg.softuni.invoice_app.model.dto.view;
+package bg.softuni.invoice_app.model.dto.invoice;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,12 +1,11 @@
-package bg.softuni.invoice_app.model.dto.binding;
+package bg.softuni.invoice_app.model.dto.bankAccount;
 
+import bg.softuni.invoice_app.validation.annotation.UniqueIban;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class BankAccountEditBindingDto {
-  
-  private Long id;
-  
+public class BankAccountCreateBindingDto {
+  @UniqueIban
   @NotNull(message = "{bank.account.iban.not.null}")
   @Size(min = 22, max = 32, message = "{bank.account.iban.length}")
   private String iban;
@@ -23,7 +22,7 @@ public class BankAccountEditBindingDto {
     return iban;
   }
   
-  public BankAccountEditBindingDto setIban(String iban) {
+  public BankAccountCreateBindingDto setIban(String iban) {
     this.iban = iban;
     return this;
   }
@@ -32,7 +31,7 @@ public class BankAccountEditBindingDto {
     return bic;
   }
   
-  public BankAccountEditBindingDto setBic(String bic) {
+  public BankAccountCreateBindingDto setBic(String bic) {
     this.bic = bic;
     return this;
   }
@@ -41,17 +40,8 @@ public class BankAccountEditBindingDto {
     return currency;
   }
   
-  public BankAccountEditBindingDto setCurrency(String currency) {
+  public BankAccountCreateBindingDto setCurrency(String currency) {
     this.currency = currency;
-    return this;
-  }
-  
-  public Long getId() {
-    return id;
-  }
-  
-  public BankAccountEditBindingDto setId(Long id) {
-    this.id = id;
     return this;
   }
 }

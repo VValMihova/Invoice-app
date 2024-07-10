@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.model.dto.view;
+package bg.softuni.invoice_app.model.dto.bankAccount;
 
 public class BankAccountViewDto {
   private Long id;

@@ -1,6 +1,5 @@
 package bg.softuni.invoice_app.service;
 
-import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.entity.Invoice;
 
 

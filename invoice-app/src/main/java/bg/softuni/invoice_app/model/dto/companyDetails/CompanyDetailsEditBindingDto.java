@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.model.dto.binding;
+package bg.softuni.invoice_app.model.dto.companyDetails;
 
 import bg.softuni.invoice_app.validation.annotation.CompanyEikEditable;
 import bg.softuni.invoice_app.validation.annotation.CompanyNameEditable;

@@ -1,7 +1,7 @@
-package bg.softuni.invoice_app.model.dto.binding.invoice;
+package bg.softuni.invoice_app.model.dto.invoice;
 
-import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

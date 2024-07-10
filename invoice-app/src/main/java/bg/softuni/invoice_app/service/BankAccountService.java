@@ -1,7 +1,7 @@
 package bg.softuni.invoice_app.service;
 
-import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
-import bg.softuni.invoice_app.model.dto.binding.BankAccountEditBindingDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 
 public interface BankAccountService {
   BankAccountViewDto getBankAccountById(Long id);

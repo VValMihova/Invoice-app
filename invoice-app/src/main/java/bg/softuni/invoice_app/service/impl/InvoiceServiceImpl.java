@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.service.impl;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsEditBindingDto;
-import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceCreateDto;
-import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceItemDto;
-import bg.softuni.invoice_app.model.dto.view.AllInvoicesView;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
+import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
+import bg.softuni.invoice_app.model.dto.invoice.InvoiceItemDto;
+import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.Invoice;
 import bg.softuni.invoice_app.model.entity.InvoiceItem;
