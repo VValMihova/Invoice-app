@@ -37,6 +37,10 @@ public class User {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Invoice> invoices;
   
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "user_id")
+  private Set<RecipientDetails> recipients;
+  
   public User() {
     this.roles = new HashSet<>();
     this.products = new HashSet<>();

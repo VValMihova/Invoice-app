@@ -28,7 +28,7 @@ public class CompanyDetails {
   @Column(nullable = false)
   private String manager;
   
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "company_details_id")
   private Set<BankAccount> bankAccounts;
   

@@ -1,0 +1,45 @@
+package bg.softuni.invoice_app.service.impl;
+
+import bg.softuni.invoice_app.model.entity.CompanyDetails;
+import bg.softuni.invoice_app.model.entity.RecipientDetails;
+import bg.softuni.invoice_app.repository.RecipientDetailsRepository;
+import bg.softuni.invoice_app.service.RecipientDetailsService;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RecipientDetailsServiceImpl implements RecipientDetailsService {
+private final RecipientDetailsRepository recipientDetailsRepository;
+private final UserHelperService userHelperService;
+private final ModelMapper modelMapper;
+  
+  public RecipientDetailsServiceImpl(RecipientDetailsRepository recipientDetailsRepository, UserHelperService userHelperService, ModelMapper modelMapper) {
+    this.recipientDetailsRepository = recipientDetailsRepository;
+    this.userHelperService = userHelperService;
+    this.modelMapper = modelMapper;
+  }
+  
+  @Override
+  public boolean exists(RecipientDetails recipientDetails) {
+    return this.recipientDetailsRepository
+        .findByVatNumberAndUserId(recipientDetails.getVatNumber(),userHelperService.getUser().getId())
+        .isPresent();
+  }
+  
+  @Override
+  public RecipientDetails getByVatNumber(String vatNumber) {
+    return this.recipientDetailsRepository.findByVatNumber(vatNumber).orElse(null);
+  }
+  
+  @Override
+  public RecipientDetails saveAndReturn(RecipientDetails newRecipient) {
+    RecipientDetails recipientDetails = new RecipientDetails();
+    recipientDetails.setVatNumber(newRecipient.getVatNumber());
+    recipientDetails.setUser(userHelperService.getUser());
+    recipientDetails.setCompanyName(newRecipient.getCompanyName());
+    recipientDetails.setAddress(newRecipient.getAddress());
+    recipientDetails.setEik(newRecipient.getEik());
+    recipientDetails.setManager(newRecipient.getManager());
+    return this.recipientDetailsRepository.save(recipientDetails);
+  }
+}

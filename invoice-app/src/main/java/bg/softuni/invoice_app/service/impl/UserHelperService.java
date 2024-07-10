@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -53,8 +54,8 @@ public class UserHelperService {
     return this.modelMapper.map(this.getUser().getCompanyDetails(), CompanyDetailsEditBindingDto.class);
   }
   
-  public Set<BankAccount> getBankAccounts() {
-    return this.getUser().getCompanyDetails().getBankAccounts();
+  public List<BankAccount> getBankAccounts() {
+    return this.getUser().getCompanyDetails().getBankAccounts().stream().toList();
   }
   
   public CompanyDetails getUserCompanyDetails() {

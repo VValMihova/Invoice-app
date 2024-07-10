@@ -26,7 +26,7 @@ public class Invoice {
   
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "recipient_id", nullable = false)
-  private CompanyDetails recipient;
+  private RecipientDetails recipient;
   
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "invoice_id")
@@ -89,11 +89,11 @@ public class Invoice {
     return this;
   }
   
-  public CompanyDetails getRecipient() {
+  public RecipientDetails getRecipient() {
     return recipient;
   }
   
-  public Invoice setRecipient(CompanyDetails recipient) {
+  public Invoice setRecipient(RecipientDetails recipient) {
     this.recipient = recipient;
     return this;
   }

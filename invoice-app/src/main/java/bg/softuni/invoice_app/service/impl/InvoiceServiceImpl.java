@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.service.impl;
 
+import bg.softuni.invoice_app.model.dto.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
@@ -9,6 +10,7 @@ import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.InvoiceService;
+import bg.softuni.invoice_app.service.RecipientDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +23,14 @@ public class InvoiceServiceImpl implements InvoiceService {
   private final UserHelperService userHelperService;
   private final ModelMapper modelMapper;
   private final CompanyDetailsService companyDetailsService;
+  private final RecipientDetailsService recipientDetailsService;
   
-  public InvoiceServiceImpl(InvoiceRepository invoiceRepository, UserHelperService userHelperService, ModelMapper modelMapper, CompanyDetailsService companyDetailsService) {
+  public InvoiceServiceImpl(InvoiceRepository invoiceRepository, UserHelperService userHelperService, ModelMapper modelMapper, CompanyDetailsService companyDetailsService, RecipientDetailsService recipientDetailsService) {
     this.invoiceRepository = invoiceRepository;
     this.userHelperService = userHelperService;
     this.modelMapper = modelMapper;
     this.companyDetailsService = companyDetailsService;
+    this.recipientDetailsService = recipientDetailsService;
   }
 
 
@@ -62,7 +66,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setSupplier(this.userHelperService.getUserCompanyDetails());
     
     // Setting recipient
-    CompanyDetails recipient = getOrCreateRecipient(invoiceData.getRecipient());
+    RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
     invoice.setRecipient(recipient);
     
     // Setting bank account
@@ -95,12 +99,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         .isPresent();
   }
   
-  private CompanyDetails getOrCreateRecipient(CompanyDetailsDto recipientDto) {
-    if (companyDetailsService.exists(mapToCompanyDetails(recipientDto))) {
-      return companyDetailsService.getByEik(recipientDto.getEik());
+  private RecipientDetails getOrCreateRecipientDetails(RecipientDetailsAddDto recipientDetailsAddDto) {
+    if (recipientDetailsService.exists(mapToRecipientDetails(recipientDetailsAddDto))) {
+      return recipientDetailsService.getByVatNumber(recipientDetailsAddDto.getVatNumber());
     } else {
-      CompanyDetails newRecipient = modelMapper.map(recipientDto, CompanyDetails.class);
-      return companyDetailsService.saveAndReturn(newRecipient);
+      RecipientDetails newRecipient = modelMapper.map(recipientDetailsAddDto, RecipientDetails.class);
+      return recipientDetailsService.saveAndReturn(newRecipient);
     }
   }
 
@@ -122,5 +126,9 @@ public class InvoiceServiceImpl implements InvoiceService {
   
   private CompanyDetails mapToCompanyDetails(CompanyDetailsDto companyDetailsDto) {
     return modelMapper.map(companyDetailsDto, CompanyDetails.class);
+  }
+  
+  private RecipientDetails mapToRecipientDetails(RecipientDetailsAddDto recipientDetailsAddDto) {
+    return modelMapper.map(recipientDetailsAddDto, RecipientDetails.class);
   }
 }

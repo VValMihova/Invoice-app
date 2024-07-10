@@ -39,6 +39,7 @@ public class InvoiceController {
   public String createInvoice(@Valid InvoiceCreateDto invoiceData,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes) {
+    
     if (bindingResult.hasErrors()) {
       redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);

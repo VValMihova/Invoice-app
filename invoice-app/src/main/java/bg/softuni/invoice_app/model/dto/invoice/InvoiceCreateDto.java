@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
+import bg.softuni.invoice_app.model.dto.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
@@ -30,7 +31,7 @@ public class InvoiceCreateDto {
   private GetCompanyDetailsDto supplier;
   
   @Valid
-  private CompanyDetailsDto recipient;
+  private RecipientDetailsAddDto recipientDetails;
   
   // todo
   @Valid
@@ -78,12 +79,12 @@ public class InvoiceCreateDto {
     return this;
   }
   
-  public CompanyDetailsDto getRecipient() {
-    return recipient;
+  public @Valid RecipientDetailsAddDto getRecipientDetails() {
+    return recipientDetails;
   }
   
-  public InvoiceCreateDto setRecipient(CompanyDetailsDto recipient) {
-    this.recipient = recipient;
+  public InvoiceCreateDto setRecipientDetails(@Valid RecipientDetailsAddDto recipientDetails) {
+    this.recipientDetails = recipientDetails;
     return this;
   }
   

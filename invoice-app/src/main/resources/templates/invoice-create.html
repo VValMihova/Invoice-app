@@ -83,6 +83,8 @@
 
         <!-- Recipient Details -->
         <div class="col-md-6">
+          <div th:if="${#fields.hasErrors('recipientDetails')}"
+               class="alert alert-danger mt-3" th:text="${#fields.errors('recipientDetails')}"></div>
           <h4>Recipient Details</h4>
           <div class="form-group">
             <label for="recipientName">Recipient Name:</label>
@@ -91,11 +93,11 @@
                 id="recipientName"
                 name="recipient.companyName"
                 class="form-control"
-                th:field="*{recipient.companyName}"
+                th:field="*{recipientDetails.companyName}"
                 th:errorclass="'is-invalid alert-danger'"
                 required/>
             <small
-                th:each="err : ${#fields.errors('recipient.companyName')}"
+                th:each="err : ${#fields.errors('recipientDetails.companyName')}"
                 th:text="${err}" class="text-danger">
             </small>
           </div>
@@ -106,11 +108,11 @@
                 id="recipientAddress"
                 name="recipient.address"
                 class="form-control"
-                th:field="*{recipient.address}"
+                th:field="*{recipientDetails.address}"
                 th:errorclass="'is-invalid alert-danger'"
                 required/>
             <small
-                th:each="err : ${#fields.errors('recipient.address')}"
+                th:each="err : ${#fields.errors('recipientDetails.address')}"
                 th:text="${err}" class="text-danger">
             </small>
           </div>
@@ -121,11 +123,11 @@
                 id="recipientEik"
                 name="recipient.eik"
                 class="form-control"
-                th:field="*{recipient.eik}"
+                th:field="*{recipientDetails.eik}"
                 th:errorclass="'is-invalid alert-danger'"
                 required/>
             <small
-                th:each="err : ${#fields.errors('recipient.eik')}"
+                th:each="err : ${#fields.errors('recipientDetails.eik')}"
                 th:text="${err}" class="text-danger">
             </small>
           </div>
@@ -136,11 +138,11 @@
                 id="recipientVatNumber"
                 name="recipient.vatNumber"
                 class="form-control"
-                th:field="*{recipient.vatNumber}"
+                th:field="*{recipientDetails.vatNumber}"
                 th:errorclass="'is-invalid alert-danger'"
                 required/>
             <small
-                th:each="err : ${#fields.errors('recipient.vatNumber')}"
+                th:each="err : ${#fields.errors('recipientDetails.vatNumber')}"
                 th:text="${err}" class="text-danger">
             </small>
           </div>
@@ -151,53 +153,52 @@
                 id="recipientManager"
                 name="recipient.manager"
                 class="form-control"
-                th:field="*{recipient.manager}"
+                th:field="*{recipientDetails.manager}"
                 th:errorclass="'is-invalid alert-danger'"
                 required/>
             <small
-                th:each="err : ${#fields.errors('recipient.manager')}"
+                th:each="err : ${#fields.errors('recipientDetails.manager')}"
                 th:text="${err}" class="text-danger">
             </small>
           </div>
         </div>
       </div>
 
-      <!--            &lt;!&ndash; Bank Account Details &ndash;&gt;-->
-      <!--            <div class="row mt-3">-->
-      <!--              <div class="col-md-12">-->
-      <!--                <h4>Bank Account Details</h4>-->
-      <!--                <div class="form-group">-->
-      <!--                  <label for="bankAccount">Select Bank Account:</label>-->
-      <!--                  <select id="bankAccount" name="bankAccount.id" class="form-control" onchange="updateBankDetails(this)">-->
-      <!--                    <option value="">Select a bank account</option>-->
-      <!--                    <option th:each="bankAccount : ${bankAccounts}" th:value="${bankAccount.id}"-->
-      <!--                            th:text="${bankAccount.iban}"></option>-->
-      <!--                  </select>-->
-      <!--                </div>-->
-      <!--              </div>-->
-      <!--              <div class="col-md-12">-->
-      <!--                <div class="form-group">-->
-      <!--                  <label for="iban">IBAN:</label>-->
-      <!--                  <input type="text" id="iban" name="bankAccount.iban" class="form-control" readonly/>-->
-      <!--                </div>-->
-      <!--              </div>-->
-      <!--              <div class="col-md-6">-->
-      <!--                <div class="form-group">-->
-      <!--                  <label for="bic">BIC:</label>-->
-      <!--                  <input type="text" id="bic" name="bankAccount.bic" class="form-control" readonly/>-->
-      <!--                </div>-->
-      <!--              </div>-->
-      <!--              <div class="col-md-6">-->
-      <!--                <div class="form-group">-->
-      <!--                  <label for="currency">Currency:</label>-->
-      <!--                  <input type="text" id="currency" name="bankAccount.currency" class="form-control" readonly/>-->
-      <!--                </div>-->
-      <!--              </div>-->
-      <!--            </div>-->
+        <!-- Bank Account Details -->
+<!--      <div class="row mt-3">-->
+<!--        <div class="col-md-12">-->
+<!--          <h4>Bank Account Details</h4>-->
+<!--          <div class="form-group">-->
+<!--            <label for="bankAccount">Select Bank Account:</label>-->
+<!--            <select id="bankAccount" name="bankAccount.id" class="form-control" onchange="updateBankDetails(this)">-->
+<!--              <option value="">Select a bank account</option>-->
+<!--              <option th:each="bankAccount : ${bankAccounts}"-->
+<!--                      th:value="${bankAccount.id}"-->
+<!--                      th:text="${bankAccount.iban}"></option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-12">-->
+<!--          <div class="form-group">-->
+<!--            <label for="iban">IBAN:</label>-->
+<!--            <input type="text" id="iban" name="bankAccount.iban" class="form-control" readonly/>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--          <div class="form-group">-->
+<!--            <label for="bic">BIC:</label>-->
+<!--            <input type="text" id="bic" name="bankAccount.bic" class="form-control" readonly/>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--          <div class="form-group">-->
+<!--            <label for="currency">Currency:</label>-->
+<!--            <input type="text" id="currency" name="bankAccount.currency" class="form-control" readonly/>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <!-- Invoice Items -->
-
-
       <h4>Items</h4>
       <table class="table text-center">
         <thead>
