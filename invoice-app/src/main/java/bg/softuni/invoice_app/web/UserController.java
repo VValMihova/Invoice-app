@@ -6,12 +6,10 @@ import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -35,7 +33,7 @@ public class UserController {
       @Valid UserRegisterDto registerData,
       BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
-
+    
     if (registerData.getPassword() == null
         || !registerData.getPassword().equals(registerData.getConfirmPassword())) {
       bindingResult.addError(
@@ -56,12 +54,16 @@ public class UserController {
   }
   
   @GetMapping("/login")
-  public String login() {
+  public String login(@RequestParam(value = "error", required = false) String error, Model model) {
+    if (error != null) {
+      model.addAttribute("loginError", "Invalid email or password! Please try again!");
+    }
     return "login";
   }
-//  MODEL ATTRIBUTES
+  
+  //  MODEL ATTRIBUTES
   @ModelAttribute("registerData")
-  public UserRegisterDto registerData(){
+  public UserRegisterDto registerData() {
     return new UserRegisterDto();
   }
   
