@@ -5,9 +5,13 @@ import bg.softuni.invoice_app.model.entity.CompanyDetails;
 
 public interface CompanyDetailsService {
   void deleteCompany(Long id);
-  void add(CompanyDetailsDto companyDetailsDto);
+  void addWithRegistration(CompanyDetails companyDetails);
   CompanyDetails getByEik(String eik);
   boolean exists(CompanyDetails companyDetails);
   
   void save(CompanyDetails companyDetails);
+  
+  CompanyDetails getCompanyByName(String companyName);
+  
+  void add(CompanyDetailsDto recipient);
 }

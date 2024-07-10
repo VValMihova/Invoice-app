@@ -10,7 +10,6 @@ import bg.softuni.invoice_app.model.entity.InvoiceItem;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.InvoiceService;
-import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

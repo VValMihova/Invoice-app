@@ -17,4 +17,8 @@ public interface UserService {
   
   void addBankAccount(BankAccountCreateDto bankAccountData);
   List<BankAccountDto> getAllBankAccounts();
+  
+  User getUserByCompanyEik(String eik);
+  
+  User getUserByCompanyVat(String vat);
 }

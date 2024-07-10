@@ -1,6 +1,5 @@
 package bg.softuni.invoice_app.model.entity;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -32,22 +31,9 @@ public class CompanyDetails {
   @JoinColumn(name = "company_details_id")
   private Set<BankAccount> bankAccounts;
   
-  @OneToOne(mappedBy = "companyDetails")
-  private User user;
-  
   public CompanyDetails() {
     this.bankAccounts = new HashSet<>();
   }
-  public CompanyDetails(CompanyDetailsDto companyDetailsDto) {
-    this();
-    
-    this.companyName = companyDetailsDto.getCompanyName();
-    this.address = companyDetailsDto.getAddress();
-    this.eik = companyDetailsDto.getEik();
-    this.vatNumber = companyDetailsDto.getVatNumber();
-    this.manager = companyDetailsDto.getManager();
-  }
-  
   
   public Long getId() {
     return id;
@@ -109,15 +95,6 @@ public class CompanyDetails {
   
   public CompanyDetails setBankAccounts(Set<BankAccount> bankAccounts) {
     this.bankAccounts = bankAccounts;
-    return this;
-  }
-  
-  public User getUser() {
-    return user;
-  }
-  
-  public CompanyDetails setUser(User user) {
-    this.user = user;
     return this;
   }
   

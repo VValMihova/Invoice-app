@@ -1,7 +1,5 @@
 package bg.softuni.invoice_app.model.entity;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.binding.UserRegisterDto;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
 

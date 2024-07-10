@@ -4,14 +4,17 @@ import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
 import bg.softuni.invoice_app.service.CompanyDetailsService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   private final CompanyDetailsRepository companyDetailsRepository;
+  private final ModelMapper modelMapper;
   
-  public CompanyDetailsServiceImpl(CompanyDetailsRepository companyDetailsRepository) {
+  public CompanyDetailsServiceImpl(CompanyDetailsRepository companyDetailsRepository, ModelMapper modelMapper) {
     this.companyDetailsRepository = companyDetailsRepository;
+    this.modelMapper = modelMapper;
   }
   
   @Override
@@ -21,8 +24,8 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   }
   
   @Override
-  public void add(CompanyDetailsDto companyDetailsDto) {
-    companyDetailsRepository.save(new CompanyDetails(companyDetailsDto));
+  public void addWithRegistration(CompanyDetails companyDetails) {
+    companyDetailsRepository.save(companyDetails);
   }
   
   @Override
@@ -38,5 +41,15 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   @Override
   public void save(CompanyDetails companyDetails) {
     this.companyDetailsRepository.save(companyDetails);
+  }
+  
+  @Override
+  public CompanyDetails getCompanyByName(String companyName) {
+    return this.companyDetailsRepository.findByCompanyName(companyName).orElse(null);
+  }
+  
+  @Override
+  public void add(CompanyDetailsDto recipient) {
+    companyDetailsRepository.save(modelMapper.map(recipient, CompanyDetails.class));
   }
 }

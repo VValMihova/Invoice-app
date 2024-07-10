@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,15 +35,28 @@ public class UserServiceImpl implements UserService {
   
   @Override
   public void register(UserRegisterDto registerData) {
-    User user = createUser(registerData);
+    User user = registerUser(registerData);
+    CompanyDetails companyDetails = createCompanyDetails(registerData);
+    
+    user.setCompanyDetails(companyDetails);
+    
+    this.companyDetailsService.addWithRegistration(companyDetails);
     this.userRepository.save(user);
   }
   
-  private User createUser(UserRegisterDto registerData) {
+  private User registerUser(UserRegisterDto registerData) {
     return new User()
         .setEmail(registerData.getEmail())
-        .setPassword(passwordEncoder.encode(registerData.getPassword()))
-        .setCompanyDetails(modelMapper.map(registerData.getCompanyDetails(), CompanyDetails.class));
+        .setPassword(passwordEncoder.encode(registerData.getPassword()));
+  }
+  
+  private CompanyDetails createCompanyDetails(UserRegisterDto registerData) {
+    return  new CompanyDetails()
+        .setCompanyName(registerData.getCompanyName())
+        .setAddress(registerData.getAddress())
+        .setEik(registerData.getEik())
+        .setVatNumber(registerData.getVatNumber())
+        .setManager(registerData.getManager());
   }
   
   @Override
@@ -82,6 +94,16 @@ public class UserServiceImpl implements UserService {
             .stream()
             .map(account -> modelMapper.map(account, BankAccountDto.class))
             .toList();
+  }
+  
+  @Override
+  public User getUserByCompanyEik(String eik) {
+    return this.userRepository.findByCompanyDetailsEik(eik).orElse(null);
+  }
+  
+  @Override
+  public User getUserByCompanyVat(String vat) {
+    return this.userRepository.findByCompanyDetailsVatNumber(vat).orElse(null);
   }
   
 }
