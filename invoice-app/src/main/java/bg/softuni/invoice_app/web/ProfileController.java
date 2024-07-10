@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateDto;
-import bg.softuni.invoice_app.model.dto.binding.BankAccountEditDto;
+import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateBindingDto;
+import bg.softuni.invoice_app.model.dto.binding.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.binding.BankAccountDto;
+import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
 import bg.softuni.invoice_app.service.BankAccountService;
 import bg.softuni.invoice_app.service.UserService;
 import bg.softuni.invoice_app.service.impl.UserHelperService;
@@ -63,13 +63,12 @@ public class ProfileController {
   
   @GetMapping("/add-bank-account")
   public String showAddBankAccountForm() {
-  //  model.addAttribute("bankAccount", new BankAccount());
     return "add-bank-account";
   }
   
   @PostMapping("/add-bank-account")
   public String addBankAccount(
-      @Valid BankAccountCreateDto bankAccountData,
+      @Valid BankAccountCreateBindingDto bankAccountData,
       BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
     
@@ -89,7 +88,7 @@ public class ProfileController {
   public String showEditBankAccountForm(@PathVariable Long id, Model model) {
     //BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Bank account not found"));
     
-    BankAccountDto bankAccount = bankAccountService.getBankAccountById(id);
+    BankAccountViewDto bankAccount = bankAccountService.getBankAccountById(id);
     model.addAttribute("bankAccount", bankAccount);
     return "edit-bank-account";
   }
@@ -97,14 +96,13 @@ public class ProfileController {
   @PostMapping("/edit-bank-account/{id}")
   public String editBankAccount(
       @PathVariable Long id,
-      @Valid BankAccountEditDto bankAccountDataEdit,
+      @Valid BankAccountEditBindingDto bankAccountDataEdit,
       BindingResult bindingResult,
       Model model) {
     if (bindingResult.hasErrors()) {
       model.addAttribute("bankAccount", bankAccountDataEdit);
       model.addAttribute("org.springframework.validation.BindingResult.bankAccount", bindingResult);
       return "edit-bank-account";
-//      return "redirect:/profile/edit-bank-account/" + id;
     }
     
     this.bankAccountService.editBankAccount(id, bankAccountDataEdit);
@@ -124,13 +122,13 @@ public class ProfileController {
   }
   
   @ModelAttribute("bankAccountData")
-  public BankAccountCreateDto bankAccountData() {
-    return new BankAccountCreateDto();
+  public BankAccountCreateBindingDto bankAccountData() {
+    return new BankAccountCreateBindingDto();
   }
   
   @ModelAttribute("bankAccountDataEdit")
-  public BankAccountEditDto bankAccountDataEdit() {
-    return new BankAccountEditDto();
+  public BankAccountEditBindingDto bankAccountDataEdit() {
+    return new BankAccountEditBindingDto();
   }
   
 }

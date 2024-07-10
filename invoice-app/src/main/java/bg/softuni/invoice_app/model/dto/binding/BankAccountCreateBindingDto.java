@@ -4,7 +4,7 @@ import bg.softuni.invoice_app.validation.annotation.UniqueIban;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class BankAccountCreateDto {
+public class BankAccountCreateBindingDto {
   @UniqueIban
   @NotNull(message = "{bank.account.iban.not.null}")
   @Size(min = 22, max = 32, message = "{bank.account.iban.length}")
@@ -22,7 +22,7 @@ public class BankAccountCreateDto {
     return iban;
   }
   
-  public BankAccountCreateDto setIban(String iban) {
+  public BankAccountCreateBindingDto setIban(String iban) {
     this.iban = iban;
     return this;
   }
@@ -31,7 +31,7 @@ public class BankAccountCreateDto {
     return bic;
   }
   
-  public BankAccountCreateDto setBic(String bic) {
+  public BankAccountCreateBindingDto setBic(String bic) {
     this.bic = bic;
     return this;
   }
@@ -40,7 +40,7 @@ public class BankAccountCreateDto {
     return currency;
   }
   
-  public BankAccountCreateDto setCurrency(String currency) {
+  public BankAccountCreateBindingDto setCurrency(String currency) {
     this.currency = currency;
     return this;
   }

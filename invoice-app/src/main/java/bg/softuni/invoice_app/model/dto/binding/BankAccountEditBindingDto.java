@@ -3,7 +3,7 @@ package bg.softuni.invoice_app.model.dto.binding;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class BankAccountEditDto {
+public class BankAccountEditBindingDto {
   
   private Long id;
   
@@ -23,7 +23,7 @@ public class BankAccountEditDto {
     return iban;
   }
   
-  public BankAccountEditDto setIban(String iban) {
+  public BankAccountEditBindingDto setIban(String iban) {
     this.iban = iban;
     return this;
   }
@@ -32,7 +32,7 @@ public class BankAccountEditDto {
     return bic;
   }
   
-  public BankAccountEditDto setBic(String bic) {
+  public BankAccountEditBindingDto setBic(String bic) {
     this.bic = bic;
     return this;
   }
@@ -41,7 +41,7 @@ public class BankAccountEditDto {
     return currency;
   }
   
-  public BankAccountEditDto setCurrency(String currency) {
+  public BankAccountEditBindingDto setCurrency(String currency) {
     this.currency = currency;
     return this;
   }
@@ -50,7 +50,7 @@ public class BankAccountEditDto {
     return id;
   }
   
-  public BankAccountEditDto setId(Long id) {
+  public BankAccountEditBindingDto setId(Long id) {
     this.id = id;
     return this;
   }

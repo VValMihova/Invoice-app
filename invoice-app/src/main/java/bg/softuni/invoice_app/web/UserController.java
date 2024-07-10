@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.binding.UserRegisterDto;
+import bg.softuni.invoice_app.model.dto.binding.UserRegisterBindingDto;
 import bg.softuni.invoice_app.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ public class UserController {
   
   @PostMapping("/register")
   public String doRegister(
-      @Valid UserRegisterDto registerData,
+      @Valid UserRegisterBindingDto registerData,
       BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
     
@@ -59,8 +59,8 @@ public class UserController {
   
   //  MODEL ATTRIBUTES
   @ModelAttribute("registerData")
-  public UserRegisterDto registerData() {
-    return new UserRegisterDto();
+  public UserRegisterBindingDto registerData() {
+    return new UserRegisterBindingDto();
   }
   
 }

@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.service.impl;
 
-import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateDto;
+import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.binding.UserRegisterDto;
-import bg.softuni.invoice_app.model.dto.binding.BankAccountDto;
+import bg.softuni.invoice_app.model.dto.binding.UserRegisterBindingDto;
+import bg.softuni.invoice_app.model.dto.view.BankAccountViewDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
   
   
   @Override
-  public void register(UserRegisterDto registerData) {
+  public void register(UserRegisterBindingDto registerData) {
     User user = registerUser(registerData);
     CompanyDetails companyDetails = createCompanyDetails(registerData);
     
@@ -44,13 +44,13 @@ public class UserServiceImpl implements UserService {
     this.userRepository.save(user);
   }
   
-  private User registerUser(UserRegisterDto registerData) {
+  private User registerUser(UserRegisterBindingDto registerData) {
     return new User()
         .setEmail(registerData.getEmail())
         .setPassword(passwordEncoder.encode(registerData.getPassword()));
   }
   
-  private CompanyDetails createCompanyDetails(UserRegisterDto registerData) {
+  private CompanyDetails createCompanyDetails(UserRegisterBindingDto registerData) {
     return  new CompanyDetails()
         .setCompanyName(registerData.getCompanyName())
         .setAddress(registerData.getAddress())
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
   }
   
   @Override
-  public void addBankAccount(BankAccountCreateDto bankAccountData) {
+  public void addBankAccount(BankAccountCreateBindingDto bankAccountData) {
     User user = userHelperService.getUser();
     CompanyDetails companyDetails = user.getCompanyDetails();
     BankAccount bankAccount = modelMapper.map(bankAccountData, BankAccount.class);
@@ -86,12 +86,12 @@ public class UserServiceImpl implements UserService {
   }
   
   @Override
-  public List<BankAccountDto> getAllBankAccounts() {
+  public List<BankAccountViewDto> getAllBankAccounts() {
     return
         userHelperService.getUser()
             .getCompanyDetails().getBankAccounts()
             .stream()
-            .map(account -> modelMapper.map(account, BankAccountDto.class))
+            .map(account -> modelMapper.map(account, BankAccountViewDto.class))
             .toList();
   }
   

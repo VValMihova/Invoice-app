@@ -6,7 +6,7 @@ import bg.softuni.invoice_app.validation.annotation.UniqueEmail;
 import bg.softuni.invoice_app.validation.annotation.UniqueVat;
 import jakarta.validation.constraints.*;
 
-public class UserRegisterDto {
+public class UserRegisterBindingDto {
   @NotBlank(message = "{user.register.email.not.null}")
   @Email
   @UniqueEmail
@@ -46,14 +46,14 @@ public class UserRegisterDto {
   private String manager;
   
   
-  public UserRegisterDto() {
+  public UserRegisterBindingDto() {
   }
   
   public String getEmail() {
     return email;
   }
   
-  public UserRegisterDto setEmail(String email) {
+  public UserRegisterBindingDto setEmail(String email) {
     this.email = email;
     return this;
   }
@@ -62,7 +62,7 @@ public class UserRegisterDto {
     return password;
   }
   
-  public UserRegisterDto setPassword(String password) {
+  public UserRegisterBindingDto setPassword(String password) {
     this.password = password;
     return this;
   }
@@ -71,7 +71,7 @@ public class UserRegisterDto {
     return confirmPassword;
   }
   
-  public UserRegisterDto setConfirmPassword(String confirmPassword) {
+  public UserRegisterBindingDto setConfirmPassword(String confirmPassword) {
     this.confirmPassword = confirmPassword;
     return this;
   }
@@ -80,7 +80,7 @@ public class UserRegisterDto {
     return companyName;
   }
   
-  public UserRegisterDto setCompanyName(String companyName) {
+  public UserRegisterBindingDto setCompanyName(String companyName) {
     this.companyName = companyName;
     return this;
   }
@@ -89,7 +89,7 @@ public class UserRegisterDto {
     return address;
   }
   
-  public UserRegisterDto setAddress(String address) {
+  public UserRegisterBindingDto setAddress(String address) {
     this.address = address;
     return this;
   }
@@ -98,7 +98,7 @@ public class UserRegisterDto {
     return eik;
   }
   
-  public UserRegisterDto setEik(String eik) {
+  public UserRegisterBindingDto setEik(String eik) {
     this.eik = eik;
     return this;
   }
@@ -107,7 +107,7 @@ public class UserRegisterDto {
     return vatNumber;
   }
   
-  public UserRegisterDto setVatNumber(String vatNumber) {
+  public UserRegisterBindingDto setVatNumber(String vatNumber) {
     this.vatNumber = vatNumber;
     return this;
   }
@@ -116,7 +116,7 @@ public class UserRegisterDto {
     return manager;
   }
   
-  public UserRegisterDto setManager(String manager) {
+  public UserRegisterBindingDto setManager(String manager) {
     this.manager = manager;
     return this;
   }

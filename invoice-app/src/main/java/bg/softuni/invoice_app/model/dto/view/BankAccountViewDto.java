@@ -1,6 +1,6 @@
-package bg.softuni.invoice_app.model.dto.binding;
+package bg.softuni.invoice_app.model.dto.view;
 
-public class BankAccountDto {
+public class BankAccountViewDto {
   private Long id;
   private String iban;
   private String bic;
@@ -10,7 +10,7 @@ public class BankAccountDto {
     return iban;
   }
   
-  public BankAccountDto setIban(String iban) {
+  public BankAccountViewDto setIban(String iban) {
     this.iban = iban;
     return this;
   }
@@ -19,7 +19,7 @@ public class BankAccountDto {
     return bic;
   }
   
-  public BankAccountDto setBic(String bic) {
+  public BankAccountViewDto setBic(String bic) {
     this.bic = bic;
     return this;
   }
@@ -28,7 +28,7 @@ public class BankAccountDto {
     return currency;
   }
   
-  public BankAccountDto setCurrency(String currency) {
+  public BankAccountViewDto setCurrency(String currency) {
     this.currency = currency;
     return this;
   }
@@ -37,7 +37,7 @@ public class BankAccountDto {
     return id;
   }
   
-  public BankAccountDto setId(Long id) {
+  public BankAccountViewDto setId(Long id) {
     this.id = id;
     return this;
   }
