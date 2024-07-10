@@ -62,8 +62,8 @@ public class ProfileController {
   }
   
   @GetMapping("/add-bank-account")
-  public String showAddBankAccountForm(Model model) {
-    model.addAttribute("bankAccount", new BankAccount());
+  public String showAddBankAccountForm() {
+  //  model.addAttribute("bankAccount", new BankAccount());
     return "add-bank-account";
   }
   
@@ -74,8 +74,8 @@ public class ProfileController {
       RedirectAttributes redirectAttributes) {
     
     if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute("bankAccount", bankAccountData);
-      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bankAccount", bindingResult);
+      redirectAttributes.addFlashAttribute("bankAccountData", bankAccountData);
+      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bankAccountData", bindingResult);
       return "redirect:/profile/add-bank-account";
     }
     userService.addBankAccount(bankAccountData);

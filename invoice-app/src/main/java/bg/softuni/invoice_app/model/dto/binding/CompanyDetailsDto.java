@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.model.dto.binding;
 
-import bg.softuni.invoice_app.validation.vallidation.annotation.UniqueCompanyName;
+import bg.softuni.invoice_app.validation.annotation.UniqueCompanyName;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

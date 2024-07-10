@@ -83,7 +83,6 @@ public class UserServiceImpl implements UserService {
     
     user.setCompanyDetails(companyDetails);
     this.userRepository.save(user);
-    
   }
   
   @Override

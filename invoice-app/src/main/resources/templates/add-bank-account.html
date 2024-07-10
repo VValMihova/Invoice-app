@@ -6,18 +6,54 @@
 <div class="container mt-5">
   <div class="form-container">
     <h2>Add Bank Account</h2>
-    <form th:action="@{/profile/add-bank-account}" th:object="${bankAccountData}" method="post">
+    <form
+        th:action="@{/profile/add-bank-account}"
+        th:object="${bankAccountData}"
+        th:method="post">
       <div class="form-group">
         <label for="iban">IBAN:</label>
-        <input type="text" id="iban" th:field="*{iban}" class="form-control" required />
+        <input
+            type="text"
+            id="iban"
+            name="iban"
+            th:field="*{iban}"
+            th:errorclass="'is-invalid alert-danger'"
+            class="form-control"
+            required/>
+        <small
+            th:each="err : ${#fields.errors('iban')}"
+            th:text="${err}" class="text-danger">
+        </small>
       </div>
       <div class="form-group">
         <label for="bic">BIC:</label>
-        <input type="text" id="bic" th:field="*{bic}" class="form-control" required />
+        <input
+            type="text"
+            id="bic"
+            name="bic"
+            th:field="*{bic}"
+            th:errorclass="'is-invalid alert-danger'"
+            class="form-control"
+            required/>
+        <small
+            th:each="err : ${#fields.errors('bic')}"
+            th:text="${err}" class="text-danger">
+        </small>
       </div>
       <div class="form-group">
         <label for="currency">Currency:</label>
-        <input type="text" id="currency" th:field="*{currency}" class="form-control" required />
+        <input
+            type="text"
+            id="currency"
+            name="currency"
+            th:field="*{currency}"
+            th:errorclass="'is-invalid alert-danger'"
+            class="form-control"
+            required/>
+        <small
+            th:each="err : ${#fields.errors('currency')}"
+            th:text="${err}" class="text-danger">
+        </small>
       </div>
       <button type="submit" class="btn btn-primary">Save</button>
     </form>

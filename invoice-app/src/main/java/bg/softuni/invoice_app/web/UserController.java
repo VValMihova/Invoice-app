@@ -1,8 +1,6 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.binding.UserRegisterDto;
-import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -16,11 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/users")
 public class UserController {
   private final UserService userService;
-  private final CompanyDetailsService companyDetailsService;
   
-  public UserController(UserService userService, CompanyDetailsService companyDetailsService) {
+  public UserController(UserService userService) {
     this.userService = userService;
-    this.companyDetailsService = companyDetailsService;
   }
   
   @GetMapping("/register")
