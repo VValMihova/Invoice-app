@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateDto;
+import bg.softuni.invoice_app.model.dto.binding.BankAccountEditDto;
 import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.binding.invoice.BankAccountDto;
-import bg.softuni.invoice_app.model.entity.BankAccount;
+import bg.softuni.invoice_app.model.dto.binding.BankAccountDto;
 import bg.softuni.invoice_app.service.BankAccountService;
 import bg.softuni.invoice_app.service.UserService;
 import bg.softuni.invoice_app.service.impl.UserHelperService;
@@ -97,11 +97,17 @@ public class ProfileController {
   @PostMapping("/edit-bank-account/{id}")
   public String editBankAccount(
       @PathVariable Long id,
-      @Valid BankAccountCreateDto bankAccountData,
+      @Valid BankAccountEditDto bankAccountDataEdit,
       BindingResult bindingResult,
-      RedirectAttributes redirectAttributes) {
+      Model model) {
+    if (bindingResult.hasErrors()) {
+      model.addAttribute("bankAccount", bankAccountDataEdit);
+      model.addAttribute("org.springframework.validation.BindingResult.bankAccount", bindingResult);
+      return "edit-bank-account";
+//      return "redirect:/profile/edit-bank-account/" + id;
+    }
     
-    this.bankAccountService.editBankAccount(id, bankAccountData);
+    this.bankAccountService.editBankAccount(id, bankAccountDataEdit);
     return "redirect:/profile";
   }
   
@@ -120,6 +126,11 @@ public class ProfileController {
   @ModelAttribute("bankAccountData")
   public BankAccountCreateDto bankAccountData() {
     return new BankAccountCreateDto();
+  }
+  
+  @ModelAttribute("bankAccountDataEdit")
+  public BankAccountEditDto bankAccountDataEdit() {
+    return new BankAccountEditDto();
   }
   
 }

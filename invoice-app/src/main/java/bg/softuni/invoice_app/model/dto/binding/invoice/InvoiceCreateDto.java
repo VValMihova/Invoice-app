@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.model.dto.binding.invoice;
 
+import bg.softuni.invoice_app.model.dto.binding.BankAccountDto;
 import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 
 import java.math.BigDecimal;

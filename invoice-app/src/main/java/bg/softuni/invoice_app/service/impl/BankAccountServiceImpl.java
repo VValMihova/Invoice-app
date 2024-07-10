@@ -1,7 +1,7 @@
 package bg.softuni.invoice_app.service.impl;
 
-import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateDto;
-import bg.softuni.invoice_app.model.dto.binding.invoice.BankAccountDto;
+import bg.softuni.invoice_app.model.dto.binding.BankAccountDto;
+import bg.softuni.invoice_app.model.dto.binding.BankAccountEditDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.repository.BankAccountRepository;
 import bg.softuni.invoice_app.service.BankAccountService;
@@ -27,12 +27,12 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
-  public void editBankAccount(Long id, BankAccountCreateDto bankAccountCreateDto) {
+  public void editBankAccount(Long id, BankAccountEditDto bankAccountDataEdit) {
     BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Bank account not found"));
     
-    bankAccount.setIban(bankAccountCreateDto.getIban())
-        .setBic(bankAccountCreateDto.getBic())
-        .setCurrency(bankAccountCreateDto.getCurrency());
+    bankAccount.setIban(bankAccountDataEdit.getIban())
+        .setBic(bankAccountDataEdit.getBic())
+        .setCurrency(bankAccountDataEdit.getCurrency());
     
     bankAccountRepository.save(bankAccount);
   }

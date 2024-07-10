@@ -1,7 +1,6 @@
 package bg.softuni.invoice_app.service.impl;
 
 import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.binding.invoice.BankAccountDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.UserRepository;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserHelperService {

@@ -3,7 +3,7 @@ package bg.softuni.invoice_app.service;
 import bg.softuni.invoice_app.model.dto.binding.BankAccountCreateDto;
 import bg.softuni.invoice_app.model.dto.binding.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.binding.UserRegisterDto;
-import bg.softuni.invoice_app.model.dto.binding.invoice.BankAccountDto;
+import bg.softuni.invoice_app.model.dto.binding.BankAccountDto;
 import bg.softuni.invoice_app.model.entity.User;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.model.dto.binding.invoice;
+package bg.softuni.invoice_app.model.dto.binding;
 
 public class BankAccountDto {
   private Long id;
