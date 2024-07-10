@@ -1,21 +1,51 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.GetCompanyDetailsDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 public class InvoiceCreateDto {
+  @NotNull(message = "{invoice.number.not.null}")
+  @Positive(message = "{invoice.number.positive}")
   private Long invoiceNumber;
+  
+  @NotNull(message = "{invoice.issue.date.not.null}")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate issueDate;
-  private CompanyDetailsEditBindingDto supplier;
-  private CompanyDetailsEditBindingDto recipient;
-  private BankAccountViewDto bankAccount;
+  
+  @Valid
+  private GetCompanyDetailsDto supplier;
+  
+  @Valid
+  private CompanyDetailsDto recipient;
+  
+  // todo
+  @Valid
+  private BankAccountDto bankAccount;
+  
+  @Valid
   private List<InvoiceItemDto> items;
+  
+  @NotNull(message = "{invoice.total.amount.not.null}")
+  @Positive(message = "{invoice.total.amount.positive}")
   private BigDecimal totalAmount;
+  
+  @NotNull(message = "{invoice.vat.not.null}")
+  @Positive(message = "{invoice.vat.positive}")
   private BigDecimal vat;
+  
+  @NotNull(message = "{invoice.amount.due.not.null}")
+  @Positive(message = "{invoice.amount.positive}")
   private BigDecimal amountDue;
   
   public Long getInvoiceNumber() {
@@ -36,29 +66,29 @@ public class InvoiceCreateDto {
     return this;
   }
   
-  public CompanyDetailsEditBindingDto getSupplier() {
+  public GetCompanyDetailsDto getSupplier() {
     return supplier;
   }
   
-  public InvoiceCreateDto setSupplier(CompanyDetailsEditBindingDto supplier) {
+  public InvoiceCreateDto setSupplier(GetCompanyDetailsDto supplier) {
     this.supplier = supplier;
     return this;
   }
   
-  public CompanyDetailsEditBindingDto getRecipient() {
+  public CompanyDetailsDto getRecipient() {
     return recipient;
   }
   
-  public InvoiceCreateDto setRecipient(CompanyDetailsEditBindingDto recipient) {
+  public InvoiceCreateDto setRecipient(CompanyDetailsDto recipient) {
     this.recipient = recipient;
     return this;
   }
   
-  public BankAccountViewDto getBankAccount() {
+  public BankAccountDto getBankAccount() {
     return bankAccount;
   }
   
-  public InvoiceCreateDto setBankAccount(BankAccountViewDto bankAccount) {
+  public InvoiceCreateDto setBankAccount(BankAccountDto bankAccount) {
     this.bankAccount = bankAccount;
     return this;
   }

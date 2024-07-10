@@ -9,11 +9,10 @@ public interface CompanyDetailsService {
   CompanyDetails getByEik(String eik);
   boolean exists(CompanyDetails companyDetails);
   
-  void save(CompanyDetails companyDetails);
+  CompanyDetails saveAndReturn(CompanyDetails companyDetails);
   
   CompanyDetails getCompanyByName(String companyName);
   
- // void add(CompanyDetailsDto recipient);
   
   CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData);
   

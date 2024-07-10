@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.binding.invoice.InvoiceCreateDto;
+import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.service.InvoiceService;
 import bg.softuni.invoice_app.service.impl.UserHelperService;
 import jakarta.transaction.Transactional;
@@ -28,34 +28,29 @@ public class InvoiceController {
   @GetMapping("/create")
   public ModelAndView createInvoice() {
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.addObject("supplierDetails",userHelperService.getCompanyDetails());
-    //modelAndView.addObject("bankAccounts", userHelperService.getBankAccounts());
+    modelAndView.addObject("supplierDetails", userHelperService.getCompanyDetails());
+    modelAndView.addObject("bankAccounts", userHelperService.getBankAccounts());
     
     modelAndView.setViewName("invoice-create");
     return modelAndView;
   }
-//  @Transactional
-//  @PostMapping("/create")
-//  public String doCreateInvoice(
-//      @Valid InvoiceCreateDto invoiceData,
-//      BindingResult bindingResult,
-//      RedirectAttributes redirectAttributes) {
-//
-//    ModelAndView modelAndView = new ModelAndView();
-//    modelAndView.addObject("invoiceData");
-//    if (bindingResult.hasErrors()) {
-//      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
-//      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
-//      return "redirect:/invoice-create";
-//    }
-//
-//    this.invoiceService.create(invoiceData);
-//
-//    return "redirect:/profile";
-//  }
+  
+  @PostMapping("/create")
+  public String createInvoice(@Valid InvoiceCreateDto invoiceData,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
+    if (bindingResult.hasErrors()) {
+      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
+      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+      return "redirect:/invoices/create";
+    }
+    
+    invoiceService.createInvoice(invoiceData);
+    return "redirect:/invoices";
+  }
   
   //  MODEL ATTRIBUTES
-  @ModelAttribute
+  @ModelAttribute("invoiceData")
   public InvoiceCreateDto invoiceData() {
     return new InvoiceCreateDto();
   }

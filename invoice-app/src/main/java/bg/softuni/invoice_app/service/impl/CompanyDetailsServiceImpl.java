@@ -39,14 +39,16 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   }
   
   @Override
-  public void save(CompanyDetails companyDetails) {
-    this.companyDetailsRepository.save(companyDetails);
+  public CompanyDetails saveAndReturn(CompanyDetails companyDetails) {
+    return this.companyDetailsRepository.save(modelMapper.map(companyDetails, CompanyDetails.class));
   }
+  
   
   @Override
   public CompanyDetails getCompanyByName(String companyName) {
     return this.companyDetailsRepository.findByCompanyName(companyName).orElse(null);
   }
+  
   
   @Override
   public CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData) {
@@ -66,9 +68,5 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
     return this.companyDetailsRepository.findByVatNumber(vat).orElse(null);
 
   }
-
-//  @Override
-//  public void add(CompanyDetailsDto recipient) {
-//    companyDetailsRepository.save(modelMapper.map(recipient, CompanyDetails.class));
-//  }
+  
 }

@@ -1,11 +1,26 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 import java.math.BigDecimal;
 
 public class InvoiceItemDto {
+  @NotNull( message = "{invoice.item.name.not.null}")
+  @Size(min = 2, max = 20, message = "{invoice.item.name.length}")
   private String name;
+  
+  @NotNull(message = "{invoice.item.not.null}")
+  @Positive(message = "{invoice.item.positive}")
   private BigDecimal quantity;
+  
+  @NotNull(message = "{invoice.item.not.null}")
+  @Positive(message = "{invoice.item.positive}")
   private BigDecimal unitPrice;
+  
+  @NotNull(message = "{invoice.item.not.null}")
+  @Positive(message = "{invoice.item.positive}")
   private BigDecimal totalPrice;
   
   public String getName() {
