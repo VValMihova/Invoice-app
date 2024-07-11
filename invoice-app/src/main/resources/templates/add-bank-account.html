@@ -5,13 +5,13 @@
 <nav th:replace="fragments/nav :: nav"></nav>
 <div class="container mt-5">
   <div class="form-container">
-    <h2>Add Bank Account</h2>
+    <h2 th:text="#{user.profile.add.bank.account.header}">Add Bank Account</h2>
     <form
         th:action="@{/profile/add-bank-account}"
         th:object="${bankAccountData}"
         th:method="post">
       <div class="form-group">
-        <label for="iban">IBAN:</label>
+        <label for="iban" th:text="#{user.profile.add.bank.account.iban}">IBAN:</label>
         <input
             type="text"
             id="iban"
@@ -26,7 +26,7 @@
         </small>
       </div>
       <div class="form-group">
-        <label for="bic">BIC:</label>
+        <label for="bic" th:text="#{user.profile.add.bank.account.bic}">BIC:</label>
         <input
             type="text"
             id="bic"
@@ -41,7 +41,7 @@
         </small>
       </div>
       <div class="form-group">
-        <label for="currency">Currency:</label>
+        <label for="currency" th:text="#{user.profile.add.bank.account.currency}">Currency:</label>
         <input
             type="text"
             id="currency"
@@ -55,10 +55,11 @@
             th:text="${err}" class="text-danger">
         </small>
       </div>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary" th:text="#{user.profile.add.bank.account.save}">Save</button>
     </form>
   </div>
 </div>
+<footer th:replace="fragments/footer :: footer"></footer>
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

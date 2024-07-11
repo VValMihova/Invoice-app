@@ -5,36 +5,44 @@
 <nav th:replace="fragments/nav :: nav"></nav>
 <div class="container mt-5">
   <div class="profile-container">
-    <h2>User Profile</h2>
+    <h2 th:text="#{user.profile.header}">User Profile</h2>
 
     <div class="row">
-      <!-- Company Details Section -->
       <div class="col-md-6">
         <div class="profile-section">
-          <h4>Company Details</h4>
-          <a href="#" th:href="@{/profile/edit-company}" class="edit-icon">
+          <h4 th:text="#{user.profile.company.details}">Company Details</h4>
+          <a href="#" th:href="@{/profile/edit-company}" class="edit-icon"
+             th:text="#{user.profile.company.edit}">
             <i class="fas fa-edit"></i> Edit
           </a>
-          <p><strong>Company Name:</strong> <span th:text="${companyDetails.companyName}">Company Name</span></p>
-          <p><strong>Address:</strong> <span th:text="${companyDetails.address}">Address</span></p>
-          <p><strong>EIK:</strong> <span th:text="${companyDetails.eik}">EIK</span></p>
-          <p><strong>VAT Number:</strong> <span th:text="${companyDetails.vatNumber}">VAT Number</span></p>
-          <p><strong>Manager:</strong> <span th:text="${companyDetails.manager}">Manager</span></p>
+          <p><strong th:text="#{user.profile.company.name}">Company Name:</strong> <span
+              th:text="${companyDetails.companyName}">Company Name</span></p>
+          <p><strong th:text="#{user.profile.company.address}">Address:</strong> <span
+              th:text="${companyDetails.address}">Address</span></p>
+          <p><strong th:text="#{user.profile.company.eik}">EIK:</strong> <span
+              th:text="${companyDetails.eik}">EIK</span></p>
+          <p><strong th:text="#{user.profile.company.vat}">VAT Number:</strong> <span
+              th:text="${companyDetails.vatNumber}">VAT Number</span></p>
+          <p><strong th:text="#{user.profile.company.manager}">Manager:</strong> <span
+              th:text="${companyDetails.manager}">Manager</span></p>
         </div>
       </div>
 
-      <!-- Bank Accounts Section -->
       <div class="col-md-6">
         <div class="profile-section">
-          <h4>Bank Accounts</h4>
-          <a href="#" th:href="@{/profile/add-bank-account}" class="btn btn-sm btn-primary mb-2">Add Bank Account</a>
+          <h4 th:text="#{user.profile.bank.accounts}">Bank Accounts</h4>
+          <a
+              href="#"
+              th:href="@{/profile/add-bank-account}"
+              class="btn btn-sm btn-primary mb-2"
+              th:text="#{user.profile.bank.account.add}">Add Bank Account</a>
           <table class="table">
             <thead>
             <tr>
-              <th>IBAN</th>
-              <th>BIC</th>
-              <th>Currency</th>
-              <th>Actions</th>
+              <th th:text="#{user.profile.bank.account.iban}">IBAN</th>
+              <th th:text="#{user.profile.bank.account.bic}">BIC</th>
+              <th th:text="#{user.profile.bank.account.currency}">Currency</th>
+              <th th:text="#{user.profile.bank.account.actions}">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -43,8 +51,10 @@
               <td th:text="${bankAccount.bic}">BIC</td>
               <td th:text="${bankAccount.currency}">Currency</td>
               <td>
-                <a href="#" th:href="@{/profile/edit-bank-account/{id}(id=${bankAccount.id})}" class="btn btn-sm btn-warning">Edit</a>
-                <a href="#" th:href="@{/profile/delete-bank-account/{id}(id=${bankAccount.id})}" class="btn btn-sm btn-danger">Delete</a>
+                <a href="#" th:href="@{/profile/edit-bank-account/{id}(id=${bankAccount.id})}"
+                   class="btn btn-sm btn-warning" th:text="#{user.profile.bank.account.edit}">Edit</a>
+                <a href="#" th:href="@{/profile/delete-bank-account/{id}(id=${bankAccount.id})}"
+                   class="btn btn-sm btn-danger" th:text="#{user.profile.bank.account.delete}">Delete</a>
               </td>
             </tr>
             </tbody>
@@ -54,6 +64,7 @@
     </div>
   </div>
 </div>
+<footer th:replace="fragments/footer :: footer"></footer>
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
