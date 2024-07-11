@@ -3,6 +3,7 @@ package bg.softuni.invoice_app.service.impl;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
+import bg.softuni.invoice_app.model.entity.Product;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -60,5 +61,9 @@ public class UserHelperService {
   
   public CompanyDetails getUserCompanyDetails() {
     return this.getUser().getCompanyDetails();
+  }
+  
+  public Set<Product> getUserProducts() {
+    return this.getUser().getProducts();
   }
 }

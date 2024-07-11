@@ -1,8 +1,7 @@
 package bg.softuni.invoice_app.service.impl;
 
-import bg.softuni.invoice_app.model.dto.RecipientDetailsAddDto;
+import bg.softuni.invoice_app.model.dto.invoice.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceItemDto;
 import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
@@ -10,10 +9,12 @@ import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.InvoiceService;
+import bg.softuni.invoice_app.service.ProductService;
 import bg.softuni.invoice_app.service.RecipientDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,13 +25,16 @@ public class InvoiceServiceImpl implements InvoiceService {
   private final ModelMapper modelMapper;
   private final CompanyDetailsService companyDetailsService;
   private final RecipientDetailsService recipientDetailsService;
+  private final ProductService productService;
+
   
-  public InvoiceServiceImpl(InvoiceRepository invoiceRepository, UserHelperService userHelperService, ModelMapper modelMapper, CompanyDetailsService companyDetailsService, RecipientDetailsService recipientDetailsService) {
+  public InvoiceServiceImpl(InvoiceRepository invoiceRepository, UserHelperService userHelperService, ModelMapper modelMapper, CompanyDetailsService companyDetailsService, RecipientDetailsService recipientDetailsService, ProductService productService) {
     this.invoiceRepository = invoiceRepository;
     this.userHelperService = userHelperService;
     this.modelMapper = modelMapper;
     this.companyDetailsService = companyDetailsService;
     this.recipientDetailsService = recipientDetailsService;
+    this.productService = productService;
   }
 
 
@@ -59,6 +63,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   
   @Override
   public void createInvoice(InvoiceCreateDto invoiceData) {
+    User currentUser = userHelperService.getUser();
     Invoice invoice = new Invoice();
     invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
     invoice.setIssueDate(invoiceData.getIssueDate());
@@ -73,19 +78,19 @@ public class InvoiceServiceImpl implements InvoiceService {
 //    BankAccount bankAccount = modelMapper.map(invoiceData.getBankAccount(), BankAccount.class);
 //    bankAccountRepository.save(bankAccount);
 //    invoice.setBankAccount(bankAccount);
-    
+    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(),currentUser );
     // Mapping invoice items
-    List<InvoiceItem> items = invoiceData.getItems().stream()
-        .map(itemDto -> modelMapper.map(itemDto, InvoiceItem.class))
-        .collect(Collectors.toList());
-    invoice.setItems(items);
+//    List<InvoiceItem> items = invoiceData.getItems().stream()
+//        .map(itemDto -> modelMapper.map(itemDto, InvoiceItem.class))
+//        .collect(Collectors.toList());
+    invoice.setItems(invoiceItems);
     
     invoice.setTotalAmount(invoiceData.getTotalAmount());
     invoice.setVat(invoiceData.getVat());
     invoice.setAmountDue(invoiceData.getAmountDue());
     
     // Setting user
-    User currentUser = userHelperService.getUser();
+
     invoice.setUser(currentUser);
     
     // Save invoice
@@ -119,9 +124,26 @@ public class InvoiceServiceImpl implements InvoiceService {
 //        .setUser(userHelperService.getUser());
 //  }
   
-  private List<InvoiceItem> mapToInvoiceItems(List<InvoiceItemDto> items) {
-    return items.stream().map(invoiceItemDto -> modelMapper.map(invoiceItemDto, InvoiceItem.class))
-        .toList();
+  private List<InvoiceItem> mapToInvoiceItems(List<InvoiceItemDto> items, User user) {
+    List<InvoiceItem> invoiceItems = new ArrayList<>();
+    for (InvoiceItemDto itemDto : items) {
+      InvoiceItem invoiceItem = modelMapper.map(itemDto, InvoiceItem.class);
+      
+      Product product = user.getProducts()
+          .stream()
+          .filter(p -> p.getName().equals(itemDto.getName()))
+          .findFirst()
+          .orElseGet(() -> {
+            Product newProduct = new Product().setName(itemDto.getName());
+            newProduct.setUser(user);  // Make sure to set the user for the new product
+            user.getProducts().add(newProduct);
+            return newProduct;
+          });
+      
+      productService.save(product);
+      invoiceItems.add(invoiceItem);
+    }
+    return invoiceItems;
   }
   
   private CompanyDetails mapToCompanyDetails(CompanyDetailsDto companyDetailsDto) {

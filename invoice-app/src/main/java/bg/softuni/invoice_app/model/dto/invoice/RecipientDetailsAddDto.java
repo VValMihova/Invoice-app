@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.model.dto;
+package bg.softuni.invoice_app.model.dto.invoice;
 
 import bg.softuni.invoice_app.validation.annotation.SameUser;
 import jakarta.validation.constraints.NotBlank;

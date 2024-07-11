@@ -6,6 +6,7 @@ import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
+import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.UserService;
@@ -22,40 +23,44 @@ public class UserServiceImpl implements UserService {
   private final ModelMapper modelMapper;
   private final UserHelperService userHelperService;
   private final CompanyDetailsService companyDetailsService;
+  // todo remove after
+  private final CompanyDetailsRepository companyDetailsRepository;
   
-  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, UserHelperService userHelperService, CompanyDetailsService companyDetailsService) {
+  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, UserHelperService userHelperService, CompanyDetailsService companyDetailsService, CompanyDetailsRepository companyDetailsRepository) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.modelMapper = modelMapper;
     this.userHelperService = userHelperService;
     this.companyDetailsService = companyDetailsService;
+    this.companyDetailsRepository = companyDetailsRepository;
   }
   
   
   @Override
   public void register(UserRegisterBindingDto registerData) {
     User user = registerUser(registerData);
-    CompanyDetails companyDetails = createCompanyDetails(registerData);
+    CompanyDetails companyDetails = createCompanyDetails(registerData, user);
     
     user.setCompanyDetails(companyDetails);
     
     this.companyDetailsService.addWithRegistration(companyDetails);
     this.userRepository.save(user);
   }
-  
+//  todo can be changed
   private User registerUser(UserRegisterBindingDto registerData) {
-    return new User()
+    return userRepository.save( new User()
         .setEmail(registerData.getEmail())
-        .setPassword(passwordEncoder.encode(registerData.getPassword()));
+        .setPassword(passwordEncoder.encode(registerData.getPassword())));
   }
   
-  private CompanyDetails createCompanyDetails(UserRegisterBindingDto registerData) {
+  private CompanyDetails createCompanyDetails(UserRegisterBindingDto registerData, User user) {
     return new CompanyDetails()
         .setCompanyName(registerData.getCompanyName())
         .setAddress(registerData.getAddress())
         .setEik(registerData.getEik())
         .setVatNumber(registerData.getVatNumber())
-        .setManager(registerData.getManager());
+        .setManager(registerData.getManager())
+        .setUser(user);
   }
   
   @Override

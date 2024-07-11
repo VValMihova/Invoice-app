@@ -1,12 +1,8 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
-import bg.softuni.invoice_app.model.dto.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountDto;
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
-import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.GetCompanyDetailsDto;
-import bg.softuni.invoice_app.validation.UniqueInvoiceNumber;
+import bg.softuni.invoice_app.validation.annotation.UniqueInvoiceNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
