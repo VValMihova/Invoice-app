@@ -7,11 +7,11 @@ import bg.softuni.invoice_app.validation.annotation.SameUser;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class sameUserDetailsValidator implements ConstraintValidator<SameUser, RecipientDetailsAddDto> {
+public class SameUserDetailsValidator implements ConstraintValidator<SameUser, RecipientDetailsAddDto> {
   
   private final UserHelperService userHelperService;
   
-  public sameUserDetailsValidator(UserHelperService userHelperService) {
+  public SameUserDetailsValidator(UserHelperService userHelperService) {
     this.userHelperService = userHelperService;
   }
   

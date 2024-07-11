@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "invoices")
 public class Invoice {
+//  todo can be with uuid
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

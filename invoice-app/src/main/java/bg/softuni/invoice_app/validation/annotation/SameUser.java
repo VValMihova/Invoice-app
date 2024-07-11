@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.validation.annotation;
 
-import bg.softuni.invoice_app.validation.sameUserDetailsValidator;
+import bg.softuni.invoice_app.validation.SameUserDetailsValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = sameUserDetailsValidator.class)
+@Constraint(validatedBy = SameUserDetailsValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SameUser {

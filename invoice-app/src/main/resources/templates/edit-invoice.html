@@ -6,20 +6,46 @@
 <div class="container mt-5">
   <div class="form-container">
     <h2>Edit Invoice</h2>
-    <form th:action="@{/invoices/edit/{id}(id=${invoice.id})}" th:object="${invoice}" method="post" id="invoiceForm">
-      <!-- Invoice Number and Issue Date Side by Side -->
+    <form
+        th:action="@{/invoices/edit/{id}(id=${invoiceData.id})}"
+        th:method="post"
+        id="invoiceForm"
+        th:object="${invoiceData}">
+
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <label for="invoiceNumber">Invoice Number:</label>
-            <input type="text" id="invoiceNumber" name="invoiceNumber" th:field="*{invoiceNumber}" class="form-control" required/>
+            <input
+                type="text"
+                id="invoiceNumber"
+                name="invoiceNumber"
+                class="form-control"
+                th:field="*{invoiceNumber}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('invoiceNumber')}"
+                th:text="${err}" class="text-danger">
+            </small>
           </div>
         </div>
-<!--        to do show issue date-->
         <div class="col-md-6">
           <div class="form-group">
             <label for="issueDate">Issue Date:</label>
-            <input type="date" id="issueDate" name="issueDate" th:field="*{issueDate}" th:value="*{issueDate}" class="form-control" required/>
+            <input
+                type="date"
+                id="issueDate"
+                name="issueDate"
+                class="form-control"
+                th:field="*{issueDate}"
+                th:value="${#temporals.format(invoiceData.issueDate, 'yyyy-MM-dd')}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('issueDate')}"
+                th:text="${err}" class="text-danger">
+            </small>
           </div>
         </div>
       </div>
@@ -31,48 +57,113 @@
           <h4>Supplier Details</h4>
           <div class="form-group">
             <label for="supplierName">Supplier Name:</label>
-            <input type="text" id="supplierName" name="supplier.companyName" th:field="*{supplier.companyName}" class="form-control" readonly/>
+            <input type="text" id="supplierName" name="supplier.companyName" class="form-control"
+                   th:value="${invoiceData.supplier.companyName}" readonly/>
           </div>
           <div class="form-group">
             <label for="supplierAddress">Supplier Address:</label>
-            <input type="text" id="supplierAddress" name="supplier.address" th:field="*{supplier.address}" class="form-control" readonly/>
+            <input type="text" id="supplierAddress" name="supplier.address" class="form-control"
+                   th:value="${invoiceData.supplier.address}" readonly/>
           </div>
           <div class="form-group">
             <label for="supplierEik">Supplier EIK:</label>
-            <input type="text" id="supplierEik" name="supplier.eik" th:field="*{supplier.eik}" class="form-control" readonly/>
+            <input type="text" id="supplierEik" name="supplier.eik" class="form-control"
+                   th:value="${invoiceData.supplier.eik}" readonly/>
           </div>
           <div class="form-group">
             <label for="supplierVatNumber">Supplier VAT Number:</label>
-            <input type="text" id="supplierVatNumber" name="supplier.vatNumber" th:field="*{supplier.vatNumber}" class="form-control" readonly/>
+            <input type="text" id="supplierVatNumber" name="supplier.vatNumber" class="form-control"
+                   th:value="${invoiceData.supplier.vatNumber}" readonly/>
           </div>
           <div class="form-group">
             <label for="supplierManager">Supplier Manager:</label>
-            <input type="text" id="supplierManager" name="supplier.manager" th:field="*{supplier.manager}" class="form-control" readonly/>
+            <input type="text" id="supplierManager" name="supplier.manager" class="form-control"
+                   th:value="${invoiceData.supplier.manager}" readonly/>
           </div>
         </div>
 
         <!-- Recipient Details -->
         <div class="col-md-6">
+<!--          <div-->
+<!--              th:if="${#fields.hasErrors('recipientDetails')}"-->
+<!--              class="alert alert-danger mt-3"-->
+<!--              th:text="${#fields.errors('recipientDetails')}">-->
+<!--          </div>-->
           <h4>Recipient Details</h4>
           <div class="form-group">
             <label for="recipientName">Recipient Name:</label>
-            <input type="text" id="recipientName" name="recipient.companyName" th:field="*{recipient.companyName}" class="form-control" required/>
+            <input
+                type="text"
+                id="recipientName"
+                name="recipient.companyName"
+                class="form-control"
+                th:field="*{recipient.companyName}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('recipient.companyName')}"
+                th:text="${err}" class="text-danger">
+            </small>
           </div>
           <div class="form-group">
             <label for="recipientAddress">Recipient Address:</label>
-            <input type="text" id="recipientAddress" name="recipient.address" th:field="*{recipient.address}" class="form-control" required/>
+            <input
+                type="text"
+                id="recipientAddress"
+                name="recipient.address"
+                class="form-control"
+                th:field="*{recipient.address}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('recipient.address')}"
+                th:text="${err}" class="text-danger">
+            </small>
           </div>
           <div class="form-group">
             <label for="recipientEik">Recipient EIK:</label>
-            <input type="text" id="recipientEik" name="recipient.eik" th:field="*{recipient.eik}" class="form-control" required/>
+            <input
+                type="text"
+                id="recipientEik"
+                name="recipient.eik"
+                class="form-control"
+                th:field="*{recipient.eik}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('recipient.eik')}"
+                th:text="${err}" class="text-danger">
+            </small>
           </div>
           <div class="form-group">
             <label for="recipientVatNumber">Recipient VAT Number:</label>
-            <input type="text" id="recipientVatNumber" name="recipient.vatNumber" th:field="*{recipient.vatNumber}" class="form-control" required/>
+            <input
+                type="text"
+                id="recipientVatNumber"
+                name="recipient.vatNumber"
+                class="form-control"
+                th:field="*{recipient.vatNumber}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('recipient.vatNumber')}"
+                th:text="${err}" class="text-danger">
+            </small>
           </div>
           <div class="form-group">
             <label for="recipientManager">Recipient Manager:</label>
-            <input type="text" id="recipientManager" name="recipient.manager" th:field="*{recipient.manager}" class="form-control" required/>
+            <input
+                type="text"
+                id="recipientManager"
+                name="recipient.manager"
+                class="form-control"
+                th:field="*{recipient.manager}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('recipient.manager')}"
+                th:text="${err}" class="text-danger">
+            </small>
           </div>
         </div>
       </div>
@@ -90,11 +181,31 @@
         </tr>
         </thead>
         <tbody id="invoiceItemsContainer">
-        <tr th:each="item, iterStat : ${invoice.items}">
-          <td><input type="text" th:name="|items[${iterStat.index}].name|" th:value="${item.name}" placeholder="Item Name" class="form-control" required/></td>
-          <td><input type="number" th:name="|items[${iterStat.index}].quantity|" th:value="${item.quantity}" placeholder="Quantity" class="form-control" oninput="calculateTotalPrice(this)" required/></td>
-          <td><input type="number" th:name="|items[${iterStat.index}].unitPrice|" th:value="${item.unitPrice}" placeholder="Unit Price" class="form-control" oninput="calculateTotalPrice(this)" required/></td>
-          <td><input type="number" th:name="|items[${iterStat.index}].totalPrice|" th:value="${item.totalPrice}" placeholder="Total Price" class="form-control" readonly/></td>
+        <tr th:each="item, iterStat : ${invoiceData.items}">
+          <td>
+            <input type="text" th:field="*{items[__${iterStat.index}__].name}" placeholder="Item Name"
+                   class="form-control" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].name')}"
+                   th:errors="*{items[__${iterStat.index}__].name}" class="text-danger"></small>
+          </td>
+          <td>
+            <input type="number" th:field="*{items[__${iterStat.index}__].quantity}" placeholder="Quantity"
+                   class="form-control" oninput="calculateTotalPrice(this)" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].quantity')}"
+                   th:errors="*{items[__${iterStat.index}__].quantity}" class="text-danger"></small>
+          </td>
+          <td>
+            <input type="number" th:field="*{items[__${iterStat.index}__].unitPrice}" placeholder="Unit Price"
+                   class="form-control" oninput="calculateTotalPrice(this)" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].unitPrice')}"
+                   th:errors="*{items[__${iterStat.index}__].unitPrice}" class="text-danger"></small>
+          </td>
+          <td>
+            <input type="number" th:field="*{items[__${iterStat.index}__].totalPrice}" placeholder="Total Price"
+                   class="form-control" readonly/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].totalPrice')}"
+                   th:errors="*{items[__${iterStat.index}__].totalPrice}" class="text-danger"></small>
+          </td>
           <td>
             <button type="button" class="btn btn-sm btn-danger" onclick="removeInvoiceItem(this)">Remove</button>
           </td>
@@ -102,26 +213,24 @@
         </tbody>
       </table>
       <button type="button" class="btn btn-secondary" onclick="addInvoiceItem()">Add Item</button>
-
       <!-- Total Amount, VAT, and Amount Due -->
       <div class="row mt-3 justify-content-end">
         <div class="col-md-4">
           <div class="form-group">
             <label for="totalAmount">Total Amount:</label>
-            <input type="number" id="totalAmount" name="totalAmount" th:field="*{totalAmount}" class="form-control" readonly/>
+            <input type="number" id="totalAmount" name="totalAmount" class="form-control" th:value="${invoiceData.totalAmount}" readonly/>
           </div>
           <div class="form-group">
             <label for="vat">VAT (20%):</label>
-            <input type="number" id="vat" name="vat" th:field="*{vat}" class="form-control" readonly/>
+            <input type="number" id="vat" name="vat" class="form-control" th:value="${invoiceData.vat}" readonly/>
           </div>
           <div class="form-group">
             <label for="amountDue">Amount Due:</label>
-            <input type="number" id="amountDue" name="amountDue" th:field="*{amountDue}" class="form-control" readonly/>
+            <input type="number" id="amountDue" name="amountDue" class="form-control" th:value="${invoiceData.amountDue}" readonly/>
           </div>
         </div>
       </div>
-
-      <button type="submit" class="btn btn-primary">Update Invoice</button>
+      <button type="submit" class="btn btn-primary">Save Invoice</button>
     </form>
   </div>
 </div>

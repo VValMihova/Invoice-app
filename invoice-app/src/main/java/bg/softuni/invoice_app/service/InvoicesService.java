@@ -1,5 +1,7 @@
 package bg.softuni.invoice_app.service;
 
+import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
+import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.entity.Invoice;
 
 
@@ -12,5 +14,5 @@ public interface InvoicesService {
   
   byte[] generatePdf(Long id);
   
- // void update(Long id, InvoiceCreateDto invoiceData);
+  void updateInvoice(Long id, InvoiceEditDto invoiceData);
 }

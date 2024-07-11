@@ -1,4 +1,4 @@
-let itemIndex = document.querySelectorAll('#invoiceItemsContainer tr').length;
+let itemIndex = /*[[${invoiceData.items.size()}]]*/ 0;
 
 function addInvoiceItem() {
     const container = document.getElementById('invoiceItemsContainer');
@@ -22,11 +22,15 @@ function removeInvoiceItem(button) {
 
 function calculateTotalPrice(element) {
     const row = element.closest('tr');
-    const quantity = parseFloat(row.querySelector('input[name*="quantity"]').value) || 0;
-    const unitPrice = parseFloat(row.querySelector('input[name*="unitPrice"]').value) || 0;
+    const quantity = row.querySelector('input[name*="quantity"]').value;
+    const unitPrice = row.querySelector('input[name*="unitPrice"]').value;
     const totalPrice = row.querySelector('input[name*="totalPrice"]');
 
-    totalPrice.value = (quantity * unitPrice).toFixed(2);
+    if (quantity && unitPrice) {
+        totalPrice.value = (quantity * unitPrice).toFixed(2);
+    } else {
+        totalPrice.value = '';
+    }
 
     calculateTotalAmounts();
 }
@@ -49,3 +53,8 @@ function calculateTotalAmounts() {
     vatField.value = vat.toFixed(2);
     amountDueField.value = amountDue.toFixed(2);
 }
+
+// Initial calculation to set the values when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    calculateTotalAmounts();
+});

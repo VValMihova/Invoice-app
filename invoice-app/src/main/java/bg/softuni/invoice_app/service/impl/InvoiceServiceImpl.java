@@ -74,10 +74,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
     invoice.setRecipient(recipient);
     
-    // Setting bank account
-//    BankAccount bankAccount = modelMapper.map(invoiceData.getBankAccount(), BankAccount.class);
-//    bankAccountRepository.save(bankAccount);
-//    invoice.setBankAccount(bankAccount);
+
     List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(),currentUser );
     invoice.setItems(invoiceItems);
     
