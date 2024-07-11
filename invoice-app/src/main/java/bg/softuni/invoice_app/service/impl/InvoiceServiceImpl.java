@@ -79,10 +79,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 //    bankAccountRepository.save(bankAccount);
 //    invoice.setBankAccount(bankAccount);
     List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(),currentUser );
-    // Mapping invoice items
-//    List<InvoiceItem> items = invoiceData.getItems().stream()
-//        .map(itemDto -> modelMapper.map(itemDto, InvoiceItem.class))
-//        .collect(Collectors.toList());
     invoice.setItems(invoiceItems);
     
     invoice.setTotalAmount(invoiceData.getTotalAmount());
@@ -112,17 +108,6 @@ public class InvoiceServiceImpl implements InvoiceService {
       return recipientDetailsService.saveAndReturn(newRecipient);
     }
   }
-
-//  private Invoice createInvoice(InvoiceCreateDto invoiceData) {
-//    return new Invoice()
-//        .setInvoiceNumber(invoiceData.getInvoiceNumber())
-//        .setIssueDate(invoiceData.getIssueDate())
-//        .setItems(mapToInvoiceItems(invoiceData.getItems()))
-//        .setTotalAmount(invoiceData.getTotalAmount())
-//        .setVat(invoiceData.getVat())
-//        .setAmountDue(invoiceData.getAmountDue())
-//        .setUser(userHelperService.getUser());
-//  }
   
   private List<InvoiceItem> mapToInvoiceItems(List<InvoiceItemDto> items, User user) {
     List<InvoiceItem> invoiceItems = new ArrayList<>();
@@ -135,10 +120,16 @@ public class InvoiceServiceImpl implements InvoiceService {
           .findFirst()
           .orElseGet(() -> {
             Product newProduct = new Product().setName(itemDto.getName());
-            newProduct.setUser(user);  // Make sure to set the user for the new product
+            newProduct.setUser(user);
             user.getProducts().add(newProduct);
             return newProduct;
           });
+
+      if (product.getId() != null) {
+        product.setQuantity(product.getQuantity().add(itemDto.getQuantity()));
+      } else {
+        product.setQuantity(itemDto.getQuantity());
+      }
       
       productService.save(product);
       invoiceItems.add(invoiceItem);

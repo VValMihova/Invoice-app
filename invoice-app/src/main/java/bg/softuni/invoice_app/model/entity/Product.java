@@ -3,6 +3,8 @@ package bg.softuni.invoice_app.model.entity;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceItemDto;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -13,12 +15,16 @@ public class Product {
   @Column(nullable = false, unique = true)
   private String name;
   
+  @Column(nullable = false)
+  private BigDecimal quantity;
+  
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
-//  todo add quantity
+
   
   public Product() {
+    this.quantity = BigDecimal.ZERO;
   }
   public Product(InvoiceItemDto item) {
     this.name = item.getName();
@@ -48,6 +54,15 @@ public class Product {
   
   public Product setUser(User user) {
     this.user = user;
+    return this;
+  }
+  
+  public BigDecimal getQuantity() {
+    return quantity;
+  }
+  
+  public Product setQuantity(BigDecimal quantity) {
+    this.quantity = quantity;
     return this;
   }
 }
