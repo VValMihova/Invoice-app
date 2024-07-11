@@ -112,3 +112,35 @@ body {
     padding: 20px;
     border-radius: 10px;
 }
+
+
+/*footer*/
+.footer {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000;
+    text-align: center;
+}
+
+.footer form {
+    display: inline-block;
+}
+
+.footer .language-select {
+    border-radius: 8px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+}
+
+.footer .language-select:hover {
+    border-color: #888;
+}
+
+.footer .language-select:focus {
+    border-color: #555;
+}
