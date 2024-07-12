@@ -32,9 +32,8 @@
            th:text="#{nav.my.invoices}">My Invoices</a>
       </li>
       <li class="nav-item" sec:authorize="isAuthenticated()">
-        <form th:method="POST" th:action="@{/users/logout}"
-              th:text="#{nav.logout}" class="form-inline">
-          <input class="nav-link btn-logout" type="submit" value="Logout">
+        <form th:method="POST" th:action="@{/users/logout}" class="form-inline">
+          <input class="nav-link btn-logout" type="submit" th:value="#{nav.logout}" value="Logout">
         </form>
       </li>
     </ul>

@@ -5,15 +5,15 @@
 <nav th:replace="fragments/nav :: nav"></nav>
 <div class="container mt-5">
   <div class="invoices-container">
-    <h2>My Invoices</h2>
+    <h2 th:text="#{invoices.header}">My Invoices</h2>
     <table class="table table-bordered table-hover">
       <thead>
       <tr>
-        <th>Invoice Number</th>
-        <th>Issue Date</th>
-        <th>Recipient</th>
-        <th>Total Amount</th>
-        <th>Actions</th>
+        <th th:text="#{invoices.table.invoiceNumber}">Invoice Number</th>
+        <th th:text="#{invoices.table.issueDate}">Issue Date</th>
+        <th th:text="#{invoices.table.recipient}">Recipient</th>
+        <th th:text="#{invoices.table.totalAmount}">Total Amount</th>
+        <th th:text="#{invoices.table.actions}">Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -23,14 +23,28 @@
         <td th:text="${invoice.recipient.companyName}">Recipient Name</td>
         <td th:text="${invoice.amountDue}">$1000.00</td>
         <td>
-          <a href="#" th:href="@{/invoices/edit/{id}(id=${invoice.id})}" class="btn btn-sm btn-warning">Edit</a>
+          <a
+              th:href="@{/invoices/edit/{id}(id=${invoice.id})}"
+              class="btn btn-sm btn-warning"
+              th:text="#{invoices.action.edit}">
+            Edit
+          </a>
           <form th:action="@{/invoices/delete/{id}(id=${invoice.id})}" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            <button
+                type="submit"
+                class="btn btn-sm btn-danger"
+                th:text="#{invoices.action.delete}">
+              Delete
+            </button>
           </form>
-<!--          <a href="#" th:href="@{/invoices/delete/{id}(id=${invoice.id})}" class="btn btn-sm btn-danger"-->
+          <!--          <a href="#" th:href="@{/invoices/delete/{id}(id=${invoice.id})}" class="btn btn-sm btn-danger"-->
           <!--             onclick="return confirm('Are you sure you want to delete this invoice?');">Delete</a>-->
-          <a href="#" th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-sm btn-success">Download
-            PDF</a>
+          <a
+              th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}"
+              class="btn btn-sm btn-success"
+              th:text="#{invoices.action.downloadPdf}">
+            Download PDF
+          </a>
         </td>
       </tr>
       </tbody>
