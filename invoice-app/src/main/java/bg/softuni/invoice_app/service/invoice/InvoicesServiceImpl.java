@@ -29,26 +29,22 @@ import java.util.stream.Collectors;
 public class InvoicesServiceImpl implements InvoicesService {
   
   private final InvoiceRepository invoiceRepository;
-  private final CompanyDetailsService companyDetailsService;
-  private final UserRepository userRepository;
   private final ModelMapper modelMapper;
   private final UserHelperService userHelperService;
   private final RecipientDetailsService recipientDetailsService;
   private final ProductService productService;
   
-  public InvoicesServiceImpl(InvoiceRepository invoiceRepository, CompanyDetailsService companyDetailsService, UserRepository userRepository, ModelMapper modelMapper, UserHelperService userHelperService, RecipientDetailsService recipientDetailsService, ProductService productService) {
+  public InvoicesServiceImpl(
+      InvoiceRepository invoiceRepository,
+      ModelMapper modelMapper,
+      UserHelperService userHelperService,
+      RecipientDetailsService recipientDetailsService,
+      ProductService productService) {
     this.invoiceRepository = invoiceRepository;
-    this.companyDetailsService = companyDetailsService;
-    this.userRepository = userRepository;
     this.modelMapper = modelMapper;
     this.userHelperService = userHelperService;
     this.recipientDetailsService = recipientDetailsService;
     this.productService = productService;
-  }
-  
-  @Override
-  public Optional<Invoice> findById(Long id) {
-    return invoiceRepository.findById(id);
   }
 
   @Override
@@ -58,7 +54,8 @@ public class InvoicesServiceImpl implements InvoicesService {
   
   @Override
   public byte[] generatePdf(Long id) {
-    Invoice invoice = invoiceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
+    Invoice invoice = invoiceRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
     
     try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
       Document document = new Document();

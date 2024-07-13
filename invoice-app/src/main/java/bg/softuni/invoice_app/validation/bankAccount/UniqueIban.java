@@ -10,9 +10,10 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueIban {
-  String message() default "Bank account with this IBAN already exist!";
+  String message() default "{UniqueIban.message}";
   
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};
 }
+

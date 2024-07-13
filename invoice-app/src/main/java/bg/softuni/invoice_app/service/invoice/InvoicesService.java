@@ -8,7 +8,6 @@ import bg.softuni.invoice_app.model.entity.Invoice;
 import java.util.Optional;
 
 public interface InvoicesService {
-  Optional<Invoice> findById(Long id);
   
   void deleteById(Long id);
   

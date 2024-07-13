@@ -25,7 +25,11 @@ public class ProfileController {
   private final UserHelperService userHelperService;
   private final CompanyDetailsService companyDetailsService;
   
-  public ProfileController(UserService userService, BankAccountService bankAccountService, UserHelperService userHelperService, CompanyDetailsService companyDetailsService) {
+  public ProfileController(
+      UserService userService,
+      BankAccountService bankAccountService,
+      UserHelperService userHelperService,
+      CompanyDetailsService companyDetailsService) {
     this.userService = userService;
     this.bankAccountService = bankAccountService;
     this.userHelperService = userHelperService;

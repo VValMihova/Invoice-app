@@ -13,15 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
   private final BankAccountRepository bankAccountRepository;
-  private final UserHelperService userHelperService;
-  private final ModelMapper modelMapper;
   
-  public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, UserHelperService userHelperService, ModelMapper modelMapper) {
+  public BankAccountServiceImpl(BankAccountRepository bankAccountRepository) {
     this.bankAccountRepository = bankAccountRepository;
-    this.userHelperService = userHelperService;
-    this.modelMapper = modelMapper;
   }
-  
   
   @Override
   public BankAccountView getById(Long id) {
@@ -31,13 +26,10 @@ public class BankAccountServiceImpl implements BankAccountService {
     return mapToBankAccountView(bankAccount);
   }
   
-  private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
-    return new BankAccountView(bankAccount);
-  }
-  
   @Override
   public void editBankAccount(Long id, BankAccountEditBindingDto bankAccountDataEdit) {
-    BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Bank account not found"));
+    BankAccount bankAccount = bankAccountRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
     
     bankAccount.setIban(bankAccountDataEdit.getIban())
         .setBic(bankAccountDataEdit.getBic())
@@ -48,9 +40,12 @@ public class BankAccountServiceImpl implements BankAccountService {
   
   @Override
   public void deleteBankAccount(Long id) {
-    BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Bank account not found"));
+    BankAccount bankAccount = bankAccountRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
     
     bankAccountRepository.delete(bankAccount);
-    
+  }
+  private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
+    return new BankAccountView(bankAccount);
   }
 }

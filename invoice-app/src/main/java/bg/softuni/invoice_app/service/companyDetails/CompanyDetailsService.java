@@ -4,17 +4,14 @@ import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBinding
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 
 public interface CompanyDetailsService {
-  void deleteCompany(Long id);
-  void addWithRegistration(CompanyDetails companyDetails);
-  CompanyDetails getByEik(String eik);
-  boolean exists(CompanyDetails companyDetails);
   
-  CompanyDetails saveAndReturn(CompanyDetails companyDetails);
+  void addWithRegistration(CompanyDetails companyDetails);
+  
+  CompanyDetails getByEik(String eik);
   
   CompanyDetails getCompanyByName(String companyName);
   
+  CompanyDetails getByVatNumber(String vat);
   
   CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData);
-  
-  CompanyDetails getByVatNumber(String vat);
 }
