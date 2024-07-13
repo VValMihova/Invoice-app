@@ -1,17 +1,17 @@
-package bg.softuni.invoice_app.validation.annotation;
+package bg.softuni.invoice_app.validation.registration.annotation;
 
-import bg.softuni.invoice_app.validation.UniqueIbanValidator;
+import bg.softuni.invoice_app.validation.registration.UniqueVatValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = UniqueIbanValidator.class)
+@Constraint(validatedBy = UniqueVatValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueIban {
-  String message() default "Bank account with this IBAN already exist!";
+public @interface UniqueVat {
+  String message() default "Company with this VAT already exist!";
   
   Class<?>[] groups() default {};
   

@@ -1,8 +1,8 @@
 package bg.softuni.invoice_app.model.dto.companyDetails;
 
-import bg.softuni.invoice_app.validation.annotation.CompanyEikEditable;
-import bg.softuni.invoice_app.validation.annotation.CompanyNameEditable;
-import bg.softuni.invoice_app.validation.annotation.CompanyVatEditable;
+import bg.softuni.invoice_app.validation.editCompanyDetails.annotation.CompanyEikEditable;
+import bg.softuni.invoice_app.validation.editCompanyDetails.annotation.CompanyNameEditable;
+import bg.softuni.invoice_app.validation.editCompanyDetails.annotation.CompanyVatEditable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

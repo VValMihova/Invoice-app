@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
-import bg.softuni.invoice_app.validation.annotation.SameUser;
+import bg.softuni.invoice_app.validation.invoice.SameUser;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

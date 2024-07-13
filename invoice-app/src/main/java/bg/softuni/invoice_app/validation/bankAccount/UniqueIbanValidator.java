@@ -1,7 +1,6 @@
-package bg.softuni.invoice_app.validation;
+package bg.softuni.invoice_app.validation.bankAccount;
 
 import bg.softuni.invoice_app.service.user.UserHelperService;
-import bg.softuni.invoice_app.validation.annotation.UniqueIban;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

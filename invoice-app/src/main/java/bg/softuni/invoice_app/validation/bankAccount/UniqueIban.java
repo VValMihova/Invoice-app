@@ -1,17 +1,16 @@
-package bg.softuni.invoice_app.validation.annotation;
+package bg.softuni.invoice_app.validation.bankAccount;
 
-import bg.softuni.invoice_app.validation.CompanyNameEditableValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = CompanyNameEditableValidator.class)
+@Constraint(validatedBy = UniqueIbanValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CompanyNameEditable {
-  String message() default "Company name is already taken!";
+public @interface UniqueIban {
+  String message() default "Bank account with this IBAN already exist!";
   
   Class<?>[] groups() default {};
   

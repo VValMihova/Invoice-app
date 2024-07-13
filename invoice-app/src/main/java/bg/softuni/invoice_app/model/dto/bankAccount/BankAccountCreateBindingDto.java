@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.model.dto.bankAccount;
 
-import bg.softuni.invoice_app.validation.annotation.UniqueIban;
+import bg.softuni.invoice_app.validation.bankAccount.UniqueIban;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 

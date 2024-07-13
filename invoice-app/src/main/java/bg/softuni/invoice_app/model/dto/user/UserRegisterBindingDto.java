@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.model.dto.user;
 
-import bg.softuni.invoice_app.validation.annotation.UniqueCompanyName;
-import bg.softuni.invoice_app.validation.annotation.UniqueEik;
-import bg.softuni.invoice_app.validation.annotation.UniqueEmail;
-import bg.softuni.invoice_app.validation.annotation.UniqueVat;
+import bg.softuni.invoice_app.validation.registration.annotation.UniqueCompanyName;
+import bg.softuni.invoice_app.validation.registration.annotation.UniqueEik;
+import bg.softuni.invoice_app.validation.registration.annotation.UniqueEmail;
+import bg.softuni.invoice_app.validation.registration.annotation.UniqueVat;
 import jakarta.validation.constraints.*;
 
 public class UserRegisterBindingDto {

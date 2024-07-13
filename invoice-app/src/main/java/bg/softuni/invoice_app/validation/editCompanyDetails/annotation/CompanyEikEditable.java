@@ -1,6 +1,6 @@
-package bg.softuni.invoice_app.validation.annotation;
+package bg.softuni.invoice_app.validation.editCompanyDetails.annotation;
 
-import bg.softuni.invoice_app.validation.CompanyEikEditableValidator;
+import bg.softuni.invoice_app.validation.editCompanyDetails.CompanyEikEditableValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
