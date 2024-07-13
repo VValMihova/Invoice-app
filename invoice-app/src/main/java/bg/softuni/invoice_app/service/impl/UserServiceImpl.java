@@ -10,6 +10,7 @@ import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.CompanyDetailsService;
 import bg.softuni.invoice_app.service.UserService;
+import bg.softuni.invoice_app.service.exeption.DatabaseException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,32 +24,40 @@ public class UserServiceImpl implements UserService {
   private final ModelMapper modelMapper;
   private final UserHelperService userHelperService;
   private final CompanyDetailsService companyDetailsService;
-  // todo remove after
-  private final CompanyDetailsRepository companyDetailsRepository;
   
-  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, UserHelperService userHelperService, CompanyDetailsService companyDetailsService, CompanyDetailsRepository companyDetailsRepository) {
+  public UserServiceImpl(
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder,
+      ModelMapper modelMapper,
+      UserHelperService userHelperService,
+      CompanyDetailsService companyDetailsService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.modelMapper = modelMapper;
     this.userHelperService = userHelperService;
     this.companyDetailsService = companyDetailsService;
-    this.companyDetailsRepository = companyDetailsRepository;
   }
   
   
   @Override
   public void register(UserRegisterBindingDto registerData) {
-    User user = registerUser(registerData);
-    CompanyDetails companyDetails = createCompanyDetails(registerData, user);
+    try {
+      User user = registerUser(registerData);
+      CompanyDetails companyDetails = createCompanyDetails(registerData, user);
+      
+      user.setCompanyDetails(companyDetails);
+      
+      this.companyDetailsService.addWithRegistration(companyDetails);
+      this.userRepository.save(user);
+    } catch (Exception e) {
+      throw new DatabaseException("An error occurred while saving user to the database.");
+    }
     
-    user.setCompanyDetails(companyDetails);
-    
-    this.companyDetailsService.addWithRegistration(companyDetails);
-    this.userRepository.save(user);
   }
-//  todo can be changed
+  
+  //  todo can be changed
   private User registerUser(UserRegisterBindingDto registerData) {
-    return userRepository.save( new User()
+    return userRepository.save(new User()
         .setEmail(registerData.getEmail())
         .setPassword(passwordEncoder.encode(registerData.getPassword())));
   }

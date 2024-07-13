@@ -3,7 +3,7 @@
     <label for="languageSelect" th:text="#{footer.language.choose}"></label>
     <select name="lang" id="languageSelect" class="language-select" onchange="changeLanguage()">
       <option value="en_US"
-              th:selected="${#locale.toString()} == 'en_US'"
+              th:selected="${#locale.toString()} == 'en'"
               th:text="#{footer.language.english}"></option>
       <option value="bg_BG"
               th:text="#{footer.language.bulgarian}"
