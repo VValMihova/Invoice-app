@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.Product;
@@ -51,14 +52,14 @@ public class UserHelperService {
     return SecurityContextHolder.getContext().getAuthentication();
   }
   
-  public CompanyDetailsEditBindingDto getCompanyDetails() {
-    return this.modelMapper.map(this.getUser().getCompanyDetails(), CompanyDetailsEditBindingDto.class);
+  public CompanyDetailsView getCompanyDetails() {
+    return this.modelMapper.map(this.getUser().getCompanyDetails(), CompanyDetailsView.class);
   }
-  
+  // todo create view
   public List<BankAccount> getBankAccounts() {
     return this.getUser().getCompanyDetails().getBankAccounts().stream().toList();
   }
-  
+  //todo change with method up there
   public CompanyDetails getUserCompanyDetails() {
     return this.getUser().getCompanyDetails();
   }

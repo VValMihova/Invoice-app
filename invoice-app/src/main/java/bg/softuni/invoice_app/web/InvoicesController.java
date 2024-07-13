@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.web;
 
+import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.entity.Invoice;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
@@ -36,8 +37,7 @@ public class InvoicesController {
   
   @GetMapping("/edit/{id}")
   public String editInvoice(@PathVariable Long id, Model model) {
-    Invoice invoice = invoicesService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
-    model.addAttribute("invoiceData", invoice);
+    model.addAttribute("invoiceData", this.invoicesService.getById(id));
     return "edit-invoice";
   }
 //  todo add validation for unique or the same invoice number

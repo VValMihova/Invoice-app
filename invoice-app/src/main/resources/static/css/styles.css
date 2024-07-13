@@ -12,9 +12,8 @@ body {
 .navbar-light-custom {
     background-color: rgba(255, 255, 255, 0.5) !important;
     font-weight: bold;
-    font-size: 22px;;
+    font-size: 22px;
 }
-
 
 .navbar-light-custom .nav-link {
     color: black !important;
@@ -25,13 +24,13 @@ body {
     color: #555 !important;
 }
 
-.transparent-bg {
+.transparent-bg, .profile-container, .invoices-container, .profile-section, .form-container {
     background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
     border-radius: 10px;
 }
 
-/*index*/
-.text-center{
+.text-center {
     padding: 20px;
 }
 
@@ -39,14 +38,7 @@ body {
     font-size: 1.5rem;
 }
 
-/*регистрация*/
-/* styles.css */
-
-/* Полупрозрачен бял фон за формата */
 .form-container {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 60%;
     margin: 0 auto;
@@ -69,7 +61,6 @@ body {
     font-size: 1.2em;
 }
 
-/*logout*/
 .btn-logout {
     font-weight: bold;
     background: transparent;
@@ -77,33 +68,14 @@ body {
     cursor: pointer;
 }
 
-/*invoice create*/
-.table thead th {
+.table thead th, .table tbody td {
     text-align: center;
-}
-
-.table tbody td {
     vertical-align: middle;
 }
 
 .btn-sm {
     font-size: 0.75rem;
     padding: 0.20rem 0.5rem;
-}
-
-
-/*profile*/
-.profile-container, .invoices-container {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.profile-section {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
 }
 
 .edit-icon {
@@ -116,15 +88,6 @@ body {
     color: #0056b3;
 }
 
-.form-container {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px 20px 80px 20px;
-    margin-bottom: 60px;
-    border-radius: 10px;
-}
-
-
-/*footer*/
 .footer {
     background-color: rgba(255, 255, 255, 0.5);
     padding: 10px 0;
@@ -153,4 +116,18 @@ body {
 
 .footer .language-select:focus {
     border-color: #555;
+}
+
+.error-message {
+    font-size: 18px;
+    color: #ff0000; /* Червен текст за грешки */
+}
+
+.error-message a {
+    color: #007bff; /* Син цвят за линкове */
+    text-decoration: none;
+}
+
+.error-message a:hover {
+    text-decoration: underline;
 }

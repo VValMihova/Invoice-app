@@ -11,6 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
+  Invoice getById(Long id);
+  
   List<Invoice> findAllByUserId(Long id);
   
   @Query("SELECT i FROM Invoice i WHERE i.user.id = :userId AND i.invoiceNumber = :invoiceNumber")

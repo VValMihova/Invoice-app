@@ -1,8 +1,6 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.service.user.UserHelperService;
-import bg.softuni.invoice_app.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

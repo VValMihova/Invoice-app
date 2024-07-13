@@ -8,7 +8,7 @@ import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
-import bg.softuni.invoice_app.service.exeption.DatabaseException;
+import bg.softuni.invoice_app.exeption.DatabaseException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

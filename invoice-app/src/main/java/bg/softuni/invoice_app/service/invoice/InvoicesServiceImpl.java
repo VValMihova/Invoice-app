@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.service.invoice;
 
+import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceItemDto;
-import bg.softuni.invoice_app.model.dto.invoice.RecipientDetailsAddDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
+import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.repository.UserRepository;
@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InvoicesServiceImpl implements InvoicesService {
@@ -107,6 +108,42 @@ public class InvoicesServiceImpl implements InvoicesService {
     // Save invoice
     invoiceRepository.save(invoice);
   
+  }
+  
+  @Override
+  public InvoiceView getById(Long id) {
+    Invoice invoice = this.invoiceRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
+    
+    return mapToInvoiceView(invoice);
+  }
+  
+  private InvoiceView mapToInvoiceView(Invoice invoice) {
+    return new InvoiceView()
+        .setId(invoice.getId())
+        .setInvoiceNumber(invoice.getInvoiceNumber())
+        .setIssueDate(invoice.getIssueDate())
+        .setSupplier(mapToCompanyDetailsView(invoice.getSupplier()))
+        .setRecipient(mapToRecipientDetailsView(invoice.getRecipient()))
+        .setAmountDue(invoice.getAmountDue())
+        .setVat(invoice.getVat())
+        .setItems(invoice.getItems().stream()
+           .map(this::mapToInvoiceItemView)
+           .collect(Collectors.toList()))
+        .setTotalAmount(invoice.getTotalAmount());
+        
+  }
+  
+  private InvoiceItemView mapToInvoiceItemView(InvoiceItem invoiceItem) {
+    return new InvoiceItemView(invoiceItem);
+  }
+  
+  private RecipientDetailsView mapToRecipientDetailsView(RecipientDetails recipient) {
+    return new RecipientDetailsView(recipient);
+  }
+  
+  private CompanyDetailsView mapToCompanyDetailsView(CompanyDetails supplier) {
+    return new CompanyDetailsView(supplier);
   }
   
   private RecipientDetails getOrCreateRecipientDetails(RecipientDetailsAddDto recipientDetailsAddDto) {

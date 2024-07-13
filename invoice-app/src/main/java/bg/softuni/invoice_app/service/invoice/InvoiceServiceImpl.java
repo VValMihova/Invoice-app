@@ -35,22 +35,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     this.recipientDetailsService = recipientDetailsService;
     this.productService = productService;
   }
-
-
-//  @Override
-//  public void create(InvoiceCreateDto invoiceData) {
-//    CompanyDetails recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
-//    CompanyDetails supplier = companyDetailsService.getByEik(invoiceData.getSupplier().getEik());
-//    if (recipient == null) {
-//      companyDetailsService.add(invoiceData.getRecipient());
-//      recipient = companyDetailsService.getByEik(invoiceData.getRecipient().getEik());
-//    }
-//    Invoice invoice = createInvoice(invoiceData);
-//    invoice.setRecipient(recipient);
-//    invoice.setSupplier(supplier);
-//
-//    invoiceRepository.save(invoice);
-//  }
   
   @Override
   public List<AllInvoicesView> getAllInvoices() {

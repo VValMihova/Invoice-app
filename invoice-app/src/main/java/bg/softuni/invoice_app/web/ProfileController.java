@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
@@ -121,7 +122,7 @@ public class ProfileController {
   
   //  MODEL ATTRIBUTES
   @ModelAttribute()
-  public CompanyDetailsEditBindingDto companyData() {
+  public CompanyDetailsView companyData() {
     return userHelperService.getCompanyDetails();
   }
   
