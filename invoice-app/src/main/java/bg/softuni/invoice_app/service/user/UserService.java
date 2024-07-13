@@ -2,7 +2,7 @@ package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
 
@@ -16,7 +16,7 @@ public interface UserService {
   void updateCompany(CompanyDetails companyDetails);
   
   void addBankAccount(BankAccountCreateBindingDto bankAccountData);
-  List<BankAccountViewDto> getAllBankAccounts();
+  List<BankAccountView> getAllBankAccounts();
   
   User getUserByCompanyEik(String eik);
   

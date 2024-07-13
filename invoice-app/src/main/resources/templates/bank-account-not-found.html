@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+<div class="form-container">
+  <h1 th:text="#{error.header}">Error</h1>
+  <p class="error-message">
+    <span th:text="#{error.message.not.found(${#messages.msg('bankAccount')})}">Bank account was not found!</span>
+  </p>
+</div>
+
+
+<footer th:replace="fragments/footer :: footer"></footer>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

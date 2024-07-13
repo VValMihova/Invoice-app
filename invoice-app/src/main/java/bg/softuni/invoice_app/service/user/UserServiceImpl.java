@@ -2,7 +2,7 @@ package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
@@ -94,12 +94,12 @@ public class UserServiceImpl implements UserService {
   }
   
   @Override
-  public List<BankAccountViewDto> getAllBankAccounts() {
+  public List<BankAccountView> getAllBankAccounts() {
     return
         userHelperService.getUser()
             .getCompanyDetails().getBankAccounts()
             .stream()
-            .map(account -> modelMapper.map(account, BankAccountViewDto.class))
+            .map(account -> modelMapper.map(account, BankAccountView.class))
             .toList();
   }
   

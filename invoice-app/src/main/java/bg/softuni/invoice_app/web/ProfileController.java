@@ -3,7 +3,6 @@ package bg.softuni.invoice_app.web;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
@@ -91,10 +90,7 @@ public class ProfileController {
   
   @GetMapping("/edit-bank-account/{id}")
   public String showEditBankAccountForm(@PathVariable Long id, Model model) {
-    //BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Bank account not found"));
-    
-    BankAccountViewDto bankAccount = bankAccountService.getBankAccountById(id);
-    model.addAttribute("bankAccount", bankAccount);
+    model.addAttribute("bankAccount", this.bankAccountService.getById(id));
     return "edit-bank-account";
   }
   

@@ -1,8 +1,10 @@
 package bg.softuni.invoice_app.service.bankAccount;
 
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
+import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
+import bg.softuni.invoice_app.model.entity.Invoice;
 import bg.softuni.invoice_app.repository.BankAccountRepository;
 import bg.softuni.invoice_app.service.user.UserHelperService;
 import org.modelmapper.ModelMapper;
@@ -22,8 +24,15 @@ public class BankAccountServiceImpl implements BankAccountService {
   
   
   @Override
-  public BankAccountViewDto getBankAccountById(Long id) {
-    return modelMapper.map(this.bankAccountRepository.findById(id), BankAccountViewDto.class);
+  public BankAccountView getById(Long id) {
+    BankAccount bankAccount = this.bankAccountRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
+    
+    return mapToBankAccountView(bankAccount);
+  }
+  
+  private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
+    return new BankAccountView(bankAccount);
   }
   
   @Override
