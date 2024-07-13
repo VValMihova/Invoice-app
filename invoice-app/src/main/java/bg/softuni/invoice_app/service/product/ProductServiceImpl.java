@@ -1,8 +1,7 @@
-package bg.softuni.invoice_app.service.impl;
+package bg.softuni.invoice_app.service.product;
 
 import bg.softuni.invoice_app.model.entity.Product;
 import bg.softuni.invoice_app.repository.ProductRepository;
-import bg.softuni.invoice_app.service.ProductService;
 import org.springframework.stereotype.Service;
 
 @Service

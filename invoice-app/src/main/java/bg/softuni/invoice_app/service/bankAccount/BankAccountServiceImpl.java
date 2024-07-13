@@ -1,10 +1,10 @@
-package bg.softuni.invoice_app.service.impl;
+package bg.softuni.invoice_app.service.bankAccount;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.repository.BankAccountRepository;
-import bg.softuni.invoice_app.service.BankAccountService;
+import bg.softuni.invoice_app.service.user.UserHelperService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.service.impl;
+package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.UserRepository;

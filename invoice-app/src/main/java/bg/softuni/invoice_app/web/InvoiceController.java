@@ -1,9 +1,8 @@
 package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
-import bg.softuni.invoice_app.service.InvoiceService;
-import bg.softuni.invoice_app.service.impl.UserHelperService;
-import jakarta.transaction.Transactional;
+import bg.softuni.invoice_app.service.invoice.InvoiceService;
+import bg.softuni.invoice_app.service.user.UserHelperService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.validation;
 
-import bg.softuni.invoice_app.service.CompanyDetailsService;
+import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.validation.annotation.UniqueCompanyName;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

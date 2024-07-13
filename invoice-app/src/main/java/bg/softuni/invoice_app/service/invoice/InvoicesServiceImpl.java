@@ -1,17 +1,16 @@
-package bg.softuni.invoice_app.service.impl;
+package bg.softuni.invoice_app.service.invoice;
 
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceItemDto;
 import bg.softuni.invoice_app.model.dto.invoice.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.repository.UserRepository;
-import bg.softuni.invoice_app.service.CompanyDetailsService;
-import bg.softuni.invoice_app.service.InvoicesService;
-import bg.softuni.invoice_app.service.ProductService;
-import bg.softuni.invoice_app.service.RecipientDetailsService;
+import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
+import bg.softuni.invoice_app.service.user.UserHelperService;
+import bg.softuni.invoice_app.service.product.ProductService;
+import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class InvoicesServiceImpl implements InvoicesService {

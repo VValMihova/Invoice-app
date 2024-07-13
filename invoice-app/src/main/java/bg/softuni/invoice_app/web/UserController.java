@@ -1,7 +1,7 @@
 package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
-import bg.softuni.invoice_app.service.UserService;
+import bg.softuni.invoice_app.service.user.UserService;
 import bg.softuni.invoice_app.service.exeption.DatabaseException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Qualifier;

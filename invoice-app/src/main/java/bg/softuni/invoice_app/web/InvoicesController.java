@@ -1,10 +1,9 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.entity.Invoice;
-import bg.softuni.invoice_app.service.InvoiceService;
-import bg.softuni.invoice_app.service.InvoicesService;
+import bg.softuni.invoice_app.service.invoice.InvoiceService;
+import bg.softuni.invoice_app.service.invoice.InvoicesService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

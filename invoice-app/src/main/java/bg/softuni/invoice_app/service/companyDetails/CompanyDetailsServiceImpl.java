@@ -1,9 +1,8 @@
-package bg.softuni.invoice_app.service.impl;
+package bg.softuni.invoice_app.service.companyDetails;
 
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
-import bg.softuni.invoice_app.service.CompanyDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.service;
+package bg.softuni.invoice_app.service.companyDetails;
 
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;

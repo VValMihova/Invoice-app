@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.service;
+package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;

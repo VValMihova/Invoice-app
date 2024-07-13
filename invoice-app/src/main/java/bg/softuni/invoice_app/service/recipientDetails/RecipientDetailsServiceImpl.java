@@ -1,9 +1,8 @@
-package bg.softuni.invoice_app.service.impl;
+package bg.softuni.invoice_app.service.recipientDetails;
 
-import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.RecipientDetails;
 import bg.softuni.invoice_app.repository.RecipientDetailsRepository;
-import bg.softuni.invoice_app.service.RecipientDetailsService;
+import bg.softuni.invoice_app.service.user.UserHelperService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

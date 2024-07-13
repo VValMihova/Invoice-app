@@ -1,6 +1,5 @@
-package bg.softuni.invoice_app.service;
+package bg.softuni.invoice_app.service.recipientDetails;
 
-import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.RecipientDetails;
 
 public interface RecipientDetailsService {

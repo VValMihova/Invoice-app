@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.service.impl;
+package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
@@ -6,10 +6,8 @@ import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountViewDto;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
-import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
 import bg.softuni.invoice_app.repository.UserRepository;
-import bg.softuni.invoice_app.service.CompanyDetailsService;
-import bg.softuni.invoice_app.service.UserService;
+import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.exeption.DatabaseException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;

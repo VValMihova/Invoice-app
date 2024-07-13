@@ -2,7 +2,7 @@ package bg.softuni.invoice_app.validation;
 
 import bg.softuni.invoice_app.model.dto.invoice.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
-import bg.softuni.invoice_app.service.impl.UserHelperService;
+import bg.softuni.invoice_app.service.user.UserHelperService;
 import bg.softuni.invoice_app.validation.annotation.SameUser;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

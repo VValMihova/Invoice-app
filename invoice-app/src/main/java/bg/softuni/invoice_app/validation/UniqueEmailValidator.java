@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.validation;
 
-import bg.softuni.invoice_app.service.UserService;
+import bg.softuni.invoice_app.service.user.UserService;
 import bg.softuni.invoice_app.validation.annotation.UniqueEmail;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

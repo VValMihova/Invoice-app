@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.service;
+package bg.softuni.invoice_app.service.product;
 
 import bg.softuni.invoice_app.model.entity.Product;
 

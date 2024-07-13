@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.service.impl;
+package bg.softuni.invoice_app.service.invoice;
 
 import bg.softuni.invoice_app.model.dto.invoice.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
@@ -7,16 +7,15 @@ import bg.softuni.invoice_app.model.dto.invoice.InvoiceItemDto;
 import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
-import bg.softuni.invoice_app.service.CompanyDetailsService;
-import bg.softuni.invoice_app.service.InvoiceService;
-import bg.softuni.invoice_app.service.ProductService;
-import bg.softuni.invoice_app.service.RecipientDetailsService;
+import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
+import bg.softuni.invoice_app.service.user.UserHelperService;
+import bg.softuni.invoice_app.service.product.ProductService;
+import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
