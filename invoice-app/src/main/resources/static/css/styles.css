@@ -30,6 +30,14 @@ body {
     border-radius: 10px;
 }
 
+/*index*/
+.text-center{
+    padding: 20px;
+}
+
+.text-center.mt-5 h1 {
+    font-size: 1.5rem;
+}
 
 /*регистрация*/
 /* styles.css */
@@ -60,6 +68,7 @@ body {
 .form-container .form-group label {
     font-size: 1.2em;
 }
+
 /*logout*/
 .btn-logout {
     font-weight: bold;

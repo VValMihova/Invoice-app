@@ -5,7 +5,18 @@
 <nav th:replace="fragments/nav :: nav"></nav>
 
 <div class="container transparent-bg">
-  <h1 class="text-center mt-5">Welcome to the Invoice App</h1>
+  <h1 class="text-center mt-5" sec:authorize="!isAuthenticated()" th:text="#{welcome.anonymous}"></h1>
+  <div class="text-center" sec:authorize="!isAuthenticated()">
+    <a class="btn btn-primary" th:href="@{/users/register}" th:text="#{btn.register}"></a>
+    <a class="btn btn-secondary" th:href="@{/users/login}" th:text="#{btn.login}"></a>
+  </div>
+
+  <h1 class="text-center mt-5" sec:authorize="isAuthenticated()"
+      th:text="#{welcome.authenticated(${companyName})}"></h1>
+  <div class="text-center" sec:authorize="isAuthenticated()">
+    <a class="btn btn-primary" th:href="@{/invoices/create}" th:text="#{btn.create.invoice}"></a>
+    <a class="btn btn-secondary" th:href="@{/invoices}" th:text="#{btn.my.invoices}"></a>
+  </div>
 </div>
 
 <footer th:replace="fragments/footer :: footer"></footer>
