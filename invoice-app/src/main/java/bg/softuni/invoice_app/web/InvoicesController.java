@@ -3,7 +3,6 @@ package bg.softuni.invoice_app.web;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
-import bg.softuni.invoice_app.service.invoice.InvoicesService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -19,12 +18,10 @@ import java.io.IOException;
 @RequestMapping("/invoices")
 public class InvoicesController {
   
-  private final InvoicesService invoicesService;
   private final InvoiceService invoiceService;
   private final PdfGenerationService pdfService;
   
-  public InvoicesController(InvoicesService invoicesService, InvoiceService invoiceService, PdfGenerationService pdfService) {
-    this.invoicesService = invoicesService;
+  public InvoicesController( InvoiceService invoiceService, PdfGenerationService pdfService) {
     this.invoiceService = invoiceService;
     this.pdfService = pdfService;
   }
@@ -38,7 +35,7 @@ public class InvoicesController {
   
   @GetMapping("/edit/{id}")
   public String editInvoice(@PathVariable Long id, Model model) {
-    model.addAttribute("invoiceData", this.invoicesService.getById(id));
+    model.addAttribute("invoiceData", this.invoiceService.getById(id));
     return "edit-invoice";
   }
 //  todo add validation for unique or the same invoice number
@@ -54,13 +51,13 @@ public class InvoicesController {
       return "redirect:/invoices/edit/" + id;
     }
     
-    invoicesService.updateInvoice(id, invoiceData);
+    invoiceService.updateInvoice(id, invoiceData);
     return "redirect:/invoices";
   }
   
   @PostMapping("/delete/{id}")
   public String deleteInvoice(@PathVariable Long id) {
-    invoicesService.deleteById(id);
+    invoiceService.deleteById(id);
     return "redirect:/invoices";
   }
   

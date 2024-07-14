@@ -1,37 +1,40 @@
 package bg.softuni.invoice_app.service.invoice;
 
-import bg.softuni.invoice_app.model.dto.invoice.RecipientDetailsAddDto;
+import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceItemDto;
-import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
+import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
-import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
-import bg.softuni.invoice_app.service.user.UserHelperService;
 import bg.softuni.invoice_app.service.product.ProductService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
+import bg.softuni.invoice_app.service.user.UserHelperService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
   private final InvoiceRepository invoiceRepository;
   private final UserHelperService userHelperService;
   private final ModelMapper modelMapper;
-  private final CompanyDetailsService companyDetailsService;
   private final RecipientDetailsService recipientDetailsService;
   private final ProductService productService;
-
   
-  public InvoiceServiceImpl(InvoiceRepository invoiceRepository, UserHelperService userHelperService, ModelMapper modelMapper, CompanyDetailsService companyDetailsService, RecipientDetailsService recipientDetailsService, ProductService productService) {
+  
+  public InvoiceServiceImpl(
+      InvoiceRepository invoiceRepository,
+      UserHelperService userHelperService,
+      ModelMapper modelMapper,
+      RecipientDetailsService recipientDetailsService,
+      ProductService productService) {
     this.invoiceRepository = invoiceRepository;
     this.userHelperService = userHelperService;
     this.modelMapper = modelMapper;
-    this.companyDetailsService = companyDetailsService;
     this.recipientDetailsService = recipientDetailsService;
     this.productService = productService;
   }
@@ -41,7 +44,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     return invoiceRepository.findAllByUserId(userHelperService.getUser().getId())
         .stream().map(invoice -> modelMapper.map(invoice, AllInvoicesView.class))
         .toList();
-    
   }
   
   @Override
@@ -57,8 +59,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
     invoice.setRecipient(recipient);
     
-
-    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(),currentUser );
+    
+    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
     invoice.setItems(invoiceItems);
     
     invoice.setTotalAmount(invoiceData.getTotalAmount());
@@ -66,11 +68,39 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setAmountDue(invoiceData.getAmountDue());
     
     // Setting user
-
+    
     invoice.setUser(currentUser);
     
     // Save invoice
     invoiceRepository.save(invoice);
+  }
+  
+  @Override
+  public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
+    User currentUser = userHelperService.getUser();
+    Invoice invoice = invoiceRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid invoice Id:" + id));
+    
+    invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
+    invoice.setIssueDate(invoiceData.getIssueDate());
+    invoice.setSupplier(userHelperService.getUserCompanyDetails());
+    
+    // Setting recipient
+    RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipient());
+    invoice.setRecipient(recipient);
+    
+    // Update invoice items
+    List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
+    invoice.getItems().clear();
+    invoice.getItems().addAll(updatedItems);
+    
+    invoice.setTotalAmount(invoiceData.getTotalAmount());
+    invoice.setVat(invoiceData.getVat());
+    invoice.setAmountDue(invoiceData.getAmountDue());
+    
+    // Save invoice
+    invoiceRepository.save(invoice);
+    
   }
   
   @Override
@@ -80,12 +110,36 @@ public class InvoiceServiceImpl implements InvoiceService {
         .isPresent();
   }
   
+  //todo can add exception
+  @Override
+  public void deleteById(Long id) {
+    invoiceRepository.deleteById(id);
+  }
+  
+  @Override
+  public InvoiceView getById(Long id) {
+    Invoice invoice = this.invoiceRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
+    
+    return mapToInvoiceView(invoice);
+  }
+  
+  
   private RecipientDetails getOrCreateRecipientDetails(RecipientDetailsAddDto recipientDetailsAddDto) {
     if (recipientDetailsService.exists(mapToRecipientDetails(recipientDetailsAddDto))) {
       return recipientDetailsService.getByVatNumber(recipientDetailsAddDto.getVatNumber());
     } else {
       RecipientDetails newRecipient = modelMapper.map(recipientDetailsAddDto, RecipientDetails.class);
       return recipientDetailsService.saveAndReturn(newRecipient);
+    }
+  }
+  
+  private void updateInvoiceItems(Invoice existingInvoice, List<InvoiceItemDto> newItems) {
+    existingInvoice.getItems().clear();
+    
+    for (InvoiceItemDto itemDto : newItems) {
+      InvoiceItem item = modelMapper.map(itemDto, InvoiceItem.class);
+      existingInvoice.getItems().add(item);
     }
   }
   
@@ -104,7 +158,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             user.getProducts().add(newProduct);
             return newProduct;
           });
-
+      
       if (product.getId() != null) {
         product.setQuantity(product.getQuantity().add(itemDto.getQuantity()));
       } else {
@@ -117,11 +171,34 @@ public class InvoiceServiceImpl implements InvoiceService {
     return invoiceItems;
   }
   
-  private CompanyDetails mapToCompanyDetails(CompanyDetailsDto companyDetailsDto) {
-    return modelMapper.map(companyDetailsDto, CompanyDetails.class);
+  private InvoiceView mapToInvoiceView(Invoice invoice) {
+    return new InvoiceView()
+        .setId(invoice.getId())
+        .setInvoiceNumber(invoice.getInvoiceNumber())
+        .setIssueDate(invoice.getIssueDate())
+        .setSupplier(mapToCompanyDetailsView(invoice.getSupplier()))
+        .setRecipient(mapToRecipientDetailsView(invoice.getRecipient()))
+        .setAmountDue(invoice.getAmountDue())
+        .setVat(invoice.getVat())
+        .setItems(invoice.getItems().stream()
+            .map(this::mapToInvoiceItemView)
+            .collect(Collectors.toList()))
+        .setTotalAmount(invoice.getTotalAmount());
   }
   
-  private RecipientDetails mapToRecipientDetails(RecipientDetailsAddDto recipientDetailsAddDto) {
-    return modelMapper.map(recipientDetailsAddDto, RecipientDetails.class);
+  private InvoiceItemView mapToInvoiceItemView(InvoiceItem invoiceItem) {
+    return new InvoiceItemView(invoiceItem);
+  }
+  
+  private RecipientDetailsView mapToRecipientDetailsView(RecipientDetails recipient) {
+    return new RecipientDetailsView(recipient);
+  }
+  
+  private CompanyDetailsView mapToCompanyDetailsView(CompanyDetails supplier) {
+    return new CompanyDetailsView(supplier);
+  }
+  
+  private RecipientDetails mapToRecipientDetails(RecipientDetailsAddDto recipientDetails) {
+    return modelMapper.map(recipientDetails, RecipientDetails.class);
   }
 }

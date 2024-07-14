@@ -13,17 +13,17 @@ import java.io.ByteArrayOutputStream;
 
 @Service
 public class PdfGenerationService {
-  private final InvoicesService invoicesService;
+  private final InvoiceService invoiceService;
   
   private final SpringTemplateEngine templateEngine;
   
-  public PdfGenerationService( InvoicesService invoicesService, SpringTemplateEngine templateEngine) {
-    this.invoicesService = invoicesService;
+  public PdfGenerationService( InvoiceService invoiceService, SpringTemplateEngine templateEngine) {
+    this.invoiceService = invoiceService;
     this.templateEngine = templateEngine;
   }
   
   public byte[] generatePdf(Long invoiceId, HttpServletRequest request, HttpServletResponse response) {
-    InvoiceView invoiceView = invoicesService.getById(invoiceId);
+    InvoiceView invoiceView = invoiceService.getById(invoiceId);
     
     Context context = new Context();
     context.setVariable("invoice", invoiceView);
