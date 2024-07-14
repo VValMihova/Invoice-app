@@ -56,4 +56,17 @@ private final ModelMapper modelMapper;
       throw new NotFoundObjectException("Recipient");
     }
   }
+  
+  @Override
+  public RecipientDetailsView findById(Long id) {
+    return this.recipientDetailsRepository.findById(id)
+        .map(recipientDetails -> modelMapper.map(recipientDetails, RecipientDetailsView.class))
+        .orElseThrow(() -> new NotFoundObjectException("Recipient"));
+  }
+  
+  @Override
+  public RecipientDetails getById(Long id) {
+    return this.recipientDetailsRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Recipient"));
+  }
 }

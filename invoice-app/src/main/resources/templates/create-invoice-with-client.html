@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+<div class="container mt-5">
+  <div class="form-container">
+    <h2 th:text="#{create.invoice.create.header}">Create Invoice</h2>
+    <form
+        th:action="@{/invoices/create-with-client/{clientId}(clientId=${recipient.id})}"
+        th:method="post"
+        id="invoiceForm"
+        th:object="${invoiceData}">
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="invoiceNumber" th:text="#{create.invoice.number}">Invoice Number:</label>
+            <input
+                type="text"
+                id="invoiceNumber"
+                name="invoiceNumber"
+                class="form-control"
+                th:field="*{invoiceNumber}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('invoiceNumber')}"
+                th:text="${err}" class="text-danger">
+            </small>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="issueDate" th:text="#{create.invoice.issue.date}">Issue Date:</label>
+            <input
+                type="date"
+                id="issueDate"
+                name="issueDate"
+                class="form-control"
+                th:field="*{issueDate}"
+                th:errorclass="'is-invalid alert-danger'"
+                required/>
+            <small
+                th:each="err : ${#fields.errors('issueDate')}"
+                th:text="${err}" class="text-danger">
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h4 th:text="#{create.invoice.recipient.details}">Recipient Details</h4>
+          <div class="form-group">
+            <label th:text="#{create.invoice.recipient.name}">Recipient Name:</label>
+            <p th:text="${recipient.companyName}">Recipient Name</p>
+          </div>
+          <div class="form-group">
+            <label th:text="#{create.invoice.recipient.address}">Recipient Address:</label>
+            <p th:text="${recipient.address}">Recipient Address</p>
+          </div>
+          <div class="form-group">
+            <label th:text="#{create.invoice.recipient.eik}">Recipient EIK:</label>
+            <p th:text="${recipient.eik}">Recipient EIK</p>
+          </div>
+          <div class="form-group">
+            <label th:text="#{create.invoice.recipient.vat}">Recipient VAT Number:</label>
+            <p th:text="${recipient.vatNumber}">Recipient VAT Number</p>
+          </div>
+          <div class="form-group">
+            <label th:text="#{create.invoice.recipient.manager}">Recipient Manager:</label>
+            <p th:text="${recipient.manager}">Recipient Manager</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="bankAccount" th:text="#{create.invoice.bank.account.header}">Select Bank Account:</label>
+        <select
+            id="bankAccount"
+            name="bankAccountId"
+            class="form-control"
+            th:field="*{bankAccount}">
+          <option value="" disabled selected th:text="#{create.invoice.bank.account.select}">Select a bank account
+          </option>
+          <option th:each="bankAccount : ${bankAccounts}"
+                  th:value="${bankAccount.iban}"
+                  th:text="${bankAccount.iban}"></option>
+        </select>
+      </div>
+
+      <!-- Invoice Items -->
+      <h4 th:text="#{invoice.items.header}">Items</h4>
+      <table class="table text-center">
+        <thead>
+        <tr>
+          <th th:text="#{invoice.items.name}">Item Name</th>
+          <th th:text="#{invoice.items.quantity}">Quantity</th>
+          <th th:text="#{invoice.items.unitPrice}">Unit Price</th>
+          <th th:text="#{invoice.items.totalPrice}">Total Price</th>
+          <th th:text="#{invoice.items.actions}">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="invoiceItemsContainer">
+        <tr th:each="item, iterStat : ${invoiceData.items}">
+          <td>
+            <input type="text" th:field="*{items[__${iterStat.index}__].name}"
+                   placeholder="Item Name" class="form-control" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].name')}"
+                   th:errors="*{items[__${iterStat.index}__].name}" class="text-danger"></small>
+          </td>
+          <td>
+            <input type="number" th:field="*{items[__${iterStat.index}__].quantity}"
+                   placeholder="Quantity" class="form-control" oninput="calculateTotalPrice(this)" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].quantity')}"
+                   th:errors="*{items[__${iterStat.index}__].quantity}" class="text-danger"></small>
+          </td>
+          <td>
+            <input type="number" th:field="*{items[__${iterStat.index}__].unitPrice}"
+                   placeholder="Unit Price" class="form-control" oninput="calculateTotalPrice(this)" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].unitPrice')}"
+                   th:errors="*{items[__${iterStat.index}__].unitPrice}" class="text-danger"></small>
+          </td>
+          <td>
+            <input type="number" th:field="*{items[__${iterStat.index}__].totalPrice}"
+                   placeholder="Total Price" class="form-control" readonly/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].totalPrice')}"
+                   th:errors="*{items[__${iterStat.index}__].totalPrice}" class="text-danger"></small>
+          </td>
+          <td>
+            <button type="button" class="btn btn-sm btn-danger"
+                    onclick="removeInvoiceItem(this)"
+                    th:text="#{invoice.items.actions.remove}">Remove
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-secondary"
+              onclick="addInvoiceItem()"
+              th:text="#{invoice.items.actions.add}">Add Item
+      </button>
+
+      <!-- Total Amount, VAT, and Amount Due -->
+      <div class="row mt-3 justify-content-end">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="totalAmount" th:text="#{invoice.items.totalAmount}">Total Amount:</label>
+            <input type="number" id="totalAmount" name="totalAmount" class="form-control" readonly/>
+          </div>
+          <div class="form-group">
+            <label for="vat" th:text="#{invoice.items.vat}">VAT (20%):</label>
+            <input type="number" id="vat" name="vat" class="form-control" readonly/>
+          </div>
+          <div class="form-group">
+            <label for="amountDue" th:text="#{invoice.items.amountDue}">Amount Due:</label>
+            <input type="number" id="amountDue" name="amountDue" class="form-control" readonly/>
+          </div>
+        </div>
+      </div>
+
+
+      <button type="submit" class="btn btn-primary" th:text="#{invoice.items.createInvoice}">Create Invoice</button>
+    </form>
+  </div>
+</div>
+<footer th:replace="fragments/footer :: footer"></footer>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/invoice.js"></script>
+</body>
+</html>

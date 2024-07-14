@@ -17,6 +17,7 @@
           <p class="card-text"><strong>EIK:</strong> <span th:text="${client.eik}">EIK</span></p>
           <p class="card-text"><strong>VAT Number:</strong> <span th:text="${client.vatNumber}">VAT Number</span></p>
           <p class="card-text"><strong>Manager:</strong> <span th:text="${client.manager}">Manager</span></p>
+          <a th:href="@{/invoices/create-with-client/{clientId}(clientId=${client.id})}" class="btn btn-primary">Create Invoice</a>
         </div>
       </div>
     </div>

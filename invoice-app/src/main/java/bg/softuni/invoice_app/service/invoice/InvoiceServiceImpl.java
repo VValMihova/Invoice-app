@@ -126,6 +126,34 @@ public class InvoiceServiceImpl implements InvoiceService {
     return mapToInvoiceView(invoice);
   }
   
+  @Override
+  public void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData) {
+    User currentUser = userHelperService.getUser();
+    Invoice invoice = new Invoice();
+    invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
+    invoice.setIssueDate(invoiceData.getIssueDate());
+    
+    invoice.setSupplier(this.userHelperService.getUserCompanyDetails());
+    
+    // Setting recipient
+    RecipientDetails recipient = recipientDetailsService.getById(clientId);
+    invoice.setRecipient(recipient);
+    
+    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
+    invoice.setItems(invoiceItems);
+    
+    invoice.setTotalAmount(invoiceData.getTotalAmount());
+    invoice.setVat(invoiceData.getVat());
+    invoice.setAmountDue(invoiceData.getAmountDue());
+    
+    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
+    invoice.setBankAccount(bankAccount);
+    
+    invoice.setUser(currentUser);
+    
+    invoiceRepository.save(invoice);
+  }
+  
   
   private RecipientDetails getOrCreateRecipientDetails(RecipientDetailsAddDto recipientDetailsAddDto) {
     if (recipientDetailsService.exists(mapToRecipientDetails(recipientDetailsAddDto))) {

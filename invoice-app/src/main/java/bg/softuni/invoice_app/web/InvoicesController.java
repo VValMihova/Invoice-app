@@ -1,10 +1,13 @@
 package bg.softuni.invoice_app.web;
 
+import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
+import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserHelperService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,11 +27,13 @@ public class InvoicesController {
   private final InvoiceService invoiceService;
   private final PdfGenerationService pdfService;
   private final UserHelperService userHelperService;
+  private final RecipientDetailsService recipientDetailsService;
   
-  public InvoicesController(InvoiceService invoiceService, PdfGenerationService pdfService, UserHelperService userHelperService) {
+  public InvoicesController(InvoiceService invoiceService, PdfGenerationService pdfService, UserHelperService userHelperService, RecipientDetailsService recipientDetailsService) {
     this.invoiceService = invoiceService;
     this.pdfService = pdfService;
     this.userHelperService = userHelperService;
+    this.recipientDetailsService = recipientDetailsService;
   }
   
   
@@ -51,7 +56,8 @@ public class InvoicesController {
     model.addAttribute("invoiceData", this.invoiceService.getById(id));
     return "edit-invoice";
   }
-//  todo add validation for unique or the same invoice number
+  
+  //  todo add validation for unique or the same invoice number
   @PostMapping("/edit/{id}")
   public String updateInvoice(@PathVariable Long id,
                               @Valid InvoiceEditDto invoiceData,
@@ -83,10 +89,38 @@ public class InvoicesController {
     response.getOutputStream().write(pdf);
   }
   
-  //  MODEL ATTRIBUTES
-  @ModelAttribute("invoiceData")
-  public InvoiceEditDto invoiceData() {
-    return new InvoiceEditDto();
+    
+    @GetMapping("/create-with-client/{clientId}")
+    public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
+      RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
+      
+      model.addAttribute("recipient", recipientDetailsView);
+      model.addAttribute("bankAccounts", userHelperService.getBankAccounts());
+      
+      return "create-invoice-with-client";
+    }
+    
+    @PostMapping("/create-with-client/{clientId}")
+    public String createInvoiceWithClient(@PathVariable Long clientId,
+                                          @Valid InvoiceCreateDto invoiceData,
+                                          BindingResult bindingResult,
+                                          RedirectAttributes redirectAttributes) {
+      
+      if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
+        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+        return "redirect:/invoices/create-with-client/" + clientId;
+      }
+      
+      invoiceService.createInvoiceWithClient(clientId, invoiceData);
+      return "redirect:/invoices";
+    }
+    
+    
+    //  MODEL ATTRIBUTES
+    @ModelAttribute("invoiceData")
+    public InvoiceEditDto invoiceData() {
+      return new InvoiceEditDto();
+    }
   }
-}
-
+  

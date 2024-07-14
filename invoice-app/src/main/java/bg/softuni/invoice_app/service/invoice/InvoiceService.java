@@ -19,4 +19,6 @@ public interface InvoiceService {
   void deleteById(Long id);
   
   InvoiceView getById(Long id);
+  
+  void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData);
 }

@@ -12,4 +12,6 @@ public interface RecipientDetailsService {
   RecipientDetails saveAndReturn(RecipientDetails newRecipient);
   
   List<RecipientDetailsView> findAll(Long id);
+  RecipientDetailsView findById(Long id);
+  RecipientDetails getById(Long id);
 }
