@@ -6,15 +6,9 @@ import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
-import bg.softuni.invoice_app.repository.UserRepository;
-import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
-import bg.softuni.invoice_app.service.user.UserHelperService;
 import bg.softuni.invoice_app.service.product.ProductService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfWriter;
+import bg.softuni.invoice_app.service.user.UserHelperService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,29 +47,30 @@ public class InvoicesServiceImpl implements InvoicesService {
   
   @Override
   public byte[] generatePdf(Long id) {
-    Invoice invoice = invoiceRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
-    
-    try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-      Document document = new Document();
-      PdfWriter.getInstance(document, byteArrayOutputStream);
-      document.open();
-      
-      // Примерно съдържание на PDF документа
-      document.add(new Paragraph("Invoice Number: " + invoice.getInvoiceNumber()));
-      document.add(new Paragraph("Issue Date: " + invoice.getIssueDate().toString()));
-      document.add(new Paragraph("Supplier: " + invoice.getSupplier().getCompanyName()));
-      document.add(new Paragraph("Recipient: " + invoice.getRecipient().getCompanyName()));
-      document.add(new Paragraph("Total Amount: " + invoice.getTotalAmount().toString()));
-      
-      // Добавете повече съдържание според нуждите
-      
-      document.close();
-      
-      return byteArrayOutputStream.toByteArray();
-    } catch (DocumentException | IOException e) {
-      throw new RuntimeException("Failed to generate PDF", e);
-    }
+    return null;
+//    Invoice invoice = invoiceRepository.findById(id)
+//        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
+//
+//    try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+//      Document document = new Document();
+//      PdfWriter.getInstance(document, byteArrayOutputStream);
+//      document.open();
+//
+//      // Примерно съдържание на PDF документа
+//      document.add(new Paragraph("Invoice Number: " + invoice.getInvoiceNumber()));
+//      document.add(new Paragraph("Issue Date: " + invoice.getIssueDate().toString()));
+//      document.add(new Paragraph("Supplier: " + invoice.getSupplier().getCompanyName()));
+//      document.add(new Paragraph("Recipient: " + invoice.getRecipient().getCompanyName()));
+//      document.add(new Paragraph("Total Amount: " + invoice.getTotalAmount().toString()));
+//
+//      // Добавете повече съдържание според нуждите
+//
+//      document.close();
+//
+//      return byteArrayOutputStream.toByteArray();
+//    } catch (DocumentException | IOException e) {
+//      throw new RuntimeException("Failed to generate PDF", e);
+//    }
   }
   
   @Override

@@ -1,20 +1,19 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
-import bg.softuni.invoice_app.model.entity.Invoice;
+import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import bg.softuni.invoice_app.service.invoice.InvoicesService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/invoices")
@@ -22,10 +21,12 @@ public class InvoicesController {
   
   private final InvoicesService invoicesService;
   private final InvoiceService invoiceService;
+  private final PdfGenerationService pdfService;
   
-  public InvoicesController(InvoicesService invoicesService, InvoiceService invoiceService) {
+  public InvoicesController(InvoicesService invoicesService, InvoiceService invoiceService, PdfGenerationService pdfService) {
     this.invoicesService = invoicesService;
     this.invoiceService = invoiceService;
+    this.pdfService = pdfService;
   }
   
   
@@ -65,15 +66,11 @@ public class InvoicesController {
   
   
   @GetMapping("/download-pdf/{id}")
-  public ResponseEntity<byte[]> downloadPdf(@PathVariable Long id) {
-    byte[] pdfContent = invoicesService.generatePdf(id);
-    
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_PDF);
-    headers.setContentDispositionFormData("attachment", "invoice.pdf");
-    headers.setContentLength(pdfContent.length);
-    
-    return new ResponseEntity<>(pdfContent, headers, HttpStatus.OK);
+  public void downloadPdf(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    byte[] pdf = pdfService.generatePdf(id, request, response);
+    response.setContentType("application/pdf");
+    response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
+    response.getOutputStream().write(pdf);
   }
   
   //  MODEL ATTRIBUTES
