@@ -37,6 +37,15 @@
     </div>
 
     <div class="row">
+      <div class="col-md-6">
+        <h3>Bank Account Details</h3>
+        <p><strong>IBAN:</strong> <span th:text="${invoice.bankAccount.iban}">Bank Account IBAN</span></p>
+        <p><strong>BIC:</strong> <span th:text="${invoice.bankAccount.bic}">Bank Account BIC</span></p>
+        <p><strong>Currency:</strong> <span th:text="${invoice.bankAccount.currency}">Currency</span></p>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col-md-12">
         <h3>Items</h3>
         <table class="table">
@@ -86,4 +95,3 @@
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

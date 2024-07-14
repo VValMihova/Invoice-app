@@ -29,9 +29,8 @@ public class InvoiceCreateDto {
   @Valid
   private RecipientDetailsAddDto recipientDetails;
   
-  // todo
-  @Valid
-  private BankAccountDto bankAccount;
+  @NotNull(message = "{invoice.bank.account.not.null}")
+  private String bankAccount;
   
   @Valid
   private List<InvoiceItemDto> items;
@@ -84,11 +83,11 @@ public class InvoiceCreateDto {
     return this;
   }
   
-  public BankAccountDto getBankAccount() {
+  public String getBankAccount() {
     return bankAccount;
   }
   
-  public InvoiceCreateDto setBankAccount(BankAccountDto bankAccount) {
+  public InvoiceCreateDto setBankAccount(String bankAccount) {
     this.bankAccount = bankAccount;
     return this;
   }

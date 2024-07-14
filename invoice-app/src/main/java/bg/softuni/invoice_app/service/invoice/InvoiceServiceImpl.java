@@ -1,12 +1,14 @@
 package bg.softuni.invoice_app.service.invoice;
 
 import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
+import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.product.ProductService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserHelperService;
@@ -24,6 +26,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   private final ModelMapper modelMapper;
   private final RecipientDetailsService recipientDetailsService;
   private final ProductService productService;
+  private final BankAccountService bankAccountService;
   
   
   public InvoiceServiceImpl(
@@ -31,12 +34,13 @@ public class InvoiceServiceImpl implements InvoiceService {
       UserHelperService userHelperService,
       ModelMapper modelMapper,
       RecipientDetailsService recipientDetailsService,
-      ProductService productService) {
+      ProductService productService, BankAccountService bankAccountService) {
     this.invoiceRepository = invoiceRepository;
     this.userHelperService = userHelperService;
     this.modelMapper = modelMapper;
     this.recipientDetailsService = recipientDetailsService;
     this.productService = productService;
+    this.bankAccountService = bankAccountService;
   }
   
   @Override
@@ -58,6 +62,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
     invoice.setRecipient(recipient);
     
+    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
+    invoice.setBankAccount(bankAccount);
     
     List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
     invoice.setItems(invoiceItems);
@@ -83,6 +89,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipient());
     invoice.setRecipient(recipient);
+    
+    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
+    invoice.setBankAccount(bankAccount);
     
     List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
     invoice.getItems().clear();
@@ -171,12 +180,17 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setIssueDate(invoice.getIssueDate())
         .setSupplier(mapToCompanyDetailsView(invoice.getSupplier()))
         .setRecipient(mapToRecipientDetailsView(invoice.getRecipient()))
+        .setBankAccount(mapToBankAccountView(invoice.getBankAccount()))
         .setAmountDue(invoice.getAmountDue())
         .setVat(invoice.getVat())
         .setItems(invoice.getItems().stream()
             .map(this::mapToInvoiceItemView)
             .collect(Collectors.toList()))
         .setTotalAmount(invoice.getTotalAmount());
+  }
+  
+  private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
+    return new BankAccountView(bankAccount);
   }
   
   private InvoiceItemView mapToInvoiceItemView(InvoiceItem invoiceItem) {

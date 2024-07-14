@@ -2,8 +2,10 @@ package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
+import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
+import bg.softuni.invoice_app.service.user.UserHelperService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -21,10 +23,12 @@ public class InvoicesController {
   
   private final InvoiceService invoiceService;
   private final PdfGenerationService pdfService;
+  private final UserHelperService userHelperService;
   
-  public InvoicesController( InvoiceService invoiceService, PdfGenerationService pdfService) {
+  public InvoicesController(InvoiceService invoiceService, PdfGenerationService pdfService, UserHelperService userHelperService) {
     this.invoiceService = invoiceService;
     this.pdfService = pdfService;
+    this.userHelperService = userHelperService;
   }
   
   
@@ -43,6 +47,7 @@ public class InvoicesController {
   
   @GetMapping("/edit/{id}")
   public String editInvoice(@PathVariable Long id, Model model) {
+    model.addAttribute("bankAccounts", userHelperService.getBankAccounts());
     model.addAttribute("invoiceData", this.invoiceService.getById(id));
     return "edit-invoice";
   }

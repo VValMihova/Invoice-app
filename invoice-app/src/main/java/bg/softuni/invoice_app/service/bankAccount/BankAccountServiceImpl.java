@@ -27,6 +27,12 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
+  public BankAccount getByIban(String iban) {
+    return this.bankAccountRepository.findByIban(iban)
+        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
+  }
+  
+  @Override
   public void editBankAccount(Long id, BankAccountEditBindingDto bankAccountDataEdit) {
     BankAccount bankAccount = bankAccountRepository.findById(id)
         .orElseThrow(() -> new NotFoundObjectException("Bank account"));

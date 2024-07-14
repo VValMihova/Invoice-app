@@ -3,6 +3,7 @@ package bg.softuni.invoice_app.model.dto.invoice;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.GetCompanyDetailsDto;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,9 +27,8 @@ public class InvoiceEditDto {
   @Valid
   private RecipientDetailsAddDto recipient;
   
-  // todo
-  @Valid
-  private BankAccountDto bankAccount;
+  @NotBlank(message = "{invoice.bank.account.not.null}")
+  private String bankAccountIban;
   
   @Valid
   private List<InvoiceItemDto> items;
@@ -72,12 +72,12 @@ public class InvoiceEditDto {
     return this;
   }
   
-  public BankAccountDto getBankAccount() {
-    return bankAccount;
+  public String getBankAccount() {
+    return bankAccountIban;
   }
   
-  public InvoiceEditDto setBankAccount(BankAccountDto bankAccount) {
-    this.bankAccount = bankAccount;
+  public InvoiceEditDto setBankAccount(String bankAccountIban ) {
+    this.bankAccountIban = bankAccountIban;
     return this;
   }
   

@@ -18,23 +18,7 @@
 <body>
 <div class="container">
   <h1>Invoice</h1>
-  <p>Invoice Number: <span th:text="${invoice.invoiceNumber}">123456</span><span>                              </span>Issue Date: <span th:text="${invoice.issueDate}">2023-08-10</span></p>
-  <p>Issue Date: <span th:text="${invoice.issueDate}">2023-08-10</span></p>
-<!--  -->
-<!--  <h2>Supplier Details</h2>-->
-<!--  <p>Supplier Name: <span th:text="${invoice.supplier.companyName}">Supplier Ltd.</span></p>-->
-<!--  <p>Supplier Address: <span th:text="${invoice.supplier.address}">Sofia, Vitosha St. 1</span></p>-->
-<!--  <p>Supplier EIK: <span th:text="${invoice.supplier.eik}">1234567890</span></p>-->
-<!--  <p>Supplier VAT Number: <span th:text="${invoice.supplier.vatNumber}">BG1234567890</span></p>-->
-<!--  <p>Supplier Manager: <span th:text="${invoice.supplier.manager}">Ivan Ivanov</span></p>-->
-
-<!--  <h2>Recipient Details</h2>-->
-<!--  <p>Recipient Name: <span th:text="${invoice.recipient.companyName}">Recipient Ltd.</span></p>-->
-<!--  <p>Recipient Address: <span th:text="${invoice.recipient.address}">Plovdiv, Maria Louisa St. 2</span></p>-->
-<!--  <p>Recipient EIK: <span th:text="${invoice.recipient.eik}">0987654321</span></p>-->
-<!--  <p>Recipient VAT Number: <span th:text="${invoice.recipient.vatNumber}">BG0987654321</span></p>-->
-<!--  <p>Recipient Manager: <span th:text="${invoice.recipient.manager}">Georgi Georgiev</span></p>-->
-
+  <p>Invoice Number: <span th:text="${invoice.invoiceNumber}">123456</span><span> </span>Issue Date: <span th:text="${invoice.issueDate}">2023-08-10</span></p>
   <div class="details-container">
     <div class="details">
       <h2>Supplier Details</h2>
@@ -44,7 +28,6 @@
       <p>Supplier VAT Number: <span th:text="${invoice.supplier.vatNumber}">BG1234567890</span></p>
       <p>Supplier Manager: <span th:text="${invoice.supplier.manager}">Ivan Ivanov</span></p>
     </div>
-
     <div class="details">
       <h2>Recipient Details</h2>
       <p>Recipient Name: <span th:text="${invoice.recipient.companyName}">Recipient Ltd.</span></p>
@@ -52,6 +35,14 @@
       <p>Recipient EIK: <span th:text="${invoice.recipient.eik}">0987654321</span></p>
       <p>Recipient VAT Number: <span th:text="${invoice.recipient.vatNumber}">BG0987654321</span></p>
       <p>Recipient Manager: <span th:text="${invoice.recipient.manager}">Georgi Georgiev</span></p>
+    </div>
+  </div>
+  <div class="details-container">
+    <div class="details">
+      <h2>Bank Account Details</h2>
+      <p>IBAN: <span th:text="${invoice.bankAccount.iban}">BG00BNBG96611020345678</span></p>
+      <p>BIC: <span th:text="${invoice.bankAccount.bic}">BNBG9661</span></p>
+      <p>Currency: <span th:text="${invoice.bankAccount.currency}">BGN</span></p>
     </div>
   </div>
   <h2>Items</h2>
@@ -73,7 +64,6 @@
     </tr>
     </tbody>
   </table>
-
   <h2>Summary</h2>
   <p>Total Amount: <span th:text="${invoice.totalAmount}">1200.00</span> BGN</p>
   <p>VAT (20%): <span th:text="${invoice.vat}">240.00</span> BGN</p>

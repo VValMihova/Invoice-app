@@ -164,6 +164,20 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label for="bankAccount" th:text="#{create.invoice.bank.account.header}">Select Bank Account:</label>
+        <select
+            id="bankAccount"
+            name="bankAccountId"
+            class="form-control"
+            th:field="*{bankAccount}">
+          <option value="" disabled selected th:text="#{create.invoice.bank.account.select}">Select a bank account</option>
+          <option th:each="bankAccount : ${bankAccounts}"
+                  th:value="${bankAccount.iban}"
+                  th:text="${bankAccount.iban}"></option>
+        </select>
+      </div>
+
       <!-- Invoice Items -->
       <h4 th:text="#{invoice.items.header}">Items</h4>
       <table class="table text-center">
