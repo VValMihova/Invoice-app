@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
+import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +32,13 @@ public class InvoicesController {
   public String viewInvoices(Model model) {
     model.addAttribute("invoices", invoiceService.getAllInvoices());
     return "invoices";
+  }
+  
+  @GetMapping("/view/{id}")
+  public String viewInvoice(@PathVariable Long id, Model model) {
+    InvoiceView invoiceView = invoiceService.getById(id);
+    model.addAttribute("invoice", invoiceView);
+    return "view-invoice";
   }
   
   @GetMapping("/edit/{id}")

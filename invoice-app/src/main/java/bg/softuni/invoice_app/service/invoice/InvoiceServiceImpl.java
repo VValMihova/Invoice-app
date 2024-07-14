@@ -55,7 +55,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     
     invoice.setSupplier(this.userHelperService.getUserCompanyDetails());
     
-    // Setting recipient
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
     invoice.setRecipient(recipient);
     
@@ -67,11 +66,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setVat(invoiceData.getVat());
     invoice.setAmountDue(invoiceData.getAmountDue());
     
-    // Setting user
-    
     invoice.setUser(currentUser);
     
-    // Save invoice
     invoiceRepository.save(invoice);
   }
   
@@ -85,11 +81,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setIssueDate(invoiceData.getIssueDate());
     invoice.setSupplier(userHelperService.getUserCompanyDetails());
     
-    // Setting recipient
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipient());
     invoice.setRecipient(recipient);
     
-    // Update invoice items
     List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
     invoice.getItems().clear();
     invoice.getItems().addAll(updatedItems);
@@ -98,7 +92,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setVat(invoiceData.getVat());
     invoice.setAmountDue(invoiceData.getAmountDue());
     
-    // Save invoice
     invoiceRepository.save(invoice);
     
   }

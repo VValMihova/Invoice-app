@@ -24,7 +24,7 @@ body {
     color: #555 !important;
 }
 
-.transparent-bg, .profile-container, .invoices-container, .profile-section, .form-container {
+.transparent-bg, .profile-container, .invoices-container, .profile-section, .form-container, .invoice-details{
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 10px;
@@ -38,7 +38,7 @@ body {
     font-size: 1.5rem;
 }
 
-.form-container {
+.form-container, .invoice-details {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 60%;
     margin: 0 auto;

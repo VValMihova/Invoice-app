@@ -24,6 +24,12 @@
         <td th:text="${invoice.amountDue}">$1000.00</td>
         <td>
           <a
+              th:href="@{/invoices/view/{id}(id=${invoice.id})}"
+              class="btn btn-sm btn-info"
+              th:text="#{invoices.action.view}">
+            View
+          </a>
+          <a
               th:href="@{/invoices/edit/{id}(id=${invoice.id})}"
               class="btn btn-sm btn-warning"
               th:text="#{invoices.action.edit}">
