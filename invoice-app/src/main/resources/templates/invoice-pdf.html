@@ -11,27 +11,49 @@
       th, td { border: 1px solid black; padding: 10px; text-align: left; }
       th { background-color: #f2f2f2; }
       .text-right { text-align: right; }
+      .details-container { display: flex; justify-content: space-between; }
+      .details { width: 45%; }
   </style>
 </head>
 <body>
 <div class="container">
   <h1>Invoice</h1>
-  <p>Invoice Number: <span th:text="${invoice.invoiceNumber}">123456</span></p>
+  <p>Invoice Number: <span th:text="${invoice.invoiceNumber}">123456</span><span>                              </span>Issue Date: <span th:text="${invoice.issueDate}">2023-08-10</span></p>
   <p>Issue Date: <span th:text="${invoice.issueDate}">2023-08-10</span></p>
-  <h2>Supplier Details</h2>
-  <p>Supplier Name: <span th:text="${invoice.supplier.companyName}">Supplier Ltd.</span></p>
-  <p>Supplier Address: <span th:text="${invoice.supplier.address}">Sofia, Vitosha St. 1</span></p>
-  <p>Supplier EIK: <span th:text="${invoice.supplier.eik}">1234567890</span></p>
-  <p>Supplier VAT Number: <span th:text="${invoice.supplier.vatNumber}">BG1234567890</span></p>
-  <p>Supplier Manager: <span th:text="${invoice.supplier.manager}">Ivan Ivanov</span></p>
+<!--  -->
+<!--  <h2>Supplier Details</h2>-->
+<!--  <p>Supplier Name: <span th:text="${invoice.supplier.companyName}">Supplier Ltd.</span></p>-->
+<!--  <p>Supplier Address: <span th:text="${invoice.supplier.address}">Sofia, Vitosha St. 1</span></p>-->
+<!--  <p>Supplier EIK: <span th:text="${invoice.supplier.eik}">1234567890</span></p>-->
+<!--  <p>Supplier VAT Number: <span th:text="${invoice.supplier.vatNumber}">BG1234567890</span></p>-->
+<!--  <p>Supplier Manager: <span th:text="${invoice.supplier.manager}">Ivan Ivanov</span></p>-->
 
-  <h2>Recipient Details</h2>
-  <p>Recipient Name: <span th:text="${invoice.recipient.companyName}">Recipient Ltd.</span></p>
-  <p>Recipient Address: <span th:text="${invoice.recipient.address}">Plovdiv, Maria Louisa St. 2</span></p>
-  <p>Recipient EIK: <span th:text="${invoice.recipient.eik}">0987654321</span></p>
-  <p>Recipient VAT Number: <span th:text="${invoice.recipient.vatNumber}">BG0987654321</span></p>
-  <p>Recipient Manager: <span th:text="${invoice.recipient.manager}">Georgi Georgiev</span></p>
+<!--  <h2>Recipient Details</h2>-->
+<!--  <p>Recipient Name: <span th:text="${invoice.recipient.companyName}">Recipient Ltd.</span></p>-->
+<!--  <p>Recipient Address: <span th:text="${invoice.recipient.address}">Plovdiv, Maria Louisa St. 2</span></p>-->
+<!--  <p>Recipient EIK: <span th:text="${invoice.recipient.eik}">0987654321</span></p>-->
+<!--  <p>Recipient VAT Number: <span th:text="${invoice.recipient.vatNumber}">BG0987654321</span></p>-->
+<!--  <p>Recipient Manager: <span th:text="${invoice.recipient.manager}">Georgi Georgiev</span></p>-->
 
+  <div class="details-container">
+    <div class="details">
+      <h2>Supplier Details</h2>
+      <p>Supplier Name: <span th:text="${invoice.supplier.companyName}">Supplier Ltd.</span></p>
+      <p>Supplier Address: <span th:text="${invoice.supplier.address}">Sofia, Vitosha St. 1</span></p>
+      <p>Supplier EIK: <span th:text="${invoice.supplier.eik}">1234567890</span></p>
+      <p>Supplier VAT Number: <span th:text="${invoice.supplier.vatNumber}">BG1234567890</span></p>
+      <p>Supplier Manager: <span th:text="${invoice.supplier.manager}">Ivan Ivanov</span></p>
+    </div>
+
+    <div class="details">
+      <h2>Recipient Details</h2>
+      <p>Recipient Name: <span th:text="${invoice.recipient.companyName}">Recipient Ltd.</span></p>
+      <p>Recipient Address: <span th:text="${invoice.recipient.address}">Plovdiv, Maria Louisa St. 2</span></p>
+      <p>Recipient EIK: <span th:text="${invoice.recipient.eik}">0987654321</span></p>
+      <p>Recipient VAT Number: <span th:text="${invoice.recipient.vatNumber}">BG0987654321</span></p>
+      <p>Recipient Manager: <span th:text="${invoice.recipient.manager}">Georgi Georgiev</span></p>
+    </div>
+  </div>
   <h2>Items</h2>
   <table>
     <thead>
