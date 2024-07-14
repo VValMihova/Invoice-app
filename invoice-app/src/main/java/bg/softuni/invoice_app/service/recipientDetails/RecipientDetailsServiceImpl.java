@@ -1,10 +1,15 @@
 package bg.softuni.invoice_app.service.recipientDetails;
 
+import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.RecipientDetails;
 import bg.softuni.invoice_app.repository.RecipientDetailsRepository;
 import bg.softuni.invoice_app.service.user.UserHelperService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipientDetailsServiceImpl implements RecipientDetailsService {
@@ -40,5 +45,15 @@ private final ModelMapper modelMapper;
     recipientDetails.setEik(newRecipient.getEik());
     recipientDetails.setManager(newRecipient.getManager());
     return this.recipientDetailsRepository.save(recipientDetails);
+  }
+  
+  @Override
+  public List<RecipientDetailsView> findAll(Long id) {
+    Optional<List<RecipientDetails>> recipientDetailsList = this.recipientDetailsRepository.findAllByUserId(id);
+    if (recipientDetailsList.isPresent()) {
+      return recipientDetailsList.get().stream().map(recipientDetails -> modelMapper.map(recipientDetails, RecipientDetailsView.class)).toList();
+    }else {
+      throw new NotFoundObjectException("Recipient");
+    }
   }
 }

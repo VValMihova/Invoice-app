@@ -2,6 +2,7 @@ package bg.softuni.invoice_app.model.dto.invoice;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+<div class="container mt-5">
+  <div class="title-block">
+    <h2 class="title">Clients</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6" th:each="client : ${clients}">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${client.companyName}">Company Name</h5>
+          <p class="card-text"><strong>Address:</strong> <span th:text="${client.address}">Address</span></p>
+          <p class="card-text"><strong>EIK:</strong> <span th:text="${client.eik}">EIK</span></p>
+          <p class="card-text"><strong>VAT Number:</strong> <span th:text="${client.vatNumber}">VAT Number</span></p>
+          <p class="card-text"><strong>Manager:</strong> <span th:text="${client.manager}">Manager</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

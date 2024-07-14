@@ -25,6 +25,10 @@ public class ErrorController {
       modelAndView.setViewName("bank-account-not-found");
       modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
     }
+    if (Objects.equals(objectNotFoundException.getObjectType(), "Recipient")) {
+      modelAndView.setViewName("recipients-not-found");
+      modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
+    }
     
     return modelAndView;
   }

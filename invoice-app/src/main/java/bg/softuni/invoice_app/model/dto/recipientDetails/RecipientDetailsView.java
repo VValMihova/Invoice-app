@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.model.dto.invoice;
+package bg.softuni.invoice_app.model.dto.recipientDetails;
 
 import bg.softuni.invoice_app.model.entity.RecipientDetails;
 
@@ -9,6 +9,9 @@ public class RecipientDetailsView {
   private String eik;
   private String vatNumber;
   private String manager;
+  
+  public RecipientDetailsView() {
+  }
   
   public RecipientDetailsView(RecipientDetails recipientDetails) {
     this.id = recipientDetails.getId();

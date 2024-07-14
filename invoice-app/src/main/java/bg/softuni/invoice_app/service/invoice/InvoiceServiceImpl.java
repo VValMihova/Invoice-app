@@ -2,10 +2,10 @@ package bg.softuni.invoice_app.service.invoice;
 
 import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
-import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsDto;
-import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
