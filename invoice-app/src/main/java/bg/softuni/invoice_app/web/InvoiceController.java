@@ -6,6 +6,7 @@ import bg.softuni.invoice_app.service.user.UserHelperService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +38,9 @@ public class InvoiceController {
   public String createInvoice(@Valid InvoiceCreateDto invoiceData,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes) {
-    
+    if (invoiceData.getItems() == null || invoiceData.getItems().isEmpty()) {
+      bindingResult.addError(new FieldError("invoiceData", "items", "Item fields cannot be empty!"));
+    }
     if (bindingResult.hasErrors()) {
       redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);

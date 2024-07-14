@@ -148,6 +148,7 @@
                   th:text="${bankAccount.iban}"></option>
         </select>
       </div>
+      <div th:if="${#fields.hasErrors('items')}" class="alert alert-danger mt-3" th:text="#{invoice.items.fields.not.empty}"></div>
 
       <!-- Invoice Items -->
       <h4 th:text="#{invoice.items.header}">Items</h4>
@@ -164,42 +165,29 @@
         <tbody id="invoiceItemsContainer">
         <tr th:each="item, iterStat : ${invoiceData.items}">
           <td>
-            <input type="text" th:field="*{items[__${iterStat.index}__].name}"
-                   placeholder="Item Name" class="form-control" required/>
-            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].name')}"
-                   th:errors="*{items[__${iterStat.index}__].name}" class="text-danger"></small>
+            <input type="text" th:field="*{items[__${iterStat.index}__].name}" placeholder="Item Name" class="form-control" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].name')}" th:errors="*{items[__${iterStat.index}__].name}" class="text-danger"></small>
           </td>
           <td>
-            <input type="number" th:field="*{items[__${iterStat.index}__].quantity}"
-                   placeholder="Quantity" class="form-control" oninput="calculateTotalPrice(this)" required/>
-            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].quantity')}"
-                   th:errors="*{items[__${iterStat.index}__].quantity}" class="text-danger"></small>
+            <input type="number" th:field="*{items[__${iterStat.index}__].quantity}" placeholder="Quantity" class="form-control" oninput="calculateTotalPrice(this)" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].quantity')}" th:errors="*{items[__${iterStat.index}__].quantity}" class="text-danger"></small>
           </td>
           <td>
-            <input type="number" th:field="*{items[__${iterStat.index}__].unitPrice}"
-                   placeholder="Unit Price" class="form-control" oninput="calculateTotalPrice(this)" required/>
-            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].unitPrice')}"
-                   th:errors="*{items[__${iterStat.index}__].unitPrice}" class="text-danger"></small>
+            <input type="number" th:field="*{items[__${iterStat.index}__].unitPrice}" placeholder="Unit Price" class="form-control" oninput="calculateTotalPrice(this)" required/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].unitPrice')}" th:errors="*{items[__${iterStat.index}__].unitPrice}" class="text-danger"></small>
           </td>
           <td>
-            <input type="number" th:field="*{items[__${iterStat.index}__].totalPrice}"
-                   placeholder="Total Price" class="form-control" readonly/>
-            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].totalPrice')}"
-                   th:errors="*{items[__${iterStat.index}__].totalPrice}" class="text-danger"></small>
+            <input type="number" th:field="*{items[__${iterStat.index}__].totalPrice}" placeholder="Total Price" class="form-control" readonly/>
+            <small th:if="${#fields.hasErrors('items[' + iterStat.index + '].totalPrice')}" th:errors="*{items[__${iterStat.index}__].totalPrice}" class="text-danger"></small>
           </td>
           <td>
-            <button type="button" class="btn btn-sm btn-danger"
-                    onclick="removeInvoiceItem(this)"
-                    th:text="#{invoice.items.actions.remove}">Remove
-            </button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="removeInvoiceItem(this)" th:text="#{invoice.items.actions.remove}">Remove</button>
           </td>
         </tr>
         </tbody>
       </table>
-      <button type="button" class="btn btn-secondary"
-              onclick="addInvoiceItem()"
-              th:text="#{invoice.items.actions.add}">Add Item
-      </button>
+      <button type="button" class="btn btn-secondary" onclick="addInvoiceItem()" th:text="#{invoice.items.actions.add}">Add Item</button>
+
 
       <!-- Total Amount, VAT, and Amount Due -->
       <div class="row mt-3 justify-content-end">
