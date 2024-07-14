@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -36,6 +35,12 @@ public class SecurityConfig {
                     .logoutUrl("/users/logout")
                     .logoutSuccessUrl("/")
                     .invalidateHttpSession(true))
+        .rememberMe(
+            rememberMe ->
+                rememberMe
+                    .key("uniqueAndSecret")
+                    .rememberMeParameter("remember-me")
+                    .tokenValiditySeconds(86400))
         .build();
   }
   
