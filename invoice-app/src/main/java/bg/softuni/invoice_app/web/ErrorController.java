@@ -29,6 +29,10 @@ public class ErrorController {
       modelAndView.setViewName("recipients-not-found");
       modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
     }
+    if (Objects.equals(objectNotFoundException.getObjectType(), "Product")) {
+      modelAndView.setViewName("product-not-found");
+      modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
+    }
     
     return modelAndView;
   }

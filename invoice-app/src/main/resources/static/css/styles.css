@@ -1,8 +1,6 @@
 body {
-    background-image: url("/images/global-background.jpg");
+    background: url("/images/global-background.jpg") center center repeat-y;
     background-size: cover;
-    background-repeat: repeat-y;
-    background-position: center center;
     height: 100vh;
     margin: 0;
     padding: 0;
@@ -24,7 +22,16 @@ body {
     color: #555 !important;
 }
 
-.transparent-bg, .profile-container, .invoices-container, .profile-section, .form-container, .invoice-details{
+.transparent-bg,
+.profile-container,
+.invoices-container,
+.profile-section,
+.form-container,
+.invoice-details,
+.products-container,
+.table-bordered,
+.title-block,
+.card {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 10px;
@@ -38,26 +45,31 @@ body {
     font-size: 1.5rem;
 }
 
-.form-container, .invoice-details {
+.form-container,
+.invoice-details,
+.card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 60%;
     margin: 0 auto;
 }
 
-.form-container h2 {
+.form-container h2,
+.card-title {
     text-align: center;
     margin-bottom: 20px;
+    font-size: 1.5em;
 }
 
 .form-container .btn {
     display: block;
     width: auto;
-    margin: 20px auto 0 auto;
+    margin: 20px auto 0;
     font-size: 1.2em;
     padding: 10px 20px;
 }
 
-.form-container .form-group label {
+.form-container .form-group label,
+.card-text {
     font-size: 1.2em;
 }
 
@@ -68,7 +80,8 @@ body {
     cursor: pointer;
 }
 
-.table thead th, .table tbody td {
+.table thead th,
+.table tbody td {
     text-align: center;
     vertical-align: middle;
 }
@@ -120,43 +133,28 @@ body {
 
 .error-message {
     font-size: 18px;
-    color: #ff0000; /* Червен текст за грешки */
+    color: #ff0000;
 }
 
 .error-message a {
-    color: #007bff; /* Син цвят за линкове */
+    color: #007bff;
     text-decoration: none;
 }
 
 .error-message a:hover {
     text-decoration: underline;
 }
-/*clients*/
-.card {
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-.card-title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.card-text {
-    font-size: 1.2em;
-}
-
-.title-block {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    text-align: center;
-}
 
 .title-block h2 {
     margin: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 5px;
 }
 
+.table-container {
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+}
