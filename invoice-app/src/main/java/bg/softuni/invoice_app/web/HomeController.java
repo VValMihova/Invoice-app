@@ -5,8 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
-
 @Controller
 public class HomeController {
   private final UserHelperService userHelperService;
@@ -16,10 +14,8 @@ public class HomeController {
   }
   
   @GetMapping("/")
-  public String getHome(Principal principal, Model model) {
-    if (principal != null) {
-      model.addAttribute("companyName", userHelperService.getUser().getCompanyDetails().getCompanyName());
-    }
+  public String getHome( Model model) {
+      model.addAttribute("companyName", userHelperService.getCompanyDetails().getCompanyName());
     return "index";
   }
 }

@@ -24,9 +24,6 @@ public class InvoiceCreateDto {
   private LocalDate issueDate;
   
   @Valid
-  private GetCompanyDetailsDto supplier;
-  
-  @Valid
   private RecipientDetailsAddDto recipientDetails;
   
   @NotNull(message = "{invoice.bank.account.not.null}")
@@ -65,14 +62,6 @@ public class InvoiceCreateDto {
     return this;
   }
   
-  public GetCompanyDetailsDto getSupplier() {
-    return supplier;
-  }
-  
-  public InvoiceCreateDto setSupplier(GetCompanyDetailsDto supplier) {
-    this.supplier = supplier;
-    return this;
-  }
   
   public @Valid RecipientDetailsAddDto getRecipientDetails() {
     return recipientDetails;

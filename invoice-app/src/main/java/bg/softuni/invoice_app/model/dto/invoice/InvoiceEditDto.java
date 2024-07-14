@@ -1,6 +1,5 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
-import bg.softuni.invoice_app.model.dto.companyDetails.GetCompanyDetailsDto;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -20,9 +19,6 @@ public class InvoiceEditDto {
   @NotNull(message = "{invoice.issue.date.not.null}")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate issueDate;
-  
-  @Valid
-  private GetCompanyDetailsDto supplier;
   
   @Valid
   private RecipientDetailsAddDto recipient;
@@ -63,14 +59,6 @@ public class InvoiceEditDto {
     return this;
   }
   
-  public GetCompanyDetailsDto getSupplier() {
-    return supplier;
-  }
-  
-  public InvoiceEditDto setSupplier(GetCompanyDetailsDto supplier) {
-    this.supplier = supplier;
-    return this;
-  }
   
   public String getBankAccount() {
     return bankAccountIban;

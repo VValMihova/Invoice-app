@@ -27,7 +27,6 @@ public class InvoiceController {
   @GetMapping("/create")
   public ModelAndView createInvoice() {
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.addObject("supplierDetails", userHelperService.getCompanyDetails());
     modelAndView.addObject("bankAccounts", userHelperService.getBankAccounts());
     
     modelAndView.setViewName("invoice-create");

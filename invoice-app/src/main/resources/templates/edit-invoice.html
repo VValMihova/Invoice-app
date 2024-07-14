@@ -50,40 +50,8 @@
         </div>
       </div>
 
-      <!-- Supplier and Recipient Details Side by Side -->
       <div class="row">
-        <!-- Supplier Details -->
-        <div class="col-md-6">
-          <h4 th:text="#{create.invoice.supplier.details}">Supplier Details</h4>
-          <div class="form-group">
-            <label for="supplierName" th:text="#{create.invoice.supplier.name}">Supplier Name:</label>
-            <input type="text" id="supplierName" name="supplier.companyName" class="form-control"
-                   th:value="${invoiceData.supplier.companyName}" readonly/>
-          </div>
-          <div class="form-group">
-            <label for="supplierAddress" th:text="#{create.invoice.supplier.address}">Supplier Address:</label>
-            <input type="text" id="supplierAddress" name="supplier.address" class="form-control"
-                   th:value="${invoiceData.supplier.address}" readonly/>
-          </div>
-          <div class="form-group">
-            <label for="supplierEik" th:text="#{create.invoice.supplier.eik}">Supplier EIK:</label>
-            <input type="text" id="supplierEik" name="supplier.eik" class="form-control"
-                   th:value="${invoiceData.supplier.eik}" readonly/>
-          </div>
-          <div class="form-group">
-            <label for="supplierVatNumber" th:text="#{create.invoice.supplier.vat}">Supplier VAT Number:</label>
-            <input type="text" id="supplierVatNumber" name="supplier.vatNumber" class="form-control"
-                   th:value="${invoiceData.supplier.vatNumber}" readonly/>
-          </div>
-          <div class="form-group">
-            <label for="supplierManager" th:text="#{create.invoice.supplier.manager}">Supplier Manager:</label>
-            <input type="text" id="supplierManager" name="supplier.manager" class="form-control"
-                   th:value="${invoiceData.supplier.manager}" readonly/>
-          </div>
-        </div>
-
-        <!-- Recipient Details -->
-        <div class="col-md-6">
+        <div class="col-md-12">
 <!--          <div-->
 <!--              th:if="${#fields.hasErrors('recipientDetails')}"-->
 <!--              class="alert alert-danger mt-3"-->
