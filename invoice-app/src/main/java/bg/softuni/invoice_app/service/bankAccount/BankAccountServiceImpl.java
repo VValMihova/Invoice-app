@@ -46,10 +46,7 @@ public class BankAccountServiceImpl implements BankAccountService {
   
   @Override
   public void deleteBankAccount(Long id) {
-    BankAccount bankAccount = bankAccountRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
-    
-    bankAccountRepository.delete(bankAccount);
+    this.bankAccountRepository.deleteById(id);
   }
   private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
     return new BankAccountView(bankAccount);

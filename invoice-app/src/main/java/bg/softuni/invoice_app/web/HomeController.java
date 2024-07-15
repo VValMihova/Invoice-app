@@ -15,7 +15,7 @@ public class HomeController {
   
   @GetMapping("/")
   public String getHome( Model model) {
-      model.addAttribute("companyName", userHelperService.getCompanyDetails().getCompanyName());
+     // model.addAttribute("companyName", userHelperService.getCompanyDetails().getCompanyName());
     return "index";
   }
 }

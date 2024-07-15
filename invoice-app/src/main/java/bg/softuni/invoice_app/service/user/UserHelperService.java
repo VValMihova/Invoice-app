@@ -42,7 +42,12 @@ public class UserHelperService {
   }
   
   public UserDetails getUserDetails() {
-    return (UserDetails) getAuthentication().getPrincipal();
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if (principal instanceof UserDetails) {
+      return (UserDetails) principal;
+    } else {
+      throw new IllegalStateException("Principal is not an instance of UserDetails");
+    }
   }
   
   public boolean isAuthenticated() {

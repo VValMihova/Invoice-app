@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
+  BankAccount getById(Long id);
   Optional<BankAccount> findByIban(String iban);
 }

@@ -1,9 +1,11 @@
 package bg.softuni.invoice_app.web;
 
+import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
+import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
@@ -114,9 +116,10 @@ public class ProfileController {
     return "redirect:/profile";
   }
   
-  @GetMapping("/delete-bank-account/{id}")
+  @PostMapping("/delete-bank-account/{id}")
   public String deleteBankAccount(@PathVariable Long id) {
-    bankAccountService.deleteBankAccount(id);
+    
+    this.bankAccountService.deleteBankAccount(id);
     return "redirect:/profile";
   }
   
