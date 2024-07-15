@@ -37,6 +37,7 @@ body {
     border-radius: 10px;
 }
 
+
 .text-center {
     padding: 20px;
 }
@@ -158,3 +159,8 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
 }
+
+/*.profile-container {*/
+/*    width: 85%; !* Adjust the width as needed *!*/
+/*    margin: 0 auto;*/
+/*}*/
