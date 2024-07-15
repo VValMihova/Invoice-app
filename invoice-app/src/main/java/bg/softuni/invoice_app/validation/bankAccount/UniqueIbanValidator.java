@@ -1,21 +1,20 @@
 package bg.softuni.invoice_app.validation.bankAccount;
 
-import bg.softuni.invoice_app.service.user.UserHelperService;
+import bg.softuni.invoice_app.repository.BankAccountRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class UniqueIbanValidator implements ConstraintValidator<UniqueIban, String> {
-  private final UserHelperService userHelperService;
+  private final BankAccountRepository bankAccountRepository;
   
-  public UniqueIbanValidator(UserHelperService userHelperService) {
-    this.userHelperService = userHelperService;
+  public UniqueIbanValidator(BankAccountRepository bankAccountRepository) {
+    this.bankAccountRepository = bankAccountRepository;
   }
-  
   @Override
   public boolean isValid(String iban, ConstraintValidatorContext constraintValidatorContext) {
-    return this.userHelperService
-        .getBankAccounts()
+    return !this.bankAccountRepository
+        .findAll()
         .stream()
-        .noneMatch(bankAccount -> bankAccount.getIban().equals(iban));
+        .anyMatch(bankAccount -> bankAccount.getIban().equals(iban));
   }
 }

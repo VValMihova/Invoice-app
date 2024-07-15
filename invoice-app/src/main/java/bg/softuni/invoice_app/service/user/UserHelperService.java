@@ -61,11 +61,7 @@ public class UserHelperService {
   public CompanyDetailsView getCompanyDetails() {
     return this.modelMapper.map(this.getUser().getCompanyDetails(), CompanyDetailsView.class);
   }
-  public List<BankAccountView> getBankAccounts() {
-    return this.getUser().getCompanyDetails().getBankAccounts().stream()
-        .map(BankAccountView::new)
-        .toList();
-  }
+
   //todo change with method up there
   public CompanyDetails getUserCompanyDetails() {
     return this.getUser().getCompanyDetails();

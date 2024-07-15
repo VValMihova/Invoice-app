@@ -28,14 +28,6 @@ public class CompanyDetails {
   @Column(nullable = false)
   private String manager;
   
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  @JoinColumn(name = "company_details_id")
-  private Set<BankAccount> bankAccounts;
-  
-  
-  public CompanyDetails() {
-    this.bankAccounts = new HashSet<>();
-  }
   
   public Long getId() {
     return id;
@@ -91,30 +83,4 @@ public class CompanyDetails {
     return this;
   }
   
-  public Set<BankAccount> getBankAccounts() {
-    return bankAccounts;
-  }
-  
-  public CompanyDetails setBankAccounts(Set<BankAccount> bankAccounts) {
-    this.bankAccounts = bankAccounts;
-    return this;
-  }
-  
-  public void addBankAccount(BankAccount bankAccount) {
-    this.bankAccounts.add(bankAccount);
-  }
-  
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    CompanyDetails that = (CompanyDetails) o;
-    return Objects.equals(getId(), that.getId()) && Objects.equals(getCompanyName(), that.getCompanyName()) && Objects.equals(getAddress(), that.getAddress()) && Objects.equals(getEik(), that.getEik()) && Objects.equals(getVatNumber(), that.getVatNumber()) && Objects.equals(getManager(), that.getManager()) && Objects.equals(getBankAccounts(), that.getBankAccounts());
-  }
-  
-  @Override
-  public int hashCode() {
-    return Objects.hash(getId(), getCompanyName(), getAddress(), getEik(), getVatNumber(), getManager(), getBankAccounts());
-  }
-
 }

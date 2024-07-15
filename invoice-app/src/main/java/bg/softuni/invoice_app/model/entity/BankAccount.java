@@ -18,6 +18,10 @@ public class BankAccount {
   @Column(nullable = false)
   private String currency;
   
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "company_details_id", nullable = false)
+  private CompanyDetails companyDetails;
+  
   public BankAccount() {
   }
   
@@ -60,6 +64,15 @@ public class BankAccount {
   
   public BankAccount setCurrency(String currency) {
     this.currency = currency;
+    return this;
+  }
+  
+  public CompanyDetails getCompanyDetails() {
+    return companyDetails;
+  }
+  
+  public BankAccount setCompanyDetails(CompanyDetails companyDetails) {
+    this.companyDetails = companyDetails;
     return this;
   }
 }

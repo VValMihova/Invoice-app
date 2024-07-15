@@ -4,9 +4,9 @@ import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
-import bg.softuni.invoice_app.model.entity.BankAccount;
-import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
+import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
+import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserHelperService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,12 +28,14 @@ public class InvoicesController {
   private final PdfGenerationService pdfService;
   private final UserHelperService userHelperService;
   private final RecipientDetailsService recipientDetailsService;
+  private final BankAccountService bankAccountService;
   
-  public InvoicesController(InvoiceService invoiceService, PdfGenerationService pdfService, UserHelperService userHelperService, RecipientDetailsService recipientDetailsService) {
+  public InvoicesController(InvoiceService invoiceService, PdfGenerationService pdfService, UserHelperService userHelperService, RecipientDetailsService recipientDetailsService, BankAccountService bankAccountService) {
     this.invoiceService = invoiceService;
     this.pdfService = pdfService;
     this.userHelperService = userHelperService;
     this.recipientDetailsService = recipientDetailsService;
+    this.bankAccountService = bankAccountService;
   }
   
   
@@ -52,7 +54,8 @@ public class InvoicesController {
   
   @GetMapping("/edit/{id}")
   public String editInvoice(@PathVariable Long id, Model model) {
-    model.addAttribute("bankAccounts", userHelperService.getBankAccounts());
+    model.addAttribute("bankAccounts",
+        this.bankAccountService.findAllForCompany(this.userHelperService.getCompanyDetails().getId()));
     model.addAttribute("invoiceData", this.invoiceService.getById(id));
     return "edit-invoice";
   }
@@ -89,14 +92,14 @@ public class InvoicesController {
     response.getOutputStream().write(pdf);
   }
   
-    
     @GetMapping("/create-with-client/{clientId}")
     public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
       RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
-      
+
       model.addAttribute("recipient", recipientDetailsView);
-      model.addAttribute("bankAccounts", userHelperService.getBankAccounts());
-      
+      model.addAttribute("bankAccounts",
+          this.bankAccountService.findAllForCompany(this.userHelperService.getCompanyDetails().getId()));
+
       return "create-invoice-with-client";
     }
     

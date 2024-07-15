@@ -1,11 +1,14 @@
 package bg.softuni.invoice_app.service;
 
+import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class DbInitService {
@@ -45,6 +48,13 @@ public class DbInitService {
           .setCompanyDetails(companyDetails1);
       userRepository.save(user1);
       
+      BankAccount bankAccount1 = new BankAccount()
+          .setIban("IBAN1TEST1IBAN1TEST111")
+          .setBic("TESTBIC1")
+          .setCurrency("USD")
+          .setCompanyDetails(companyDetails1);
+      bankAccountRepository.save(bankAccount1);
+      
       CompanyDetails companyDetails2 = new CompanyDetails()
           .setCompanyName("Company2")
           .setAddress("Address2")
@@ -57,6 +67,13 @@ public class DbInitService {
           .setPassword(this.passwordEncoder.encode("22222"))
           .setCompanyDetails(companyDetails2);
       userRepository.save(user2);
+      
+      BankAccount bankAccount2 = new BankAccount()
+          .setIban("IBAN2TEST2IBAN1TEST222")
+          .setBic("TESTBIC2")
+          .setCurrency("EUR")
+          .setCompanyDetails(companyDetails2);
+      bankAccountRepository.save(bankAccount2);
     }
   }
 }

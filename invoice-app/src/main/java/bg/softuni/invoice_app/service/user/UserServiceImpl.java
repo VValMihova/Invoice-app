@@ -82,27 +82,6 @@ public class UserServiceImpl implements UserService {
   }
   
   @Override
-  public void addBankAccount(BankAccountCreateBindingDto bankAccountData) {
-    User user = userHelperService.getUser();
-    CompanyDetails companyDetails = user.getCompanyDetails();
-    BankAccount bankAccount = modelMapper.map(bankAccountData, BankAccount.class);
-    companyDetails.addBankAccount(bankAccount);
-    
-    user.setCompanyDetails(companyDetails);
-    this.userRepository.save(user);
-  }
-  
-  @Override
-  public List<BankAccountView> getAllBankAccounts() {
-    return
-        userHelperService.getUser()
-            .getCompanyDetails().getBankAccounts()
-            .stream()
-            .map(account -> modelMapper.map(account, BankAccountView.class))
-            .toList();
-  }
-  
-  @Override
   public User getUserByCompanyEik(String eik) {
     return this.userRepository.findByCompanyDetailsEik(eik).orElse(null);
   }

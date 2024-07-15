@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
+import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import bg.softuni.invoice_app.service.user.UserHelperService;
 import jakarta.validation.Valid;
@@ -19,17 +20,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class InvoiceController {
   private final InvoiceService invoiceService;
   private final UserHelperService userHelperService;
+  private final BankAccountService bankAccountService;
   
-  public InvoiceController(InvoiceService invoiceService, UserHelperService userHelperService) {
+  public InvoiceController(InvoiceService invoiceService, UserHelperService userHelperService, BankAccountService bankAccountService) {
     this.invoiceService = invoiceService;
     this.userHelperService = userHelperService;
+    this.bankAccountService = bankAccountService;
   }
-  
   @GetMapping("/create")
   public ModelAndView createInvoice() {
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.addObject("bankAccounts", userHelperService.getBankAccounts());
-    
+    modelAndView.addObject("bankAccounts",
+        this.bankAccountService.findAllForCompany(userHelperService.getCompanyDetails().getId()) );
+
     modelAndView.setViewName("invoice-create");
     return modelAndView;
   }

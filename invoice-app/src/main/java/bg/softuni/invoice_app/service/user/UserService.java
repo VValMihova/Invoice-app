@@ -15,9 +15,6 @@ public interface UserService {
   
   void updateCompany(CompanyDetails companyDetails);
   
-  void addBankAccount(BankAccountCreateBindingDto bankAccountData);
-  List<BankAccountView> getAllBankAccounts();
-  
   User getUserByCompanyEik(String eik);
   
   User getUserByCompanyVat(String vat);
