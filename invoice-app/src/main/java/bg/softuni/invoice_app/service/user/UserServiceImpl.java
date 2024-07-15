@@ -66,8 +66,7 @@ public class UserServiceImpl implements UserService {
         .setAddress(registerData.getAddress())
         .setEik(registerData.getEik())
         .setVatNumber(registerData.getVatNumber())
-        .setManager(registerData.getManager())
-        .setUser(user);
+        .setManager(registerData.getManager());
   }
   
   @Override

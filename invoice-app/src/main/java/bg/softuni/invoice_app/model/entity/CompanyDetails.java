@@ -32,9 +32,6 @@ public class CompanyDetails {
   @JoinColumn(name = "company_details_id")
   private Set<BankAccount> bankAccounts;
   
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id")
-  private User user;
   
   public CompanyDetails() {
     this.bankAccounts = new HashSet<>();
@@ -119,13 +116,5 @@ public class CompanyDetails {
   public int hashCode() {
     return Objects.hash(getId(), getCompanyName(), getAddress(), getEik(), getVatNumber(), getManager(), getBankAccounts());
   }
-  
-  public User getUser() {
-    return user;
-  }
-  
-  public CompanyDetails setUser(User user) {
-    this.user = user;
-    return this;
-  }
+
 }
