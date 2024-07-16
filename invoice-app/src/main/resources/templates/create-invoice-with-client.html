@@ -4,13 +4,15 @@
 <body>
 <nav th:replace="fragments/nav :: nav"></nav>
 <div class="container mt-5">
-  <div class="form-container">
+  <div class="title-block mb-3">
     <h2 th:text="#{create.invoice.create.header}">Create Invoice</h2>
+  </div>
     <form
         th:action="@{/invoices/create-with-client/{clientId}(clientId=${recipient.id})}"
         th:method="post"
         id="invoiceForm"
-        th:object="${invoiceData}">
+        th:object="${invoiceData}"
+        class="invoices-container">
 
       <div class="row">
         <div class="col-md-6">
@@ -139,9 +141,8 @@
         </tr>
         </tbody>
       </table>
-      <button type="button" class="btn btn-secondary"
-              onclick="addInvoiceItem()"
-              th:text="#{invoice.items.actions.add}">Add Item
+      <button type="button" class="btn btn-secondary" onclick="addInvoiceItem()">
+        <i class="fas fa-plus"></i> <span th:text="#{invoice.items.actions.add}">Add Item</span>
       </button>
 
       <!-- Total Amount, VAT, and Amount Due -->
@@ -162,11 +163,13 @@
         </div>
       </div>
 
-
-      <button type="submit" class="btn btn-primary" th:text="#{invoice.items.createInvoice}">Create Invoice</button>
+      <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary btn-lg"
+              th:text="#{invoice.items.createInvoice}">Create Invoice</button>
+      </div>
     </form>
   </div>
-</div>
+
 <footer th:replace="fragments/footer :: footer"></footer>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/invoice.js"></script>

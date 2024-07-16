@@ -5,7 +5,7 @@
 <nav th:replace="fragments/nav :: nav"></nav>
 
 <div class="container mt-5">
-  <div class="title-block">
+  <div class="title-block mb-3">
     <h2 class="title">Clients</h2>
   </div>
   <div class="row">
@@ -17,7 +17,10 @@
           <p class="card-text"><strong>EIK:</strong> <span th:text="${client.eik}">EIK</span></p>
           <p class="card-text"><strong>VAT Number:</strong> <span th:text="${client.vatNumber}">VAT Number</span></p>
           <p class="card-text"><strong>Manager:</strong> <span th:text="${client.manager}">Manager</span></p>
-          <a th:href="@{/invoices/create-with-client/{clientId}(clientId=${client.id})}" class="btn btn-primary">Create Invoice</a>
+          <div class="d-flex justify-content-center">
+            <a th:href="@{/invoices/create-with-client/{clientId}(clientId=${client.id})}" class="btn btn-primary">Create
+              Invoice</a>
+          </div>
         </div>
       </div>
     </div>
