@@ -4,7 +4,10 @@ import bg.softuni.invoice_app.validation.registration.annotation.UniqueCompanyNa
 import bg.softuni.invoice_app.validation.registration.annotation.UniqueEik;
 import bg.softuni.invoice_app.validation.registration.annotation.UniqueEmail;
 import bg.softuni.invoice_app.validation.registration.annotation.UniqueVat;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class UserRegisterBindingDto {
   @NotBlank(message = "{user.register.email.not.null}")

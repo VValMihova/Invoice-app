@@ -1,9 +1,6 @@
 package bg.softuni.invoice_app.model.dto.bankAccount;
 
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.entity.BankAccount;
-
-import java.math.BigDecimal;
 
 public class BankAccountView {
   private Long id;

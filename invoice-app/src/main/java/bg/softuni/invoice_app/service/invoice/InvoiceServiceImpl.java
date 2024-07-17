@@ -11,7 +11,7 @@ import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.product.ProductService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
-import bg.softuni.invoice_app.service.user.UserHelperService;
+import bg.softuni.invoice_app.service.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,42 +22,41 @@ import java.util.stream.Collectors;
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
   private final InvoiceRepository invoiceRepository;
-  private final UserHelperService userHelperService;
   private final ModelMapper modelMapper;
   private final RecipientDetailsService recipientDetailsService;
   private final ProductService productService;
   private final BankAccountService bankAccountService;
+  private final UserService userService;
   
   
   public InvoiceServiceImpl(
       InvoiceRepository invoiceRepository,
-      UserHelperService userHelperService,
       ModelMapper modelMapper,
       RecipientDetailsService recipientDetailsService,
-      ProductService productService, BankAccountService bankAccountService) {
+      ProductService productService, BankAccountService bankAccountService, UserService userService) {
     this.invoiceRepository = invoiceRepository;
-    this.userHelperService = userHelperService;
     this.modelMapper = modelMapper;
     this.recipientDetailsService = recipientDetailsService;
     this.productService = productService;
     this.bankAccountService = bankAccountService;
+    this.userService = userService;
   }
   
   @Override
   public List<AllInvoicesView> getAllInvoices() {
-    return invoiceRepository.findAllByUserId(userHelperService.getUser().getId())
+    return invoiceRepository.findAllByUserId(userService.getCurrentUserId())
         .stream().map(invoice -> modelMapper.map(invoice, AllInvoicesView.class))
         .toList();
   }
   
   @Override
   public void createInvoice(InvoiceCreateDto invoiceData) {
-    User currentUser = userHelperService.getUser();
+    User currentUser = userService.getUser();
     Invoice invoice = new Invoice();
     invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
     invoice.setIssueDate(invoiceData.getIssueDate());
     
-    invoice.setSupplier(this.userHelperService.getUserCompanyDetails());
+    invoice.setSupplier(userService.getCompanyDetails());
     
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
     invoice.setRecipient(recipient);
@@ -79,13 +78,13 @@ public class InvoiceServiceImpl implements InvoiceService {
   
   @Override
   public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
-    User currentUser = userHelperService.getUser();
+    User currentUser = userService.getUser();
     Invoice invoice = invoiceRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Invalid invoice Id:" + id));
     
     invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
     invoice.setIssueDate(invoiceData.getIssueDate());
-    invoice.setSupplier(userHelperService.getUserCompanyDetails());
+    invoice.setSupplier(userService.getCompanyDetails());
     
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipient());
     invoice.setRecipient(recipient);
@@ -108,7 +107,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   @Override
   public boolean checkInvoiceExists(Long invoiceNumber) {
     return this.invoiceRepository
-        .findByUserIdAndInvoiceNumber(userHelperService.getUser().getId(), invoiceNumber)
+        .findByUserIdAndInvoiceNumber(userService.getCurrentUserId(), invoiceNumber)
         .isPresent();
   }
   
@@ -128,12 +127,12 @@ public class InvoiceServiceImpl implements InvoiceService {
   
   @Override
   public void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData) {
-    User currentUser = userHelperService.getUser();
+    User currentUser = userService.getUser();
     Invoice invoice = new Invoice();
     invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
     invoice.setIssueDate(invoiceData.getIssueDate());
     
-    invoice.setSupplier(this.userHelperService.getUserCompanyDetails());
+    invoice.setSupplier(userService.getCompanyDetails());
     
     // Setting recipient
     RecipientDetails recipient = recipientDetailsService.getById(clientId);

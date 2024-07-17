@@ -1,16 +1,13 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
-import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
-import bg.softuni.invoice_app.service.user.UserHelperService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

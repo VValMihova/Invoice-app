@@ -1,12 +1,7 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.entity.CompanyDetails;
-import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
-import bg.softuni.invoice_app.service.user.AppUserDetailsService;
-import bg.softuni.invoice_app.service.user.UserHelperService;
 import bg.softuni.invoice_app.service.user.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

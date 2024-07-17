@@ -4,7 +4,7 @@ import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.RecipientDetails;
 import bg.softuni.invoice_app.repository.RecipientDetailsRepository;
-import bg.softuni.invoice_app.service.user.UserHelperService;
+import bg.softuni.invoice_app.service.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +14,22 @@ import java.util.Optional;
 @Service
 public class RecipientDetailsServiceImpl implements RecipientDetailsService {
 private final RecipientDetailsRepository recipientDetailsRepository;
-private final UserHelperService userHelperService;
 private final ModelMapper modelMapper;
+private final UserService userService;
   
-  public RecipientDetailsServiceImpl(RecipientDetailsRepository recipientDetailsRepository, UserHelperService userHelperService, ModelMapper modelMapper) {
+  public RecipientDetailsServiceImpl(
+      RecipientDetailsRepository recipientDetailsRepository,
+      ModelMapper modelMapper,
+      UserService userService) {
     this.recipientDetailsRepository = recipientDetailsRepository;
-    this.userHelperService = userHelperService;
     this.modelMapper = modelMapper;
+    this.userService = userService;
   }
   
   @Override
   public boolean exists(RecipientDetails recipientDetails) {
     return this.recipientDetailsRepository
-        .findByVatNumberAndUserId(recipientDetails.getVatNumber(),userHelperService.getUser().getId())
+        .findByVatNumberAndUserId(recipientDetails.getVatNumber(),userService.getCurrentUserId())
         .isPresent();
   }
   
@@ -39,7 +42,7 @@ private final ModelMapper modelMapper;
   public RecipientDetails saveAndReturn(RecipientDetails newRecipient) {
     RecipientDetails recipientDetails = new RecipientDetails();
     recipientDetails.setVatNumber(newRecipient.getVatNumber());
-    recipientDetails.setUser(userHelperService.getUser());
+    recipientDetails.setUser(userService.getUser());
     recipientDetails.setCompanyName(newRecipient.getCompanyName());
     recipientDetails.setAddress(newRecipient.getAddress());
     recipientDetails.setEik(newRecipient.getEik());

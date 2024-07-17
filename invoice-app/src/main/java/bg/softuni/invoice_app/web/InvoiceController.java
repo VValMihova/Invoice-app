@@ -4,7 +4,6 @@ import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
-import bg.softuni.invoice_app.service.user.UserHelperService;
 import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -21,14 +20,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/invoices")
 public class InvoiceController {
   private final InvoiceService invoiceService;
-  private final UserHelperService userHelperService;
   private final BankAccountService bankAccountService;
   private final RecipientDetailsService recipientDetailsService;
   private final UserService userService;
   
-  public InvoiceController(InvoiceService invoiceService, UserHelperService userHelperService, BankAccountService bankAccountService, RecipientDetailsService recipientDetailsService, UserService userService) {
+  public InvoiceController(
+      InvoiceService invoiceService,
+      BankAccountService bankAccountService,
+      RecipientDetailsService recipientDetailsService,
+      UserService userService) {
     this.invoiceService = invoiceService;
-    this.userHelperService = userHelperService;
     this.bankAccountService = bankAccountService;
     this.recipientDetailsService = recipientDetailsService;
     this.userService = userService;

@@ -2,10 +2,6 @@ package bg.softuni.invoice_app.model.entity;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
 @Entity
 @Table(name = "companies_details")
 public class CompanyDetails {

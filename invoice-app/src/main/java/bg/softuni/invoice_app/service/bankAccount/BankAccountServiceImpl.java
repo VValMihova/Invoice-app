@@ -2,14 +2,12 @@ package bg.softuni.invoice_app.service.bankAccount;
 
 import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
-import bg.softuni.invoice_app.model.entity.Invoice;
 import bg.softuni.invoice_app.repository.BankAccountRepository;
-import bg.softuni.invoice_app.service.user.UserHelperService;
-import org.antlr.v4.runtime.misc.OrderedHashSet;
+import bg.softuni.invoice_app.service.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +19,15 @@ import java.util.stream.Collectors;
 public class BankAccountServiceImpl implements BankAccountService {
   private final BankAccountRepository bankAccountRepository;
   private final ModelMapper modelMapper;
-  private final UserHelperService userHelperService;
+  private final UserService userService;
   
-  public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, ModelMapper modelMapper, UserHelperService userHelperService) {
+  public BankAccountServiceImpl(
+      BankAccountRepository bankAccountRepository,
+      ModelMapper modelMapper,
+      UserService userService) {
     this.bankAccountRepository = bankAccountRepository;
     this.modelMapper = modelMapper;
-    this.userHelperService = userHelperService;
+    this.userService = userService;
   }
   
   @Override
@@ -75,7 +76,7 @@ public class BankAccountServiceImpl implements BankAccountService {
   
   @Override
   public void addBankAccount(BankAccountCreateBindingDto bankAccountData) {
-    CompanyDetails companyDetails = userHelperService.getUser().getCompanyDetails();
+    CompanyDetails companyDetails = userService.getCompanyDetails();
     
     this.bankAccountRepository.save(mapToBankAccount(bankAccountData, companyDetails));
   }

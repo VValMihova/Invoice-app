@@ -1,13 +1,9 @@
 package bg.softuni.invoice_app.service.user;
 
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
-
-import java.util.List;
 
 public interface UserService {
   void register(UserRegisterBindingDto registerData);
@@ -21,4 +17,11 @@ public interface UserService {
   User getUserByCompanyVat(String vat);
   
   CompanyDetailsView showCompanyDetails();
+  
+  CompanyDetails getCompanyDetails();
+  
+  Long getCurrentUserId();
+  
+  //  todo add exception
+  User getUser();
 }

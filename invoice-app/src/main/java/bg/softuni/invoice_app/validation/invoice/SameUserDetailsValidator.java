@@ -2,7 +2,6 @@ package bg.softuni.invoice_app.validation.invoice;
 
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
-import bg.softuni.invoice_app.service.user.UserHelperService;
 import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

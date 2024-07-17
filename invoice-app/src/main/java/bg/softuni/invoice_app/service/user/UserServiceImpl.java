@@ -1,42 +1,34 @@
 package bg.softuni.invoice_app.service.user;
 
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
+import bg.softuni.invoice_app.exeption.DatabaseException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
-import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
-import bg.softuni.invoice_app.exeption.DatabaseException;
 import bg.softuni.invoice_app.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ModelMapper modelMapper;
-  private final UserHelperService userHelperService;
   private final CompanyDetailsService companyDetailsService;
   
   public UserServiceImpl(
       UserRepository userRepository,
       PasswordEncoder passwordEncoder,
       ModelMapper modelMapper,
-      UserHelperService userHelperService,
       CompanyDetailsService companyDetailsService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.modelMapper = modelMapper;
-    this.userHelperService = userHelperService;
     this.companyDetailsService = companyDetailsService;
   }
   
@@ -80,7 +72,7 @@ public class UserServiceImpl implements UserService {
   
   @Override
   public void updateCompany(CompanyDetails companyDetails) {
-    User user = userHelperService.getUser();
+    User user = getUser();
     user.setCompanyDetails(companyDetails);
     this.userRepository.save(user);
   }
@@ -99,11 +91,11 @@ public class UserServiceImpl implements UserService {
   public CompanyDetailsView showCompanyDetails() {
     return modelMapper.map(getCompanyDetails(), CompanyDetailsView.class);
   }
-  
-  private CompanyDetails getCompanyDetails() {
+  @Override
+  public CompanyDetails getCompanyDetails() {
     return userRepository.getById(getCurrentUserId()).getCompanyDetails();
   }
-  
+  @Override
   public Long getCurrentUserId() {
     Principal currentUser = SecurityUtils.getCurrentUser();
     if (currentUser == null) {
@@ -112,5 +104,10 @@ public class UserServiceImpl implements UserService {
     User userByEmail = this.getUserByEmail(currentUser.getName());
     return userByEmail.getId();
   }
-  
+
+//  todo add exception
+  @Override
+  public User getUser() {
+    return this.userRepository.findById(getCurrentUserId()).orElse(null);
+  }
 }

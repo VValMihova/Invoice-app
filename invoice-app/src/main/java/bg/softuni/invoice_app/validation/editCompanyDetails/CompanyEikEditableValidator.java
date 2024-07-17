@@ -1,7 +1,6 @@
 package bg.softuni.invoice_app.validation.editCompanyDetails;
 
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
-import bg.softuni.invoice_app.service.user.UserHelperService;
 import bg.softuni.invoice_app.service.user.UserService;
 import bg.softuni.invoice_app.validation.editCompanyDetails.annotation.CompanyEikEditable;
 import jakarta.validation.ConstraintValidator;

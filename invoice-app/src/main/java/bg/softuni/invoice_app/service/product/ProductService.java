@@ -1,7 +1,6 @@
 package bg.softuni.invoice_app.service.product;
 
 import bg.softuni.invoice_app.model.dto.product.ProductView;
-import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.Product;
 
 import java.util.List;
