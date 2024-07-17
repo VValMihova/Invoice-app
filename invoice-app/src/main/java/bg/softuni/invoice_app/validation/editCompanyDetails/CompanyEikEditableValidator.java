@@ -2,22 +2,23 @@ package bg.softuni.invoice_app.validation.editCompanyDetails;
 
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.user.UserHelperService;
+import bg.softuni.invoice_app.service.user.UserService;
 import bg.softuni.invoice_app.validation.editCompanyDetails.annotation.CompanyEikEditable;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class CompanyEikEditableValidator implements ConstraintValidator<CompanyEikEditable, String> {
   private final CompanyDetailsService companyDetailsService;
-  private final UserHelperService userHelperService;
+  private final UserService userService;
   
-  public CompanyEikEditableValidator(CompanyDetailsService companyDetailsService, UserHelperService userHelperService) {
+  public CompanyEikEditableValidator(CompanyDetailsService companyDetailsService, UserService userService) {
     this.companyDetailsService = companyDetailsService;
-    this.userHelperService = userHelperService;
+    this.userService = userService;
   }
   
   @Override
   public boolean isValid(String eik, ConstraintValidatorContext constraintValidatorContext) {
     return this.companyDetailsService.getByEik(eik) == null
-           || userHelperService.getCompanyDetails().getEik().equals(eik);
+           || userService.showCompanyDetails().getEik().equals(eik);
   }
 }

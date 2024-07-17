@@ -12,6 +12,8 @@ import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
 import bg.softuni.invoice_app.service.user.UserHelperService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,23 +26,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProfileController {
   private final UserService userService;
   private final BankAccountService bankAccountService;
-  private final UserHelperService userHelperService;
   private final CompanyDetailsService companyDetailsService;
   
   public ProfileController(
       UserService userService,
       BankAccountService bankAccountService,
-      UserHelperService userHelperService,
       CompanyDetailsService companyDetailsService) {
     this.userService = userService;
     this.bankAccountService = bankAccountService;
-    this.userHelperService = userHelperService;
     this.companyDetailsService = companyDetailsService;
   }
   @GetMapping
-  public ModelAndView profile() {
+  public ModelAndView profile(@AuthenticationPrincipal UserDetails userDetails) {
     ModelAndView modelAndView = new ModelAndView("profile");
-    CompanyDetailsView companyDetails = userHelperService.getCompanyDetails();
+    CompanyDetailsView companyDetails = userService.showCompanyDetails();
     modelAndView.addObject("companyDetails", companyDetails);
     modelAndView.addObject("bankAccounts", this.bankAccountService.findAllForCompany(companyDetails.getId()));
     return modelAndView;
@@ -49,7 +48,7 @@ public class ProfileController {
   @GetMapping("/edit-company")
   public ModelAndView editCompany() {
     ModelAndView modelAndView = new ModelAndView("edit-company");
-    modelAndView.addObject("companyDetails", userHelperService.getCompanyDetails());
+    modelAndView.addObject("companyDetails", userService.showCompanyDetails());
     
     return modelAndView;
   }
@@ -65,7 +64,7 @@ public class ProfileController {
       model.addAttribute("org.springframework.validation.BindingResult.companyDetails", bindingResult);
       return "edit-company";
     }
-    CompanyDetails updated = companyDetailsService.update(userHelperService.getCompanyDetails().getId(), companyData);
+    CompanyDetails updated = companyDetailsService.update(userService.showCompanyDetails().getId(), companyData);
     userService.updateCompany(updated);
     
     return "redirect:/profile";
@@ -126,7 +125,7 @@ public class ProfileController {
   //  MODEL ATTRIBUTES
   @ModelAttribute()
   public CompanyDetailsView companyData() {
-    return userHelperService.getCompanyDetails();
+    return userService.showCompanyDetails();
   }
   
   @ModelAttribute("bankAccountData")

@@ -14,4 +14,5 @@ public interface CompanyDetailsService {
   CompanyDetails getByVatNumber(String vat);
   
   CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData);
+  
 }

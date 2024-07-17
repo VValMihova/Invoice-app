@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByCompanyDetailsEik(String eik);
   
   Optional<User> findByCompanyDetailsVatNumber(String vat);
+  
+  User getById(Long id);
 }

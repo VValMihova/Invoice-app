@@ -9,6 +9,7 @@ import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserHelperService;
+import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -29,13 +30,15 @@ public class InvoicesController {
   private final UserHelperService userHelperService;
   private final RecipientDetailsService recipientDetailsService;
   private final BankAccountService bankAccountService;
+  private final UserService userService;
   
-  public InvoicesController(InvoiceService invoiceService, PdfGenerationService pdfService, UserHelperService userHelperService, RecipientDetailsService recipientDetailsService, BankAccountService bankAccountService) {
+  public InvoicesController(InvoiceService invoiceService, PdfGenerationService pdfService, UserHelperService userHelperService, RecipientDetailsService recipientDetailsService, BankAccountService bankAccountService, UserService userService) {
     this.invoiceService = invoiceService;
     this.pdfService = pdfService;
     this.userHelperService = userHelperService;
     this.recipientDetailsService = recipientDetailsService;
     this.bankAccountService = bankAccountService;
+    this.userService = userService;
   }
   
   
@@ -55,7 +58,7 @@ public class InvoicesController {
   @GetMapping("/edit/{id}")
   public String editInvoice(@PathVariable Long id, Model model) {
     model.addAttribute("bankAccounts",
-        this.bankAccountService.findAllForCompany(this.userHelperService.getCompanyDetails().getId()));
+        this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
     model.addAttribute("invoiceData", this.invoiceService.getById(id));
     return "edit-invoice";
   }
@@ -98,7 +101,7 @@ public class InvoicesController {
 
       model.addAttribute("recipient", recipientDetailsView);
       model.addAttribute("bankAccounts",
-          this.bankAccountService.findAllForCompany(this.userHelperService.getCompanyDetails().getId()));
+          this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
 
       return "create-invoice-with-client";
     }

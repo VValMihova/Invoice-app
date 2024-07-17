@@ -53,14 +53,6 @@ public class UserHelperService {
   public boolean isAuthenticated() {
     return !hasRole("ANONYMOUS");
   }
-  
-  public Authentication getAuthentication() {
-    return SecurityContextHolder.getContext().getAuthentication();
-  }
-  
-  public CompanyDetailsView getCompanyDetails() {
-    return this.modelMapper.map(this.getUser().getCompanyDetails(), CompanyDetailsView.class);
-  }
 
   //todo change with method up there
   public CompanyDetails getUserCompanyDetails() {

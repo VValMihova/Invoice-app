@@ -5,6 +5,7 @@ import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserHelperService;
+import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,18 +24,20 @@ public class InvoiceController {
   private final UserHelperService userHelperService;
   private final BankAccountService bankAccountService;
   private final RecipientDetailsService recipientDetailsService;
+  private final UserService userService;
   
-  public InvoiceController(InvoiceService invoiceService, UserHelperService userHelperService, BankAccountService bankAccountService, RecipientDetailsService recipientDetailsService) {
+  public InvoiceController(InvoiceService invoiceService, UserHelperService userHelperService, BankAccountService bankAccountService, RecipientDetailsService recipientDetailsService, UserService userService) {
     this.invoiceService = invoiceService;
     this.userHelperService = userHelperService;
     this.bankAccountService = bankAccountService;
     this.recipientDetailsService = recipientDetailsService;
+    this.userService = userService;
   }
   @GetMapping("/create")
   public ModelAndView createInvoice() {
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.addObject("bankAccounts",
-        this.bankAccountService.findAllForCompany(userHelperService.getCompanyDetails().getId()) );
+        this.bankAccountService.findAllForCompany(userService.showCompanyDetails().getId()) );
 
     modelAndView.setViewName("invoice-create");
     return modelAndView;

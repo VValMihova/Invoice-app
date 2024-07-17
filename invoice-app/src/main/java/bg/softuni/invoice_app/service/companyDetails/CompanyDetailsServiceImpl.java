@@ -32,10 +32,11 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   public CompanyDetails getByVatNumber(String vat) {
     return this.companyDetailsRepository.findByVatNumber(vat).orElse(null);
   }
-  
+//  todo exception
   @Override
   public CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData) {
-    CompanyDetails existingCompany = this.companyDetailsRepository.findById(id).orElse(null);
+    CompanyDetails existingCompany = this.companyDetailsRepository.findById(id)
+        .orElse(null);
     
     existingCompany.setCompanyName(companyData.getCompanyName())
         .setAddress(companyData.getAddress())

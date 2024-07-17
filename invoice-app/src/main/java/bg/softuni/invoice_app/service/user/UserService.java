@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
@@ -18,4 +19,6 @@ public interface UserService {
   User getUserByCompanyEik(String eik);
   
   User getUserByCompanyVat(String vat);
+  
+  CompanyDetailsView showCompanyDetails();
 }

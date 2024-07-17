@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.entity.BankAccount;
@@ -9,10 +10,13 @@ import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.exeption.DatabaseException;
+import bg.softuni.invoice_app.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -89,6 +93,24 @@ public class UserServiceImpl implements UserService {
   @Override
   public User getUserByCompanyVat(String vat) {
     return this.userRepository.findByCompanyDetailsVatNumber(vat).orElse(null);
+  }
+  
+  @Override
+  public CompanyDetailsView showCompanyDetails() {
+    return modelMapper.map(getCompanyDetails(), CompanyDetailsView.class);
+  }
+  
+  private CompanyDetails getCompanyDetails() {
+    return userRepository.getById(getCurrentUserId()).getCompanyDetails();
+  }
+  
+  public Long getCurrentUserId() {
+    Principal currentUser = SecurityUtils.getCurrentUser();
+    if (currentUser == null) {
+      return null;
+    }
+    User userByEmail = this.getUserByEmail(currentUser.getName());
+    return userByEmail.getId();
   }
   
 }
