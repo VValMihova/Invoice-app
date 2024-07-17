@@ -47,8 +47,8 @@ public class DbInitService {
       userRepository.save(user1);
       
       BankAccount bankAccount1 = new BankAccount()
-          .setIban("IBAN1TEST1IBAN1TEST111")
-          .setBic("TESTBIC1")
+          .setIban("BG80BNBG96611020345678")
+          .setBic("UNCRITMM")
           .setCurrency("USD")
           .setCompanyDetails(companyDetails1);
       bankAccountRepository.save(bankAccount1);
@@ -67,8 +67,8 @@ public class DbInitService {
       userRepository.save(user2);
       
       BankAccount bankAccount2 = new BankAccount()
-          .setIban("IBAN2TEST2IBAN1TEST222")
-          .setBic("TESTBIC2")
+          .setIban("BG80BNBG96611020345677")
+          .setBic("UNCRITMM")
           .setCurrency("EUR")
           .setCompanyDetails(companyDetails2);
       bankAccountRepository.save(bankAccount2);
