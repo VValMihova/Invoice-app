@@ -8,6 +8,7 @@ import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.repository.BankAccountRepository;
 import bg.softuni.invoice_app.service.user.UserService;
+import bg.softuni.invoice_app.utils.BankAccountFormating;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -62,9 +63,9 @@ public class BankAccountServiceImpl implements BankAccountService {
     BankAccount bankAccount = bankAccountRepository.findById(id)
         .orElseThrow(() -> new NotFoundObjectException("Bank account"));
     
-    bankAccount.setIban(bankAccountDataEdit.getIban())
-        .setBic(bankAccountDataEdit.getBic())
-        .setCurrency(bankAccountDataEdit.getCurrency());
+    bankAccount.setIban(BankAccountFormating.formatIban(bankAccountDataEdit.getIban()))
+        .setBic(BankAccountFormating.formatBic(bankAccountDataEdit.getBic()))
+        .setCurrency(BankAccountFormating.formatCurrency(bankAccountDataEdit.getCurrency()));
     
     bankAccountRepository.save(bankAccount);
   }
@@ -83,9 +84,9 @@ public class BankAccountServiceImpl implements BankAccountService {
   
   private BankAccount mapToBankAccount(BankAccountCreateBindingDto bankAccountData, CompanyDetails companyDetails) {
     return new BankAccount()
-        .setIban(bankAccountData.getIban())
-        .setBic(bankAccountData.getBic())
-        .setCurrency(bankAccountData.getCurrency())
+        .setIban(BankAccountFormating.formatIban(bankAccountData.getIban()))
+        .setBic(BankAccountFormating.formatBic(bankAccountData.getBic()))
+        .setCurrency(BankAccountFormating.formatCurrency(bankAccountData.getCurrency()))
         .setCompanyDetails(companyDetails);
   }
   
