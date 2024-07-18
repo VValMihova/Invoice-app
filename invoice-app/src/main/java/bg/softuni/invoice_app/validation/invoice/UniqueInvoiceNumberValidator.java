@@ -13,6 +13,9 @@ public class UniqueInvoiceNumberValidator implements ConstraintValidator<UniqueI
   
   @Override
   public boolean isValid(Long invoiceNumber, ConstraintValidatorContext constraintValidatorContext) {
+    if (invoiceNumber == null) {
+      return true;
+    }
     return !invoiceService.checkInvoiceExists(invoiceNumber);
   }
 }

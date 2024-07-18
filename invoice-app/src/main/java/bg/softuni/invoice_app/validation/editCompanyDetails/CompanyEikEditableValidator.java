@@ -17,6 +17,10 @@ public class CompanyEikEditableValidator implements ConstraintValidator<CompanyE
   
   @Override
   public boolean isValid(String eik, ConstraintValidatorContext constraintValidatorContext) {
+    if (eik == null){
+      return true;
+    }
+    
     return this.companyDetailsService.getByEik(eik) == null
            || userService.showCompanyDetails().getEik().equals(eik);
   }

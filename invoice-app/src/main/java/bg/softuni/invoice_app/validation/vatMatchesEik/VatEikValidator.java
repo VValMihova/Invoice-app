@@ -31,7 +31,7 @@ public class VatEikValidator implements ConstraintValidator<ValidVatEik, Object>
       String eik = (String) eikField.get(value);
       
       if (vatNumber == null || eik == null) {
-        return true; // Валидацията за null трябва да се обработва чрез @NotNull
+        return true;
       }
       
       if (vatNumber.length() != eik.length() + 2) {

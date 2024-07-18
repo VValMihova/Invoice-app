@@ -12,6 +12,10 @@ public class UniqueIbanValidator implements ConstraintValidator<UniqueIban, Stri
   }
   @Override
   public boolean isValid(String iban, ConstraintValidatorContext constraintValidatorContext) {
+    if (iban == null){
+      return true;
+    }
+    
     return !this.bankAccountRepository
         .findAll()
         .stream()

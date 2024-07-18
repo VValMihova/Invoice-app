@@ -14,6 +14,10 @@ public class UniqueRecipientCompanyNameValidator implements ConstraintValidator<
   
   @Override
   public boolean isValid(String companyName, ConstraintValidatorContext constraintValidatorContext) {
+    if (companyName == null) {
+      return true;
+    }
+    
     return recipientDetailsService.findAll().stream()
         .noneMatch(recipient -> recipient.getCompanyName().equals(companyName));
   }

@@ -14,6 +14,10 @@ public class UniqueCompanyNameValidator implements ConstraintValidator<UniqueCom
   
   @Override
   public boolean isValid(String companyName, ConstraintValidatorContext constraintValidatorContext) {
+    if (companyName == null) {
+      return true;
+    }
+    
     return this.companyDetailsService.getCompanyByName(companyName) == null;
   }
 }
