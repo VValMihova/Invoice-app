@@ -17,7 +17,7 @@ public class PdfGenerationService {
   
   private final SpringTemplateEngine templateEngine;
   
-  public PdfGenerationService( InvoiceService invoiceService, SpringTemplateEngine templateEngine) {
+  public PdfGenerationService(InvoiceService invoiceService, SpringTemplateEngine templateEngine) {
     this.invoiceService = invoiceService;
     this.templateEngine = templateEngine;
   }

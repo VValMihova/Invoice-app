@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "invoices")
 public class Invoice {
-//  todo can be with uuid
+  //  todo can be with uuid
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -50,7 +50,7 @@ public class Invoice {
   private User user;
   
   public Invoice() {
-  this.items = new ArrayList<>();
+    this.items = new ArrayList<>();
   }
   
   

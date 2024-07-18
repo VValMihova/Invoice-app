@@ -11,6 +11,7 @@ public class PdfGenerationException extends RuntimeException {
   public String getObjectType() {
     return objectType;
   }
+  
   public PdfGenerationException(String objectType) {
     this.objectType = objectType;
   }

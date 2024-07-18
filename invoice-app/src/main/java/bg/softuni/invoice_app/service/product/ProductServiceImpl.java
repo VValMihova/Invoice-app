@@ -29,8 +29,8 @@ public class ProductServiceImpl implements ProductService {
   public List<ProductView> findAll(Long id) {
     Optional<List<Product>> productsList = this.productRepository.findAllByUserIdOrderByQuantity(id);
     if (productsList.isPresent()) {
-      return productsList.get().stream().map(recipientDetails -> modelMapper.map(recipientDetails,ProductView.class)).toList();
-    }else {
+      return productsList.get().stream().map(recipientDetails -> modelMapper.map(recipientDetails, ProductView.class)).toList();
+    } else {
       throw new NotFoundObjectException("Product");
     }
   }

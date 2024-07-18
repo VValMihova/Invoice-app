@@ -26,6 +26,7 @@ public class i18nConfig {
     localeChangeInterceptor.setParamName("lang");
     return localeChangeInterceptor;
   }
+  
   @Bean
   public LocalValidatorFactoryBean validator() {
     LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();

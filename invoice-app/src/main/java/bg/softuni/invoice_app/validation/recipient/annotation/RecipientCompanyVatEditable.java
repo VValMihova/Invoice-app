@@ -10,11 +10,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = RecipientCompanyVatEditableValidator.class)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RecipientCompanyVatEditable {
   String message() default "You already have a recipient with such VAT number!";
+  
   Class<?>[] groups() default {};
+  
   Class<? extends Payload>[] payload() default {};
 }
 

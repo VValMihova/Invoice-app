@@ -14,7 +14,7 @@ public class UniqueRecipientEikValidator implements ConstraintValidator<UniqueRe
   
   @Override
   public boolean isValid(String eik, ConstraintValidatorContext constraintValidatorContext) {
-    if (eik == null){
+    if (eik == null) {
       return true;
     }
     return recipientDetailsService.findAll().stream()

@@ -91,10 +91,12 @@ public class UserServiceImpl implements UserService {
   public CompanyDetailsView showCompanyDetails() {
     return modelMapper.map(getCompanyDetails(), CompanyDetailsView.class);
   }
+  
   @Override
   public CompanyDetails getCompanyDetails() {
     return userRepository.getById(getCurrentUserId()).getCompanyDetails();
   }
+  
   @Override
   public Long getCurrentUserId() {
     Principal currentUser = SecurityUtils.getCurrentUser();
@@ -104,8 +106,8 @@ public class UserServiceImpl implements UserService {
     User userByEmail = this.getUserByEmail(currentUser.getName());
     return userByEmail.getId();
   }
-
-//  todo add exception
+  
+  //  todo add exception
   @Override
   public User getUser() {
     return this.userRepository.findById(getCurrentUserId()).orElse(null);

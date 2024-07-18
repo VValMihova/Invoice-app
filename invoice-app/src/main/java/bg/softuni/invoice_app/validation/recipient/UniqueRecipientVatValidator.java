@@ -14,7 +14,7 @@ public class UniqueRecipientVatValidator implements ConstraintValidator<UniqueRe
   
   @Override
   public boolean isValid(String vatNumber, ConstraintValidatorContext constraintValidatorContext) {
-    if (vatNumber == null){
+    if (vatNumber == null) {
       return true;
     }
     return recipientDetailsService.findAll().stream()

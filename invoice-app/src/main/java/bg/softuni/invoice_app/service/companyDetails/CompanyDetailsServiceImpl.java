@@ -27,11 +27,13 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   public CompanyDetails getCompanyByName(String companyName) {
     return this.companyDetailsRepository.findByCompanyName(companyName).orElse(null);
   }
+  
   @Override
   public CompanyDetails getByVatNumber(String vat) {
     return this.companyDetailsRepository.findByVatNumber(vat).orElse(null);
   }
-//  todo exception
+  
+  //  todo exception
   @Override
   public CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData) {
     CompanyDetails existingCompany = this.companyDetailsRepository.findById(id)
@@ -46,6 +48,5 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
     return this.companyDetailsRepository.save(existingCompany);
   }
   
-
   
 }

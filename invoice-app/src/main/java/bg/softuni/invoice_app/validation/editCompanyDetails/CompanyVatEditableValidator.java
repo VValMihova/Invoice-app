@@ -17,7 +17,7 @@ public class CompanyVatEditableValidator implements ConstraintValidator<CompanyV
   
   @Override
   public boolean isValid(String vat, ConstraintValidatorContext constraintValidatorContext) {
-    if (vat == null){
+    if (vat == null) {
       return true;
     }
     return this.companyDetailsService.getByVatNumber(vat) == null
