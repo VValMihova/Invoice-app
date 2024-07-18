@@ -17,11 +17,11 @@ public class CompanyNameEditableValidator implements ConstraintValidator<Company
   
   @Override
   public boolean isValid(String companyName, ConstraintValidatorContext constraintValidatorContext) {
-    if (companyName == null){
+    if (companyName == null) {
       return true;
     }
     
     return this.companyDetailsService.getCompanyByName(companyName) == null
-        || userService.showCompanyDetails().getCompanyName().equals(companyName);
+           || userService.showCompanyDetails().getCompanyName().equals(companyName);
   }
 }

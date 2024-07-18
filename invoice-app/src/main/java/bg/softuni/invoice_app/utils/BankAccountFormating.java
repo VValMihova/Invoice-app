@@ -7,6 +7,7 @@ public class BankAccountFormating {
   public static String formatIban(String iban) {
     return iban.trim().toUpperCase();
   }
+  
   public static String formatBic(String bic) {
     return bic.trim().toUpperCase();
   }

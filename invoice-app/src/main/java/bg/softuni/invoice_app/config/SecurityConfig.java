@@ -46,10 +46,12 @@ public class SecurityConfig {
                     .tokenValiditySeconds(86400))
         .build();
   }
+  
   @Bean
   public UserDetailsService userDetailsService(UserRepository userRepository) {
     return new AppUserDetailsService(userRepository);
   }
+  
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();

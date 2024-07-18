@@ -16,11 +16,11 @@ public class IbanValidator implements ConstraintValidator<ValidIban, String> {
       return true;
     }
     iban = iban.replaceAll("\\s", "").toUpperCase();
-
+    
     if (!IBAN_PATTERN.matcher(iban).matches() || iban.length() < 15 || iban.length() > 34) {
       return false;
     }
-
+    
     String rearrangedIban = iban.substring(4) + iban.substring(0, 4);
     
     StringBuilder numericIban = new StringBuilder();

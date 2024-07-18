@@ -10,10 +10,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = RecipientCompanyEikEditableValidator.class)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RecipientCompanyEikEditable {
   String message() default "You already have a recipient with such EIK!";
+  
   Class<?>[] groups() default {};
+  
   Class<? extends Payload>[] payload() default {};
 }

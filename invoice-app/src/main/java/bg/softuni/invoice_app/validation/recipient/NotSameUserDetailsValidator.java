@@ -23,13 +23,13 @@ public class NotSameUserDetailsValidator implements ConstraintValidator<NotSameU
   }
   
   @Override
-  public boolean isValid( RecipientDetailsProvider recipientDetailsProvider,
+  public boolean isValid(RecipientDetailsProvider recipientDetailsProvider,
                          ConstraintValidatorContext constraintValidatorContext) {
     CompanyDetailsView userCompanyDetails = this.userService.showCompanyDetails();
     
     boolean match = !userCompanyDetails.getCompanyName().equals(recipientDetailsProvider.getCompanyName())
-                && !userCompanyDetails.getEik().equals(recipientDetailsProvider.getEik())
-                && !userCompanyDetails.getVatNumber().equals(recipientDetailsProvider.getVatNumber());
+                    && !userCompanyDetails.getEik().equals(recipientDetailsProvider.getEik())
+                    && !userCompanyDetails.getVatNumber().equals(recipientDetailsProvider.getVatNumber());
     
     if (!match) {
       constraintValidatorContext.unwrap(HibernateConstraintValidatorContext.class)

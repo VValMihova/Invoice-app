@@ -9,17 +9,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = VatEikValidator.class)
-@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidVatEik {
-
-    String message() default "ДДС номерът не съвпада с ЕИК номера!";
-
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
-    
-    String vatNumber();
-    
-    String eik();
+  
+  String message() default "ДДС номерът не съвпада с ЕИК номера!";
+  
+  Class<?>[] groups() default {};
+  
+  Class<? extends Payload>[] payload() default {};
+  
+  String vatNumber();
+  
+  String eik();
 }

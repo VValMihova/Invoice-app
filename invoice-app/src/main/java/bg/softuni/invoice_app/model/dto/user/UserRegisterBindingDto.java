@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
 @ValidVatEik(vatNumber = "vatNumber", eik = "eik")
 public class UserRegisterBindingDto {
   @NotBlank(message = "{user.register.email.not.null}")

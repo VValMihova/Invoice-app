@@ -21,11 +21,12 @@ public class Product {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
-
+  
   
   public Product() {
     this.quantity = BigDecimal.ZERO;
   }
+  
   public Product(InvoiceItemDto item) {
     this.name = item.getName();
   }

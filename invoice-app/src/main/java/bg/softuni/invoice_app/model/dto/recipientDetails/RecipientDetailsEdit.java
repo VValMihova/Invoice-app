@@ -1,9 +1,9 @@
 package bg.softuni.invoice_app.model.dto.recipientDetails;
 
 import bg.softuni.invoice_app.validation.numeric.Numeric;
+import bg.softuni.invoice_app.validation.recipient.annotation.NotSameUser;
 import bg.softuni.invoice_app.validation.recipient.annotation.RecipientCompanyEikEditable;
 import bg.softuni.invoice_app.validation.recipient.annotation.RecipientCompanyNameEditable;
-import bg.softuni.invoice_app.validation.recipient.annotation.NotSameUser;
 import bg.softuni.invoice_app.validation.recipient.annotation.RecipientCompanyVatEditable;
 import bg.softuni.invoice_app.validation.vatMatchesEik.ValidVatEik;
 import jakarta.validation.constraints.NotBlank;

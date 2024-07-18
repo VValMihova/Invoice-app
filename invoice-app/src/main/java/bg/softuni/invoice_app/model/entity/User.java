@@ -46,6 +46,7 @@ public class User {
     this.products = new HashSet<>();
     this.invoices = new OrderedHashSet<>();
   }
+  
   public Long getId() {
     return id;
   }

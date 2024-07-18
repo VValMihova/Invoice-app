@@ -3,6 +3,7 @@ package bg.softuni.invoice_app.validation.bankDetails;
 import bg.softuni.invoice_app.validation.bankDetails.annotation.ValidBic;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
 import java.util.regex.Pattern;
 
 public class BicValidator implements ConstraintValidator<ValidBic, String> {
@@ -14,7 +15,7 @@ public class BicValidator implements ConstraintValidator<ValidBic, String> {
     if (bic == null) {
       return true;
     }
-
+    
     return BIC_PATTERN.matcher(bic).matches();
   }
 }

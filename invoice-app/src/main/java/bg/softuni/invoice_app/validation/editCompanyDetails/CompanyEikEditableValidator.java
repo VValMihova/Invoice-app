@@ -17,7 +17,7 @@ public class CompanyEikEditableValidator implements ConstraintValidator<CompanyE
   
   @Override
   public boolean isValid(String eik, ConstraintValidatorContext constraintValidatorContext) {
-    if (eik == null){
+    if (eik == null) {
       return true;
     }
     

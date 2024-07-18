@@ -64,7 +64,7 @@ public class InvoiceEditDto {
     return bankAccountIban;
   }
   
-  public InvoiceEditDto setBankAccount(String bankAccountIban ) {
+  public InvoiceEditDto setBankAccount(String bankAccountIban) {
     this.bankAccountIban = bankAccountIban;
     return this;
   }

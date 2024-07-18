@@ -14,7 +14,7 @@ public class UniqueEikValidator implements ConstraintValidator<UniqueEik, String
   
   @Override
   public boolean isValid(String eik, ConstraintValidatorContext constraintValidatorContext) {
-    if (eik == null){
+    if (eik == null) {
       return true;
     }
     

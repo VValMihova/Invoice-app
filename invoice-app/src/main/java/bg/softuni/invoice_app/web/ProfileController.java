@@ -33,6 +33,7 @@ public class ProfileController {
     this.bankAccountService = bankAccountService;
     this.companyDetailsService = companyDetailsService;
   }
+  
   @GetMapping
   public ModelAndView profile(@AuthenticationPrincipal UserDetails userDetails) {
     ModelAndView modelAndView = new ModelAndView("profile");
@@ -77,17 +78,17 @@ public class ProfileController {
       @Valid BankAccountCreateBindingDto bankAccountData,
       BindingResult bindingResult,
       RedirectAttributes redirectAttributes) {
-
+    
     if (bindingResult.hasErrors()) {
       redirectAttributes.addFlashAttribute("bankAccountData", bankAccountData);
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bankAccountData", bindingResult);
       return "redirect:/profile/add-bank-account";
     }
     bankAccountService.addBankAccount(bankAccountData);
-
+    
     // redirectAttributes.addFlashAttribute("successMessage", "Bank account added successfully!");
     return "redirect:/profile";
-
+    
   }
   
   @GetMapping("/edit-bank-account/{id}")

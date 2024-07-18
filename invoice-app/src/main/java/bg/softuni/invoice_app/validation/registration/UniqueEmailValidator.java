@@ -6,18 +6,18 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
-
-    private final UserService userService;
-
-    public UniqueEmailValidator(UserService userService) {
-        this.userService = userService;
+  
+  private final UserService userService;
+  
+  public UniqueEmailValidator(UserService userService) {
+    this.userService = userService;
+  }
+  
+  @Override
+  public boolean isValid(String email, ConstraintValidatorContext context) {
+    if (email == null) {
+      return true;
     }
-
-    @Override
-    public boolean isValid(String email, ConstraintValidatorContext context) {
-        if (email == null){
-            return true;
-        }
-        return this.userService.getUserByEmail(email) == null;
-    }
+    return this.userService.getUserByEmail(email) == null;
+  }
 }

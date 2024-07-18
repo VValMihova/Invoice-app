@@ -10,11 +10,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = RecipientCompanyNameEditableValidator.class)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RecipientCompanyNameEditable {
   String message() default "You already have a recipient with such company name!";
+  
   Class<?>[] groups() default {};
+  
   Class<? extends Payload>[] payload() default {};
 }
 

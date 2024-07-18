@@ -33,7 +33,7 @@ public class InvoicesController {
   public InvoicesController(
       InvoiceService invoiceService,
       PdfGenerationService pdfService,
-    RecipientDetailsService recipientDetailsService,
+      RecipientDetailsService recipientDetailsService,
       BankAccountService bankAccountService,
       UserService userService) {
     this.invoiceService = invoiceService;
@@ -97,38 +97,38 @@ public class InvoicesController {
     response.getOutputStream().write(pdf);
   }
   
-    @GetMapping("/create-with-client/{clientId}")
-    public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
-      RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
-
-      model.addAttribute("recipient", recipientDetailsView);
-      model.addAttribute("bankAccounts",
-          this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
-
-      return "create-invoice-with-client";
-    }
+  @GetMapping("/create-with-client/{clientId}")
+  public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
+    RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
     
-    @PostMapping("/create-with-client/{clientId}")
-    public String createInvoiceWithClient(@PathVariable Long clientId,
-                                          @Valid InvoiceCreateDto invoiceData,
-                                          BindingResult bindingResult,
-                                          RedirectAttributes redirectAttributes) {
-      
-      if (bindingResult.hasErrors()) {
-        redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
-        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
-        return "redirect:/invoices/create-with-client/" + clientId;
-      }
-      
-      invoiceService.createInvoiceWithClient(clientId, invoiceData);
-      return "redirect:/invoices";
-    }
+    model.addAttribute("recipient", recipientDetailsView);
+    model.addAttribute("bankAccounts",
+        this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
     
-    
-    //  MODEL ATTRIBUTES
-    @ModelAttribute("invoiceData")
-    public InvoiceEditDto invoiceData() {
-      return new InvoiceEditDto();
-    }
+    return "create-invoice-with-client";
   }
+  
+  @PostMapping("/create-with-client/{clientId}")
+  public String createInvoiceWithClient(@PathVariable Long clientId,
+                                        @Valid InvoiceCreateDto invoiceData,
+                                        BindingResult bindingResult,
+                                        RedirectAttributes redirectAttributes) {
+    
+    if (bindingResult.hasErrors()) {
+      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
+      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+      return "redirect:/invoices/create-with-client/" + clientId;
+    }
+    
+    invoiceService.createInvoiceWithClient(clientId, invoiceData);
+    return "redirect:/invoices";
+  }
+  
+  
+  //  MODEL ATTRIBUTES
+  @ModelAttribute("invoiceData")
+  public InvoiceEditDto invoiceData() {
+    return new InvoiceEditDto();
+  }
+}
   

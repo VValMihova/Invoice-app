@@ -10,9 +10,10 @@ public class UniqueIbanValidator implements ConstraintValidator<UniqueIban, Stri
   public UniqueIbanValidator(BankAccountRepository bankAccountRepository) {
     this.bankAccountRepository = bankAccountRepository;
   }
+  
   @Override
   public boolean isValid(String iban, ConstraintValidatorContext constraintValidatorContext) {
-    if (iban == null){
+    if (iban == null) {
       return true;
     }
     

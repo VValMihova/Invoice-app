@@ -81,7 +81,8 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
         modelMapper.map(recipientDetails, RecipientDetails.class)
             .setUser(userService.getUser()));
   }
-//  todo add to error class
+  
+  //  todo add to error class
   @Override
   public void edit(RecipientDetailsEdit recipientDetailsEdit, Long id) {
     RecipientDetails recipientDetails = recipientDetailsRepository.findById(id).orElseThrow(() -> new NotFoundObjectException("Recipient"));
@@ -90,7 +91,7 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
         .setEik(recipientDetailsEdit.getEik())
         .setVatNumber(recipientDetailsEdit.getVatNumber())
         .setManager(recipientDetailsEdit.getManager())
-            .setUser(userService.getUser());
+        .setUser(userService.getUser());
     recipientDetailsRepository.save(recipientDetails);
   }
   
