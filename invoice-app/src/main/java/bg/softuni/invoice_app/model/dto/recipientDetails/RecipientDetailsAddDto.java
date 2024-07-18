@@ -1,13 +1,17 @@
 package bg.softuni.invoice_app.model.dto.recipientDetails;
 
-import bg.softuni.invoice_app.validation.invoice.SameUser;
+import bg.softuni.invoice_app.validation.recipient.annotation.NotSameUser;
 import bg.softuni.invoice_app.validation.numeric.Numeric;
+import bg.softuni.invoice_app.validation.recipient.annotation.UniqueRecipientVat;
+import bg.softuni.invoice_app.validation.recipient.annotation.UniqueRecipientCompanyName;
+import bg.softuni.invoice_app.validation.recipient.annotation.UniqueRecipientEik;
 import bg.softuni.invoice_app.validation.vatMatchesEik.ValidVatEik;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 @ValidVatEik(vatNumber = "vatNumber", eik = "eik")
-@SameUser
-public class RecipientDetailsAddDto {
+@NotSameUser
+public class RecipientDetailsAddDto implements RecipientDetailsProvider {
+  @UniqueRecipientCompanyName
   @NotBlank
   @Size(min = 2, max = 20, message = "{company.details.name.length}")
   private String companyName;
@@ -16,11 +20,13 @@ public class RecipientDetailsAddDto {
   @Size(min = 2, max = 20, message = "{company.details.address.length}")
   private String address;
   
+  @UniqueRecipientEik
   @Numeric
   @NotBlank
   @Size(min = 10, max = 10, message = "{company.details.eik.length}")
   private String eik;
   
+  @UniqueRecipientVat
   @NotBlank
   @Size(min = 12, max = 12, message = "{company.details.vat.length}")
   private String vatNumber;

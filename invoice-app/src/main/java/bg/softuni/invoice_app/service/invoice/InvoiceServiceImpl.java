@@ -52,11 +52,10 @@ public class InvoiceServiceImpl implements InvoiceService {
   @Override
   public void createInvoice(InvoiceCreateDto invoiceData) {
     User currentUser = userService.getUser();
-    Invoice invoice = new Invoice();
-    invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
-    invoice.setIssueDate(invoiceData.getIssueDate());
-    
-    invoice.setSupplier(userService.getCompanyDetails());
+    Invoice invoice = new Invoice()
+        .setInvoiceNumber(invoiceData.getInvoiceNumber())
+        .setIssueDate(invoiceData.getIssueDate())
+        .setSupplier(userService.getCompanyDetails());
     
     RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
     invoice.setRecipient(recipient);

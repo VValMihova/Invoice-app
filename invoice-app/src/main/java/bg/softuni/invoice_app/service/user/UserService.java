@@ -24,4 +24,5 @@ public interface UserService {
   
   //  todo add exception
   User getUser();
+  
 }

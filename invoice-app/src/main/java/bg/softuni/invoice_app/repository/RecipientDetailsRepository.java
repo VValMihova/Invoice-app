@@ -13,9 +13,15 @@ import java.util.Optional;
 public interface RecipientDetailsRepository extends JpaRepository<RecipientDetails, Long> {
   Optional<RecipientDetails> findByVatNumber(String vatNumber);
   
-  @Query("SELECT r FROM RecipientDetails r WHERE r.vatNumber = :vatNumber AND r.user.id = :userId")
-  Optional<RecipientDetails> findByVatNumberAndUserId(@Param("vatNumber") String vatNumber, @Param("userId") Long userId);
+  @Query("SELECT r FROM RecipientDetails r WHERE r.eik = :eik AND r.user.id = :userId")
+  Optional<RecipientDetails> findByEikAndUserId(@Param("eik") String eik, @Param("userId") Long userId);
 
   Optional<List<RecipientDetails>> findAllByUserId(Long userId);
-
+  
+  boolean existsByCompanyName(String companyName);
+  
+  boolean existsByVatNumber(String vat);
+  
+  boolean existsByEik(String eik);
+  
 }

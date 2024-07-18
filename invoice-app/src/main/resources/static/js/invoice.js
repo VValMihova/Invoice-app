@@ -68,7 +68,6 @@ function calculateTotalAmounts() {
     amountDueField.value = amountDue.toFixed(2);
 }
 
-// Initial calculation in case of validation errors
 document.addEventListener('DOMContentLoaded', (event) => {
     document.querySelectorAll('input[name*="items"][name*="quantity"], input[name*="items"][name*="unitPrice"]').forEach(input => {
         input.addEventListener('input', () => calculateTotalPrice(input));

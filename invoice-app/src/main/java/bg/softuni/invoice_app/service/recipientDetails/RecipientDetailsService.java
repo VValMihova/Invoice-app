@@ -1,5 +1,7 @@
 package bg.softuni.invoice_app.service.recipientDetails;
 
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsEdit;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.RecipientDetails;
 
@@ -11,7 +13,17 @@ public interface RecipientDetailsService {
   
   RecipientDetails saveAndReturn(RecipientDetails newRecipient);
   
-  List<RecipientDetailsView> findAll(Long id);
+  List<RecipientDetailsView> findAll();
   RecipientDetailsView findById(Long id);
   RecipientDetails getById(Long id);
+  
+  void addRecipientDetails( RecipientDetailsAddDto recipientDetails);
+  
+  void edit(RecipientDetailsEdit recipientDetailsEdit, Long id);
+  
+  boolean existsByCompanyName(String companyName);
+  
+  boolean existsByVatNumber(String vat);
+  
+  boolean existsByEik(String eik);
 }

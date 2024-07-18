@@ -7,6 +7,7 @@ import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,12 +35,13 @@ public class InvoiceController {
     this.recipientDetailsService = recipientDetailsService;
     this.userService = userService;
   }
+  
   @GetMapping("/create")
   public ModelAndView createInvoice() {
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.addObject("bankAccounts",
-        this.bankAccountService.findAllForCompany(userService.showCompanyDetails().getId()) );
-
+        this.bankAccountService.findAllForCompany(userService.showCompanyDetails().getId()));
+    
     modelAndView.setViewName("invoice-create");
     return modelAndView;
   }
