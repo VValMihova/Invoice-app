@@ -55,87 +55,12 @@
 
     <div class="row">
       <div class="col-md-12">
-        <!--          <div-->
-        <!--              th:if="${#fields.hasErrors('recipientDetails')}"-->
-        <!--              class="alert alert-danger mt-3"-->
-        <!--              th:text="${#fields.errors('recipientDetails')}">-->
-        <!--          </div>-->
-        <h4 th:text="#{create.invoice.recipient.details}">Recipient Details</h4>
-        <div class="form-group">
-          <label for="recipientName" th:text="#{create.invoice.recipient.name}">Recipient Name:</label>
-          <input
-              type="text"
-              id="recipientName"
-              name="recipient.companyName"
-              class="form-control"
-              th:field="*{recipient.companyName}"
-              th:errorclass="'is-invalid alert-danger'"
-              required/>
-          <small
-              th:each="err : ${#fields.errors('recipient.companyName')}"
-              th:text="${err}" class="text-danger">
-          </small>
-        </div>
-        <div class="form-group">
-          <label for="recipientAddress" th:text="#{create.invoice.recipient.address}">Recipient Address:</label>
-          <input
-              type="text"
-              id="recipientAddress"
-              name="recipient.address"
-              class="form-control"
-              th:field="*{recipient.address}"
-              th:errorclass="'is-invalid alert-danger'"
-              required/>
-          <small
-              th:each="err : ${#fields.errors('recipient.address')}"
-              th:text="${err}" class="text-danger">
-          </small>
-        </div>
-        <div class="form-group">
-          <label for="recipientEik" th:text="#{create.invoice.recipient.eik}">Recipient EIK:</label>
-          <input
-              type="text"
-              id="recipientEik"
-              name="recipient.eik"
-              class="form-control"
-              th:field="*{recipient.eik}"
-              th:errorclass="'is-invalid alert-danger'"
-              required/>
-          <small
-              th:each="err : ${#fields.errors('recipient.eik')}"
-              th:text="${err}" class="text-danger">
-          </small>
-        </div>
-        <div class="form-group">
-          <label for="recipientVatNumber" th:text="#{create.invoice.recipient.vat}">Recipient VAT Number:</label>
-          <input
-              type="text"
-              id="recipientVatNumber"
-              name="recipient.vatNumber"
-              class="form-control"
-              th:field="*{recipient.vatNumber}"
-              th:errorclass="'is-invalid alert-danger'"
-              required/>
-          <small
-              th:each="err : ${#fields.errors('recipient.vatNumber')}"
-              th:text="${err}" class="text-danger">
-          </small>
-        </div>
-        <div class="form-group">
-          <label for="recipientManager" th:text="#{create.invoice.recipient.manager}">Recipient Manager:</label>
-          <input
-              type="text"
-              id="recipientManager"
-              name="recipient.manager"
-              class="form-control"
-              th:field="*{recipient.manager}"
-              th:errorclass="'is-invalid alert-danger'"
-              required/>
-          <small
-              th:each="err : ${#fields.errors('recipient.manager')}"
-              th:text="${err}" class="text-danger">
-          </small>
-        </div>
+        <h3>Recipient Details</h3>
+        <p><strong>Company Name:</strong> <span th:text="${invoiceData.recipient.companyName}">Recipient Name</span></p>
+        <p><strong>Address:</strong> <span th:text="${invoiceData.recipient.address}">Recipient Address</span></p>
+        <p><strong>EIK:</strong> <span th:text="${invoiceData.recipient.eik}">Recipient EIK</span></p>
+        <p><strong>VAT Number:</strong> <span th:text="${invoiceData.recipient.vatNumber}">Recipient VAT Number</span></p>
+        <p><strong>Manager:</strong> <span th:text="${invoiceData.recipient.manager}">Recipient Manager</span></p>
       </div>
     </div>
 

@@ -57,8 +57,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setIssueDate(invoiceData.getIssueDate())
         .setSupplier(userService.getCompanyDetails());
     
-    RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
-    invoice.setRecipient(recipient);
+//    RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
+//    invoice.setRecipient(recipient);
     
     BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
     invoice.setBankAccount(bankAccount);
@@ -84,9 +84,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
     invoice.setIssueDate(invoiceData.getIssueDate());
     invoice.setSupplier(userService.getCompanyDetails());
-    
-    RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipient());
-    invoice.setRecipient(recipient);
     
     BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
     invoice.setBankAccount(bankAccount);
@@ -152,15 +149,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoiceRepository.save(invoice);
   }
   
-  
-  private RecipientDetails getOrCreateRecipientDetails(RecipientDetailsAddDto recipientDetailsAddDto) {
-    if (recipientDetailsService.exists(mapToRecipientDetails(recipientDetailsAddDto))) {
-      return recipientDetailsService.getByVatNumber(recipientDetailsAddDto.getVatNumber());
-    } else {
-      RecipientDetails newRecipient = modelMapper.map(recipientDetailsAddDto, RecipientDetails.class);
-      return recipientDetailsService.saveAndReturn(newRecipient);
-    }
-  }
   
   private void updateInvoiceItems(Invoice existingInvoice, List<InvoiceItemDto> newItems) {
     existingInvoice.getItems().clear();
