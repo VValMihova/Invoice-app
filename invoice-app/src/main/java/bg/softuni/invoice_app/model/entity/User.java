@@ -35,6 +35,9 @@ public class User {
   private Set<Product> products;
   
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Sale> sales;
+  
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Invoice> invoices;
   
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -45,6 +48,7 @@ public class User {
     this.roles = new HashSet<>();
     this.products = new HashSet<>();
     this.invoices = new OrderedHashSet<>();
+    this.sales = new HashSet<>();
   }
   
   public Long getId() {
@@ -107,6 +111,24 @@ public class User {
   
   public User setInvoices(Set<Invoice> invoices) {
     this.invoices = invoices;
+    return this;
+  }
+  
+  public Set<Sale> getSales() {
+    return sales;
+  }
+  
+  public User setSales(Set<Sale> sales) {
+    this.sales = sales;
+    return this;
+  }
+  
+  public Set<RecipientDetails> getRecipients() {
+    return recipients;
+  }
+  
+  public User setRecipients(Set<RecipientDetails> recipients) {
+    this.recipients = recipients;
     return this;
   }
 }
