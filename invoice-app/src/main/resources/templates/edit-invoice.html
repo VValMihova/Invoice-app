@@ -4,16 +4,15 @@
 <body>
 <nav th:replace="fragments/nav :: nav"></nav>
 <div class="container mt-5">
-
-  <div class="title-block mb-3">
-    <h2 th:text="#{create.invoice.edit.header}">Edit Invoice</h2>
+  <div class="container form-container mb-3">
+    <h2 class="mb-0" th:text="#{create.invoice.edit.header}">Edit Invoice</h2>
   </div>
   <form
       th:action="@{/invoices/edit/{id}(id=${invoiceData.id})}"
       th:method="post"
       id="invoiceForm"
       th:object="${invoiceData}"
-      class="invoices-container">
+      class="form-container invoices-container">
 
     <div class="row">
       <div class="col-md-6">
@@ -83,7 +82,6 @@
           th:each="err : ${#fields.errors('bankAccount')}"
           th:text="${err}" class="text-danger"></small>
     </div>
-
 
     <!-- Invoice Items -->
     <h4 th:text="#{invoice.items.header}">Items</h4>

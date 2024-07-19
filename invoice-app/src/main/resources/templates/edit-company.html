@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head"></head>
 <body>
 <nav th:replace="fragments/nav :: nav"></nav>
@@ -85,7 +85,9 @@
             th:errors="*{manager}" class="text-danger">
         </small>
       </div>
-      <button type="submit" class="btn btn-primary" th:text="#{user.profile.edit.company.details.company.save}">Save Changes</button>
+      <button type="submit" class="btn btn-primary" th:text="#{user.profile.edit.company.details.company.save}">Save
+        Changes
+      </button>
     </form>
   </div>
 </div>
