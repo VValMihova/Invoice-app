@@ -10,8 +10,6 @@ import java.util.List;
 public interface InvoiceService {
   List<AllInvoicesView> getAllInvoices();
   
-  void createInvoice(InvoiceCreateDto invoiceData);
-  
   void updateInvoice(Long id, InvoiceEditDto invoiceData);
   
   boolean checkInvoiceExists(Long invoiceNumber);

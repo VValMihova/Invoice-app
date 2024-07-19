@@ -4,7 +4,6 @@ import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
-import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
@@ -49,31 +48,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         .toList();
   }
   
-  @Override
-  public void createInvoice(InvoiceCreateDto invoiceData) {
-    User currentUser = userService.getUser();
-    Invoice invoice = new Invoice()
-        .setInvoiceNumber(invoiceData.getInvoiceNumber())
-        .setIssueDate(invoiceData.getIssueDate())
-        .setSupplier(userService.getCompanyDetails());
-    
-//    RecipientDetails recipient = getOrCreateRecipientDetails(invoiceData.getRecipientDetails());
-//    invoice.setRecipient(recipient);
-    
-    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
-    invoice.setBankAccount(bankAccount);
-    
-    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
-    invoice.setItems(invoiceItems);
-    
-    invoice.setTotalAmount(invoiceData.getTotalAmount());
-    invoice.setVat(invoiceData.getVat());
-    invoice.setAmountDue(invoiceData.getAmountDue());
-    
-    invoice.setUser(currentUser);
-    
-    invoiceRepository.save(invoice);
-  }
   
   @Override
   public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
@@ -217,9 +191,5 @@ public class InvoiceServiceImpl implements InvoiceService {
   
   private CompanyDetailsView mapToCompanyDetailsView(CompanyDetails supplier) {
     return new CompanyDetailsView(supplier);
-  }
-  
-  private RecipientDetails mapToRecipientDetails(RecipientDetailsAddDto recipientDetails) {
-    return modelMapper.map(recipientDetails, RecipientDetails.class);
   }
 }
