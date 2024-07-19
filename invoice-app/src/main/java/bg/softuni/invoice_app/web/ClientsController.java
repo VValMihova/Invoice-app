@@ -76,6 +76,11 @@ public class ClientsController {
   }
   
   //  todo add delete
+  
+  @ModelAttribute("recipientDetails")
+  public RecipientDetailsAddDto recipientDetails() {
+    return new RecipientDetailsAddDto();
+  }
 }
   
 
