@@ -6,9 +6,9 @@
 
 <div class="container mt-5">
   <div class="title-block mb-3">
-    <h2 class="title">Clients</h2>
+    <h2 class="title" th:text="#{clients.title}">Clients</h2>
     <a th:href="@{/clients/add}" class="btn btn-success">
-      <i class="fas fa-plus"></i> Add Client
+      <i class="fas fa-plus"></i> <span th:text="#{clients.add.button}">Add Client</span>
     </a>
   </div>
 
@@ -17,16 +17,16 @@
       <div class="card mb-4">
         <div class="card-body">
           <h5 class="card-title" th:text="${client.companyName}">Company Name</h5>
-          <p class="card-text"><strong>Address:</strong> <span th:text="${client.address}">Address</span></p>
-          <p class="card-text"><strong>EIK:</strong> <span th:text="${client.eik}">EIK</span></p>
-          <p class="card-text"><strong>VAT Number:</strong> <span th:text="${client.vatNumber}">VAT Number</span></p>
-          <p class="card-text"><strong>Manager:</strong> <span th:text="${client.manager}">Manager</span></p>
+          <p class="card-text"><strong th:text="#{client.address.label}">Address:</strong> <span th:text="${client.address}">Address</span></p>
+          <p class="card-text"><strong th:text="#{client.eik.label}">EIK:</strong> <span th:text="${client.eik}">EIK</span></p>
+          <p class="card-text"><strong th:text="#{client.vat.label}">VAT Number:</strong> <span th:text="${client.vatNumber}">VAT Number</span></p>
+          <p class="card-text"><strong th:text="#{client.manager.label}">Manager:</strong> <span th:text="${client.manager}">Manager</span></p>
           <div class="d-flex justify-content-center">
             <a th:href="@{/invoices/create-with-client/{clientId}(clientId=${client.id})}" class="btn btn-primary mt-2 mt-md-0 mr-2">
-              <i class="fas fa-plus"></i> <span th:text="#{recipients.create.invoice.button}"></span>
+              <i class="fas fa-plus"></i> <span th:text="#{recipients.create.invoice.button}">Create Invoice</span>
             </a>
             <a th:href="@{/clients/edit/{clientId}(clientId=${client.id})}" class="btn btn-warning mt-2 mt-md-0 ml-2">
-              <i class="fas fa-edit"></i> <span th:text="#{recipients.edit.button}"></span>
+              <i class="fas fa-edit"></i> <span th:text="#{recipients.edit.button}">Edit</span>
             </a>
           </div>
         </div>

@@ -55,12 +55,12 @@
 
     <div class="row">
       <div class="col-md-12">
-        <h3>Recipient Details</h3>
-        <p><strong>Company Name:</strong> <span th:text="${invoiceData.recipient.companyName}">Recipient Name</span></p>
-        <p><strong>Address:</strong> <span th:text="${invoiceData.recipient.address}">Recipient Address</span></p>
-        <p><strong>EIK:</strong> <span th:text="${invoiceData.recipient.eik}">Recipient EIK</span></p>
-        <p><strong>VAT Number:</strong> <span th:text="${invoiceData.recipient.vatNumber}">Recipient VAT Number</span></p>
-        <p><strong>Manager:</strong> <span th:text="${invoiceData.recipient.manager}">Recipient Manager</span></p>
+        <h3 th:text="#{create.invoice.recipient.details}">Recipient Details</h3>
+        <p><strong th:text="#{create.invoice.recipient.name}">Recipient Name:</strong> <span th:text="${invoiceData.recipient.companyName}">Recipient Name</span></p>
+        <p><strong th:text="#{create.invoice.recipient.address}">Recipient Address:</strong> <span th:text="${invoiceData.recipient.address}">Recipient Address</span></p>
+        <p><strong th:text="#{create.invoice.recipient.eik}">Recipient EIK:</strong> <span th:text="${invoiceData.recipient.eik}">Recipient EIK</span></p>
+        <p><strong th:text="#{create.invoice.recipient.vat}">Recipient VAT Number:</strong> <span th:text="${invoiceData.recipient.vatNumber}">Recipient VAT Number</span></p>
+        <p><strong th:text="#{create.invoice.recipient.manager}">Recipient Manager:</strong> <span th:text="${invoiceData.recipient.manager}">Recipient Manager</span></p>
       </div>
     </div>
 

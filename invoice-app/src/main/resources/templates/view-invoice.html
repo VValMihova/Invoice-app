@@ -8,53 +8,53 @@
   <div class="invoice-details">
     <div class="row">
       <div class="col-md-6">
-        <h2 th:text="'Invoice #' + ${invoice.invoiceNumber}">Invoice #12345</h2>
+        <h2 th:text="#{invoice.number} + ' ' + ${invoice.invoiceNumber}">Invoice #12345</h2>
       </div>
       <div class="col-md-6 text-right">
-        <p><strong>Issue Date:</strong> <span th:text="${invoice.issueDate}">2024-08-10</span></p>
+        <p><strong th:text="#{invoice.issue.date}">Issue Date:</strong> <span th:text="${invoice.issueDate}">2024-08-10</span></p>
       </div>
     </div>
     <hr>
 
     <div class="row">
       <div class="col-md-6">
-        <h3>Supplier Details</h3>
-        <p><strong>Company Name:</strong> <span th:text="${invoice.supplier.companyName}">Supplier Name</span></p>
-        <p><strong>Address:</strong> <span th:text="${invoice.supplier.address}">Supplier Address</span></p>
-        <p><strong>EIK:</strong> <span th:text="${invoice.supplier.eik}">Supplier EIK</span></p>
-        <p><strong>VAT Number:</strong> <span th:text="${invoice.supplier.vatNumber}">Supplier VAT Number</span></p>
-        <p><strong>Manager:</strong> <span th:text="${invoice.supplier.manager}">Supplier Manager</span></p>
+        <h3 th:text="#{invoice.supplier.details}">Supplier Details</h3>
+        <p><strong th:text="#{invoice.company.name}">Company Name:</strong> <span th:text="${invoice.supplier.companyName}">Supplier Name</span></p>
+        <p><strong th:text="#{invoice.address}">Address:</strong> <span th:text="${invoice.supplier.address}">Supplier Address</span></p>
+        <p><strong th:text="#{invoice.eik}">EIK:</strong> <span th:text="${invoice.supplier.eik}">Supplier EIK</span></p>
+        <p><strong th:text="#{invoice.vat.number}">VAT Number:</strong> <span th:text="${invoice.supplier.vatNumber}">Supplier VAT Number</span></p>
+        <p><strong th:text="#{invoice.manager}">Manager:</strong> <span th:text="${invoice.supplier.manager}">Supplier Manager</span></p>
       </div>
 
       <div class="col-md-6">
-        <h3>Recipient Details</h3>
-        <p><strong>Company Name:</strong> <span th:text="${invoice.recipient.companyName}">Recipient Name</span></p>
-        <p><strong>Address:</strong> <span th:text="${invoice.recipient.address}">Recipient Address</span></p>
-        <p><strong>EIK:</strong> <span th:text="${invoice.recipient.eik}">Recipient EIK</span></p>
-        <p><strong>VAT Number:</strong> <span th:text="${invoice.recipient.vatNumber}">Recipient VAT Number</span></p>
-        <p><strong>Manager:</strong> <span th:text="${invoice.recipient.manager}">Recipient Manager</span></p>
+        <h3 th:text="#{invoice.recipient.details}">Recipient Details</h3>
+        <p><strong th:text="#{invoice.company.name}">Company Name:</strong> <span th:text="${invoice.recipient.companyName}">Recipient Name</span></p>
+        <p><strong th:text="#{invoice.address}">Address:</strong> <span th:text="${invoice.recipient.address}">Recipient Address</span></p>
+        <p><strong th:text="#{invoice.eik}">EIK:</strong> <span th:text="${invoice.recipient.eik}">Recipient EIK</span></p>
+        <p><strong th:text="#{invoice.vat.number}">VAT Number:</strong> <span th:text="${invoice.recipient.vatNumber}">Recipient VAT Number</span></p>
+        <p><strong th:text="#{invoice.manager}">Manager:</strong> <span th:text="${invoice.recipient.manager}">Recipient Manager</span></p>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-6">
-        <h3>Bank Account Details</h3>
-        <p><strong>IBAN:</strong> <span th:text="${invoice.bankAccount.iban}">Bank Account IBAN</span></p>
-        <p><strong>BIC:</strong> <span th:text="${invoice.bankAccount.bic}">Bank Account BIC</span></p>
-        <p><strong>Currency:</strong> <span th:text="${invoice.bankAccount.currency}">Currency</span></p>
+        <h3 th:text="#{invoice.bank.details}">Bank Account Details</h3>
+        <p><strong th:text="#{invoice.bank.iban}">IBAN:</strong> <span th:text="${invoice.bankAccount.iban}">Bank Account IBAN</span></p>
+        <p><strong th:text="#{invoice.bank.bic}">BIC:</strong> <span th:text="${invoice.bankAccount.bic}">Bank Account BIC</span></p>
+        <p><strong th:text="#{invoice.currency}">Currency:</strong> <span th:text="${invoice.bankAccount.currency}">Currency</span></p>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-12">
-        <h3>Items</h3>
+        <h3 th:text="#{invoice.items}">Items</h3>
         <table class="table">
           <thead>
           <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total Price</th>
+            <th th:text="#{invoice.item.name}">Item Name</th>
+            <th th:text="#{invoice.item.quantity}">Quantity</th>
+            <th th:text="#{invoice.item.unit.price}">Unit Price</th>
+            <th th:text="#{invoice.item.total.price}">Total Price</th>
           </tr>
           </thead>
           <tbody>
@@ -71,10 +71,10 @@
 
     <div class="row">
       <div class="col-md-12 text-right">
-        <h3>Summary</h3>
-        <p><strong>Total Amount:</strong> <span th:text="${invoice.totalAmount}">132.00</span></p>
-        <p><strong>VAT (20%):</strong> <span th:text="${invoice.vat}">26.40</span></p>
-        <p><strong>Amount Due:</strong> <span th:text="${invoice.amountDue}">158.40</span></p>
+        <h3 th:text="#{invoice.summary}">Summary</h3>
+        <p><strong th:text="#{invoice.total.amount}">Total Amount:</strong> <span th:text="${invoice.totalAmount}">132.00</span></p>
+        <p><strong th:text="#{invoice.vat}">VAT (20%):</strong> <span th:text="${invoice.vat}">26.40</span></p>
+        <p><strong th:text="#{invoice.amount.due}">Amount Due:</strong> <span th:text="${invoice.amountDue}">158.40</span></p>
       </div>
     </div>
 
@@ -82,10 +82,10 @@
 
     <div class="row">
       <div class="col-md-6">
-        <a th:href="@{/invoices}" class="btn btn-primary">Back to Invoices</a>
+        <a th:href="@{/invoices}" class="btn btn-primary" th:text="#{invoice.back.to.invoices}">Back to Invoices</a>
       </div>
       <div class="col-md-6 text-right">
-        <a th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-success">Download PDF</a>
+        <a th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-success" th:text="#{invoice.download.pdf}">Download PDF</a>
       </div>
     </div>
   </div>
