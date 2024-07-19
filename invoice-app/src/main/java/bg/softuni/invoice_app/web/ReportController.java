@@ -2,17 +2,19 @@ package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.ReportCriteria;
 import bg.softuni.invoice_app.model.dto.SaleReportDto;
+import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
 import bg.softuni.invoice_app.service.sale.SaleService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -20,9 +22,11 @@ import java.util.List;
 public class ReportController {
   
   private final SaleService saleService;
+  private final PdfGenerationService pdfGenerationService;
   
-  public ReportController(SaleService saleService) {
+  public ReportController(SaleService saleService, PdfGenerationService pdfGenerationService) {
     this.saleService = saleService;
+    this.pdfGenerationService = pdfGenerationService;
   }
   
   @GetMapping
@@ -47,6 +51,32 @@ public class ReportController {
     model.addAttribute("reportData", reportData);
     return "report-view";
   }
+//  @GetMapping("/download-pdf")
+//  public void downloadPdfReport(ReportCriteria reportCriteria, HttpServletResponse response) throws IOException {
+//    List<SaleReportDto> reportData = saleService.generateReport(reportCriteria);
+//    byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData);
+//
+//    response.setContentType("application/pdf");
+//    response.setHeader("Content-Disposition", "attachment; filename=sales_report.pdf");
+//    response.getOutputStream().write(pdfBytes);
+//    response.getOutputStream().flush();
+//  }
+@GetMapping("/download-pdf")
+public void downloadPdfReport(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                              @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                              HttpServletResponse response) throws IOException {
+  ReportCriteria reportCriteria = new ReportCriteria();
+  reportCriteria.setStartDate(startDate);
+  reportCriteria.setEndDate(endDate);
+  
+  List<SaleReportDto> reportData = saleService.generateReport(reportCriteria);
+  byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData);
+  
+  response.setContentType("application/pdf");
+  response.setHeader("Content-Disposition", "attachment; filename=sales_report.pdf");
+  response.getOutputStream().write(pdfBytes);
+  response.getOutputStream().flush();
+}
   
   @ModelAttribute("reportCriteria")
   public ReportCriteria reportCriteria() {

@@ -23,7 +23,8 @@
                th:each="err : ${#fields.errors('endDate')}"
                th:text="${err}" class="text-danger"></small>
       </div>
-      <button type="submit" class="btn btn-primary" th:text="#{report.generate.button}">Generate Report</button>
+      <button type="submit" class="btn btn-primary"
+              th:text="#{report.generate.button}">Generate Report</button>
     </form>
   </div>
 </div>

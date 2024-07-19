@@ -27,6 +27,12 @@
       </tbody>
     </table>
   </div>
+<!--  <a th:href="@{/reports/download-pdf}"-->
+<!--     class="btn btn-secondary mt-2"-->
+<!--     th:text="#{report.download.pdf}">Download PDF</a>-->
+  <a th:href="@{/reports/download-pdf(startDate=${reportCriteria.startDate}, endDate=${reportCriteria.endDate})}"
+     class="btn btn-secondary mt-2"
+     th:text="#{report.download.pdf}">Download PDF</a>
 </div>
 
 <footer th:replace="fragments/footer :: footer"></footer>

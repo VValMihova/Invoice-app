@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"></meta>
+  <title th:text="#{report.title}">Sales Report</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 20px;
+      }
+      h1 {
+          text-align: center;
+          font-size: 24px;
+      }
+      .table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 20px 0;
+      }
+      .table th, .table td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+      }
+      .table th {
+          background-color: #f2f2f2;
+      }
+  </style>
+</head>
+<body>
+<h1 th:text="#{report.title}">Sales Report</h1>
+<table class="table">
+  <thead>
+  <tr>
+    <th th:text="#{report.item.name}">Item Name</th>
+    <th th:text="#{report.item.quantity}">Quantity Sold</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="data : ${reportData}">
+    <td th:text="${data.productName}">Item Name</td>
+    <td th:text="${data.totalQuantity}">Quantity Sold</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

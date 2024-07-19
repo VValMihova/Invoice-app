@@ -91,7 +91,7 @@ public class InvoicesController {
   
   @GetMapping("/download-pdf/{id}")
   public void downloadPdf(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-    byte[] pdf = pdfService.generatePdf(id, request, response);
+    byte[] pdf = pdfService.generateInvoicePdf(id, request, response);
     response.setContentType("application/pdf");
     response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
     response.getOutputStream().write(pdf);
