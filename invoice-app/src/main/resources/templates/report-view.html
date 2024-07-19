@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+<div class="container mt-5">
+  <div class="title-block mb-3">
+    <h2 th:text="#{report.result}">Report Results</h2>
+  </div>
+  <div th:if="${reportData.isEmpty()}">
+    <p th:text="#{report.no.data}">No data available for the selected period.</p>
+  </div>
+  <div th:if="${!reportData.isEmpty()}">
+    <table class="table">
+      <thead>
+      <tr>
+        <th th:text="#{report.item.name}">Item Name</th>
+        <th th:text="#{report.item.quantity}">Quantity Sold</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="data : ${reportData}">
+        <td th:text="${data.productName}">Item Name</td>
+        <td th:text="${data.totalQuantity}">Quantity Sold</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
