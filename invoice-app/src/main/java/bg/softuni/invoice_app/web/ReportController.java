@@ -27,7 +27,7 @@ public class ReportController {
   
   @GetMapping
   public String showSalesReportForm() {
-    return "report";
+    return "report-create";
   }
   
   @PostMapping

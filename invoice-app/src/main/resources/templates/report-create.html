@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+
+<div class="container mt-5">
+  <div class="form-container">
+    <h2 th:text="#{report.generate}">Generate Report</h2>
+
+    <form th:action="@{/reports}" th:object="${reportCriteria}" method="post">
+      <div class="form-group">
+        <label for="startDate" th:text="#{report.start.date}">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" class="form-control" th:field="*{startDate}" required/>
+        <small th:if="${#fields.hasErrors('startDate')}"
+               th:each="err : ${#fields.errors('startDate')}"
+               th:text="${err}" class="text-danger"></small>
+      </div>
+      <div class="form-group">
+        <label for="endDate" th:text="#{report.end.date}">End Date:</label>
+        <input type="date" id="endDate" name="endDate" class="form-control" th:field="*{endDate}" required/>
+        <small th:if="${#fields.hasErrors('endDate')}"
+               th:each="err : ${#fields.errors('endDate')}"
+               th:text="${err}" class="text-danger"></small>
+      </div>
+      <button type="submit" class="btn btn-primary" th:text="#{report.generate.button}">Generate Report</button>
+    </form>
+  </div>
+</div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
