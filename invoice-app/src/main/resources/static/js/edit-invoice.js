@@ -1,5 +1,10 @@
 let itemIndex = /*[[${invoiceData.items.size()}]]*/ 0;
 
+document.addEventListener('DOMContentLoaded', () => {
+    calculateTotalAmounts();
+    itemIndex = document.querySelectorAll('#invoiceItemsContainer tr').length;
+});
+
 function addInvoiceItem() {
     const container = document.getElementById('invoiceItemsContainer');
     const newRow = document.createElement('tr');
@@ -53,8 +58,3 @@ function calculateTotalAmounts() {
     vatField.value = vat.toFixed(2);
     amountDueField.value = amountDue.toFixed(2);
 }
-
-// Initial calculation to set the values when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    calculateTotalAmounts();
-});

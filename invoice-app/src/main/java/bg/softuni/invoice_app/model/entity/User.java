@@ -30,13 +30,6 @@ public class User {
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles;
   
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "user_id")
-  private Set<Product> products;
-  
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Sale> sales;
-  
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Invoice> invoices;
   
@@ -46,9 +39,7 @@ public class User {
   
   public User() {
     this.roles = new HashSet<>();
-    this.products = new HashSet<>();
     this.invoices = new OrderedHashSet<>();
-    this.sales = new HashSet<>();
   }
   
   public Long getId() {
@@ -96,30 +87,12 @@ public class User {
     return this;
   }
   
-  public Set<Product> getProducts() {
-    return products;
-  }
-  
-  public User setProducts(Set<Product> products) {
-    this.products = products;
-    return this;
-  }
-  
   public Set<Invoice> getInvoices() {
     return invoices;
   }
   
   public User setInvoices(Set<Invoice> invoices) {
     this.invoices = invoices;
-    return this;
-  }
-  
-  public Set<Sale> getSales() {
-    return sales;
-  }
-  
-  public User setSales(Set<Sale> sales) {
-    this.sales = sales;
     return this;
   }
   

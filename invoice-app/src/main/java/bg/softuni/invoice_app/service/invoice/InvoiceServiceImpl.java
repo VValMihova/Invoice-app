@@ -7,10 +7,12 @@ import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
+import bg.softuni.invoice_app.repository.SaleRepository;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
-import bg.softuni.invoice_app.service.product.ProductService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
+import bg.softuni.invoice_app.service.sale.SaleService;
 import bg.softuni.invoice_app.service.user.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -23,22 +25,24 @@ public class InvoiceServiceImpl implements InvoiceService {
   private final InvoiceRepository invoiceRepository;
   private final ModelMapper modelMapper;
   private final RecipientDetailsService recipientDetailsService;
-  private final ProductService productService;
   private final BankAccountService bankAccountService;
   private final UserService userService;
+  private final SaleService saleService;
   
   
   public InvoiceServiceImpl(
       InvoiceRepository invoiceRepository,
       ModelMapper modelMapper,
       RecipientDetailsService recipientDetailsService,
-      ProductService productService, BankAccountService bankAccountService, UserService userService) {
+      BankAccountService bankAccountService,
+      UserService userService,
+      SaleService saleService) {
     this.invoiceRepository = invoiceRepository;
     this.modelMapper = modelMapper;
     this.recipientDetailsService = recipientDetailsService;
-    this.productService = productService;
     this.bankAccountService = bankAccountService;
     this.userService = userService;
+    this.saleService = saleService;
   }
   
   @Override
@@ -48,7 +52,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         .toList();
   }
   
-  
+  @Transactional
   @Override
   public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
     User currentUser = userService.getUser();
@@ -71,7 +75,16 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setAmountDue(invoiceData.getAmountDue());
     
     invoiceRepository.save(invoice);
-    
+    saleService.deleteAllByInvoiceId(invoice.getId());
+    for (InvoiceItem updatedItem : updatedItems) {
+      Sale sale = new Sale()
+          .setSaleDate(invoiceData.getIssueDate())
+          .setProductName(updatedItem.getName())
+          .setQuantity(updatedItem.getQuantity())
+          .setInvoiceId(invoice.getId())
+          .setUser(currentUser);
+          saleService.save(sale);
+    }
   }
   
   @Override
@@ -104,7 +117,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     
     invoice.setSupplier(userService.getCompanyDetails());
     
-    // Setting recipient
     RecipientDetails recipient = recipientDetailsService.getById(clientId);
     invoice.setRecipient(recipient);
     
@@ -119,8 +131,21 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoice.setBankAccount(bankAccount);
     
     invoice.setUser(currentUser);
-    
     invoiceRepository.save(invoice);
+    //todo move to service
+    addSales(invoiceData, invoiceItems, currentUser);
+  }
+  
+  private void addSales(InvoiceCreateDto invoiceData, List<InvoiceItem> invoiceItems, User currentUser) {
+    for (InvoiceItem invoiceItem : invoiceItems) {
+      Sale sale = new Sale()
+          .setSaleDate(invoiceData.getIssueDate())
+          .setProductName(invoiceItem.getName())
+          .setQuantity(invoiceItem.getQuantity())
+          .setInvoiceId(invoiceData.getInvoiceNumber())
+          .setUser(currentUser);
+      saleService.save(sale);
+    }
   }
   
   
@@ -137,25 +162,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     List<InvoiceItem> invoiceItems = new ArrayList<>();
     for (InvoiceItemDto itemDto : items) {
       InvoiceItem invoiceItem = modelMapper.map(itemDto, InvoiceItem.class);
-      
-      Product product = user.getProducts()
-          .stream()
-          .filter(p -> p.getName().equals(itemDto.getName()))
-          .findFirst()
-          .orElseGet(() -> {
-            Product newProduct = new Product().setName(itemDto.getName());
-            newProduct.setUser(user);
-            user.getProducts().add(newProduct);
-            return newProduct;
-          });
-      
-      if (product.getId() != null) {
-        product.setQuantity(product.getQuantity().add(itemDto.getQuantity()));
-      } else {
-        product.setQuantity(itemDto.getQuantity());
-      }
-      
-      productService.save(product);
       invoiceItems.add(invoiceItem);
     }
     return invoiceItems;

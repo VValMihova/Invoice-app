@@ -77,7 +77,7 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
   
   @Override
   public void addRecipientDetails(RecipientDetailsAddDto recipientDetails) {
-    recipientDetailsRepository.save(
+    recipientDetailsRepository.saveAndFlush(
         modelMapper.map(recipientDetails, RecipientDetails.class)
             .setUser(userService.getUser()));
   }

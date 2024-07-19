@@ -83,7 +83,6 @@
           th:text="${err}" class="text-danger"></small>
     </div>
 
-    <!-- Invoice Items -->
     <h4 th:text="#{invoice.items.header}">Items</h4>
     <table class="table text-center">
       <thead>
@@ -122,23 +121,18 @@
                  th:errors="*{items[__${iterStat.index}__].totalPrice}" class="text-danger"></small>
         </td>
         <td>
-          <button
-              type="button"
-              class="btn btn-sm btn-danger"
-              onclick="removeInvoiceItem(this)"
-              th:text="#{invoice.items.actions.remove}">
+          <button type="button" class="btn btn-sm btn-danger"
+                  onclick="removeInvoiceItem(this)"
+                  th:text="#{invoice.items.actions.remove}">
             Remove
           </button>
         </td>
       </tr>
       </tbody>
+
     </table>
-    <button
-        type="button"
-        class="btn btn-secondary"
-        onclick="addInvoiceItem()"
-        th:text="#{invoice.items.actions.add}">
-      Add Item
+    <button type="button" class="btn btn-secondary" onclick="addInvoiceItem()">
+      <i class="fas fa-plus"></i> <span th:text="#{invoice.items.actions.add}">Add Item</span>
     </button>
     <!-- Total Amount, VAT, and Amount Due -->
     <div class="row mt-3 justify-content-end">
