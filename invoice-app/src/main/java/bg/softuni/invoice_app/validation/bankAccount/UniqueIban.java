@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueIban {
-  String message() default "{UniqueIban.message}";
+  String message() default "{custom.validations.unique.iban}";
   
   Class<?>[] groups() default {};
   

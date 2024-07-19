@@ -13,8 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidVatEik {
   
-  String message() default "ДДС номерът не съвпада с ЕИК номера!";
-  
+  String message() default "{custom.validations.vat.mismatch.eik}";
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

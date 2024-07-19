@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueInvoiceNumber {
-  String message() default "Invoice with this number already exist!";
+  String message() default "{custom.validations.invoice.exists}";
   
   Class<?>[] groups() default {};
   

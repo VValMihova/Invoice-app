@@ -13,8 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RecipientCompanyVatEditable {
-  String message() default "You already have a recipient with such VAT number!";
-  
+  String message() default "{custom.validations.recipient.exists.vat}";
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

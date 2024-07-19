@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Numeric {
   
-  String message() default "Полето трябва да съдържа само цифри.";
+  String message() default "{custom.validations.only.digits}";
   
   Class<?>[] groups() default {};
   

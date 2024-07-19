@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LatinCharacters {
   
-  String message() default "Полето трябва да съдържа само латински букви.";
+  String message() default "{custom.validations.only.latin}";
   
   Class<?>[] groups() default {};
   

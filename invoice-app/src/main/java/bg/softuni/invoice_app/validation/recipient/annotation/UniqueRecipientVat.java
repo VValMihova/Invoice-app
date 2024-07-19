@@ -11,8 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueRecipientVat {
-  String message() default "You already have a recipient with this VAT number!";
-  
+  String message() default "{custom.validations.recipient.exists.vat.same}";
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

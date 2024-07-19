@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidBic {
   
-  String message() default "Невалиден BIC код.";
+  String message() default "{custom.validations.invalid.bic}";
   
   Class<?>[] groups() default {};
   

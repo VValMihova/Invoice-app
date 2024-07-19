@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RecipientCompanyEikEditable {
-  String message() default "You already have a recipient with such EIK!";
+  String message() default "{custom.validations.recipient.exists.eik}";
   
   Class<?>[] groups() default {};
   

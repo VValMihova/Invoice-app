@@ -13,8 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RecipientCompanyNameEditable {
-  String message() default "You already have a recipient with such company name!";
-  
+  String message() default "{custom.validations.recipient.exists.companyName}";
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

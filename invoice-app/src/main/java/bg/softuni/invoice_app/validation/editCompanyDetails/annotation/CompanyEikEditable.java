@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CompanyEikEditable {
-  String message() default "Company with this EIK is already taken!";
+  String message() default "{custom.validations.unique.eik}";
   
   Class<?>[] groups() default {};
   

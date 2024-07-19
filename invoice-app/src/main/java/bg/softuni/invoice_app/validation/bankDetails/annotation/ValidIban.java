@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidIban {
   
-  String message() default "Невалиден IBAN.";
+  String message() default "{custom.validations.invalid.iban}";
   
   Class<?>[] groups() default {};
   

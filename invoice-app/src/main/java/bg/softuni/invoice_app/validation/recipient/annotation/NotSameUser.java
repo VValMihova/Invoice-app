@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotSameUser {
-  String message() default "You can't be a recipient!";
+  String message() default "{custom.validations.recipient.not.allowed}";
   
   Class<?>[] groups() default {};
   

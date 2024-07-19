@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueCompanyName {
-  String message() default "Company name already exist!";
+  String message() default "{custom.validations.company.name.exists}";
   
   Class<?>[] groups() default {};
   

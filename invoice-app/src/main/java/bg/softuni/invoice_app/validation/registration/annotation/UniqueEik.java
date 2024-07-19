@@ -11,8 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueEik {
-  String message() default "Company with this EIK already exist!";
-  
+  String message() default "{custom.validations.company.eik.exists}";
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

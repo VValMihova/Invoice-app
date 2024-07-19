@@ -11,8 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueVat {
-  String message() default "Company with this VAT already exist!";
-  
+  String message() default "{custom.validations.company.vat.exists}";
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

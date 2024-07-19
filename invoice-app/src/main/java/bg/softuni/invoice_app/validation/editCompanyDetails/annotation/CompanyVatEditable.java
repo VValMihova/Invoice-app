@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CompanyVatEditable {
-  String message() default "Company with this VAT is already taken!";
+  String message() default "{custom.validations.unique.vat}";
   
   Class<?>[] groups() default {};
   

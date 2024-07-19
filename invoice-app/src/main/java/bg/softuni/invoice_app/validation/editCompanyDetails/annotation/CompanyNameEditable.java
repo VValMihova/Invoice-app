@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CompanyNameEditable {
-  String message() default "Company name is already taken!";
+  String message() default "{custom.validations.unique.companyName}";
   
   Class<?>[] groups() default {};
   
