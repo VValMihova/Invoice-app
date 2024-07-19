@@ -4,7 +4,6 @@ import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsEdit;
 import bg.softuni.invoice_app.model.entity.RecipientDetails;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
-import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +13,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/clients")
-public class ClientsController {
+public class RecipientDetailsController {
   private final RecipientDetailsService recipientDetailsService;
-  private final UserService userService;
   
-  public ClientsController(
-      RecipientDetailsService recipientDetailsService,
-      UserService userService) {
+  public RecipientDetailsController(
+      RecipientDetailsService recipientDetailsService) {
     this.recipientDetailsService = recipientDetailsService;
-    this.userService = userService;
   }
   
   @GetMapping
@@ -82,5 +78,4 @@ public class ClientsController {
     return new RecipientDetailsAddDto();
   }
 }
-  
 

@@ -54,7 +54,7 @@ public class InvoicesController {
   public String viewInvoice(@PathVariable Long id, Model model) {
     InvoiceView invoiceView = invoiceService.getById(id);
     model.addAttribute("invoice", invoiceView);
-    return "view-invoice";
+    return "invoice-view";
   }
   
   @GetMapping("/edit/{id}")
@@ -62,7 +62,7 @@ public class InvoicesController {
     model.addAttribute("bankAccounts",
         this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
     model.addAttribute("invoiceData", this.invoiceService.getById(id));
-    return "edit-invoice";
+    return "invoice-edit";
   }
   
   //  todo add validation for unique or the same invoice number
@@ -105,7 +105,7 @@ public class InvoicesController {
     model.addAttribute("bankAccounts",
         this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
     
-    return "create-invoice-with-client";
+    return "invoice-create-with-client";
   }
   
   @PostMapping("/create-with-client/{clientId}")

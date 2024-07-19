@@ -9,7 +9,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -29,7 +28,7 @@ public class UserController {
   
   @GetMapping("/register")
   public String register() {
-    return "register";
+    return "user-register";
   }
   
   @PostMapping("/register")
@@ -62,7 +61,7 @@ public class UserController {
       String loginErrorMessage = messageSource.getMessage("login.invalid.credentials", null, locale);
       model.addAttribute("loginError", loginErrorMessage);
     }
-    return "login";
+    return "user-login";
   }
   
   //  MODEL ATTRIBUTES

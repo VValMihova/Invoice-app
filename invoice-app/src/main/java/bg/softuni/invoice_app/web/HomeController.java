@@ -18,7 +18,6 @@ public class HomeController {
   @GetMapping("/")
   public String getHome(Model model, @AuthenticationPrincipal UserDetails userDetails) {
     if (userDetails != null) {
-      
       model.addAttribute("companyName",
           userService.getUserByEmail(userDetails.getUsername()).getCompanyDetails().getCompanyName());
     }

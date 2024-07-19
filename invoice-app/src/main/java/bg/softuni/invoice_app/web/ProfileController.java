@@ -36,7 +36,7 @@ public class ProfileController {
   
   @GetMapping
   public ModelAndView profile(@AuthenticationPrincipal UserDetails userDetails) {
-    ModelAndView modelAndView = new ModelAndView("profile");
+    ModelAndView modelAndView = new ModelAndView("user-profile");
     CompanyDetailsView companyDetails = userService.showCompanyDetails();
     modelAndView.addObject("companyDetails", companyDetails);
     modelAndView.addObject("bankAccounts", this.bankAccountService.findAllForCompany(companyDetails.getId()));
@@ -45,7 +45,7 @@ public class ProfileController {
   
   @GetMapping("/edit-company")
   public ModelAndView editCompany() {
-    ModelAndView modelAndView = new ModelAndView("edit-company");
+    ModelAndView modelAndView = new ModelAndView("company-edit");
     modelAndView.addObject("companyDetails", userService.showCompanyDetails());
     
     return modelAndView;
@@ -60,7 +60,7 @@ public class ProfileController {
     if (bindingResult.hasErrors()) {
       model.addAttribute("companyDetails", companyData);
       model.addAttribute("org.springframework.validation.BindingResult.companyDetails", bindingResult);
-      return "edit-company";
+      return "company-edit";
     }
     CompanyDetails updated = companyDetailsService.update(userService.showCompanyDetails().getId(), companyData);
     userService.updateCompany(updated);
@@ -70,7 +70,7 @@ public class ProfileController {
   
   @GetMapping("/add-bank-account")
   public String showAddBankAccountForm() {
-    return "add-bank-account";
+    return "bank-account-add";
   }
   
   @PostMapping("/add-bank-account")
@@ -94,7 +94,7 @@ public class ProfileController {
   @GetMapping("/edit-bank-account/{id}")
   public String showEditBankAccountForm(@PathVariable Long id, Model model) {
     model.addAttribute("bankAccount", this.bankAccountService.getById(id));
-    return "edit-bank-account";
+    return "bank-account-edit";
   }
   
   @PostMapping("/edit-bank-account/{id}")
@@ -106,7 +106,7 @@ public class ProfileController {
     if (bindingResult.hasErrors()) {
       model.addAttribute("bankAccount", bankAccountDataEdit);
       model.addAttribute("org.springframework.validation.BindingResult.bankAccount", bindingResult);
-      return "edit-bank-account";
+      return "bank-account-edit";
     }
     
     this.bankAccountService.editBankAccount(id, bankAccountDataEdit);

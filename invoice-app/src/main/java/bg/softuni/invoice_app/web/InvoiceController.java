@@ -21,17 +21,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class InvoiceController {
   private final InvoiceService invoiceService;
   private final BankAccountService bankAccountService;
-  private final RecipientDetailsService recipientDetailsService;
   private final UserService userService;
   
   public InvoiceController(
       InvoiceService invoiceService,
       BankAccountService bankAccountService,
-      RecipientDetailsService recipientDetailsService,
       UserService userService) {
     this.invoiceService = invoiceService;
     this.bankAccountService = bankAccountService;
-    this.recipientDetailsService = recipientDetailsService;
     this.userService = userService;
   }
   

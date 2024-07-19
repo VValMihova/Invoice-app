@@ -26,7 +26,7 @@ public class ErrorController {
       modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
     }
     if (Objects.equals(objectNotFoundException.getObjectType(), "Recipient")) {
-      modelAndView.setViewName("recipients-not-found");
+      modelAndView.setViewName("client-not-found");
       modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
     }
     if (Objects.equals(objectNotFoundException.getObjectType(), "Product")) {
@@ -42,7 +42,7 @@ public class ErrorController {
   public ModelAndView pdfFailed(PdfGenerationException pdfGenerationException) {
     ModelAndView modelAndView = new ModelAndView();
     if (Objects.equals(pdfGenerationException.getObjectType(), "Pdf")) {
-      modelAndView.setViewName("pdf-failed");
+      modelAndView.setViewName("invoice-pdf-failed");
       modelAndView.addObject("objectType", pdfGenerationException.getObjectType());
     }
     return modelAndView;
