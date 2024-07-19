@@ -39,11 +39,6 @@ public class UserController {
       RedirectAttributes redirectAttributes,
       Locale locale) {
     
-    if (registerData.getPassword() == null
-        || !registerData.getPassword().equals(registerData.getConfirmPassword())) {
-      String errorMessage = messageSource.getMessage("error.confirmPassword.mismatch", null, locale);
-      bindingResult.addError(new FieldError("registerData", "confirmPassword", errorMessage));
-    }
     if (bindingResult.hasErrors()) {
       redirectAttributes.addFlashAttribute("registerData", registerData);
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
@@ -62,9 +57,10 @@ public class UserController {
   }
   
   @GetMapping("/login")
-  public String login(@RequestParam(value = "error", required = false) String error, Model model) {
+  public String login(@RequestParam(value = "error", required = false) String error, Model model, Locale locale) {
     if (error != null) {
-      model.addAttribute("loginError", "Invalid email or password! Please try again!");
+      String loginErrorMessage = messageSource.getMessage("login.invalid.credentials", null, locale);
+      model.addAttribute("loginError", loginErrorMessage);
     }
     return "login";
   }
@@ -74,7 +70,7 @@ public class UserController {
   public UserRegisterBindingDto registerData() {
     return new UserRegisterBindingDto();
   }
-  
+  //todo put in error controller
   @ExceptionHandler(DatabaseException.class)
   public String handleDatabaseException(DatabaseException e, RedirectAttributes redirectAttributes, Locale locale) {
     String errorMessage = messageSource.getMessage("error.database", null, locale);

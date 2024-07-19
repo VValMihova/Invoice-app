@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.model.dto.user;
 
+import bg.softuni.invoice_app.validation.password.PasswordMatches;
 import bg.softuni.invoice_app.validation.registration.annotation.UniqueCompanyName;
 import bg.softuni.invoice_app.validation.registration.annotation.UniqueEik;
 import bg.softuni.invoice_app.validation.registration.annotation.UniqueEmail;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @ValidVatEik(vatNumber = "vatNumber", eik = "eik")
+@PasswordMatches
 public class UserRegisterBindingDto {
   @NotBlank(message = "{user.register.email.not.null}")
   @Email
@@ -20,11 +22,11 @@ public class UserRegisterBindingDto {
   private String email;
   
   @NotBlank
-  @Size(min = 5, max = 15, message = "{user.register.password.size}")
+  @Size(min = 5, max = 15, message = "{user.register.password.length}")
   private String password;
   
   @NotBlank
-  @Size(min = 5, max = 15, message = "{user.register.password.size}")
+  @Size(min = 5, max = 15, message = "{user.register.password.length}")
   private String confirmPassword;
   
   @NotBlank
