@@ -56,66 +56,66 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class InvoiceServiceImplTest {
   @MockBean
   private BankAccountService bankAccountService;
-  
+
   @MockBean
   private InvoiceRepository invoiceRepository;
-  
+
   @Autowired
   private InvoiceServiceImpl invoiceServiceImpl;
-  
+
   @MockBean
   private ModelMapper modelMapper;
-  
+
   @MockBean
   private RecipientDetailsService recipientDetailsService;
-  
+
   @MockBean
   private SaleService saleService;
-  
+
   @MockBean
   private UserService userService;
-  
+
   @Test
   void testGetAllInvoices() {
     // Arrange
     when(invoiceRepository.findAllByUserId(Mockito.<Long>any())).thenReturn(new ArrayList<>());
     when(userService.getCurrentUserId()).thenReturn(1L);
-    
+
     // Act
     List<AllInvoicesView> actualAllInvoices = invoiceServiceImpl.getAllInvoices();
-    
+
     // Assert
     verify(invoiceRepository).findAllByUserId(eq(1L));
     verify(userService).getCurrentUserId();
     assertTrue(actualAllInvoices.isEmpty());
   }
-  
+
   @Test
   void testGetAllInvoices2() {
     // Arrange
     when(userService.getCurrentUserId()).thenThrow(new NotFoundObjectException("Object Type"));
-    
+
     // Act and Assert
     assertThrows(NotFoundObjectException.class, () -> invoiceServiceImpl.getAllInvoices());
     verify(userService).getCurrentUserId();
   }
-  
+
   @Test
   void testGetAllInvoices3() {
     // Arrange
     Invoice invoice = getInvoice();
-    
+
     ArrayList<Invoice> invoiceList = new ArrayList<>();
     invoiceList.add(invoice);
     when(invoiceRepository.findAllByUserId(Mockito.<Long>any())).thenReturn(invoiceList);
-    
+
     AllInvoicesView allInvoicesView = getAllInvoicesView();
     when(modelMapper.map(Mockito.any(), Mockito.<Class<AllInvoicesView>>any())).thenReturn(allInvoicesView);
     when(userService.getCurrentUserId()).thenReturn(1L);
-    
+
     // Act
     List<AllInvoicesView> actualAllInvoices = invoiceServiceImpl.getAllInvoices();
-    
+
     // Assert
     verify(invoiceRepository).findAllByUserId(eq(1L));
     verify(userService).getCurrentUserId();
@@ -123,7 +123,7 @@ class InvoiceServiceImplTest {
     assertEquals(1, actualAllInvoices.size());
     assertSame(allInvoicesView, actualAllInvoices.getFirst());
   }
-  
+
   private static AllInvoicesView getAllInvoicesView() {
     CompanyDetailsEditBindingDto recipient2 = new CompanyDetailsEditBindingDto();
     recipient2.setAddress("42 Main St");
@@ -132,7 +132,7 @@ class InvoiceServiceImplTest {
     recipient2.setId(1L);
     recipient2.setManager("Manager");
     recipient2.setVatNumber("42");
-    
+
     AllInvoicesView allInvoicesView = new AllInvoicesView();
     allInvoicesView.setAmountDue(new BigDecimal("2.3"));
     allInvoicesView.setId(1L);
@@ -141,7 +141,7 @@ class InvoiceServiceImplTest {
     allInvoicesView.setRecipient(recipient2);
     return allInvoicesView;
   }
-  
+
   private static User getUser() {
     CompanyDetails companyDetails2 = new CompanyDetails();
     companyDetails2.setAddress("42 Main St");
@@ -150,7 +150,7 @@ class InvoiceServiceImplTest {
     companyDetails2.setId(1L);
     companyDetails2.setManager("Manager");
     companyDetails2.setVatNumber("42");
-    
+
     User user = new User();
     user.setCompanyDetails(companyDetails2);
     user.setEmail("jane.doe@example.org");
@@ -161,19 +161,19 @@ class InvoiceServiceImplTest {
     user.setRoles(new HashSet<>());
     return user;
   }
-  
+
   @Test
   void testGetAllInvoices4() {
     // Arrange
     Invoice invoice = getInvoice();
-    
+
     Invoice invoice2 = getInvoice2();
-    
+
     ArrayList<Invoice> invoiceList = new ArrayList<>();
     invoiceList.add(invoice2);
     invoiceList.add(invoice);
     when(invoiceRepository.findAllByUserId(Mockito.<Long>any())).thenReturn(invoiceList);
-    
+
     CompanyDetailsEditBindingDto recipient3 = new CompanyDetailsEditBindingDto();
     recipient3.setAddress("42 Main St");
     recipient3.setCompanyName("Company Name");
@@ -181,7 +181,7 @@ class InvoiceServiceImplTest {
     recipient3.setId(1L);
     recipient3.setManager("Manager");
     recipient3.setVatNumber("42");
-    
+
     AllInvoicesView allInvoicesView = new AllInvoicesView();
     allInvoicesView.setAmountDue(new BigDecimal("2.3"));
     allInvoicesView.setId(1L);
@@ -191,10 +191,10 @@ class InvoiceServiceImplTest {
     allInvoicesView.setRecipient(recipient3);
     when(modelMapper.map(Mockito.any(), Mockito.<Class<AllInvoicesView>>any())).thenReturn(allInvoicesView);
     when(userService.getCurrentUserId()).thenReturn(1L);
-    
+
     // Act
     List<AllInvoicesView> actualAllInvoices = invoiceServiceImpl.getAllInvoices();
-    
+
     // Assert
     verify(invoiceRepository).findAllByUserId(eq(1L));
     verify(userService).getCurrentUserId();
@@ -217,7 +217,7 @@ class InvoiceServiceImplTest {
     assertSame(allInvoicesView, actualAllInvoices.getFirst());
     assertSame(issueDate, issueDate2);
   }
-  
+
   private static Invoice getInvoice2() {
     CompanyDetails companyDetails4 = new CompanyDetails();
     companyDetails4.setAddress("17 High St");
@@ -226,16 +226,16 @@ class InvoiceServiceImplTest {
     companyDetails4.setId(2L);
     companyDetails4.setManager("42");
     companyDetails4.setVatNumber("Vat Number");
-    
+
     BankAccount bankAccount2 = new BankAccount();
     bankAccount2.setBic("42");
     bankAccount2.setCompanyDetails(companyDetails4);
     bankAccount2.setCurrency("USD");
     bankAccount2.setIban("42");
     bankAccount2.setId(2L);
-    
+
     User user3 = getUser3();
-    
+
     RecipientDetails recipient2 = new RecipientDetails();
     recipient2.setAddress("17 High St");
     recipient2.setCompanyName("42");
@@ -244,7 +244,7 @@ class InvoiceServiceImplTest {
     recipient2.setManager("42");
     recipient2.setUser(user3);
     recipient2.setVatNumber("Vat Number");
-    
+
     CompanyDetails supplier2 = new CompanyDetails();
     supplier2.setAddress("17 High St");
     supplier2.setCompanyName("42");
@@ -252,9 +252,9 @@ class InvoiceServiceImplTest {
     supplier2.setId(2L);
     supplier2.setManager("42");
     supplier2.setVatNumber("Vat Number");
-    
+
     User user4 = getUser3();
-    
+
     Invoice invoice2 = new Invoice();
     invoice2.setAmountDue(new BigDecimal("2.3"));
     invoice2.setBankAccount(bankAccount2);
@@ -269,7 +269,7 @@ class InvoiceServiceImplTest {
     invoice2.setVat(new BigDecimal("2.3"));
     return invoice2;
   }
-  
+
   private static User getUser3() {
     CompanyDetails companyDetails5 = new CompanyDetails();
     companyDetails5.setAddress("17 High St");
@@ -278,7 +278,7 @@ class InvoiceServiceImplTest {
     companyDetails5.setId(2L);
     companyDetails5.setManager("42");
     companyDetails5.setVatNumber("Vat Number");
-    
+
     User user3 = new User();
     user3.setCompanyDetails(companyDetails5);
     user3.setEmail("john.smith@example.org");
@@ -289,12 +289,12 @@ class InvoiceServiceImplTest {
     user3.setRoles(new HashSet<>());
     return user3;
   }
-  
+
   private static Invoice getInvoice() {
     BankAccount bankAccount = getBankAccount();
-    
+
     User user = getUser();
-    
+
     RecipientDetails recipient = new RecipientDetails();
     recipient.setAddress("42 Main St");
     recipient.setCompanyName("Company Name");
@@ -303,10 +303,10 @@ class InvoiceServiceImplTest {
     recipient.setManager("Manager");
     recipient.setUser(user);
     recipient.setVatNumber("42");
-    
+
     return getInvoice(bankAccount, recipient);
   }
-  
+
   private static Invoice getInvoice(BankAccount bankAccount, RecipientDetails recipient) {
     CompanyDetails supplier = new CompanyDetails();
     supplier.setAddress("42 Main St");
@@ -315,9 +315,9 @@ class InvoiceServiceImplTest {
     supplier.setId(1L);
     supplier.setManager("Manager");
     supplier.setVatNumber("42");
-    
+
     User user2 = getUser();
-    
+
     Invoice invoice = new Invoice();
     invoice.setAmountDue(new BigDecimal("2.3"));
     invoice.setBankAccount(bankAccount);
@@ -332,20 +332,20 @@ class InvoiceServiceImplTest {
     invoice.setVat(new BigDecimal("2.3"));
     return invoice;
   }
-  
+
   @Test
   void testUpdateInvoice() {
     // Arrange
     Invoice invoice = getInvoice();
     Optional<Invoice> ofResult = Optional.of(invoice);
-    
+
     Invoice invoice2 = getInvoice();
     when(invoiceRepository.save(Mockito.any())).thenReturn(invoice2);
     when(invoiceRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
-    
+
     BankAccount bankAccount3 = getBankAccount();
     when(bankAccountService.getByIban(Mockito.any())).thenReturn(bankAccount3);
-    
+
     CompanyDetails companyDetails8 = new CompanyDetails();
     companyDetails8.setAddress("42 Main St");
     companyDetails8.setCompanyName("Company Name");
@@ -353,12 +353,12 @@ class InvoiceServiceImplTest {
     companyDetails8.setId(1L);
     companyDetails8.setManager("Manager");
     companyDetails8.setVatNumber("42");
-    
+
     User user5 = getUser();
     when(userService.getCompanyDetails()).thenReturn(companyDetails8);
     when(userService.getUser()).thenReturn(user5);
     doNothing().when(saleService).deleteAllByInvoiceId(Mockito.<Long>any());
-    
+
     InvoiceEditDto invoiceData = new InvoiceEditDto();
     invoiceData.setAmountDue(new BigDecimal("2.3"));
     invoiceData.setBankAccount("3");
@@ -368,10 +368,10 @@ class InvoiceServiceImplTest {
     invoiceData.setRecipient(new RecipientDetailsView());
     invoiceData.setTotalAmount(new BigDecimal("2.3"));
     invoiceData.setVat(new BigDecimal("2.3"));
-    
+
     // Act
     invoiceServiceImpl.updateInvoice(1L, invoiceData);
-    
+
     // Assert
     verify(bankAccountService).getByIban(eq("3"));
     verify(saleService).deleteAllByInvoiceId(eq(1L));
@@ -380,7 +380,7 @@ class InvoiceServiceImplTest {
     verify(invoiceRepository).findById(eq(1L));
     verify(invoiceRepository).save(isA(Invoice.class));
   }
-  
+
   private static BankAccount getBankAccount() {
     CompanyDetails companyDetails7 = new CompanyDetails();
     companyDetails7.setAddress("42 Main St");
@@ -389,7 +389,7 @@ class InvoiceServiceImplTest {
     companyDetails7.setId(1L);
     companyDetails7.setManager("Manager");
     companyDetails7.setVatNumber("42");
-    
+
     BankAccount bankAccount3 = new BankAccount();
     bankAccount3.setBic("Bic");
     bankAccount3.setCompanyDetails(companyDetails7);
@@ -398,20 +398,20 @@ class InvoiceServiceImplTest {
     bankAccount3.setId(1L);
     return bankAccount3;
   }
-  
+
   @Test
   void testUpdateInvoice2() {
     // Arrange
     Invoice invoice = getInvoice();
     Optional<Invoice> ofResult = Optional.of(invoice);
-    
+
     Invoice invoice2 = getInvoice();
     when(invoiceRepository.save(Mockito.any())).thenReturn(invoice2);
     when(invoiceRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
-    
+
     BankAccount bankAccount3 = getBankAccount();
     when(bankAccountService.getByIban(Mockito.any())).thenReturn(bankAccount3);
-    
+
     CompanyDetails companyDetails8 = new CompanyDetails();
     companyDetails8.setAddress("42 Main St");
     companyDetails8.setCompanyName("Company Name");
@@ -419,12 +419,12 @@ class InvoiceServiceImplTest {
     companyDetails8.setId(1L);
     companyDetails8.setManager("Manager");
     companyDetails8.setVatNumber("42");
-    
+
     User user5 = getUser();
     when(userService.getCompanyDetails()).thenReturn(companyDetails8);
     when(userService.getUser()).thenReturn(user5);
     doThrow(new NotFoundObjectException("Object Type")).when(saleService).deleteAllByInvoiceId(Mockito.<Long>any());
-    
+
     InvoiceEditDto invoiceData = new InvoiceEditDto();
     invoiceData.setAmountDue(new BigDecimal("2.3"));
     invoiceData.setBankAccount("3");
@@ -434,7 +434,7 @@ class InvoiceServiceImplTest {
     invoiceData.setRecipient(new RecipientDetailsView());
     invoiceData.setTotalAmount(new BigDecimal("2.3"));
     invoiceData.setVat(new BigDecimal("2.3"));
-    
+
     // Act and Assert
     assertThrows(NotFoundObjectException.class, () -> invoiceServiceImpl.updateInvoice(1L, invoiceData));
     verify(bankAccountService).getByIban(eq("3"));
@@ -444,7 +444,7 @@ class InvoiceServiceImplTest {
     verify(invoiceRepository).findById(eq(1L));
     verify(invoiceRepository).save(isA(Invoice.class));
   }
-  
+
   @Test
   void testCheckInvoiceExists() {
     // Arrange
@@ -452,26 +452,26 @@ class InvoiceServiceImplTest {
     Optional<Invoice> ofResult = Optional.of(invoice);
     when(invoiceRepository.findByUserIdAndInvoiceNumber(Mockito.<Long>any(), Mockito.<Long>any())).thenReturn(ofResult);
     when(userService.getCurrentUserId()).thenReturn(1L);
-    
+
     // Act
     boolean actualCheckInvoiceExistsResult = invoiceServiceImpl.checkInvoiceExists(1L);
-    
+
     // Assert
     verify(invoiceRepository).findByUserIdAndInvoiceNumber(eq(1L), eq(1L));
     verify(userService).getCurrentUserId();
     assertTrue(actualCheckInvoiceExistsResult);
   }
-  
+
   @Test
   void testCheckInvoiceExists2() {
     // Arrange
     when(userService.getCurrentUserId()).thenThrow(new NotFoundObjectException("Object Type"));
-    
+
     // Act and Assert
     assertThrows(NotFoundObjectException.class, () -> invoiceServiceImpl.checkInvoiceExists(1L));
     verify(userService).getCurrentUserId();
   }
-  
+
   @Test
   void testDeleteById() {
     // Arrange
@@ -479,15 +479,15 @@ class InvoiceServiceImplTest {
     Optional<Invoice> ofResult = Optional.of(invoice);
     doNothing().when(invoiceRepository).delete(Mockito.any());
     when(invoiceRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
-    
+
     // Act
     invoiceServiceImpl.deleteById(1L);
-    
+
     // Assert that nothing has changed
     verify(invoiceRepository).delete(isA(Invoice.class));
     verify(invoiceRepository).findById(eq(1L));
   }
-  
+
   @Test
   void testDeleteById2() {
     // Arrange
@@ -495,20 +495,20 @@ class InvoiceServiceImplTest {
     Optional<Invoice> ofResult = Optional.of(invoice);
     doThrow(new NotFoundObjectException("Object Type")).when(invoiceRepository).delete(Mockito.any());
     when(invoiceRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
-    
+
     // Act and Assert
     assertThrows(NotFoundObjectException.class, () -> invoiceServiceImpl.deleteById(1L));
     verify(invoiceRepository).delete(isA(Invoice.class));
     verify(invoiceRepository).findById(eq(1L));
   }
-  
+
   @Test
   void testGetById() {
     // Arrange
     BankAccount bankAccount = getBankAccount();
-    
+
     User user = getUser();
-    
+
     RecipientDetails recipient = new RecipientDetails();
     recipient.setAddress("42 Main St");
     recipient.setCompanyName("Company Name");
@@ -517,7 +517,7 @@ class InvoiceServiceImplTest {
     recipient.setManager("Manager");
     recipient.setUser(user);
     recipient.setVatNumber("42");
-    
+
     CompanyDetails supplier = new CompanyDetails();
     supplier.setAddress("42 Main St");
     supplier.setCompanyName("Company Name");
@@ -525,9 +525,9 @@ class InvoiceServiceImplTest {
     supplier.setId(1L);
     supplier.setManager("Manager");
     supplier.setVatNumber("42");
-    
+
     User user2 = getUser();
-    
+
     Invoice invoice = new Invoice();
     BigDecimal amountDue = new BigDecimal("2.3");
     invoice.setAmountDue(amountDue);
@@ -546,10 +546,10 @@ class InvoiceServiceImplTest {
     invoice.setVat(vat);
     Optional<Invoice> ofResult = Optional.of(invoice);
     when(invoiceRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
-    
+
     // Act
     InvoiceView actualById = invoiceServiceImpl.getById(1L);
-    
+
     // Assert
     verify(invoiceRepository).findById(eq(1L));
     LocalDate issueDate2 = actualById.getIssueDate();
@@ -590,15 +590,15 @@ class InvoiceServiceImplTest {
     assertSame(vat, vat2);
     assertSame(issueDate, issueDate2);
   }
-  
+
   @Test
   void testCreateInvoiceWithClient() {
     // Arrange
     Invoice invoice = getInvoice();
     when(invoiceRepository.save(Mockito.any())).thenReturn(invoice);
-    
+
     User user3 = getUser();
-    
+
     RecipientDetails recipientDetails = new RecipientDetails();
     recipientDetails.setAddress("42 Main St");
     recipientDetails.setCompanyName("Company Name");
@@ -608,10 +608,10 @@ class InvoiceServiceImplTest {
     recipientDetails.setUser(user3);
     recipientDetails.setVatNumber("42");
     when(recipientDetailsService.getById(Mockito.<Long>any())).thenReturn(recipientDetails);
-    
+
     BankAccount bankAccount2 = getBankAccount();
     when(bankAccountService.getByIban(Mockito.any())).thenReturn(bankAccount2);
-    
+
     CompanyDetails companyDetails6 = new CompanyDetails();
     companyDetails6.setAddress("42 Main St");
     companyDetails6.setCompanyName("Company Name");
@@ -619,16 +619,16 @@ class InvoiceServiceImplTest {
     companyDetails6.setId(1L);
     companyDetails6.setManager("Manager");
     companyDetails6.setVatNumber("42");
-    
+
     User user4 = getUser();
     when(userService.getCompanyDetails()).thenReturn(companyDetails6);
     when(userService.getUser()).thenReturn(user4);
-    
+
     InvoiceCreateDto invoiceData = getInvoiceCreateDto();
-    
+
     // Act
     invoiceServiceImpl.createInvoiceWithClient(1L, invoiceData);
-    
+
     // Assert
     verify(bankAccountService).getByIban(eq("3"));
     verify(recipientDetailsService).getById(eq(1L));
@@ -636,7 +636,7 @@ class InvoiceServiceImplTest {
     verify(userService).getUser();
     verify(invoiceRepository).save(isA(Invoice.class));
   }
-  
+
   private static InvoiceCreateDto getInvoiceCreateDto() {
     RecipientDetailsAddDto recipientDetails2 = new RecipientDetailsAddDto();
     recipientDetails2.setAddress("42 Main St");
@@ -644,7 +644,7 @@ class InvoiceServiceImplTest {
     recipientDetails2.setEik("Eik");
     recipientDetails2.setManager("Manager");
     recipientDetails2.setVatNumber("42");
-    
+
     InvoiceCreateDto invoiceData = new InvoiceCreateDto();
     invoiceData.setAmountDue(new BigDecimal("2.3"));
     invoiceData.setBankAccount("3");
@@ -656,14 +656,14 @@ class InvoiceServiceImplTest {
     invoiceData.setVat(new BigDecimal("2.3"));
     return invoiceData;
   }
-  
+
   @Test
   void testCreateInvoiceWithClient2() {
     // Arrange
     when(userService.getUser()).thenThrow(new NotFoundObjectException("Object Type"));
-    
+
     InvoiceCreateDto invoiceData = getInvoiceCreateDto();
-    
+
     // Act and Assert
     assertThrows(NotFoundObjectException.class, () -> invoiceServiceImpl.createInvoiceWithClient(1L, invoiceData));
     verify(userService).getUser();

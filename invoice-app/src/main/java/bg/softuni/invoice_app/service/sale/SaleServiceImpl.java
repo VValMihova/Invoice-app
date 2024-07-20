@@ -15,11 +15,9 @@ import java.util.List;
 @Service
 public class SaleServiceImpl implements SaleService {
   private final SaleRepository saleRepository;
-  private final InvoiceService invoiceService;
   
-  public SaleServiceImpl(SaleRepository saleRepository, InvoiceService invoiceService) {
+  public SaleServiceImpl(SaleRepository saleRepository) {
     this.saleRepository = saleRepository;
-    this.invoiceService = invoiceService;
   }
   
   @Override
@@ -29,8 +27,7 @@ public class SaleServiceImpl implements SaleService {
   
   @Override
   public void deleteAllByInvoiceId(Long id) {
-    InvoiceView invoice = invoiceService.getById(id);
-    this.saleRepository.deleteAllByInvoiceId(invoice.getId());
+    this.saleRepository.deleteAllByInvoiceId(id);
   }
   
   @Override

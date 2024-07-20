@@ -41,18 +41,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class SaleServiceImplTest {
   @MockBean
   private InvoiceService invoiceService;
-  
+
   @MockBean
   private SaleRepository saleRepository;
-  
+
   @Autowired
   private SaleServiceImpl saleServiceImpl;
-  
+
   @Test
   void testSave() {
     // Arrange
     User user = getUser();
-    
+
     Sale sale = new Sale();
     sale.setId(1L);
     sale.setInvoiceId(1L);
@@ -61,9 +61,9 @@ class SaleServiceImplTest {
     sale.setSaleDate(LocalDate.of(1970, 1, 1));
     sale.setUser(user);
     when(saleRepository.save(Mockito.<Sale>any())).thenReturn(sale);
-    
+
     User user2 = getUser();
-    
+
     Sale sale2 = new Sale();
     sale2.setId(1L);
     sale2.setInvoiceId(1L);
@@ -71,14 +71,14 @@ class SaleServiceImplTest {
     sale2.setQuantity(new BigDecimal("2.3"));
     sale2.setSaleDate(LocalDate.of(1970, 1, 1));
     sale2.setUser(user2);
-    
+
     // Act
     saleServiceImpl.save(sale2);
-    
+
     // Assert that nothing has changed
     verify(saleRepository).save(isA(Sale.class));
   }
-  
+
   private static User getUser() {
     CompanyDetails companyDetails = new CompanyDetails();
     companyDetails.setAddress("42 Main St");
@@ -87,7 +87,7 @@ class SaleServiceImplTest {
     companyDetails.setId(1L);
     companyDetails.setManager("Manager");
     companyDetails.setVatNumber("42");
-    
+
     User user = new User();
     user.setCompanyDetails(companyDetails);
     user.setEmail("jane.doe@example.org");
@@ -98,23 +98,23 @@ class SaleServiceImplTest {
     user.setRoles(new HashSet<>());
     return user;
   }
-  
+
   @Test
   void testDeleteAllByInvoiceId() {
     // Arrange
     doNothing().when(saleRepository).deleteAllByInvoiceId(Mockito.<Long>any());
-    
+
     InvoiceView invoiceView = getInvoiceView();
     when(invoiceService.getById(Mockito.<Long>any())).thenReturn(invoiceView);
-    
+
     // Act
     saleServiceImpl.deleteAllByInvoiceId(1L);
-    
+
     // Assert that nothing has changed
     verify(saleRepository).deleteAllByInvoiceId(eq(1L));
     verify(invoiceService).getById(eq(1L));
   }
-  
+
   private static InvoiceView getInvoiceView() {
     InvoiceView invoiceView = new InvoiceView();
     invoiceView.setAmountDue(new BigDecimal("2.3"));
@@ -129,21 +129,21 @@ class SaleServiceImplTest {
     invoiceView.setVat(new BigDecimal("2.3"));
     return invoiceView;
   }
-  
+
   @Test
   void testGenerateReport() {
     // Arrange
     ArrayList<SaleReportDto> saleReportDtoList = new ArrayList<>();
     when(saleRepository.findSalesReport(Mockito.<LocalDate>any(), Mockito.<LocalDate>any()))
         .thenReturn(saleReportDtoList);
-    
+
     ReportCriteria criteria = new ReportCriteria();
     criteria.setEndDate(LocalDate.of(1970, 1, 1));
     criteria.setStartDate(LocalDate.of(1970, 1, 1));
-    
+
     // Act
     List<SaleReportDto> actualGenerateReportResult = saleServiceImpl.generateReport(criteria);
-    
+
     // Assert
     verify(saleRepository).findSalesReport(isA(LocalDate.class), isA(LocalDate.class));
     assertTrue(actualGenerateReportResult.isEmpty());
