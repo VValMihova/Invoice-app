@@ -12,10 +12,8 @@ public class RoleServiceImpl implements RoleService {
   public RoleServiceImpl(RoleRepository roleRepository) {
     this.roleRepository = roleRepository;
   }
-  //todo add exception
   @Override
   public Role getRole(RoleName roleName) {
     return roleRepository.findByName(roleName).orElse(null);
-    // .orElseThrow(() -> new EntityNotFoundException(String.format(ENTITY_NOT_FOUND, "Role")));
   }
 }
