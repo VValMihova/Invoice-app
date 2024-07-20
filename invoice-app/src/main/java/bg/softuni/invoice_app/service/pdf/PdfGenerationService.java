@@ -1,8 +1,9 @@
-package bg.softuni.invoice_app.service.invoice;
+package bg.softuni.invoice_app.service.pdf;
 
 import bg.softuni.invoice_app.exeption.PdfGenerationException;
 import bg.softuni.invoice_app.model.dto.SaleReportDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
+import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;

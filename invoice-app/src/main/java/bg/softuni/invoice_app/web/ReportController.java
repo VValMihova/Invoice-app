@@ -2,7 +2,7 @@ package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.ReportCriteria;
 import bg.softuni.invoice_app.model.dto.SaleReportDto;
-import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
+import bg.softuni.invoice_app.service.pdf.PdfGenerationService;
 import bg.softuni.invoice_app.service.sale.SaleService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;

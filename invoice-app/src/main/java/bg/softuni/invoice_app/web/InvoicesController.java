@@ -6,7 +6,7 @@ import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
-import bg.softuni.invoice_app.service.invoice.PdfGenerationService;
+import bg.softuni.invoice_app.service.pdf.PdfGenerationService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
