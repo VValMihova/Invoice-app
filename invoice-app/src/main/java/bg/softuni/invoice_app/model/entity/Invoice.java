@@ -43,7 +43,7 @@ public class Invoice {
   private BigDecimal amountDue;
   
   @ManyToOne(optional = true)
-  private BankAccount bankAccount;
+  private BankAccountPersist bankAccountPersist;
   
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -144,12 +144,12 @@ public class Invoice {
     return this;
   }
   
-  public BankAccount getBankAccount() {
-    return bankAccount;
+  public BankAccountPersist getBankAccountPersist() {
+    return bankAccountPersist;
   }
   
-  public Invoice setBankAccount(BankAccount bankAccount) {
-    this.bankAccount = bankAccount;
+  public Invoice setBankAccountPersist(BankAccountPersist bankAccountPersist) {
+    this.bankAccountPersist = bankAccountPersist;
     return this;
   }
 }

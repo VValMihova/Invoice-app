@@ -67,21 +67,22 @@
       <label for="bankAccount" th:text="#{create.invoice.bank.account.header}">Select Bank Account:</label>
       <select
           id="bankAccount"
-          name="bankAccountId"
+          name="bankAccountIban"
           class="form-control"
-          th:field="*{bankAccount}">
-        <option value="" disabled selected th:text="#{create.invoice.bank.account.select}">Select a bank account
-        </option>
+          th:field="*{bankAccountIban}">
+        <option value="" disabled selected th:text="#{create.invoice.bank.account.select}">Select a bank account</option>
         <option th:each="bankAccount : ${bankAccounts}"
                 th:value="${bankAccount.iban}"
                 th:text="${bankAccount.iban}"
-                th:selected="${bankAccount.id} == ${invoiceData.bankAccount}"></option>
+                th:selected="${bankAccount.iban} == ${invoiceData.bankAccountIban}"></option>
       </select>
 
       <small
-          th:each="err : ${#fields.errors('bankAccount')}"
+          th:each="err : ${#fields.errors('bankAccountIban')}"
           th:text="${err}" class="text-danger"></small>
     </div>
+
+
 
     <h4 th:text="#{invoice.items.header}">Items</h4>
     <table class="table text-center">

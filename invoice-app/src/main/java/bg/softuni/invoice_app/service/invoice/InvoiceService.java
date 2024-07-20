@@ -19,4 +19,6 @@ public interface InvoiceService {
   InvoiceView getById(Long id);
   
   void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData);
+  
+  InvoiceEditDto convertToEditDto(InvoiceView invoiceView);
 }

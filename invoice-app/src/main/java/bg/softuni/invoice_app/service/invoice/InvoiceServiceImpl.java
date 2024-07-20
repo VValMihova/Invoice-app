@@ -7,6 +7,7 @@ import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
+import bg.softuni.invoice_app.service.BankAccountPersistService;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.sale.SaleService;
@@ -27,6 +28,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   private final BankAccountService bankAccountService;
   private final UserService userService;
   private final SaleService saleService;
+  private final BankAccountPersistService bankAccountPersistService;
   
   
   public InvoiceServiceImpl(
@@ -35,13 +37,14 @@ public class InvoiceServiceImpl implements InvoiceService {
       RecipientDetailsService recipientDetailsService,
       BankAccountService bankAccountService,
       UserService userService,
-      SaleService saleService) {
+      SaleService saleService, BankAccountPersistService bankAccountPersistService) {
     this.invoiceRepository = invoiceRepository;
     this.modelMapper = modelMapper;
     this.recipientDetailsService = recipientDetailsService;
     this.bankAccountService = bankAccountService;
     this.userService = userService;
     this.saleService = saleService;
+    this.bankAccountPersistService = bankAccountPersistService;
   }
   
   @Override
@@ -62,8 +65,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setIssueDate(invoiceData.getIssueDate())
         .setSupplier(userService.getCompanyDetails());
     
-    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
-    invoice.setBankAccount(bankAccount);
+    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccountIban());
+    BankAccountPersist accountPersist = bankAccountPersistService.add(bankAccount, currentUser);
+    invoice.setBankAccountPersist(accountPersist);
     
     List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems());
     invoice.getItems().clear();
@@ -123,11 +127,37 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setAmountDue(invoiceData.getAmountDue());
     
     BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
-    invoice.setBankAccount(bankAccount)
+    BankAccountPersist accountPersist = bankAccountPersistService.add(bankAccount, currentUser);
+    invoice.setBankAccountPersist(accountPersist)
         .setUser(currentUser);
     
     invoiceRepository.save(invoice);
     addSales(invoiceData, invoiceItems, currentUser);
+  }
+  @Override
+  public InvoiceEditDto convertToEditDto(InvoiceView invoiceView) {
+    InvoiceEditDto dto = new InvoiceEditDto();
+    dto.setId(invoiceView.getId());
+    dto.setInvoiceNumber(invoiceView.getInvoiceNumber());
+    dto.setIssueDate(invoiceView.getIssueDate());
+    dto.setRecipient(invoiceView.getRecipient());
+    dto.setBankAccountIban(invoiceView.getBankAccountPersist().getIban());
+    dto.setItems(invoiceView.getItems().stream()
+        .map(this::convertToInvoiceItemDto)
+        .collect(Collectors.toList()));
+    dto.setTotalAmount(invoiceView.getTotalAmount());
+    dto.setVat(invoiceView.getVat());
+    dto.setAmountDue(invoiceView.getAmountDue());
+    return dto;
+  }
+  
+  private InvoiceItemDto convertToInvoiceItemDto(InvoiceItemView itemView) {
+    InvoiceItemDto itemDto = new InvoiceItemDto();
+    itemDto.setName(itemView.getName());
+    itemDto.setQuantity(itemView.getQuantity());
+    itemDto.setUnitPrice(itemView.getUnitPrice());
+    itemDto.setTotalPrice(itemView.getTotalPrice());
+    return itemDto;
   }
   
   private void addSales(InvoiceCreateDto invoiceData, List<InvoiceItem> invoiceItems, User currentUser) {
@@ -158,7 +188,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setIssueDate(invoice.getIssueDate())
         .setSupplier(mapToCompanyDetailsView(invoice.getSupplier()))
         .setRecipient(mapToRecipientDetailsView(invoice.getRecipient()))
-        .setBankAccount(mapToBankAccountView(invoice.getBankAccount()))
+        .setBankAccountPersist(invoice.getBankAccountPersist())
         .setAmountDue(invoice.getAmountDue())
         .setVat(invoice.getVat())
         .setItems(invoice.getItems().stream()

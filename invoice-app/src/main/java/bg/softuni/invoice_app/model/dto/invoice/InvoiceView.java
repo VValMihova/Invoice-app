@@ -1,8 +1,8 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
+import bg.softuni.invoice_app.model.entity.BankAccountPersist;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ public class InvoiceView {
   private BigDecimal totalAmount;
   private BigDecimal vat;
   private BigDecimal amountDue;
-  private BankAccountView bankAccount;
+  private BankAccountPersist bankAccount;
   
   public BigDecimal getAmountDue() {
     return amountDue;
@@ -28,11 +28,6 @@ public class InvoiceView {
     this.amountDue = amountDue;
     return this;
   }
-  
-  public BankAccountView getBankAccount() {
-    return bankAccount;
-  }
-  
   
   public Long getId() {
     return id;
@@ -106,8 +101,12 @@ public class InvoiceView {
     return this;
   }
   
-  public InvoiceView setBankAccount(BankAccountView bankAccount) {
-    this.bankAccount = bankAccount;
+  public BankAccountPersist getBankAccountPersist() {
+    return bankAccount;
+  }
+  
+  public InvoiceView setBankAccountPersist(BankAccountPersist bankAccountPersist) {
+    this.bankAccount = bankAccountPersist;
     return this;
   }
 }

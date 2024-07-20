@@ -1,8 +1,6 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
+import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/invoices")
@@ -57,13 +56,17 @@ public class InvoicesController {
     return "invoice-view";
   }
   
-  @GetMapping("/edit/{id}")
-  public String editInvoice(@PathVariable Long id, Model model) {
-    model.addAttribute("bankAccounts",
-        this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
-    model.addAttribute("invoiceData", this.invoiceService.getById(id));
-    return "invoice-edit";
-  }
+@GetMapping("/edit/{id}")
+public String editInvoice(@PathVariable Long id, Model model) {
+  InvoiceView invoiceView = this.invoiceService.getById(id);
+  InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
+  
+  model.addAttribute("bankAccounts",
+      this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
+  model.addAttribute("invoiceData", invoiceEditDto);
+  return "invoice-edit";
+}
+  
   
   //  todo add validation for unique or the same invoice number
   @PostMapping("/edit/{id}")

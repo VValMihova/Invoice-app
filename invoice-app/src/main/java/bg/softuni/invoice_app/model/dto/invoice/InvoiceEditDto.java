@@ -1,6 +1,5 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
-import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class InvoiceEditDto {
+  private Long id;
   @NotNull(message = "{invoice.number.not.null}")
   @Positive(message = "{invoice.number.positive}")
   private Long invoiceNumber;
@@ -59,16 +59,6 @@ public class InvoiceEditDto {
     return this;
   }
   
-  
-  public String getBankAccount() {
-    return bankAccountIban;
-  }
-  
-  public InvoiceEditDto setBankAccount(String bankAccountIban) {
-    this.bankAccountIban = bankAccountIban;
-    return this;
-  }
-  
   public List<InvoiceItemDto> getItems() {
     return items;
   }
@@ -111,6 +101,24 @@ public class InvoiceEditDto {
   
   public InvoiceEditDto setRecipient(RecipientDetailsView recipient) {
     this.recipient = recipient;
+    return this;
+  }
+  
+  public @NotBlank(message = "{invoice.bank.account.not.null}") String getBankAccountIban() {
+    return bankAccountIban;
+  }
+  
+  public InvoiceEditDto setBankAccountIban(@NotBlank(message = "{invoice.bank.account.not.null}") String bankAccountIban) {
+    this.bankAccountIban = bankAccountIban;
+    return this;
+  }
+  
+  public Long getId() {
+    return id;
+  }
+  
+  public InvoiceEditDto setId(Long id) {
+    this.id = id;
     return this;
   }
 }
