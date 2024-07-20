@@ -53,10 +53,8 @@ public class UserServiceImpl implements UserService {
     } catch (Exception e) {
       throw new DatabaseException("An error occurred while saving user to the database.");
     }
-    
   }
   
-  //  todo can be changed
   private User registerUser(UserRegisterBindingDto registerData) {
     return userRepository.save(new User()
         .setEmail(registerData.getEmail())
