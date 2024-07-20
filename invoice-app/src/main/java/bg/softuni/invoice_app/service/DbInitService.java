@@ -1,29 +1,37 @@
 package bg.softuni.invoice_app.service;
 
-import bg.softuni.invoice_app.model.entity.BankAccount;
-import bg.softuni.invoice_app.model.entity.CompanyDetails;
-import bg.softuni.invoice_app.model.entity.RecipientDetails;
-import bg.softuni.invoice_app.model.entity.User;
+import bg.softuni.invoice_app.model.entity.*;
+import bg.softuni.invoice_app.model.enums.RoleName;
 import bg.softuni.invoice_app.repository.*;
+import bg.softuni.invoice_app.service.role.RoleService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Set;
 
 @Service
 public class DbInitService {
   private final UserRepository userRepository;
   private final CompanyDetailsRepository companyDetailsRepository;
-  private final InvoiceRepository invoiceRepository;
+  private final RoleService roleService;
+  private final RoleRepository roleRepository;
   private final BankAccountRepository bankAccountRepository;
   private final RecipientDetailsRepository recipientDetailsRepository;
   private final PasswordEncoder passwordEncoder;
   
-  public DbInitService(UserRepository userRepository, CompanyDetailsRepository companyDetailsRepository, InvoiceRepository invoiceRepository, BankAccountRepository bankAccountRepository, RecipientDetailsRepository recipientDetailsRepository, PasswordEncoder passwordEncoder) {
+  public DbInitService(
+      UserRepository userRepository,
+      CompanyDetailsRepository companyDetailsRepository,
+      RoleService roleService, RoleRepository roleRepository,
+      BankAccountRepository bankAccountRepository,
+      RecipientDetailsRepository recipientDetailsRepository,
+      PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.companyDetailsRepository = companyDetailsRepository;
-    this.invoiceRepository = invoiceRepository;
+    this.roleService = roleService;
+    this.roleRepository = roleRepository;
     this.bankAccountRepository = bankAccountRepository;
     this.recipientDetailsRepository = recipientDetailsRepository;
     this.passwordEncoder = passwordEncoder;
@@ -31,11 +39,33 @@ public class DbInitService {
   
   @PostConstruct
   private void initDb() {
+    initRoles();
+    initAdmin();
     initUsers();
   }
   
+  private void initAdmin() {
+    if (userRepository.count() == 0) {
+      User admin = new User()
+          .setEmail("admin@abv.bg")
+          .setPassword(passwordEncoder.encode("11111"))
+          .setRoles(
+              Set.of(roleService.getRole(RoleName.ADMIN),
+                  roleService.getRole(RoleName.USER)));
+      userRepository.save(admin);
+    }
+  }
+  
+  private void initRoles() {
+    if (roleRepository.count() == 0) {
+      Arrays.stream(RoleName.values())
+          .forEach(role ->
+              roleRepository.save(new Role().setName(role)));
+    }
+  }
+  
   private void initUsers() {
-    if (userRepository.count() == 0 && companyDetailsRepository.count() == 0) {
+    if (userRepository.count() == 1 && companyDetailsRepository.count() == 0) {
       CompanyDetails companyDetails1 = new CompanyDetails()
           .setCompanyName("Company1")
           .setAddress("Address1")
@@ -46,6 +76,7 @@ public class DbInitService {
       User user1 = new User()
           .setEmail("test@abv.bg")
           .setPassword(this.passwordEncoder.encode("11111"))
+          .setRoles(Set.of(roleService.getRole(RoleName.USER)))
           .setCompanyDetails(companyDetails1);
       
       userRepository.save(user1);
@@ -77,6 +108,7 @@ public class DbInitService {
       User user2 = new User()
           .setEmail("test2@abv.bg")
           .setPassword(this.passwordEncoder.encode("22222"))
+          .setRoles(Set.of(roleService.getRole(RoleName.USER)))
           .setCompanyDetails(companyDetails2);
       userRepository.save(user2);
       
@@ -86,8 +118,6 @@ public class DbInitService {
           .setCurrency("EUR")
           .setCompanyDetails(companyDetails2);
       bankAccountRepository.save(bankAccount2);
-      
-      
     }
   }
 }

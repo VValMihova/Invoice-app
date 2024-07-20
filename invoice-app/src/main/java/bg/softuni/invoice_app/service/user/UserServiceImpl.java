@@ -5,14 +5,18 @@ import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
+import bg.softuni.invoice_app.model.enums.RoleName;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
+import bg.softuni.invoice_app.service.role.RoleService;
 import bg.softuni.invoice_app.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,16 +24,18 @@ public class UserServiceImpl implements UserService {
   private final PasswordEncoder passwordEncoder;
   private final ModelMapper modelMapper;
   private final CompanyDetailsService companyDetailsService;
+  private final RoleService roleService;
   
   public UserServiceImpl(
       UserRepository userRepository,
       PasswordEncoder passwordEncoder,
       ModelMapper modelMapper,
-      CompanyDetailsService companyDetailsService) {
+      CompanyDetailsService companyDetailsService, RoleService roleService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.modelMapper = modelMapper;
     this.companyDetailsService = companyDetailsService;
+    this.roleService = roleService;
   }
   
   
@@ -53,7 +59,8 @@ public class UserServiceImpl implements UserService {
   private User registerUser(UserRegisterBindingDto registerData) {
     return userRepository.save(new User()
         .setEmail(registerData.getEmail())
-        .setPassword(passwordEncoder.encode(registerData.getPassword())));
+        .setPassword(passwordEncoder.encode(registerData.getPassword()))
+        .setRoles(new HashSet<>(Set.of(roleService.getRole(RoleName.USER)))));
   }
   
   private CompanyDetails createCompanyDetails(UserRegisterBindingDto registerData, User user) {

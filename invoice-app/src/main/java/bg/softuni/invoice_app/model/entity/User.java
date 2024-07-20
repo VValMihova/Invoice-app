@@ -40,6 +40,7 @@ public class User {
   public User() {
     this.roles = new HashSet<>();
     this.invoices = new OrderedHashSet<>();
+    this.roles = new HashSet<>();
   }
   
   public Long getId() {
