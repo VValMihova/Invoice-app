@@ -4,8 +4,12 @@
   <meta charset="UTF-8"></meta>
   <title th:text="#{report.title}">Sales Report</title>
   <style>
+      @font-face {
+          font-family: 'DejaVuSans';
+          src: url('fonts/DejaVuSans.ttf') format('truetype');
+      }
       body {
-          font-family: Arial, sans-serif;
+          font-family: 'DejaVuSans', Arial, sans-serif;
           margin: 0;
           padding: 20px;
       }
@@ -29,6 +33,7 @@
   </style>
 </head>
 <body>
+<h5>текст на бг за тест</h5>
 <h1 th:text="#{report.title}">Sales Report</h1>
 <table class="table">
   <thead>

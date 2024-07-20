@@ -1,8 +1,8 @@
 package bg.softuni.invoice_app.service.pdf;
 
 import bg.softuni.invoice_app.exeption.PdfGenerationException;
-import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
+import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,6 +43,7 @@ public class PdfGenerationService {
       throw new PdfGenerationException("Pdf");
     }
   }
+  
   public byte[] generateSalesReportPdf(List<SaleReportDto> reportData) {
     Context context = new Context();
     context.setVariable("reportData", reportData);
@@ -52,6 +53,9 @@ public class PdfGenerationService {
     try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
       ITextRenderer renderer = new ITextRenderer();
       renderer.setDocumentFromString(htmlContent);
+//      String fontPath = getClass().getClassLoader().getResource("fonts/DejaVuSans.ttf").toExternalForm();
+//      renderer.getFontResolver().addFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+//      renderer.getFontResolver().addFont(fontPath, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
       renderer.layout();
       renderer.createPDF(byteArrayOutputStream);
       return byteArrayOutputStream.toByteArray();
