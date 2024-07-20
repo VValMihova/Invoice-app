@@ -132,7 +132,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     
     invoice.setUser(currentUser);
     invoiceRepository.save(invoice);
-    //todo move to service
     addSales(invoiceData, invoiceItems, currentUser);
   }
   
