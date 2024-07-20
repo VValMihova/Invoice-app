@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.service;
+package bg.softuni.invoice_app.service.bankAccountPersist;
 
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.BankAccountPersist;
