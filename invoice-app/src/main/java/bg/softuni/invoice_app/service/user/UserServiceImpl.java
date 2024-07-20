@@ -9,6 +9,7 @@ import bg.softuni.invoice_app.model.enums.RoleName;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.role.RoleService;
+import bg.softuni.invoice_app.utils.InputFormating;
 import bg.softuni.invoice_app.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
         .setCompanyName(registerData.getCompanyName())
         .setAddress(registerData.getAddress())
         .setEik(registerData.getEik())
-        .setVatNumber(registerData.getVatNumber())
+        .setVatNumber(InputFormating.format(registerData.getVatNumber()))
         .setManager(registerData.getManager());
   }
   
