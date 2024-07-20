@@ -12,30 +12,14 @@ import java.util.Objects;
 
 @ControllerAdvice
 public class ErrorController {
-  
-  @ExceptionHandler(NotFoundObjectException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ModelAndView notFound(NotFoundObjectException objectNotFoundException) {
-    ModelAndView modelAndView = new ModelAndView();
-    if (Objects.equals(objectNotFoundException.getObjectType(), "Invoice")) {
-      modelAndView.setViewName("invoice-not-found");
-      modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
-    }
-    if (Objects.equals(objectNotFoundException.getObjectType(), "Bank account")) {
-      modelAndView.setViewName("bank-account-not-found");
-      modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
-    }
-    if (Objects.equals(objectNotFoundException.getObjectType(), "Recipient")) {
-      modelAndView.setViewName("client-not-found");
-      modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
-    }
-    if (Objects.equals(objectNotFoundException.getObjectType(), "Product")) {
-      modelAndView.setViewName("product-not-found");
-      modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
-    }
-    
-    return modelAndView;
-  }
+
+@ExceptionHandler(NotFoundObjectException.class)
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public ModelAndView notFound(NotFoundObjectException objectNotFoundException) {
+  ModelAndView modelAndView = new ModelAndView("error-obj-not-found");
+  modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
+  return modelAndView;
+}
   
   @ExceptionHandler(PdfGenerationException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
