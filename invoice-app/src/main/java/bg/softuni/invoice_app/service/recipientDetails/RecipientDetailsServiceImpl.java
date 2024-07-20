@@ -36,23 +36,6 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
   }
   
   @Override
-  public RecipientDetails getByVatNumber(String vatNumber) {
-    return this.recipientDetailsRepository.findByVatNumber(vatNumber).orElse(null);
-  }
-  
-  @Override
-  public RecipientDetails saveAndReturn(RecipientDetails newRecipient) {
-    RecipientDetails recipientDetails = new RecipientDetails();
-    recipientDetails.setVatNumber(newRecipient.getVatNumber());
-    recipientDetails.setUser(userService.getUser());
-    recipientDetails.setCompanyName(newRecipient.getCompanyName());
-    recipientDetails.setAddress(newRecipient.getAddress());
-    recipientDetails.setEik(newRecipient.getEik());
-    recipientDetails.setManager(newRecipient.getManager());
-    return this.recipientDetailsRepository.save(recipientDetails);
-  }
-  
-  @Override
   public List<RecipientDetailsView> findAll() {
     Optional<List<RecipientDetails>> recipientDetailsList = this.recipientDetailsRepository.findAllByUserId(userService.getCurrentUserId());
     if (recipientDetailsList.isPresent()) {
@@ -82,10 +65,10 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
             .setUser(userService.getUser()));
   }
   
-  //  todo add to error class
   @Override
   public void edit(RecipientDetailsEdit recipientDetailsEdit, Long id) {
-    RecipientDetails recipientDetails = recipientDetailsRepository.findById(id).orElseThrow(() -> new NotFoundObjectException("Recipient"));
+    RecipientDetails recipientDetails = recipientDetailsRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Recipient"));
     recipientDetails.setCompanyName(recipientDetailsEdit.getCompanyName())
         .setAddress(recipientDetailsEdit.getAddress())
         .setEik(recipientDetailsEdit.getEik())

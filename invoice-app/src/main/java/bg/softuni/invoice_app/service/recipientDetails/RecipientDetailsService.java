@@ -10,10 +10,6 @@ import java.util.List;
 public interface RecipientDetailsService {
   boolean exists(RecipientDetails recipientDetails);
   
-  RecipientDetails getByVatNumber(String vatNumber);
-  
-  RecipientDetails saveAndReturn(RecipientDetails newRecipient);
-  
   List<RecipientDetailsView> findAll();
   
   RecipientDetailsView findById(Long id);
