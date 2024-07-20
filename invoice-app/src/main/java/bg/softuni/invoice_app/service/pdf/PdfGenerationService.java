@@ -1,7 +1,7 @@
 package bg.softuni.invoice_app.service.pdf;
 
 import bg.softuni.invoice_app.exeption.PdfGenerationException;
-import bg.softuni.invoice_app.model.dto.SaleReportDto;
+import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import jakarta.servlet.http.HttpServletRequest;

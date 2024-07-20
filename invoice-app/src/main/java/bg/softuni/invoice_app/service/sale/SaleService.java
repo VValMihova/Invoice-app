@@ -1,7 +1,7 @@
 package bg.softuni.invoice_app.service.sale;
 
-import bg.softuni.invoice_app.model.dto.ReportCriteria;
-import bg.softuni.invoice_app.model.dto.SaleReportDto;
+import bg.softuni.invoice_app.model.dto.report.ReportCriteria;
+import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.model.entity.Sale;
 
 import java.util.List;

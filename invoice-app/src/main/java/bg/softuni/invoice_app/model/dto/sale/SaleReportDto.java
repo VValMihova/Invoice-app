@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.model.dto;
+package bg.softuni.invoice_app.model.dto.sale;
 
 import java.math.BigDecimal;
 

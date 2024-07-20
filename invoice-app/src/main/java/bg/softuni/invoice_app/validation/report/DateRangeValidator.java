@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.validation.report;
 
-import bg.softuni.invoice_app.model.dto.ReportCriteria;
+import bg.softuni.invoice_app.model.dto.report.ReportCriteria;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;

@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.model.dto;
+package bg.softuni.invoice_app.model.dto.report;
 
 import bg.softuni.invoice_app.validation.report.ValidDateRange;
 import jakarta.validation.constraints.NotNull;

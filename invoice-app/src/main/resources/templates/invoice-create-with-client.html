@@ -85,7 +85,7 @@
           id="bankAccount"
           name="bankAccountId"
           class="form-control"
-          th:field="*{bankAccount}">
+          th:field="*{bankAccountIban}">
         <option value="" disabled selected th:text="#{create.invoice.bank.account.select}">Select a bank account
         </option>
         <option th:each="bankAccount : ${bankAccounts}"

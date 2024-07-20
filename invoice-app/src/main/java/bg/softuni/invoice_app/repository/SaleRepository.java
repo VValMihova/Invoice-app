@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.repository;
 
-import bg.softuni.invoice_app.model.dto.SaleReportDto;
+import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.model.entity.Sale;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
