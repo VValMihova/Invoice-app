@@ -7,7 +7,6 @@ import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
-import bg.softuni.invoice_app.repository.SaleRepository;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.sale.SaleService;
@@ -57,22 +56,22 @@ public class InvoiceServiceImpl implements InvoiceService {
   public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
     User currentUser = userService.getUser();
     Invoice invoice = invoiceRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid invoice Id:" + id));
+        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
     
-    invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
-    invoice.setIssueDate(invoiceData.getIssueDate());
-    invoice.setSupplier(userService.getCompanyDetails());
+    invoice.setInvoiceNumber(invoiceData.getInvoiceNumber())
+        .setIssueDate(invoiceData.getIssueDate())
+        .setSupplier(userService.getCompanyDetails());
     
     BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
     invoice.setBankAccount(bankAccount);
     
-    List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
+    List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems());
     invoice.getItems().clear();
     invoice.getItems().addAll(updatedItems);
     
-    invoice.setTotalAmount(invoiceData.getTotalAmount());
-    invoice.setVat(invoiceData.getVat());
-    invoice.setAmountDue(invoiceData.getAmountDue());
+    invoice.setTotalAmount(invoiceData.getTotalAmount())
+        .setVat(invoiceData.getVat())
+        .setAmountDue(invoiceData.getAmountDue());
     
     invoiceRepository.save(invoice);
     saleService.deleteAllByInvoiceId(invoice.getId());
@@ -83,7 +82,7 @@ public class InvoiceServiceImpl implements InvoiceService {
           .setQuantity(updatedItem.getQuantity())
           .setInvoiceId(invoice.getId())
           .setUser(currentUser);
-          saleService.save(sale);
+      saleService.save(sale);
     }
   }
   
@@ -94,43 +93,39 @@ public class InvoiceServiceImpl implements InvoiceService {
         .isPresent();
   }
   
-  //todo can add exception
   @Override
   public void deleteById(Long id) {
-    invoiceRepository.deleteById(id);
+    Invoice invoice = findByIdOrThrow(id);
+    invoiceRepository.delete(invoice);
   }
   
   @Override
   public InvoiceView getById(Long id) {
-    Invoice invoice = this.invoiceRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
-    
+    Invoice invoice = findByIdOrThrow(id);
     return mapToInvoiceView(invoice);
   }
   
   @Override
   public void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData) {
     User currentUser = userService.getUser();
-    Invoice invoice = new Invoice();
-    invoice.setInvoiceNumber(invoiceData.getInvoiceNumber());
-    invoice.setIssueDate(invoiceData.getIssueDate());
-    
-    invoice.setSupplier(userService.getCompanyDetails());
+    Invoice invoice = new Invoice()
+        .setInvoiceNumber(invoiceData.getInvoiceNumber())
+        .setIssueDate(invoiceData.getIssueDate())
+        .setSupplier(userService.getCompanyDetails());
     
     RecipientDetails recipient = recipientDetailsService.getById(clientId);
     invoice.setRecipient(recipient);
     
-    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(), currentUser);
-    invoice.setItems(invoiceItems);
-    
-    invoice.setTotalAmount(invoiceData.getTotalAmount());
-    invoice.setVat(invoiceData.getVat());
-    invoice.setAmountDue(invoiceData.getAmountDue());
+    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems());
+    invoice.setItems(invoiceItems)
+        .setTotalAmount(invoiceData.getTotalAmount())
+        .setVat(invoiceData.getVat())
+        .setAmountDue(invoiceData.getAmountDue());
     
     BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
-    invoice.setBankAccount(bankAccount);
+    invoice.setBankAccount(bankAccount)
+        .setUser(currentUser);
     
-    invoice.setUser(currentUser);
     invoiceRepository.save(invoice);
     addSales(invoiceData, invoiceItems, currentUser);
   }
@@ -147,17 +142,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
   }
   
-  
-  private void updateInvoiceItems(Invoice existingInvoice, List<InvoiceItemDto> newItems) {
-    existingInvoice.getItems().clear();
-    
-    for (InvoiceItemDto itemDto : newItems) {
-      InvoiceItem item = modelMapper.map(itemDto, InvoiceItem.class);
-      existingInvoice.getItems().add(item);
-    }
-  }
-  
-  private List<InvoiceItem> mapToInvoiceItems(List<InvoiceItemDto> items, User user) {
+  private List<InvoiceItem> mapToInvoiceItems(List<InvoiceItemDto> items) {
     List<InvoiceItem> invoiceItems = new ArrayList<>();
     for (InvoiceItemDto itemDto : items) {
       InvoiceItem invoiceItem = modelMapper.map(itemDto, InvoiceItem.class);
@@ -180,6 +165,11 @@ public class InvoiceServiceImpl implements InvoiceService {
             .map(this::mapToInvoiceItemView)
             .collect(Collectors.toList()))
         .setTotalAmount(invoice.getTotalAmount());
+  }
+  
+  private Invoice findByIdOrThrow(Long id) {
+    return this.invoiceRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
   }
   
   private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
