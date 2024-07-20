@@ -9,7 +9,7 @@ public interface CompanyDetailsService {
   
   CompanyDetails getByEik(String eik);
   
-  CompanyDetails getCompanyByName(String companyName);
+  CompanyDetails getByName(String companyName);
   
   CompanyDetails getByVatNumber(String vat);
   

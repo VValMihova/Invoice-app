@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.service.companyDetails;
 
+import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
@@ -9,7 +10,8 @@ import org.springframework.stereotype.Service;
 public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   private final CompanyDetailsRepository companyDetailsRepository;
   
-  public CompanyDetailsServiceImpl(CompanyDetailsRepository companyDetailsRepository) {
+  public CompanyDetailsServiceImpl(
+      CompanyDetailsRepository companyDetailsRepository) {
     this.companyDetailsRepository = companyDetailsRepository;
   }
   
@@ -24,7 +26,7 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   }
   
   @Override
-  public CompanyDetails getCompanyByName(String companyName) {
+  public CompanyDetails getByName(String companyName) {
     return this.companyDetailsRepository.findByCompanyName(companyName).orElse(null);
   }
   
@@ -33,11 +35,10 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
     return this.companyDetailsRepository.findByVatNumber(vat).orElse(null);
   }
   
-  //  todo exception
   @Override
   public CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData) {
     CompanyDetails existingCompany = this.companyDetailsRepository.findById(id)
-        .orElse(null);
+        .orElseThrow(() -> new NotFoundObjectException("Company"));
     
     existingCompany.setCompanyName(companyData.getCompanyName())
         .setAddress(companyData.getAddress())
