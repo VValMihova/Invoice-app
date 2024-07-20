@@ -10,6 +10,7 @@ import static org.mockito.Mockito.*;
 
 import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.entity.BankAccount;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
@@ -48,7 +49,7 @@ class BankAccountServiceImplTest {
   private UserService userService;
   
   @Test
-  void testGetById() {
+  void testGetViewById() {
     // Arrange
     CompanyDetails companyDetails = new CompanyDetails();
     companyDetails.setAddress("42 Main St");
@@ -68,7 +69,7 @@ class BankAccountServiceImplTest {
     when(bankAccountRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
     
     // Act
-    BankAccountView actualById = bankAccountServiceImpl.getById(1L);
+    BankAccountView actualById = bankAccountServiceImpl.getViewById(1L);
     
     // Assert
     verify(bankAccountRepository).findById(eq(1L));
@@ -79,23 +80,23 @@ class BankAccountServiceImplTest {
   }
   
   @Test
-  void testGetById2() {
+  void testGetViewById2() {
     // Arrange
     Optional<BankAccount> emptyResult = Optional.empty();
     when(bankAccountRepository.findById(Mockito.<Long>any())).thenReturn(emptyResult);
     
     // Act and Assert
-    assertThrows(NotFoundObjectException.class, () -> bankAccountServiceImpl.getById(1L));
+    assertThrows(NotFoundObjectException.class, () -> bankAccountServiceImpl.getViewById(1L));
     verify(bankAccountRepository).findById(eq(1L));
   }
   
   @Test
-  void testGetById3() {
+  void testGetViewById3() {
     // Arrange
     when(bankAccountRepository.findById(Mockito.<Long>any())).thenThrow(new NotFoundObjectException("Bank account"));
     
     // Act and Assert
-    assertThrows(NotFoundObjectException.class, () -> bankAccountServiceImpl.getById(1L));
+    assertThrows(NotFoundObjectException.class, () -> bankAccountServiceImpl.getViewById(1L));
     verify(bankAccountRepository).findById(eq(1L));
   }
   
@@ -244,27 +245,153 @@ class BankAccountServiceImplTest {
     verify(modelMapper, atLeast(1)).map(Mockito.<Object>any(), isA(Class.class));
     assertEquals(1, actualFindAllForCompanyResult.size());
   }
-  
   @Test
   void testDeleteBankAccount() {
     // Arrange
+    CompanyDetails companyDetails = new CompanyDetails();
+    companyDetails.setAddress("42 Main St");
+    companyDetails.setCompanyName("Company Name");
+    companyDetails.setEik("Eik");
+    companyDetails.setId(1L);
+    companyDetails.setManager("Manager");
+    companyDetails.setVatNumber("42");
+    
+    BankAccount bankAccount = new BankAccount();
+    bankAccount.setBic("Bic");
+    bankAccount.setCompanyDetails(companyDetails);
+    bankAccount.setCurrency("GBP");
+    bankAccount.setIban("Iban");
+    bankAccount.setId(1L);
+    Optional<BankAccount> ofResult = Optional.of(bankAccount);
     doNothing().when(bankAccountRepository).deleteById(Mockito.<Long>any());
+    when(bankAccountRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
     
     // Act
     bankAccountServiceImpl.deleteBankAccount(1L);
     
     // Assert that nothing has changed
     verify(bankAccountRepository).deleteById(eq(1L));
+    verify(bankAccountRepository).findById(eq(1L));
   }
   
   @Test
   void testDeleteBankAccount2() {
     // Arrange
+    CompanyDetails companyDetails = new CompanyDetails();
+    companyDetails.setAddress("42 Main St");
+    companyDetails.setCompanyName("Company Name");
+    companyDetails.setEik("Eik");
+    companyDetails.setId(1L);
+    companyDetails.setManager("Manager");
+    companyDetails.setVatNumber("42");
+    
+    BankAccount bankAccount = new BankAccount();
+    bankAccount.setBic("Bic");
+    bankAccount.setCompanyDetails(companyDetails);
+    bankAccount.setCurrency("GBP");
+    bankAccount.setIban("Iban");
+    bankAccount.setId(1L);
+    Optional<BankAccount> ofResult = Optional.of(bankAccount);
     doThrow(new NotFoundObjectException("Object Type")).when(bankAccountRepository).deleteById(Mockito.<Long>any());
+    when(bankAccountRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
     
     // Act and Assert
     assertThrows(NotFoundObjectException.class, () -> bankAccountServiceImpl.deleteBankAccount(1L));
     verify(bankAccountRepository).deleteById(eq(1L));
+    verify(bankAccountRepository).findById(eq(1L));
+  }
+  
+  @Test
+  void testDeleteBankAccount3() {
+    // Arrange
+    Optional<BankAccount> emptyResult = Optional.empty();
+    when(bankAccountRepository.findById(Mockito.<Long>any())).thenReturn(emptyResult);
+    
+    // Act and Assert
+    assertThrows(NotFoundObjectException.class, () -> bankAccountServiceImpl.deleteBankAccount(1L));
+    verify(bankAccountRepository).findById(eq(1L));
+  }
+  @Test
+  void testEditBankAccount() {
+    // Arrange
+    CompanyDetails companyDetails = new CompanyDetails();
+    companyDetails.setAddress("42 Main St");
+    companyDetails.setCompanyName("Company Name");
+    companyDetails.setEik("Eik");
+    companyDetails.setId(1L);
+    companyDetails.setManager("Manager");
+    companyDetails.setVatNumber("42");
+    
+    BankAccount bankAccount = new BankAccount();
+    bankAccount.setBic("Bic");
+    bankAccount.setCompanyDetails(companyDetails);
+    bankAccount.setCurrency("GBP");
+    bankAccount.setIban("Iban");
+    bankAccount.setId(1L);
+    Optional<BankAccount> ofResult = Optional.of(bankAccount);
+    
+    CompanyDetails companyDetails2 = new CompanyDetails();
+    companyDetails2.setAddress("42 Main St");
+    companyDetails2.setCompanyName("Company Name");
+    companyDetails2.setEik("Eik");
+    companyDetails2.setId(1L);
+    companyDetails2.setManager("Manager");
+    companyDetails2.setVatNumber("42");
+    
+    BankAccount bankAccount2 = new BankAccount();
+    bankAccount2.setBic("Bic");
+    bankAccount2.setCompanyDetails(companyDetails2);
+    bankAccount2.setCurrency("GBP");
+    bankAccount2.setIban("Iban");
+    bankAccount2.setId(1L);
+    when(bankAccountRepository.save(Mockito.<BankAccount>any())).thenReturn(bankAccount2);
+    when(bankAccountRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
+    
+    BankAccountEditBindingDto bankAccountDataEdit = new BankAccountEditBindingDto();
+    bankAccountDataEdit.setBic("Bic");
+    bankAccountDataEdit.setCurrency("GBP");
+    bankAccountDataEdit.setIban("Iban");
+    bankAccountDataEdit.setId(1L);
+    
+    // Act
+    bankAccountServiceImpl.editBankAccount(1L, bankAccountDataEdit);
+    
+    // Assert
+    verify(bankAccountRepository).findById(eq(1L));
+    verify(bankAccountRepository).save(isA(BankAccount.class));
+  }
+  
+  @Test
+  void testEditBankAccount2() {
+    // Arrange
+    CompanyDetails companyDetails = new CompanyDetails();
+    companyDetails.setAddress("42 Main St");
+    companyDetails.setCompanyName("Company Name");
+    companyDetails.setEik("Eik");
+    companyDetails.setId(1L);
+    companyDetails.setManager("Manager");
+    companyDetails.setVatNumber("42");
+    
+    BankAccount bankAccount = new BankAccount();
+    bankAccount.setBic("Bic");
+    bankAccount.setCompanyDetails(companyDetails);
+    bankAccount.setCurrency("GBP");
+    bankAccount.setIban("Iban");
+    bankAccount.setId(1L);
+    Optional<BankAccount> ofResult = Optional.of(bankAccount);
+    when(bankAccountRepository.save(Mockito.<BankAccount>any())).thenThrow(new NotFoundObjectException("Object Type"));
+    when(bankAccountRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
+    
+    BankAccountEditBindingDto bankAccountDataEdit = new BankAccountEditBindingDto();
+    bankAccountDataEdit.setBic("Bic");
+    bankAccountDataEdit.setCurrency("GBP");
+    bankAccountDataEdit.setIban("Iban");
+    bankAccountDataEdit.setId(1L);
+    
+    // Act and Assert
+    assertThrows(NotFoundObjectException.class, () -> bankAccountServiceImpl.editBankAccount(1L, bankAccountDataEdit));
+    verify(bankAccountRepository).findById(eq(1L));
+    verify(bankAccountRepository).save(isA(BankAccount.class));
   }
   
   @Test

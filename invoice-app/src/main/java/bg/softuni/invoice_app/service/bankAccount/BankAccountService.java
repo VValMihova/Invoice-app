@@ -8,7 +8,7 @@ import bg.softuni.invoice_app.model.entity.BankAccount;
 import java.util.Set;
 
 public interface BankAccountService {
-  BankAccountView getById(Long id);
+  BankAccountView getViewById(Long id);
   
   BankAccount getByIban(String iban);
   

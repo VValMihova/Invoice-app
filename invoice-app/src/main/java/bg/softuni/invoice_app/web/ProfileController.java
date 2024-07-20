@@ -93,7 +93,7 @@ public class ProfileController {
   
   @GetMapping("/edit-bank-account/{id}")
   public String showEditBankAccountForm(@PathVariable Long id, Model model) {
-    model.addAttribute("bankAccount", this.bankAccountService.getById(id));
+    model.addAttribute("bankAccount", this.bankAccountService.getViewById(id));
     return "bank-account-edit";
   }
   

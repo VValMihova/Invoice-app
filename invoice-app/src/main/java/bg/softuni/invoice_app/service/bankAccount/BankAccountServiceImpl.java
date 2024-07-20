@@ -32,9 +32,8 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
-  public BankAccountView getById(Long id) {
-    BankAccount bankAccount = this.bankAccountRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
+  public BankAccountView getViewById(Long id) {
+    BankAccount bankAccount = getByIdOrElseThrow(id);
     
     return mapToBankAccountView(bankAccount);
   }
@@ -60,8 +59,7 @@ public class BankAccountServiceImpl implements BankAccountService {
   
   @Override
   public void editBankAccount(Long id, BankAccountEditBindingDto bankAccountDataEdit) {
-    BankAccount bankAccount = bankAccountRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
+    BankAccount bankAccount = getByIdOrElseThrow(id);
     
     bankAccount.setIban(InputFormating.format(bankAccountDataEdit.getIban()))
         .setBic(InputFormating.format(bankAccountDataEdit.getBic()))
@@ -70,8 +68,10 @@ public class BankAccountServiceImpl implements BankAccountService {
     bankAccountRepository.save(bankAccount);
   }
   
+  
   @Override
   public void deleteBankAccount(Long id) {
+    BankAccount bankAccount = getByIdOrElseThrow(id);
     this.bankAccountRepository.deleteById(id);
   }
   
@@ -80,6 +80,11 @@ public class BankAccountServiceImpl implements BankAccountService {
     CompanyDetails companyDetails = userService.getCompanyDetails();
     
     this.bankAccountRepository.save(mapToBankAccount(bankAccountData, companyDetails));
+  }
+  
+  private BankAccount getByIdOrElseThrow(Long id) {
+    return bankAccountRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
   }
   
   private BankAccount mapToBankAccount(BankAccountCreateBindingDto bankAccountData, CompanyDetails companyDetails) {
