@@ -51,16 +51,7 @@ public class ReportController {
     model.addAttribute("reportData", reportData);
     return "report-view";
   }
-//  @GetMapping("/download-pdf")
-//  public void downloadPdfReport(ReportCriteria reportCriteria, HttpServletResponse response) throws IOException {
-//    List<SaleReportDto> reportData = saleService.generateReport(reportCriteria);
-//    byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData);
-//
-//    response.setContentType("application/pdf");
-//    response.setHeader("Content-Disposition", "attachment; filename=sales_report.pdf");
-//    response.getOutputStream().write(pdfBytes);
-//    response.getOutputStream().flush();
-//  }
+
 @GetMapping("/download-pdf")
 public void downloadPdfReport(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
                               @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
