@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.model.dto.report.ReportCriteria;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.model.entity.Sale;
 import bg.softuni.invoice_app.repository.SaleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class SaleServiceImpl implements SaleService {
   public void save(Sale sale) {
     this.saleRepository.save(sale);
   }
-  
+  @Transactional
   @Override
   public void deleteAllByInvoiceId(Long id) {
     this.saleRepository.deleteAllByInvoiceId(id);
