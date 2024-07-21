@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"></meta>
+      <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <style>
+       * { font-family: Verdana, sans-serif; }
+  </style>
   <title th:text="#{report.title}">Sales Report</title>
   <style>
       @font-face {
@@ -33,7 +36,6 @@
   </style>
 </head>
 <body>
-<h5>текст на бг за тест</h5>
 <h1 th:text="#{report.title}">Sales Report</h1>
 <table class="table">
   <thead>
