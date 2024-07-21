@@ -128,7 +128,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setVat(invoiceData.getVat())
         .setAmountDue(invoiceData.getAmountDue());
     
-    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccount());
+    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccountIban());
     BankAccountPersist accountPersist = bankAccountPersistService.add(bankAccount, currentUser);
     invoice.setBankAccountPersist(accountPersist)
         .setUser(currentUser);

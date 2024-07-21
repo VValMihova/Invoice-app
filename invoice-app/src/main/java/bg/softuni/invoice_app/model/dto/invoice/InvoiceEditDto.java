@@ -104,14 +104,6 @@ public class InvoiceEditDto {
     return this;
   }
   
-  public @NotBlank(message = "{invoice.bank.account.not.null}") String getBankAccountIban() {
-    return bankAccountIban;
-  }
-  
-  public InvoiceEditDto setBankAccountIban(@NotBlank(message = "{invoice.bank.account.not.null}") String bankAccountIban) {
-    this.bankAccountIban = bankAccountIban;
-    return this;
-  }
   
   public Long getId() {
     return id;
@@ -119,6 +111,15 @@ public class InvoiceEditDto {
   
   public InvoiceEditDto setId(Long id) {
     this.id = id;
+    return this;
+  }
+  
+  public String getBankAccountIban() {
+    return bankAccountIban;
+  }
+  
+  public InvoiceEditDto setBankAccountIban(String bankAccountIban) {
+    this.bankAccountIban = bankAccountIban;
     return this;
   }
 }
