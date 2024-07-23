@@ -14,7 +14,6 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -59,13 +58,10 @@ public class PdfGenerationService {
       ITextRenderer renderer = new ITextRenderer();
       renderer.setDocumentFromString(htmlContent);
       renderer.getFontResolver()
-          .addFont("C:/Users/YOGA/Downloads/verdana-font-family/verdana-font-family/verdana.ttf",
+          .addFont("C:/Users/YOGA/repositories/Invoice-app/invoice-app/src/main/resources/fonts/verdana.ttf",
               BaseFont.IDENTITY_H,
               BaseFont.NOT_EMBEDDED
           );
-//      String fontPath = getClass().getClassLoader().getResource("fonts/DejaVuSans.ttf").toExternalForm();
-//      renderer.getFontResolver().addFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-//      renderer.getFontResolver().addFont(fontPath, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
       renderer.layout();
       renderer.createPDF(byteArrayOutputStream);
       return byteArrayOutputStream.toByteArray();
