@@ -4,13 +4,13 @@ logging:
     org: WARN
     org.hibernate.SQL: DEBUG
 server:
-  port: 8080
+  port: 8081
 spring:
   application:
     name: invoice-app
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/invoice-app?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/invoice-app-bank-accounts?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     username: ${db_username}
     password: ${db_password}
 
@@ -22,16 +22,3 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: false
         show_sql: false
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    mode: HTML5
-    encoding: UTF-8
-    cache: false
-bank-accounts:
-  api:
-    baseUrl: "http://localhost:8081"
