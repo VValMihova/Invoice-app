@@ -4,6 +4,9 @@ import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
+import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
+
+import java.util.Optional;
 
 public interface UserService {
   void register(UserRegisterBindingDto registerData);
@@ -25,4 +28,5 @@ public interface UserService {
   //  todo add exception
   User getUser();
   
+  Optional<InvoiceAppUserDetails> getCurrentUser();
 }

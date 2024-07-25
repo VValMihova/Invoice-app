@@ -1,10 +1,16 @@
 package bg.softuni.invoice_app.model.entity;
 
+import bg.softuni.invoice_app.utils.uuid.UUIDSequence;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
+
+import static java.sql.Types.VARCHAR;
 
 @Entity
 @Table(name = "users")
@@ -36,6 +42,10 @@ public class User {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "user_id")
   private Set<RecipientDetails> recipients;
+  
+  @UUIDSequence
+  @JdbcTypeCode(VARCHAR)
+  private UUID uuid;
   
   public User() {
     this.roles = new HashSet<>();
@@ -103,6 +113,15 @@ public class User {
   
   public User setRecipients(Set<RecipientDetails> recipients) {
     this.recipients = recipients;
+    return this;
+  }
+  
+  public UUID getUuid() {
+    return uuid;
+  }
+  
+  public User setUuid(UUID uuid) {
+    this.uuid = uuid;
     return this;
   }
 }

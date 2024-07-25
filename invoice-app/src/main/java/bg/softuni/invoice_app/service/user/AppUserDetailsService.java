@@ -1,13 +1,14 @@
 package bg.softuni.invoice_app.service.user;
 
+import bg.softuni.invoice_app.model.entity.Role;
 import bg.softuni.invoice_app.model.entity.User;
+import bg.softuni.invoice_app.model.enums.RoleName;
+import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
 import bg.softuni.invoice_app.repository.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.stream.Collectors;
 
 
 public class AppUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
@@ -29,29 +30,31 @@ public class AppUserDetailsService implements org.springframework.security.core.
   }
   
   private UserDetails mapToUserDetails(User user) {
-    return org.springframework.security.core.userdetails.User
-        .withUsername(user.getEmail())
-        .password(user.getPassword())
-        .authorities(user.getRoles().stream()
-            .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
-            .collect(Collectors.toList()))
-        .build();
+    return new InvoiceAppUserDetails(
+        user.getUuid(),
+        user.getEmail(),
+        user.getPassword(),
+        user.getRoles().stream().map(Role::getName).map(this::map).toList());
   }
   
-  public boolean hasRole(String role) {
-    return getUserDetails()
-        .getAuthorities()
-        .stream()
-        .anyMatch(r -> r.getAuthority().equals(ROLE_PREFIX + role));
-  }
   
-  public UserDetails getUserDetails() {
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (principal instanceof UserDetails) {
-      return (UserDetails) principal;
-    } else {
-      throw new IllegalStateException("Principal is not an instance of UserDetails");
-    }
+  private GrantedAuthority map(RoleName role) {
+    return new SimpleGrantedAuthority(ROLE_PREFIX + role);
   }
-}
+//  todo delete
+//  public boolean hasRole(String role) {
+//    return getUserDetails()
+//        .getAuthorities()
+//        .stream()
+//        .anyMatch(r -> r.getAuthority().equals(ROLE_PREFIX + role));
+//  }
+  
+//  public UserDetails getUserDetails() {
+//    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//    if (principal instanceof UserDetails) {
+//      return (UserDetails) principal;
+//    } else {
+//      throw new IllegalStateException("Principal is not an instance of UserDetails");
+//    }
+  }
 
