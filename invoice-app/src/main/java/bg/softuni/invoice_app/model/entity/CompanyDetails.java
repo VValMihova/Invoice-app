@@ -1,6 +1,12 @@
 package bg.softuni.invoice_app.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
+
+import static java.sql.Types.VARCHAR;
 
 @Entity
 @Table(name = "companies_details")
@@ -8,6 +14,10 @@ public class CompanyDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  
+  @UuidGenerator
+  @JdbcTypeCode(VARCHAR)
+  private UUID uuid;
   
   @Column(nullable = false)
   private String companyName;
@@ -79,4 +89,12 @@ public class CompanyDetails {
     return this;
   }
   
+  public UUID getUuid() {
+    return uuid;
+  }
+  
+  public CompanyDetails setUuid(UUID uuid) {
+    this.uuid = uuid;
+    return this;
+  }
 }

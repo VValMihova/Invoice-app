@@ -14,7 +14,7 @@ public class HomeController {
   public HomeController(UserService userService) {
     this.userService = userService;
   }
-  
+//  TODO check why with no registered user doesnt work
   @GetMapping("/")
   public String getHome(Model model, @AuthenticationPrincipal UserDetails userDetails) {
     if (userDetails != null) {
