@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.service.bankAccountPersist;
 
-import bg.softuni.invoice_app.model.entity.BankAccount;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.entity.BankAccountPersist;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.repository.BankAccountPersistRepository;
@@ -18,7 +18,7 @@ public class BankAccountPersistServiceImpl implements BankAccountPersistService 
   }
   
   @Override
-  public BankAccountPersist add(BankAccount bankAccount, User user) {
+  public BankAccountPersist add(BankAccountView bankAccount, User user) {
     if (!bankAccountPersistRepository.existsByIban(bankAccount.getIban())) {
       bankAccountPersistRepository.saveAndFlush(modelMapper.map(bankAccount, BankAccountPersist.class)
           .setUser(user));

@@ -1,6 +1,7 @@
 package bg.softuni.invoiceappbankaccounts.web;
 
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountCreateBindingDto;
+import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountEditBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountView;
 import bg.softuni.invoiceappbankaccounts.service.BankAccountService;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,11 @@ public class BankAccountController {
   @GetMapping("/{id}")
   public ResponseEntity<BankAccountView> getBankAccountById(@PathVariable Long id) {
     return ResponseEntity.ok(bankAccountService.findById(id));
+  }
+  
+  @GetMapping("/iban/{iban}")
+  public ResponseEntity<BankAccountView> getBankAccountByIban(@PathVariable String iban) {
+    return ResponseEntity.ok(bankAccountService.findByIban(iban));
   }
   
   @DeleteMapping("/{id}")
@@ -54,5 +60,10 @@ public class BankAccountController {
         ).body(bankAccountView);
   }
   
-  
-}
+  @PutMapping("/{id}")
+  public ResponseEntity<BankAccountView> editBankAccount(@PathVariable Long id, @RequestBody BankAccountEditBindingDto bankAccountEditBindingDto) {
+    BankAccountView updatedAccount = bankAccountService.editBankAccount(id, bankAccountEditBindingDto);
+    return ResponseEntity.ok(updatedAccount);
+  }
+
+  }

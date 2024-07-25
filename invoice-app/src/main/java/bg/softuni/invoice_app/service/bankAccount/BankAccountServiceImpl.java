@@ -4,12 +4,6 @@ import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
-import bg.softuni.invoice_app.model.entity.BankAccount;
-import bg.softuni.invoice_app.model.entity.CompanyDetails;
-import bg.softuni.invoice_app.repository.BankAccountRepository;
-import bg.softuni.invoice_app.service.user.UserService;
-import bg.softuni.invoice_app.utils.InputFormating;
-import org.modelmapper.ModelMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -19,17 +13,13 @@ import java.util.Set;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
-  private final BankAccountRepository bankAccountRepository;
-  private final UserService userService;
   private final RestClient restClient;
   
   public BankAccountServiceImpl(
-      BankAccountRepository bankAccountRepository,
-      UserService userService, RestClient restClient) {
-    this.bankAccountRepository = bankAccountRepository;
-    this.userService = userService;
+      RestClient restClient) {
     this.restClient = restClient;
   }
+  
   // todo connect
   @Override
   public BankAccountView getViewById(Long id) {
@@ -45,9 +35,13 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
-  public BankAccount getByIban(String iban) {
-    return this.bankAccountRepository.findByIban(iban)
-        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
+  public BankAccountView getByIban(String iban) {
+    return restClient
+        .get()
+        .uri("http://localhost:8081/bank-accounts/{iban}", iban)
+        .accept(MediaType.APPLICATION_JSON)
+        .retrieve()
+        .body(BankAccountView.class);
   }
   
   // todo connect
@@ -72,21 +66,21 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
-  public void editBankAccount(Long id, BankAccountEditBindingDto bankAccountDataEdit) {
-    BankAccount bankAccount = getByIdOrElseThrow(id);
-    
-    bankAccount.setIban(InputFormating.format(bankAccountDataEdit.getIban()))
-        .setBic(InputFormating.format(bankAccountDataEdit.getBic()))
-        .setCurrency(InputFormating.format(bankAccountDataEdit.getCurrency()));
-    
-    bankAccountRepository.save(bankAccount);
+  public void editBankAccount(Long id, BankAccountEditBindingDto bankAccountData) {
+    restClient
+        .post()
+        .uri("http://localhost:8081/bank-accounts")
+        .body(bankAccountData)
+        .retrieve();
   }
   
   
   @Override
   public void deleteBankAccount(Long id) {
-    BankAccount bankAccount = getByIdOrElseThrow(id);
-    this.bankAccountRepository.deleteById(id);
+    restClient
+        .delete()
+        .uri("http://localhost:8081/bank-accounts/{id}", id)
+        .retrieve();
   }
   
   //  todo connect
@@ -100,11 +94,11 @@ public class BankAccountServiceImpl implements BankAccountService {
 //    CompanyDetails companyDetails = userService.getCompanyDetails();
 //    this.bankAccountRepository.save(mapToBankAccount(bankAccountData, companyDetails));
   }
-  
-  private BankAccount getByIdOrElseThrow(Long id) {
-    return bankAccountRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
-  }
+  // todo delete
+//  private BankAccount getByIdOrElseThrow(Long id) {
+//    return bankAccountRepository.findById(id)
+//        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
+//  }
   // todo delete
 //  private BankAccount mapToBankAccount(BankAccountCreateBindingDto bankAccountData, CompanyDetails companyDetails) {
 //    return new BankAccount()

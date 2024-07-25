@@ -7,8 +7,8 @@ import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
-import bg.softuni.invoice_app.service.bankAccountPersist.BankAccountPersistService;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
+import bg.softuni.invoice_app.service.bankAccountPersist.BankAccountPersistService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.sale.SaleService;
 import bg.softuni.invoice_app.service.user.UserService;
@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
+  private final static String URL = "http://localhost:8081/api/bank-accounts";
+  
   private final InvoiceRepository invoiceRepository;
   private final ModelMapper modelMapper;
   private final RecipientDetailsService recipientDetailsService;
@@ -37,7 +39,9 @@ public class InvoiceServiceImpl implements InvoiceService {
       RecipientDetailsService recipientDetailsService,
       BankAccountService bankAccountService,
       UserService userService,
-      SaleService saleService, BankAccountPersistService bankAccountPersistService) {
+      SaleService saleService,
+      BankAccountPersistService bankAccountPersistService
+  ) {
     this.invoiceRepository = invoiceRepository;
     this.modelMapper = modelMapper;
     this.recipientDetailsService = recipientDetailsService;
@@ -65,8 +69,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setIssueDate(invoiceData.getIssueDate())
         .setSupplier(userService.getCompanyDetails());
     
-    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccountIban());
-    BankAccountPersist accountPersist = bankAccountPersistService.add(bankAccount, currentUser);
+    BankAccountView bankAccount = bankAccountService.getByIban(invoiceData.getBankAccountIban());
+    BankAccountPersist accountPersist =
+        bankAccountPersistService.add(bankAccount, currentUser);
     invoice.setBankAccountPersist(accountPersist);
     
     List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems());
@@ -128,7 +133,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setVat(invoiceData.getVat())
         .setAmountDue(invoiceData.getAmountDue());
     
-    BankAccount bankAccount = bankAccountService.getByIban(invoiceData.getBankAccountIban());
+    BankAccountView bankAccount = bankAccountService.getByIban(invoiceData.getBankAccountIban());
     BankAccountPersist accountPersist = bankAccountPersistService.add(bankAccount, currentUser);
     invoice.setBankAccountPersist(accountPersist)
         .setUser(currentUser);
@@ -136,6 +141,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     invoiceRepository.save(invoice);
     addSales(invoiceData, invoiceItems, currentUser);
   }
+  
   @Override
   public InvoiceEditDto convertToEditDto(InvoiceView invoiceView) {
     InvoiceEditDto dto = new InvoiceEditDto();
@@ -203,10 +209,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     return this.invoiceRepository.findById(id)
         .orElseThrow(() -> new NotFoundObjectException("Invoice"));
   }
-  
-  private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
-    return new BankAccountView(bankAccount);
-  }
+  //todo delete
+//  private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
+//    return new BankAccountView(bankAccount);
+//  }
   
   private InvoiceItemView mapToInvoiceItemView(InvoiceItem invoiceItem) {
     return new InvoiceItemView(invoiceItem);
