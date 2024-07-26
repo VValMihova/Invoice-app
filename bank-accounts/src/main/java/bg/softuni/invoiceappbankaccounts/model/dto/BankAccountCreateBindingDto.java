@@ -1,9 +1,9 @@
 package bg.softuni.invoiceappbankaccounts.model.dto;
 
+import bg.softuni.invoiceappbankaccounts.validation.annotation.LatinCharacters;
 import bg.softuni.invoiceappbankaccounts.validation.annotation.UniqueIban;
 import bg.softuni.invoiceappbankaccounts.validation.annotation.ValidBic;
 import bg.softuni.invoiceappbankaccounts.validation.annotation.ValidIban;
-import bg.softuni.invoiceappbankaccounts.validation.annotation.LatinCharacters;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 

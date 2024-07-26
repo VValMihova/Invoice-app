@@ -10,8 +10,6 @@ import bg.softuni.invoiceappbankaccounts.utils.InputFormating;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {

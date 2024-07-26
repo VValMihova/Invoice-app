@@ -5,7 +5,6 @@ import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountEditBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountView;
 
 import java.util.List;
-import java.util.Set;
 
 public interface BankAccountService {
   void deleteBankAccount(Long id);
