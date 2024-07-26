@@ -22,11 +22,8 @@ public class BankAccount {
   @Size(min = 3, max = 3)
   private String currency;
   
-  private String companyUuid;
-//  todo connect
-//  @ManyToOne(optional = false)
-//  @JoinColumn(name = "company_details_id", nullable = false)
-//  private CompanyDetails companyDetails;
+  @Column(nullable = false)
+  private String user;
   
   public BankAccount() {
   }
@@ -35,6 +32,7 @@ public class BankAccount {
     this.iban = iban;
     this.bic = bic;
     this.currency = currency;
+    this.user = user;
   }
   
   public Long getId() {
@@ -73,12 +71,12 @@ public class BankAccount {
     return this;
   }
   
-  public String getCompanyUuid() {
-    return companyUuid;
+  public String getUser() {
+    return user;
   }
   
-  public BankAccount setCompanyUuid(String companyUuid) {
-    this.companyUuid = companyUuid;
+  public BankAccount setUser(String user) {
+    this.user = user;
     return this;
   }
 }

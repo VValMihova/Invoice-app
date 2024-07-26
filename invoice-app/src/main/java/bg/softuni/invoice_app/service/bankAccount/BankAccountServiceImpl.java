@@ -1,6 +1,5 @@
 package bg.softuni.invoice_app.service.bankAccount;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;

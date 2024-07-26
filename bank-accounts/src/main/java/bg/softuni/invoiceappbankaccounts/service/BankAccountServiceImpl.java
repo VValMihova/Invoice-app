@@ -7,10 +7,9 @@ import bg.softuni.invoiceappbankaccounts.model.entity.BankAccount;
 import bg.softuni.invoiceappbankaccounts.repository.BankAccountRepository;
 import bg.softuni.invoiceappbankaccounts.service.exception.ObjectNotFoundException;
 import bg.softuni.invoiceappbankaccounts.utils.InputFormating;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,52 +23,15 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
-  public Set<BankAccountView> getAllAccountsPerUser(String uuid) {
-    return this.bankAccountRepository.findAll().stream()
-        .filter(ba -> ba.getCompanyUuid().equals(uuid))
-        .map(this::mapToView).collect(Collectors.toSet());
-  }
-  
-  private BankAccountView mapToView(BankAccount bankAccount) {
-    return new BankAccountView(bankAccount);
-  }
-  
-  @Override
-  public BankAccountView addBankAccount(BankAccountCreateBindingDto bankAccountData, String uuid) {
+  public boolean addBankAccount(BankAccountCreateBindingDto bankAccountData) {
     //  todo connect
-//    CompanyDetails companyDetails = userService.getCompanyDetails();
-//    this.bankAccountRepository.save(mapToBankAccount(bankAccountData, companyDetails));
-    BankAccount bankAccount = this.bankAccountRepository.save(mapToBankAccount(bankAccountData, uuid));
-    return new BankAccountView(bankAccount);
-  }
-
-//  @Override
-//  public BankAccountView editBankAccount(BankAccountEditBindingDto bankAccountData) {
-//    //  todo connect
-//    BankAccount bankAccount = this.bankAccountRepository.save(mapToBankAccountEdit(bankAccountData));
-//    return new BankAccountView(bankAccount);
-  
-  
-  @Transactional
-  @Override
-  public BankAccountView editBankAccount(Long id, BankAccountEditBindingDto bankAccountEditBindingDto) {
-    Optional<BankAccount> bankAccountOptional = bankAccountRepository.findById(id);
-    if (!bankAccountOptional.isPresent()) {
-      throw new RuntimeException("Bank account not found");
-    }
-    
-    BankAccount bankAccount = bankAccountOptional.get();
-    bankAccount.setIban(bankAccountEditBindingDto.getIban());
-    bankAccount.setBic(bankAccountEditBindingDto.getBic());
-    bankAccount.setCurrency(bankAccountEditBindingDto.getCurrency());
-    
-    BankAccount updatedAccount = bankAccountRepository.save(bankAccount);
-    return convertToView(updatedAccount);
+    //  BankAccount bankAccount = this.bankAccountRepository.save(mapToBankAccount(bankAccountData));
+    return true;
   }
   
   //  todo make it for current user only
   @Override
-  public Set<BankAccountView> findAllForCompany(String uuid) {
+  public Set<BankAccountView> findAllForCompany() {
 //    Set<BankAccount> bankAccounts = this.bankAccountRepository.findByCompanyDetailsId(companyId)
 //        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
 //    if (bankAccounts.isEmpty()) {
@@ -97,27 +59,41 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
-  public BankAccountView findByIban(String iban) {
-    return bankAccountRepository.getByIban(iban);
+  public List<BankAccountView> findByUuid(String uuid) {
+    return bankAccountRepository.findAll()
+        .stream()
+        .filter(ba -> ba.getUser().equals(uuid))
+        .map(BankAccountView::new)
+        .toList();
   }
   
-  private BankAccount mapToBankAccount(BankAccountCreateBindingDto bankAccountData, String uuid) {//todo connect, CompanyDetails companyDetails) {
+  @Override
+  public BankAccountView addBankAccountUser(BankAccountCreateBindingDto bankAccountCreate, String uuid) {
+    return new BankAccountView(bankAccountRepository.save(mapToBankAccount(bankAccountCreate, uuid)));
+  }
+  
+  @Override
+  public BankAccountView updateBankAccount(Long id, BankAccountEditBindingDto bankAccountEditBindingDto) {
+    BankAccount bankAccount = getByIdOrElseThrow(id);
+    // Актуализирайте полетата
+    bankAccount.setIban(bankAccountEditBindingDto.getIban());
+    bankAccount.setBic(bankAccountEditBindingDto.getBic());
+    bankAccount.setCurrency(bankAccountEditBindingDto.getCurrency());
+//    bankAccount.setUserUuid(bankAccountView.getUserUuid());
+    
+    bankAccountRepository.save(bankAccount);
+    
+    return new BankAccountView(bankAccount);
+  }
+  
+  private BankAccount mapToBankAccount(
+      BankAccountCreateBindingDto bankAccountData,
+      String uuid) {
     return new BankAccount()
         .setIban(InputFormating.format(bankAccountData.getIban()))
         .setBic(InputFormating.format(bankAccountData.getBic()))
         .setCurrency(InputFormating.format(bankAccountData.getCurrency()))
-        .setCompanyUuid(uuid);
-    //  todo connect
-    // .setCompanyDetails(companyDetails);
-  }
-  
-  private BankAccount mapToBankAccountEdit(BankAccountEditBindingDto bankAccountData) {//todo connect, CompanyDetails companyDetails) {
-    return new BankAccount()
-        .setIban(InputFormating.format(bankAccountData.getIban()))
-        .setBic(InputFormating.format(bankAccountData.getBic()))
-        .setCurrency(InputFormating.format(bankAccountData.getCurrency()));
-    //  todo connect
-    // .setCompanyDetails(companyDetails);
+        .setUser(uuid);
   }
   
   private BankAccount getByIdOrElseThrow(Long id) {
@@ -125,13 +101,5 @@ public class BankAccountServiceImpl implements BankAccountService {
         .orElseThrow(ObjectNotFoundException::new);
     // todo add exception here
     // .orElseThrow(() -> new NotFoundObjectException("Bank account"));
-  }
-  private BankAccountView convertToView(BankAccount bankAccount) {
-    BankAccountView view = new BankAccountView();
-    view.setId(bankAccount.getId());
-    view.setIban(bankAccount.getIban());
-    view.setBic(bankAccount.getBic());
-    view.setCurrency(bankAccount.getCurrency());
-    return view;
   }
 }

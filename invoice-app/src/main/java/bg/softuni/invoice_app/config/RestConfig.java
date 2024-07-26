@@ -1,8 +1,6 @@
 package bg.softuni.invoice_app.config;
 
-import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
 import bg.softuni.invoice_app.service.JwtService;
-import bg.softuni.invoice_app.service.user.AppUserDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

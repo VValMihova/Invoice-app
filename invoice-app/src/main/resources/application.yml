@@ -32,6 +32,7 @@ spring:
     mode: HTML5
     encoding: UTF-8
     cache: false
+
 bank-accounts:
   api:
     baseUrl: "http://localhost:8081"
