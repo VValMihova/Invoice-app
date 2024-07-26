@@ -23,31 +23,6 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
-  public boolean addBankAccount(BankAccountCreateBindingDto bankAccountData) {
-    //  todo connect
-    //  BankAccount bankAccount = this.bankAccountRepository.save(mapToBankAccount(bankAccountData));
-    return true;
-  }
-  
-  //  todo make it for current user only
-  @Override
-  public Set<BankAccountView> findAllForCompany() {
-//    Set<BankAccount> bankAccounts = this.bankAccountRepository.findByCompanyDetailsId(companyId)
-//        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
-//    if (bankAccounts.isEmpty()) {
-//      return new HashSet<>();
-//    } else {
-//      return bankAccounts.stream()
-//          .map(bankAccount -> this.modelMapper.map(bankAccount, BankAccountView.class))
-//          .collect(Collectors.toSet());
-//    }
-    return this.bankAccountRepository.findAll()
-        .stream()
-        .map(BankAccountView::new)
-        .collect(Collectors.toSet());
-  }
-  
-  @Override
   public void deleteBankAccount(Long id) {
     BankAccount bankAccount = getByIdOrElseThrow(id);
     this.bankAccountRepository.deleteById(id);
@@ -75,11 +50,9 @@ public class BankAccountServiceImpl implements BankAccountService {
   @Override
   public BankAccountView updateBankAccount(Long id, BankAccountEditBindingDto bankAccountEditBindingDto) {
     BankAccount bankAccount = getByIdOrElseThrow(id);
-    // Актуализирайте полетата
-    bankAccount.setIban(bankAccountEditBindingDto.getIban());
-    bankAccount.setBic(bankAccountEditBindingDto.getBic());
-    bankAccount.setCurrency(bankAccountEditBindingDto.getCurrency());
-//    bankAccount.setUserUuid(bankAccountView.getUserUuid());
+    bankAccount.setIban(InputFormating.format(bankAccountEditBindingDto.getIban()));
+    bankAccount.setBic(InputFormating.format(bankAccountEditBindingDto.getBic()));
+    bankAccount.setCurrency(InputFormating.format(bankAccountEditBindingDto.getCurrency()));
     
     bankAccountRepository.save(bankAccount);
     

@@ -36,30 +36,6 @@ public class BankAccountController {
     bankAccountService.deleteBankAccount(id);
     return ResponseEntity.noContent().build();
   }
-
-//  // todo make it for current user only
-//  @GetMapping
-//  public ResponseEntity<Set<BankAccountView>> getAllBankAccounts() {
-//    return ResponseEntity.ok(
-//        bankAccountService.findAllForCompany()
-//    );
-//  }
-
-//  @PostMapping
-//  public ResponseEntity<BankAccountView> createBankAccount(
-//      @RequestBody BankAccountCreateBindingDto bankAccountCreate) {
-////    bankAccountService.addBankAccount(bankAccountCreate);
-////    return ResponseEntity.ok().build();
-//    BankAccountView bankAccountView = bankAccountService.addBankAccount(bankAccountCreate);
-//    return ResponseEntity.
-//        created(
-//            ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{id}")
-//                .buildAndExpand(bankAccountView.getId())
-//                .toUri()
-//        ).body(bankAccountView);
-//  }
   
   @PostMapping("/user/{uuid}")
   public ResponseEntity<BankAccountView> createBankAccount(

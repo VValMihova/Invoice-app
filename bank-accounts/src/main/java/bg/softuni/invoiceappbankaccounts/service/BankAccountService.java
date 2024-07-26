@@ -8,11 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface BankAccountService {
-  boolean addBankAccount(BankAccountCreateBindingDto bankAccountData);
-  
-//  todo make it for current user only
-  Set<BankAccountView> findAllForCompany();
-  
   void deleteBankAccount(Long id);
   
   BankAccountView findById(Long id);
