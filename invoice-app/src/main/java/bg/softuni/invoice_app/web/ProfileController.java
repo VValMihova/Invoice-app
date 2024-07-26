@@ -39,7 +39,8 @@ public class ProfileController {
     ModelAndView modelAndView = new ModelAndView("user-profile");
     CompanyDetailsView companyDetails = userService.showCompanyDetails();
     modelAndView.addObject("companyDetails", companyDetails);
-    modelAndView.addObject("bankAccounts", this.bankAccountService.findAllForCompany(userService.getUuid()));
+    modelAndView.addObject("bankAccounts",
+        this.bankAccountService.getUserAccounts(userService.getUser().getUuid()));
     return modelAndView;
   }
   
@@ -84,7 +85,7 @@ public class ProfileController {
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bankAccountData", bindingResult);
       return "redirect:/profile/add-bank-account";
     }
-    bankAccountService.addBankAccount(bankAccountData);
+    bankAccountService.addBankAccountUser(bankAccountData, userService.getUser().getUuid());
     
     // redirectAttributes.addFlashAttribute("successMessage", "Bank account added successfully!");
     return "redirect:/profile";
@@ -109,7 +110,8 @@ public class ProfileController {
       return "bank-account-edit";
     }
     
-    this.bankAccountService.editBankAccount(id, bankAccountDataEdit);
+//    this.bankAccountService.editBankAccount(id, bankAccountDataEdit);
+    this.bankAccountService.updateBankAccount(id, bankAccountDataEdit);
     return "redirect:/profile";
   }
   

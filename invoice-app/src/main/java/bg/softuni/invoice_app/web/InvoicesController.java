@@ -67,23 +67,23 @@ public class InvoicesController {
 //  return "invoice-edit";
 //}
   
-  
+  //todo migrate
   //  todo add validation for unique or the same invoice number
-  @PostMapping("/edit/{id}")
-  public String updateInvoice(@PathVariable Long id,
-                              @Valid InvoiceEditDto invoiceData,
-                              BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
-    
-    if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
-      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
-      return "redirect:/invoices/edit/" + id;
-    }
-    
-    invoiceService.updateInvoice(id, invoiceData);
-    return "redirect:/invoices";
-  }
+//  @PostMapping("/edit/{id}")
+//  public String updateInvoice(@PathVariable Long id,
+//                              @Valid InvoiceEditDto invoiceData,
+//                              BindingResult bindingResult,
+//                              RedirectAttributes redirectAttributes) {
+//
+//    if (bindingResult.hasErrors()) {
+//      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
+//      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+//      return "redirect:/invoices/edit/" + id;
+//    }
+//
+//    invoiceService.updateInvoice(id, invoiceData);
+//    return "redirect:/invoices";
+//  }
   
   @PostMapping("/delete/{id}")
   public String deleteInvoice(@PathVariable Long id) {
@@ -110,22 +110,22 @@ public class InvoicesController {
 //
 //    return "invoice-create-with-client";
 //  }
-  
-  @PostMapping("/create-with-client/{clientId}")
-  public String createInvoiceWithClient(@PathVariable Long clientId,
-                                        @Valid InvoiceCreateDto invoiceData,
-                                        BindingResult bindingResult,
-                                        RedirectAttributes redirectAttributes) {
-    
-    if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
-      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
-      return "redirect:/invoices/create-with-client/" + clientId;
-    }
-    
-    invoiceService.createInvoiceWithClient(clientId, invoiceData);
-    return "redirect:/invoices";
-  }
+  //todo migrate
+//  @PostMapping("/create-with-client/{clientId}")
+//  public String createInvoiceWithClient(@PathVariable Long clientId,
+//                                        @Valid InvoiceCreateDto invoiceData,
+//                                        BindingResult bindingResult,
+//                                        RedirectAttributes redirectAttributes) {
+//
+//    if (bindingResult.hasErrors()) {
+//      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
+//      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+//      return "redirect:/invoices/create-with-client/" + clientId;
+//    }
+//
+//    invoiceService.createInvoiceWithClient(clientId, invoiceData);
+//    return "redirect:/invoices";
+//  }
   
   
   //  MODEL ATTRIBUTES

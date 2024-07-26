@@ -10,7 +10,7 @@ import java.util.List;
 public interface InvoiceService {
   List<AllInvoicesView> getAllInvoices();
   
-  void updateInvoice(Long id, InvoiceEditDto invoiceData);
+  //void updateInvoice(Long id, InvoiceEditDto invoiceData);
   
   boolean checkInvoiceExists(Long invoiceNumber);
   
@@ -18,7 +18,7 @@ public interface InvoiceService {
   
   InvoiceView getById(Long id);
   
-  void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData);
+  //void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData);
   
   InvoiceEditDto convertToEditDto(InvoiceView invoiceView);
 }

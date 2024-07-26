@@ -4,11 +4,9 @@ import bg.softuni.invoice_app.utils.uuid.UUIDSequence;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import static java.sql.Types.VARCHAR;
 
@@ -45,7 +43,7 @@ public class User {
   
   @UUIDSequence
   @JdbcTypeCode(VARCHAR)
-  private UUID uuid;
+  private String uuid;
   
   public User() {
     this.roles = new HashSet<>();
@@ -116,11 +114,11 @@ public class User {
     return this;
   }
   
-  public UUID getUuid() {
+  public String getUuid() {
     return uuid;
   }
   
-  public User setUuid(UUID uuid) {
+  public User setUuid(String uuid) {
     this.uuid = uuid;
     return this;
   }

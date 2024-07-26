@@ -11,12 +11,12 @@ public class InvoiceAppUserDetails extends User {
   private final UUID uuid;
   
   public InvoiceAppUserDetails(
-      UUID uuid,
+      String uuid,
       String username,
       String password,
       Collection<? extends GrantedAuthority> authorities) {
     super(username, password, authorities);
-    this.uuid = uuid;
+    this.uuid = UUID.fromString(uuid);
   }
   public UUID getUuid() {
     return uuid;
