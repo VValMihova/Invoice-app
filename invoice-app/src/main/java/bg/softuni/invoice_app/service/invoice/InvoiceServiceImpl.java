@@ -56,42 +56,42 @@ public class InvoiceServiceImpl implements InvoiceService {
         .toList();
   }
   //todo migrate
-//  @Transactional
-//  @Override
-//  public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
-//    User currentUser = userService.getUser();
-//    Invoice invoice = invoiceRepository.findById(id)
-//        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
-//
-//    invoice.setInvoiceNumber(invoiceData.getInvoiceNumber())
-//        .setIssueDate(invoiceData.getIssueDate())
-//        .setSupplier(userService.getCompanyDetails());
-//
-//    BankAccountView bankAccount = bankAccountService.getByIban(invoiceData.getBankAccountIban());
-//    BankAccountPersist accountPersist =
-//        bankAccountPersistService.add(bankAccount, currentUser);
-//    invoice.setBankAccountPersist(accountPersist);
-//
-//    List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems());
-//    invoice.getItems().clear();
-//    invoice.getItems().addAll(updatedItems);
-//
-//    invoice.setTotalAmount(invoiceData.getTotalAmount())
-//        .setVat(invoiceData.getVat())
-//        .setAmountDue(invoiceData.getAmountDue());
-//
-//    invoiceRepository.save(invoice);
-//    saleService.deleteAllByInvoiceId(invoice.getId());
-//    for (InvoiceItem updatedItem : updatedItems) {
-//      Sale sale = new Sale()
-//          .setSaleDate(invoiceData.getIssueDate())
-//          .setProductName(updatedItem.getName())
-//          .setQuantity(updatedItem.getQuantity())
-//          .setInvoiceId(invoice.getId())
-//          .setUser(currentUser);
-//      saleService.save(sale);
-//    }
-//  }
+  @Transactional
+  @Override
+  public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
+    User currentUser = userService.getUser();
+    Invoice invoice = invoiceRepository.findById(id)
+        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
+
+    invoice.setInvoiceNumber(invoiceData.getInvoiceNumber())
+        .setIssueDate(invoiceData.getIssueDate())
+        .setSupplier(userService.getCompanyDetails());
+
+    BankAccountView bankAccount = bankAccountService.getViewByIban(invoiceData.getBankAccountIban());
+    BankAccountPersist accountPersist =
+        bankAccountPersistService.add(bankAccount, currentUser);
+    invoice.setBankAccountPersist(accountPersist);
+
+    List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems());
+    invoice.getItems().clear();
+    invoice.getItems().addAll(updatedItems);
+
+    invoice.setTotalAmount(invoiceData.getTotalAmount())
+        .setVat(invoiceData.getVat())
+        .setAmountDue(invoiceData.getAmountDue());
+
+    invoiceRepository.save(invoice);
+    saleService.deleteAllByInvoiceId(invoice.getId());
+    for (InvoiceItem updatedItem : updatedItems) {
+      Sale sale = new Sale()
+          .setSaleDate(invoiceData.getIssueDate())
+          .setProductName(updatedItem.getName())
+          .setQuantity(updatedItem.getQuantity())
+          .setInvoiceId(invoice.getId())
+          .setUser(currentUser);
+      saleService.save(sale);
+    }
+  }
   
   @Override
   public boolean checkInvoiceExists(Long invoiceNumber) {

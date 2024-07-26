@@ -57,34 +57,34 @@ public class InvoicesController {
     return "invoice-view";
   }
   //todo changed for rest
-//@GetMapping("/edit/{id}")
-//public String editInvoice(@PathVariable Long id, Model model) {
-//  InvoiceView invoiceView = this.invoiceService.getById(id);
-//  InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
-//
-//  model.addAttribute("bankAccounts",
-//      this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
-//  model.addAttribute("invoiceData", invoiceEditDto);
-//  return "invoice-edit";
-//}
+@GetMapping("/edit/{id}")
+public String editInvoice(@PathVariable Long id, Model model) {
+  InvoiceView invoiceView = this.invoiceService.getById(id);
+  InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
+
+  model.addAttribute("bankAccounts",
+      this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
+  model.addAttribute("invoiceData", invoiceEditDto);
+  return "invoice-edit";
+}
   
   //todo migrate
   //  todo add validation for unique or the same invoice number
-//  @PostMapping("/edit/{id}")
-//  public String updateInvoice(@PathVariable Long id,
-//                              @Valid InvoiceEditDto invoiceData,
-//                              BindingResult bindingResult,
-//                              RedirectAttributes redirectAttributes) {
-//
-//    if (bindingResult.hasErrors()) {
-//      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
-//      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
-//      return "redirect:/invoices/edit/" + id;
-//    }
-//
-//    invoiceService.updateInvoice(id, invoiceData);
-//    return "redirect:/invoices";
-//  }
+  @PostMapping("/edit/{id}")
+  public String updateInvoice(@PathVariable Long id,
+                              @Valid InvoiceEditDto invoiceData,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
+
+    if (bindingResult.hasErrors()) {
+      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
+      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+      return "redirect:/invoices/edit/" + id;
+    }
+
+    invoiceService.updateInvoice(id, invoiceData);
+    return "redirect:/invoices";
+  }
   
   @PostMapping("/delete/{id}")
   public String deleteInvoice(@PathVariable Long id) {
