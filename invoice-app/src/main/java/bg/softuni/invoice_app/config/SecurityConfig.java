@@ -57,6 +57,7 @@ public class SecurityConfig {
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
+  
   public AuthenticationFailureHandler authenticationFailureHandler() {
     return (request, response, exception) -> {
       response.sendRedirect("/login?error=true");

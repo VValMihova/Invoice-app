@@ -69,6 +69,7 @@ public class UserController {
   public UserRegisterBindingDto registerData() {
     return new UserRegisterBindingDto();
   }
+  
   //todo put in error controller
   @ExceptionHandler(DatabaseException.class)
   public String handleDatabaseException(DatabaseException e, RedirectAttributes redirectAttributes, Locale locale) {
