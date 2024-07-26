@@ -24,6 +24,15 @@ public class BankAccountController {
   public ResponseEntity<BankAccountView> getBankAccountById(@PathVariable Long id) {
     return ResponseEntity.ok(bankAccountService.findById(id));
   }
+  @GetMapping("/iban/{iban}")
+  public ResponseEntity<BankAccountView> getBankAccountByIban(@PathVariable String iban) {
+    BankAccountView bankAccountView = bankAccountService.getBankAccountByIban(iban);
+    if (bankAccountView != null) {
+      return ResponseEntity.ok(bankAccountView);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
   
   @GetMapping("/user/{uuid}")
   public ResponseEntity<List<BankAccountView>>

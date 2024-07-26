@@ -40,6 +40,16 @@ public class BankAccountServiceImpl implements BankAccountService {
         .body(BankAccountView.class);
   }
   
+  @Override
+  public BankAccountView getViewByIban(String iban) {
+    return restClient
+        .get()
+        .uri("http://localhost:8081/bank-accounts/iban/{iban}", iban)
+        .accept(MediaType.APPLICATION_JSON)
+        .retrieve()
+        .body(BankAccountView.class);
+  }
+  
   
   @Override
   public void deleteBankAccount(Long id) {

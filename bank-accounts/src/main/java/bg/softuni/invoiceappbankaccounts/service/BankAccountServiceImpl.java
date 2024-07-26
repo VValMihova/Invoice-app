@@ -57,6 +57,13 @@ public class BankAccountServiceImpl implements BankAccountService {
     return new BankAccountView(bankAccount);
   }
   
+  @Override
+  public BankAccountView getBankAccountByIban(String iban) {
+    BankAccount bankAccount = bankAccountRepository.findByIban(iban)
+        .orElseThrow(ObjectNotFoundException::new);
+    return new BankAccountView(bankAccount);
+  }
+  
   private BankAccount mapToBankAccount(
       BankAccountCreateBindingDto bankAccountData,
       String uuid) {

@@ -10,8 +10,8 @@ public interface BankAccountService {
   List<BankAccountView> getUserAccounts(String uuid);
   
   BankAccountView getViewById(Long id);
-
-//  BankAccount getByIban(String iban);
+  
+  BankAccountView getViewByIban(String iban);
 
 //  Set<BankAccountView> findAllForCompany(Long companyId);
   

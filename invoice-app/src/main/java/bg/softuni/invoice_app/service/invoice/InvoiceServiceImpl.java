@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.invoice;
 
 import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
@@ -113,33 +114,32 @@ public class InvoiceServiceImpl implements InvoiceService {
     return mapToInvoiceView(invoice);
   }
   
-  //todo migrate
-//  @Override
-//  public void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData) {
-//    User currentUser = userService.getUser();
-//    Invoice invoice = new Invoice()
-//        .setInvoiceNumber(invoiceData.getInvoiceNumber())
-//        .setIssueDate(invoiceData.getIssueDate())
-//        .setSupplier(userService.getCompanyDetails());
-//
-//    RecipientDetails recipient = recipientDetailsService.getById(clientId);
-//    invoice.setRecipient(recipient);
-//
-//    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems());
-//    invoice.setItems(invoiceItems)
-//        .setTotalAmount(invoiceData.getTotalAmount())
-//        .setVat(invoiceData.getVat())
-//        .setAmountDue(invoiceData.getAmountDue());
-//
-//    BankAccountView bankAccount = bankAccountService.getByIban(invoiceData.getBankAccountIban());
-//    BankAccountPersist accountPersist = bankAccountPersistService.add(bankAccount, currentUser);
-//    invoice.setBankAccountPersist(accountPersist)
-//        .setUser(currentUser);
-//
-//    invoiceRepository.save(invoice);
-//    addSales(invoiceData, invoiceItems, currentUser);
-//  }
-//
+  @Override
+  public void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData) {
+    User currentUser = userService.getUser();
+    Invoice invoice = new Invoice()
+        .setInvoiceNumber(invoiceData.getInvoiceNumber())
+        .setIssueDate(invoiceData.getIssueDate())
+        .setSupplier(userService.getCompanyDetails());
+
+    RecipientDetails recipient = recipientDetailsService.getById(clientId);
+    invoice.setRecipient(recipient);
+
+    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems());
+    invoice.setItems(invoiceItems)
+        .setTotalAmount(invoiceData.getTotalAmount())
+        .setVat(invoiceData.getVat())
+        .setAmountDue(invoiceData.getAmountDue());
+
+    BankAccountView bankAccount = bankAccountService.getViewByIban(invoiceData.getBankAccountIban());
+    BankAccountPersist accountPersist = bankAccountPersistService.add(bankAccount, currentUser);
+    invoice.setBankAccountPersist(accountPersist)
+        .setUser(currentUser);
+
+    invoiceRepository.save(invoice);
+    addSales(invoiceData, invoiceItems, currentUser);
+  }
+
   @Override
   public InvoiceEditDto convertToEditDto(InvoiceView invoiceView) {
     InvoiceEditDto dto = new InvoiceEditDto();
@@ -207,10 +207,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     return this.invoiceRepository.findById(id)
         .orElseThrow(() -> new NotFoundObjectException("Invoice"));
   }
-  //todo delete
-//  private BankAccountView mapToBankAccountView(BankAccount bankAccount) {
-//    return new BankAccountView(bankAccount);
-//  }
   
   private InvoiceItemView mapToInvoiceItemView(InvoiceItem invoiceItem) {
     return new InvoiceItemView(invoiceItem);

@@ -16,4 +16,6 @@ public interface BankAccountService {
   BankAccountView addBankAccountUser(BankAccountCreateBindingDto bankAccountCreate, String uuid);
   
   BankAccountView updateBankAccount(Long id, BankAccountEditBindingDto bankAccountEditBindingDto);
+  
+  BankAccountView getBankAccountByIban(String iban);
 }
