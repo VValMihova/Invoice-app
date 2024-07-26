@@ -55,17 +55,17 @@ public class InvoicesController {
     model.addAttribute("invoice", invoiceView);
     return "invoice-view";
   }
-  
-@GetMapping("/edit/{id}")
-public String editInvoice(@PathVariable Long id, Model model) {
-  InvoiceView invoiceView = this.invoiceService.getById(id);
-  InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
-  
-  model.addAttribute("bankAccounts",
-      this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
-  model.addAttribute("invoiceData", invoiceEditDto);
-  return "invoice-edit";
-}
+  //todo changed for rest
+//@GetMapping("/edit/{id}")
+//public String editInvoice(@PathVariable Long id, Model model) {
+//  InvoiceView invoiceView = this.invoiceService.getById(id);
+//  InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
+//
+//  model.addAttribute("bankAccounts",
+//      this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
+//  model.addAttribute("invoiceData", invoiceEditDto);
+//  return "invoice-edit";
+//}
   
   
   //  todo add validation for unique or the same invoice number
@@ -99,17 +99,17 @@ public String editInvoice(@PathVariable Long id, Model model) {
     response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
     response.getOutputStream().write(pdf);
   }
-  
-  @GetMapping("/create-with-client/{clientId}")
-  public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
-    RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
-    
-    model.addAttribute("recipient", recipientDetailsView);
-    model.addAttribute("bankAccounts",
-        this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
-    
-    return "invoice-create-with-client";
-  }
+  //todo changed for rest
+//  @GetMapping("/create-with-client/{clientId}")
+//  public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
+//    RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
+//
+//    model.addAttribute("recipient", recipientDetailsView);
+//    model.addAttribute("bankAccounts",
+//        this.bankAccountService.findAllForCompany(this.userService.showCompanyDetails().getId()));
+//
+//    return "invoice-create-with-client";
+//  }
   
   @PostMapping("/create-with-client/{clientId}")
   public String createInvoiceWithClient(@PathVariable Long clientId,

@@ -39,7 +39,7 @@ public class ProfileController {
     ModelAndView modelAndView = new ModelAndView("user-profile");
     CompanyDetailsView companyDetails = userService.showCompanyDetails();
     modelAndView.addObject("companyDetails", companyDetails);
-    modelAndView.addObject("bankAccounts", this.bankAccountService.findAllForCompany(companyDetails.getId()));
+    modelAndView.addObject("bankAccounts", this.bankAccountService.findAllForCompany(userService.getUuid()));
     return modelAndView;
   }
   

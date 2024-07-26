@@ -24,11 +24,22 @@ public class BankAccountServiceImpl implements BankAccountService {
   }
   
   @Override
-  public BankAccountView addBankAccount(BankAccountCreateBindingDto bankAccountData) {
+  public Set<BankAccountView> getAllAccountsPerUser(String uuid) {
+    return this.bankAccountRepository.findAll().stream()
+        .filter(ba -> ba.getCompanyUuid().equals(uuid))
+        .map(this::mapToView).collect(Collectors.toSet());
+  }
+  
+  private BankAccountView mapToView(BankAccount bankAccount) {
+    return new BankAccountView(bankAccount);
+  }
+  
+  @Override
+  public BankAccountView addBankAccount(BankAccountCreateBindingDto bankAccountData, String uuid) {
     //  todo connect
 //    CompanyDetails companyDetails = userService.getCompanyDetails();
 //    this.bankAccountRepository.save(mapToBankAccount(bankAccountData, companyDetails));
-    BankAccount bankAccount = this.bankAccountRepository.save(mapToBankAccount(bankAccountData));
+    BankAccount bankAccount = this.bankAccountRepository.save(mapToBankAccount(bankAccountData, uuid));
     return new BankAccountView(bankAccount);
   }
 
@@ -58,7 +69,7 @@ public class BankAccountServiceImpl implements BankAccountService {
   
   //  todo make it for current user only
   @Override
-  public Set<BankAccountView> findAllForCompany() {
+  public Set<BankAccountView> findAllForCompany(String uuid) {
 //    Set<BankAccount> bankAccounts = this.bankAccountRepository.findByCompanyDetailsId(companyId)
 //        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
 //    if (bankAccounts.isEmpty()) {
@@ -90,11 +101,12 @@ public class BankAccountServiceImpl implements BankAccountService {
     return bankAccountRepository.getByIban(iban);
   }
   
-  private BankAccount mapToBankAccount(BankAccountCreateBindingDto bankAccountData) {//todo connect, CompanyDetails companyDetails) {
+  private BankAccount mapToBankAccount(BankAccountCreateBindingDto bankAccountData, String uuid) {//todo connect, CompanyDetails companyDetails) {
     return new BankAccount()
         .setIban(InputFormating.format(bankAccountData.getIban()))
         .setBic(InputFormating.format(bankAccountData.getBic()))
-        .setCurrency(InputFormating.format(bankAccountData.getCurrency()));
+        .setCurrency(InputFormating.format(bankAccountData.getCurrency()))
+        .setCompanyUuid(uuid);
     //  todo connect
     // .setCompanyDetails(companyDetails);
   }

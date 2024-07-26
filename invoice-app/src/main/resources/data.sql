@@ -10,7 +10,7 @@ INSERT INTO `invoice-app`.companies_details (id, address, company_name, eik, man
 INSERT INTO `invoice-app`.users (id, email, password, company_details_id, uuid) VALUES (1, 'admin@abv.bg', '$2a$10$I54tU8P7K2HPz6IWmUjw.ezRlRW6Es2uzQuBkLBvupYulCSzQViE6', 1, '91071533-ae2f-4396-8a46-a7cc3e3d86e0');
 -- PASSWORDS ARE "11111" FOR BOTH USERS
 INSERT INTO `invoice-app`.users (id, email, password, company_details_id, uuid) VALUES (2, 'test@abv.bg', '$2a$10$Svc.gJKQJzT/864ShV.aZet5Gz3zdlNvCIPtKaQsiKEJhD/.Sn./q', 2, 'b50fb3f6-45da-4679-b8c7-564fc4bc1a03');
-INSERT INTO `invoice-app`.users (id, email, password, company_details_id, uuid) VALUES (3, 'test2@abv.bg', '$2a$10$5QkCMwTxhbY4W6cM9c63TeYEyh.CTZxPRdpxBlKFewq/4XMw9oXuW', 3, 'b50fb3f6-45da-4679-b8c7-564fc4bc1a03');
+INSERT INTO `invoice-app`.users (id, email, password, company_details_id, uuid) VALUES (3, 'test2@abv.bg', '$2a$10$5QkCMwTxhbY4W6cM9c63TeYEyh.CTZxPRdpxBlKFewq/4XMw9oXuW', 3, 'b50fb3f7-32da-4679-8a46-564fc4bc1a08');
 
 INSERT INTO `invoice-app`.user_roles (user_id, role_id) VALUES (1, 1);
 INSERT INTO `invoice-app`.user_roles (user_id, role_id) VALUES (1, 2);

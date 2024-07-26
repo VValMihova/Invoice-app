@@ -132,4 +132,9 @@ public class UserServiceImpl implements UserService {
     }
     return Optional.empty();
   }
+  
+  @Override
+  public String getUuid() {
+    return this.getUser().getUuid().toString();
+  }
 }

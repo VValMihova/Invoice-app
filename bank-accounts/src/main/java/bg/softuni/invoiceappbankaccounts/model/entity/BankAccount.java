@@ -22,6 +22,7 @@ public class BankAccount {
   @Size(min = 3, max = 3)
   private String currency;
   
+  private String companyUuid;
 //  todo connect
 //  @ManyToOne(optional = false)
 //  @JoinColumn(name = "company_details_id", nullable = false)
@@ -72,4 +73,12 @@ public class BankAccount {
     return this;
   }
   
+  public String getCompanyUuid() {
+    return companyUuid;
+  }
+  
+  public BankAccount setCompanyUuid(String companyUuid) {
+    this.companyUuid = companyUuid;
+    return this;
+  }
 }

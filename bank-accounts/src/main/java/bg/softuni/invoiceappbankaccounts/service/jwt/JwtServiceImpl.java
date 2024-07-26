@@ -1,4 +1,4 @@
-package bg.softuni.invoiceappbankaccounts.service;
+package bg.softuni.invoiceappbankaccounts.service.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

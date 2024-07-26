@@ -28,7 +28,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 //    return mapToBankAccountView(bankAccount);
     return restClient
         .get()
-        .uri("http://localhost:8081/bank-accounts/{id}", id)
+        .uri("/bank-accounts/{id}", id)
         .accept(MediaType.APPLICATION_JSON)
         .retrieve()
         .body(BankAccountView.class);
@@ -38,16 +38,12 @@ public class BankAccountServiceImpl implements BankAccountService {
   public BankAccountView getByIban(String iban) {
     return restClient
         .get()
-        .uri("http://localhost:8081/bank-accounts/{iban}", iban)
+        .uri("/bank-accounts/{iban}", iban)
         .accept(MediaType.APPLICATION_JSON)
         .retrieve()
         .body(BankAccountView.class);
   }
-  
-  // todo connect
-  @Override
-  public Set<BankAccountView> findAllForCompany(Long companyId) {
-//    Set<BankAccount> bankAccounts = this.bankAccountRepository.findByCompanyDetailsId(companyId)
+  //    Set<BankAccount> bankAccounts = this.bankAccountRepository.findByCompanyDetailsId(companyId)
 //        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
 //    if (bankAccounts.isEmpty()) {
 //      return new HashSet<>();
@@ -56,12 +52,17 @@ public class BankAccountServiceImpl implements BankAccountService {
 //          .map(bankAccount -> this.modelMapper.map(bankAccount, BankAccountView.class))
 //          .collect(Collectors.toSet());
 //    }
+  
+  // todo connect
+  @Override
+  public Set<BankAccountView> findAllForCompany(String uuid) {
+
     return restClient
         .get()
-        .uri("http://localhost:8081/bank-accounts")
+        .uri("/bank-accounts")
         .accept(MediaType.APPLICATION_JSON)
         .retrieve()
-        .body(new ParameterizedTypeReference<>() {
+        .body(new ParameterizedTypeReference<Set<BankAccountView>>() {
         });
   }
   
@@ -69,7 +70,7 @@ public class BankAccountServiceImpl implements BankAccountService {
   public void editBankAccount(Long id, BankAccountEditBindingDto bankAccountData) {
     restClient
         .post()
-        .uri("http://localhost:8081/bank-accounts")
+        .uri("/bank-accounts")
         .body(bankAccountData)
         .retrieve();
   }
@@ -79,7 +80,7 @@ public class BankAccountServiceImpl implements BankAccountService {
   public void deleteBankAccount(Long id) {
     restClient
         .delete()
-        .uri("http://localhost:8081/bank-accounts/{id}", id)
+        .uri("/bank-accounts/{id}", id)
         .retrieve();
   }
   
@@ -88,7 +89,7 @@ public class BankAccountServiceImpl implements BankAccountService {
   public void addBankAccount(BankAccountCreateBindingDto bankAccountData) {
     restClient
         .post()
-        .uri("http://localhost:8081/bank-accounts")
+        .uri("/bank-accounts")
         .body(bankAccountData)
         .retrieve();
 //    CompanyDetails companyDetails = userService.getCompanyDetails();

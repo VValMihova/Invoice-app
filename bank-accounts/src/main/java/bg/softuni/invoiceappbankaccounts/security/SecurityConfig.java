@@ -2,6 +2,7 @@ package bg.softuni.invoiceappbankaccounts.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,9 +23,13 @@ public class SecurityConfig {
     return httpSecurity
         .csrf(AbstractHttpConfigurer::disable)
         .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(authorize -> authorize
-            .anyRequest().authenticated()
-        ).addFilterBefore(jwtAuthenticatonFilter, UsernamePasswordAuthenticationFilter.class)
+        .authorizeHttpRequests(autorize -> {
+          autorize.requestMatchers(HttpMethod.GET, "/bank-accounts/**").permitAll()
+              .anyRequest().authenticated();
+        })
+//        .authorizeHttpRequests(authorize -> authorize
+//            .anyRequest().authenticated())
+    .addFilterBefore(jwtAuthenticatonFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
   

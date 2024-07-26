@@ -1,4 +1,4 @@
-package bg.softuni.invoiceappbankaccounts.service;
+package bg.softuni.invoiceappbankaccounts.service.jwt;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

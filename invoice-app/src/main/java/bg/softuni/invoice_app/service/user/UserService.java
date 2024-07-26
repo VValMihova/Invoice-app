@@ -29,4 +29,5 @@ public interface UserService {
   User getUser();
   
   Optional<InvoiceAppUserDetails> getCurrentUser();
+  String getUuid();
 }

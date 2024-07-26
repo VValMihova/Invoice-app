@@ -7,11 +7,13 @@ import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountView;
 import java.util.Set;
 
 public interface BankAccountService {
-  BankAccountView addBankAccount(BankAccountCreateBindingDto bankAccountData);
+Set<BankAccountView> getAllAccountsPerUser(String uuid);
+  
+  BankAccountView addBankAccount(BankAccountCreateBindingDto bankAccountData, String uuid);
   BankAccountView editBankAccount(Long id, BankAccountEditBindingDto bankAccountData);
   
 //  todo make it for current user only
-  Set<BankAccountView> findAllForCompany();
+  Set<BankAccountView> findAllForCompany(String uuid);
   
   void deleteBankAccount(Long id);
   

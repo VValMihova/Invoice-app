@@ -11,7 +11,7 @@ public interface BankAccountService {
 
   BankAccountView getByIban(String iban);
 
-  Set<BankAccountView> findAllForCompany(Long companyId);
+  Set<BankAccountView> findAllForCompany(String uuid);
 
   void editBankAccount(Long id, BankAccountEditBindingDto bankAccountDataEdit);
 

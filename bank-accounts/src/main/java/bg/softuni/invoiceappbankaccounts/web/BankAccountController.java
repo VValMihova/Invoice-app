@@ -5,6 +5,8 @@ import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountEditBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountView;
 import bg.softuni.invoiceappbankaccounts.service.BankAccountService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,18 +40,19 @@ public class BankAccountController {
   
   // todo make it for current user only
   @GetMapping
-  public ResponseEntity<Set<BankAccountView>> getAllBankAccounts() {
-    return ResponseEntity.ok(
-        bankAccountService.findAllForCompany()
-    );
+  public ResponseEntity<Set<BankAccountView>> getAllBankAccounts(
+      @AuthenticationPrincipal UserDetails userDetails) {
+    return ResponseEntity.ok(bankAccountService
+        .getAllAccountsPerUser(userDetails.getUsername()));
   }
   
   @PostMapping
   public ResponseEntity<BankAccountView> createBankAccount(
-      @RequestBody BankAccountCreateBindingDto bankAccountCreate) {
+      @RequestBody BankAccountCreateBindingDto bankAccountCreate,
+      @AuthenticationPrincipal UserDetails userDetails) {
 //    bankAccountService.addBankAccount(bankAccountCreate);
 //    return ResponseEntity.ok().build();
-    BankAccountView bankAccountView = bankAccountService.addBankAccount(bankAccountCreate);
+    BankAccountView bankAccountView = bankAccountService.addBankAccount(bankAccountCreate, userDetails.getUsername());
     return ResponseEntity.
         created(
             ServletUriComponentsBuilder
