@@ -52,7 +52,7 @@ public class PdfGenerationService {
     context.setVariable("reportData", reportData);
     
     String htmlContent = templateEngine.process("report-pdf", context);
-
+    
     
     try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
       ITextRenderer renderer = new ITextRenderer();

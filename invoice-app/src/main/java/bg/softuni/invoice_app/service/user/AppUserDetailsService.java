@@ -41,20 +41,5 @@ public class AppUserDetailsService implements org.springframework.security.core.
   private GrantedAuthority map(RoleName role) {
     return new SimpleGrantedAuthority(ROLE_PREFIX + role);
   }
-//  todo delete
-//  public boolean hasRole(String role) {
-//    return getUserDetails()
-//        .getAuthorities()
-//        .stream()
-//        .anyMatch(r -> r.getAuthority().equals(ROLE_PREFIX + role));
-//  }
-  
-//  public UserDetails getUserDetails() {
-//    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//    if (principal instanceof UserDetails) {
-//      return (UserDetails) principal;
-//    } else {
-//      throw new IllegalStateException("Principal is not an instance of UserDetails");
-//    }
-  }
+}
 

@@ -21,6 +21,7 @@ public class SaleServiceImpl implements SaleService {
   public void save(Sale sale) {
     this.saleRepository.save(sale);
   }
+  
   @Transactional
   @Override
   public void deleteAllByInvoiceId(Long id) {

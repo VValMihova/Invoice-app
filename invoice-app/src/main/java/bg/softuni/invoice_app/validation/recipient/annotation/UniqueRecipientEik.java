@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueRecipientEik {
   String message() default "{custom.validations.recipient.exists.eik.same}";
+  
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

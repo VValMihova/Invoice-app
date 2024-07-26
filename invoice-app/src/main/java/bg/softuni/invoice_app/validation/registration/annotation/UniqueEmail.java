@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueEmail {
   String message() default "{custom.validations.email.exists}";
+  
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

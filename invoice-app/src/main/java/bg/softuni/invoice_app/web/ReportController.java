@@ -51,23 +51,23 @@ public class ReportController {
     model.addAttribute("reportData", reportData);
     return "report-view";
   }
-
-@GetMapping("/download-pdf")
-public void downloadPdfReport(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                              @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-                              HttpServletResponse response) throws IOException {
-  ReportCriteria reportCriteria = new ReportCriteria();
-  reportCriteria.setStartDate(startDate);
-  reportCriteria.setEndDate(endDate);
   
-  List<SaleReportDto> reportData = saleService.generateReport(reportCriteria);
-  byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData);
-  
-  response.setContentType("application/pdf");
-  response.setHeader("Content-Disposition", "attachment; filename=sales_report.pdf");
-  response.getOutputStream().write(pdfBytes);
-  response.getOutputStream().flush();
-}
+  @GetMapping("/download-pdf")
+  public void downloadPdfReport(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                HttpServletResponse response) throws IOException {
+    ReportCriteria reportCriteria = new ReportCriteria();
+    reportCriteria.setStartDate(startDate);
+    reportCriteria.setEndDate(endDate);
+    
+    List<SaleReportDto> reportData = saleService.generateReport(reportCriteria);
+    byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData);
+    
+    response.setContentType("application/pdf");
+    response.setHeader("Content-Disposition", "attachment; filename=sales_report.pdf");
+    response.getOutputStream().write(pdfBytes);
+    response.getOutputStream().flush();
+  }
   
   @ModelAttribute("reportCriteria")
   public ReportCriteria reportCriteria() {

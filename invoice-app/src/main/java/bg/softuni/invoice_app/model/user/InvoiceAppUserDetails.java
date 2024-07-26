@@ -18,6 +18,7 @@ public class InvoiceAppUserDetails extends User {
     super(username, password, authorities);
     this.uuid = UUID.fromString(uuid);
   }
+  
   public UUID getUuid() {
     return uuid;
   }

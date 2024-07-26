@@ -10,15 +10,15 @@ public interface BankAccountService {
   List<BankAccountView> getUserAccounts(String uuid);
   
   BankAccountView getViewById(Long id);
-  
+
 //  BankAccount getByIban(String iban);
-  
+
 //  Set<BankAccountView> findAllForCompany(Long companyId);
   
   //void editBankAccount(Long id, BankAccountEditBindingDto bankAccountDataEdit);
   
   void deleteBankAccount(Long id);
-  
+
 //  void addBankAccount(BankAccountCreateBindingDto bankAccountData);
   
   void addBankAccountUser(BankAccountCreateBindingDto bankAccountData, String uuid);

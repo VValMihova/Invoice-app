@@ -23,7 +23,7 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, R
     LocalDate startDate = criteria.getStartDate();
     LocalDate endDate = criteria.getEndDate();
     boolean valid = startDate.isBefore(endDate) || startDate.isEqual(endDate);
-    if (!valid){
+    if (!valid) {
       context.unwrap(HibernateConstraintValidatorContext.class)
           .buildConstraintViolationWithTemplate(message)
           .addPropertyNode("startDate")

@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueVat {
   String message() default "{custom.validations.company.vat.exists}";
+  
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

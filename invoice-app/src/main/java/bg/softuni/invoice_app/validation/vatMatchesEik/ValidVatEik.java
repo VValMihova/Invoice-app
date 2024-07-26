@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 public @interface ValidVatEik {
   
   String message() default "{custom.validations.vat.mismatch.eik}";
+  
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};

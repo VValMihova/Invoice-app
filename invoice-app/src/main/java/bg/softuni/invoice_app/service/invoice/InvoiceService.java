@@ -1,7 +1,6 @@
 package bg.softuni.invoice_app.service.invoice;
 
 import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 

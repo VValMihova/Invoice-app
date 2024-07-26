@@ -3,7 +3,6 @@ package bg.softuni.invoice_app.service.bankAccount;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountCreateBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountEditBindingDto;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
-import bg.softuni.invoice_app.service.user.UserService;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -13,12 +12,10 @@ import java.util.List;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
-  private final UserService userService;
   private final RestClient restClient;
   
   public BankAccountServiceImpl(
-      UserService userService, RestClient restClient) {
-    this.userService = userService;
+      RestClient restClient) {
     this.restClient = restClient;
   }
   
@@ -33,7 +30,6 @@ public class BankAccountServiceImpl implements BankAccountService {
         });
   }
   
-  // todo connect
   @Override
   public BankAccountView getViewById(Long id) {
     return restClient
@@ -43,23 +39,6 @@ public class BankAccountServiceImpl implements BankAccountService {
         .retrieve()
         .body(BankAccountView.class);
   }
-  
-//  @Override
-//  public BankAccount getByIban(String iban) {
-//    return this.bankAccountRepository.findByIban(iban)
-//        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
-//  }
-//
-//  @Override
-//  public void editBankAccount(Long id, BankAccountEditBindingDto bankAccountDataEdit) {
-//    BankAccount bankAccount = getByIdOrElseThrow(id);
-//
-//    bankAccount.setIban(InputFormating.format(bankAccountDataEdit.getIban()))
-//        .setBic(InputFormating.format(bankAccountDataEdit.getBic()))
-//        .setCurrency(InputFormating.format(bankAccountDataEdit.getCurrency()));
-//
-//    bankAccountRepository.save(bankAccount);
-//  }
   
   
   @Override
@@ -78,6 +57,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         .body(bankAccountData)
         .retrieve();
   }
+  
   @Override
   public BankAccountView updateBankAccount(Long id, BankAccountEditBindingDto bankAccountView) {
     return restClient.put()
@@ -87,9 +67,4 @@ public class BankAccountServiceImpl implements BankAccountService {
         .retrieve()
         .body(BankAccountView.class);
   }
-  
-//  private BankAccount getByIdOrElseThrow(Long id) {
-//    return bankAccountRepository.findById(id)
-//        .orElseThrow(() -> new NotFoundObjectException("Bank account"));
-//  }
 }

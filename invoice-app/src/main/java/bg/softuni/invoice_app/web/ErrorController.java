@@ -12,14 +12,14 @@ import java.util.Objects;
 
 @ControllerAdvice
 public class ErrorController {
-
-@ExceptionHandler(NotFoundObjectException.class)
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public ModelAndView notFound(NotFoundObjectException objectNotFoundException) {
-  ModelAndView modelAndView = new ModelAndView("error-obj-not-found");
-  modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
-  return modelAndView;
-}
+  
+  @ExceptionHandler(NotFoundObjectException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ModelAndView notFound(NotFoundObjectException objectNotFoundException) {
+    ModelAndView modelAndView = new ModelAndView("error-obj-not-found");
+    modelAndView.addObject("objectType", objectNotFoundException.getObjectType());
+    return modelAndView;
+  }
   
   @ExceptionHandler(PdfGenerationException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

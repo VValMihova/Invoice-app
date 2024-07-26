@@ -109,7 +109,7 @@ public class ProfileController {
       model.addAttribute("org.springframework.validation.BindingResult.bankAccount", bindingResult);
       return "bank-account-edit";
     }
-    
+
 //    this.bankAccountService.editBankAccount(id, bankAccountDataEdit);
     this.bankAccountService.updateBankAccount(id, bankAccountDataEdit);
     return "redirect:/profile";

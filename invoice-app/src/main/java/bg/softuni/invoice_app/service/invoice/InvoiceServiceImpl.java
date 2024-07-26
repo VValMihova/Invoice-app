@@ -1,7 +1,6 @@
 package bg.softuni.invoice_app.service.invoice;
 
 import bg.softuni.invoice_app.exeption.NotFoundObjectException;
-import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
@@ -22,8 +21,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
-  private final static String URL = "http://localhost:8081/api/bank-accounts";
-  
   private final InvoiceRepository invoiceRepository;
   private final ModelMapper modelMapper;
   private final RecipientDetailsService recipientDetailsService;
@@ -115,6 +112,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     Invoice invoice = findByIdOrThrow(id);
     return mapToInvoiceView(invoice);
   }
+  
   //todo migrate
 //  @Override
 //  public void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData) {

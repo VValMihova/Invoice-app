@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueRecipientCompanyName {
   String message() default "{custom.validations.recipient.exists.companyName.same}";
+  
   Class<?>[] groups() default {};
   
   Class<? extends Payload>[] payload() default {};
