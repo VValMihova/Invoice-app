@@ -18,6 +18,6 @@ public class UniqueCompanyNameValidator implements ConstraintValidator<UniqueCom
       return true;
     }
     
-    return this.companyDetailsService.getByName(companyName) == null;
+    return !this.companyDetailsService.existsByCompanyName(companyName);
   }
 }

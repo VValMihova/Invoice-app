@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,23 +17,24 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   }
   
   @Override
+  @Transactional
   public void addWithRegistration(CompanyDetails companyDetails) {
     companyDetailsRepository.save(companyDetails);
   }
   
   @Override
-  public CompanyDetails getByEik(String eik) {
-    return this.companyDetailsRepository.findByEik(eik).orElse(null);
+  public boolean existsByEik(String eik) {
+    return this.companyDetailsRepository.existsByEik(eik);
   }
   
   @Override
-  public CompanyDetails getByName(String companyName) {
-    return this.companyDetailsRepository.findByCompanyName(companyName).orElse(null);
+  public boolean existsByCompanyName(String companyName) {
+    return this.companyDetailsRepository.existsByCompanyName(companyName);
   }
   
   @Override
-  public CompanyDetails getByVatNumber(String vat) {
-    return this.companyDetailsRepository.findByVatNumber(vat).orElse(null);
+  public boolean existsByVatNumber(String vat) {
+    return this.companyDetailsRepository.existsByVatNumber(vat);
   }
   
   @Override

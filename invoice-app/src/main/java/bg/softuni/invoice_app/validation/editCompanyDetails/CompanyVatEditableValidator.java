@@ -20,7 +20,7 @@ public class CompanyVatEditableValidator implements ConstraintValidator<CompanyV
     if (vat == null) {
       return true;
     }
-    return this.companyDetailsService.getByVatNumber(vat) == null
+    return !this.companyDetailsService.existsByVatNumber(vat)
            || userService.showCompanyDetails().getVatNumber().equals(vat);
   }
 }

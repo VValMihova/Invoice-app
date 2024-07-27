@@ -13,6 +13,7 @@ import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.role.RoleService;
 import bg.softuni.invoice_app.utils.InputFormating;
 import bg.softuni.invoice_app.utils.SecurityUtils;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
   
   
   @Override
+  @Transactional
   public void register(UserRegisterBindingDto registerData) {
     try {
       User user = registerUser(registerData);

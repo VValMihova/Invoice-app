@@ -21,7 +21,7 @@ public class CompanyNameEditableValidator implements ConstraintValidator<Company
       return true;
     }
     
-    return this.companyDetailsService.getByName(companyName) == null
+    return !this.companyDetailsService.existsByCompanyName(companyName)
            || userService.showCompanyDetails().getCompanyName().equals(companyName);
   }
 }

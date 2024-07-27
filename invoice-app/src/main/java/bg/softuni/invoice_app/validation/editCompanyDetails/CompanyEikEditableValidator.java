@@ -20,7 +20,7 @@ public class CompanyEikEditableValidator implements ConstraintValidator<CompanyE
     if (eik == null) {
       return true;
     }
-    return this.companyDetailsService.getByEik(eik) == null
+    return !this.companyDetailsService.existsByEik(eik)
            || userService.showCompanyDetails().getEik().equals(eik);
   }
 }

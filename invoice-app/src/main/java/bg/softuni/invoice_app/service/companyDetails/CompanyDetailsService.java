@@ -7,11 +7,11 @@ public interface CompanyDetailsService {
   
   void addWithRegistration(CompanyDetails companyDetails);
   
-  CompanyDetails getByEik(String eik);
+  boolean existsByEik(String eik);
   
-  CompanyDetails getByName(String companyName);
+  boolean existsByCompanyName(String companyName);
   
-  CompanyDetails getByVatNumber(String vat);
+  boolean existsByVatNumber(String vat);
   
   CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData);
   
