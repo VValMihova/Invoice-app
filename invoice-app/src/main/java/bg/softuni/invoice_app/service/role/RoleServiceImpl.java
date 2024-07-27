@@ -5,6 +5,8 @@ import bg.softuni.invoice_app.model.enums.RoleName;
 import bg.softuni.invoice_app.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RoleServiceImpl implements RoleService {
   private final RoleRepository roleRepository;
@@ -14,7 +16,7 @@ public class RoleServiceImpl implements RoleService {
   }
   
   @Override
-  public Role getRole(RoleName roleName) {
-    return roleRepository.findByName(roleName).orElse(null);
+  public Optional<Role> getRole(RoleName roleName) {
+    return roleRepository.findByName(roleName);
   }
 }

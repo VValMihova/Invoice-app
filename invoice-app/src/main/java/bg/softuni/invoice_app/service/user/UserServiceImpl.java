@@ -5,6 +5,7 @@ import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
+import bg.softuni.invoice_app.model.entity.Role;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.model.enums.RoleName;
 import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
@@ -63,10 +64,13 @@ public class UserServiceImpl implements UserService {
   }
   
   private User registerUser(UserRegisterBindingDto registerData) {
+    Role userRole = roleService.getRole(RoleName.USER)
+        .orElseThrow(() -> new NotFoundObjectException("Role"));
+    
     return userRepository.save(new User()
         .setEmail(registerData.getEmail())
         .setPassword(passwordEncoder.encode(registerData.getPassword()))
-        .setRoles(new HashSet<>(Set.of(roleService.getRole(RoleName.USER)))));
+        .setRoles(new HashSet<>(Set.of(userRole))));
   }
   
   private CompanyDetails createCompanyDetails(UserRegisterBindingDto registerData, User user) {

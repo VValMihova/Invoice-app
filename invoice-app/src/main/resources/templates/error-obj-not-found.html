@@ -14,6 +14,7 @@
       <span th:case="'Bank account'" th:text="#{error.message.not.found(#{bankAccount})}">Bank account not found!</span>
       <span th:case="'Complany'" th:text="#{error.message.not.found(#{company})}">Company not found!</span>
       <span th:case="'User'" th:text="#{error.message.not.found(#{user})}">User not found!</span>
+      <span th:case="'Role'" th:text="#{error.message.not.found(#{user})}">Role not found!</span>
       <span th:case="*">Unknown object not found!</span>
     </span>
   </p>
