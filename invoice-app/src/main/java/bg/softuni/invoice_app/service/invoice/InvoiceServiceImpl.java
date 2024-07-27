@@ -55,7 +55,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         .stream().map(invoice -> modelMapper.map(invoice, AllInvoicesView.class))
         .toList();
   }
-  //todo migrate
+
   @Transactional
   @Override
   public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
