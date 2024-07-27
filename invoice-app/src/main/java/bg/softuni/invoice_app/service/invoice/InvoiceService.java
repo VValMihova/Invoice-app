@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
+import bg.softuni.invoice_app.model.entity.BankAccountPersist;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface InvoiceService {
   void createInvoiceWithClient(Long clientId, InvoiceCreateDto invoiceData);
   
   InvoiceEditDto convertToEditDto(InvoiceView invoiceView);
+  
+  boolean existsByBankAccount(BankAccountPersist account);
 }

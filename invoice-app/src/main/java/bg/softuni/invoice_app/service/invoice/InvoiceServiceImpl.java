@@ -157,6 +157,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     return dto;
   }
   
+  @Override
+  public boolean existsByBankAccount(BankAccountPersist account) {
+    return invoiceRepository.existsByBankAccountPersist(account);
+  }
+  
   private InvoiceItemDto convertToInvoiceItemDto(InvoiceItemView itemView) {
     InvoiceItemDto itemDto = new InvoiceItemDto();
     itemDto.setName(itemView.getName());

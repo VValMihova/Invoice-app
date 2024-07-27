@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.repository;
 
+import bg.softuni.invoice_app.model.entity.BankAccountPersist;
 import bg.softuni.invoice_app.model.entity.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,5 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
   @Query("SELECT i FROM Invoice i WHERE i.user.id = :userId AND i.invoiceNumber = :invoiceNumber")
   Optional<Invoice> findByUserIdAndInvoiceNumber(@Param("userId") Long userId, @Param("invoiceNumber") Long invoiceNumber);
   
+  boolean existsByBankAccountPersist(BankAccountPersist account);
 }
