@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.exeption.DatabaseException;
+import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
@@ -117,10 +118,10 @@ public class UserServiceImpl implements UserService {
     return userByEmail.getId();
   }
   
-  //  todo add exception
   @Override
   public User getUser() {
-    return this.userRepository.findById(getCurrentUserId()).orElse(null);
+    return this.userRepository.findById(getCurrentUserId())
+        .orElseThrow(() -> new NotFoundObjectException("User"));
   }
   
   @Override
@@ -135,6 +136,6 @@ public class UserServiceImpl implements UserService {
   
   @Override
   public String getUuid() {
-    return this.getUser().getUuid().toString();
+    return this.getUser().getUuid();
   }
 }
