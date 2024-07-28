@@ -25,10 +25,5 @@ public interface UserService {
   
   Long getCurrentUserId();
   
-  //  todo add exception
   User getUser();
-  
-  Optional<InvoiceAppUserDetails> getCurrentUser();
-  
-  String getUuid();
 }

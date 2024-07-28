@@ -6,6 +6,9 @@ public class SaleReportDto {
   private String productName;
   private BigDecimal totalQuantity;
   
+  public SaleReportDto() {
+  }
+  
   public SaleReportDto(String productName, BigDecimal totalQuantity) {
     this.productName = productName;
     this.totalQuantity = totalQuantity;

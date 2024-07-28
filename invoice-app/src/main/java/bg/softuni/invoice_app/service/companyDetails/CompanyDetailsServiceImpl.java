@@ -19,6 +19,9 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   @Override
   @Transactional
   public void addWithRegistration(CompanyDetails companyDetails) {
+    if (companyDetails == null) {
+      return;
+    }
     companyDetailsRepository.save(companyDetails);
   }
   

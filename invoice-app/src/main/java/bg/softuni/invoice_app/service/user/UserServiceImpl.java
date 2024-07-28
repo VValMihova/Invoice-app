@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
     this.roleService = roleService;
   }
   
-  
   @Override
   @Transactional
   public void register(UserRegisterBindingDto registerData) {
@@ -128,20 +127,5 @@ public class UserServiceImpl implements UserService {
   public User getUser() {
     return this.userRepository.findById(getCurrentUserId())
         .orElseThrow(() -> new NotFoundObjectException("User"));
-  }
-  
-  @Override
-  public Optional<InvoiceAppUserDetails> getCurrentUser() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication != null
-        && authentication.getPrincipal() instanceof InvoiceAppUserDetails invoiceAppUserDetails) {
-      return Optional.of(invoiceAppUserDetails);
-    }
-    return Optional.empty();
-  }
-  
-  @Override
-  public String getUuid() {
-    return this.getUser().getUuid();
   }
 }
