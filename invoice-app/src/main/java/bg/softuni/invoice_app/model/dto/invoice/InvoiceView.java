@@ -3,10 +3,13 @@ package bg.softuni.invoice_app.model.dto.invoice;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.BankAccountPersist;
+import bg.softuni.invoice_app.model.entity.Invoice;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class InvoiceView {
   private Long id;
@@ -19,6 +22,21 @@ public class InvoiceView {
   private BigDecimal vat;
   private BigDecimal amountDue;
   private BankAccountPersist bankAccount;
+  
+  public InvoiceView() {
+  }
+  public InvoiceView(Invoice invoice) {
+    this.id = invoice.getId();
+    this.invoiceNumber = invoice.getInvoiceNumber();
+    this.issueDate = invoice.getIssueDate();
+    this.supplier = new CompanyDetailsView(invoice.getSupplier());
+    this.recipient = new RecipientDetailsView(invoice.getRecipient());
+    this.items = invoice.getItems().stream().map(InvoiceItemView::new).collect(toList());
+    this.totalAmount = invoice.getTotalAmount();
+    this.vat = invoice.getVat();
+    this.amountDue = invoice.getAmountDue();
+    this.bankAccount = invoice.getBankAccountPersist();
+  }
   
   public BigDecimal getAmountDue() {
     return amountDue;

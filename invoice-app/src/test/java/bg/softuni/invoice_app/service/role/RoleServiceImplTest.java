@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RoleServiceTest {
+class RoleServiceImplTest {
   private final String ROLE_ADMIN = "ADMIN";
   @Mock
   private RoleRepository mockRoleRepository;

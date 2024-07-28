@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
-public class CompanyDetailsServiceTest {
+public class CompanyDetailsServiceImplTest {
   private final CompanyDetails TEST_COMPANY_DETAILS = new CompanyDetails()
         .setCompanyName("Test Company")
         .setEik("1234567890")

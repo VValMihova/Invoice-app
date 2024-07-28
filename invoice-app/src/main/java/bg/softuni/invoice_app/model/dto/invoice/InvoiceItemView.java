@@ -11,6 +11,9 @@ public class InvoiceItemView {
   private BigDecimal unitPrice;
   private BigDecimal totalPrice;
   
+  public InvoiceItemView() {
+  }
+  
   public InvoiceItemView(InvoiceItem invoiceItem) {
     this.id = invoiceItem.getId();
     this.name = invoiceItem.getName();

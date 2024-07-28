@@ -23,6 +23,16 @@ public class InvoiceItemDto {
   @Positive(message = "{invoice.item.positive}")
   private BigDecimal totalPrice;
   
+  public InvoiceItemDto() {
+  }
+  public InvoiceItemDto(InvoiceItemView itemView) {
+    this.name = itemView.getName();
+    this.quantity = itemView.getQuantity();
+    this.unitPrice = itemView.getUnitPrice();
+    this.totalPrice = itemView.getTotalPrice();
+  }
+  
+  
   public String getName() {
     return name;
   }

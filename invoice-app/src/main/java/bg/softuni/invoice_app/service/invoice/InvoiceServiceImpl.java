@@ -2,9 +2,7 @@ package bg.softuni.invoice_app.service.invoice;
 
 import bg.softuni.invoice_app.exeption.NotFoundObjectException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
-import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
-import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
@@ -111,7 +109,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   @Override
   public InvoiceView getById(Long id) {
     Invoice invoice = findByIdOrThrow(id);
-    return mapToInvoiceView(invoice);
+    return new InvoiceView(invoice);
   }
   
   @Override
@@ -149,7 +147,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     dto.setRecipient(invoiceView.getRecipient());
     dto.setBankAccountIban(invoiceView.getBankAccountPersist().getIban());
     dto.setItems(invoiceView.getItems().stream()
-        .map(this::convertToInvoiceItemDto)
+        .map(InvoiceItemDto::new)
         .collect(Collectors.toList()));
     dto.setTotalAmount(invoiceView.getTotalAmount());
     dto.setVat(invoiceView.getVat());
@@ -162,14 +160,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     return invoiceRepository.existsByBankAccountPersist(account);
   }
   
-  private InvoiceItemDto convertToInvoiceItemDto(InvoiceItemView itemView) {
-    InvoiceItemDto itemDto = new InvoiceItemDto();
-    itemDto.setName(itemView.getName());
-    itemDto.setQuantity(itemView.getQuantity());
-    itemDto.setUnitPrice(itemView.getUnitPrice());
-    itemDto.setTotalPrice(itemView.getTotalPrice());
-    return itemDto;
-  }
   
   private void addSales(InvoiceCreateDto invoiceData, List<InvoiceItem> invoiceItems, User currentUser) {
     for (InvoiceItem invoiceItem : invoiceItems) {
@@ -192,36 +182,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     return invoiceItems;
   }
   
-  private InvoiceView mapToInvoiceView(Invoice invoice) {
-    return new InvoiceView()
-        .setId(invoice.getId())
-        .setInvoiceNumber(invoice.getInvoiceNumber())
-        .setIssueDate(invoice.getIssueDate())
-        .setSupplier(mapToCompanyDetailsView(invoice.getSupplier()))
-        .setRecipient(mapToRecipientDetailsView(invoice.getRecipient()))
-        .setBankAccountPersist(invoice.getBankAccountPersist())
-        .setAmountDue(invoice.getAmountDue())
-        .setVat(invoice.getVat())
-        .setItems(invoice.getItems().stream()
-            .map(this::mapToInvoiceItemView)
-            .collect(Collectors.toList()))
-        .setTotalAmount(invoice.getTotalAmount());
-  }
-  
-  private Invoice findByIdOrThrow(Long id) {
+  protected Invoice findByIdOrThrow(Long id) {
     return this.invoiceRepository.findById(id)
         .orElseThrow(() -> new NotFoundObjectException("Invoice"));
-  }
-  
-  private InvoiceItemView mapToInvoiceItemView(InvoiceItem invoiceItem) {
-    return new InvoiceItemView(invoiceItem);
-  }
-  
-  private RecipientDetailsView mapToRecipientDetailsView(RecipientDetails recipient) {
-    return new RecipientDetailsView(recipient);
-  }
-  
-  private CompanyDetailsView mapToCompanyDetailsView(CompanyDetails supplier) {
-    return new CompanyDetailsView(supplier);
   }
 }
