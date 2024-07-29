@@ -5,7 +5,7 @@ import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountEditBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountView;
 import bg.softuni.invoiceappbankaccounts.model.entity.BankAccount;
 import bg.softuni.invoiceappbankaccounts.repository.BankAccountRepository;
-import bg.softuni.invoiceappbankaccounts.service.exception.ObjectNotFoundException;
+import bg.softuni.invoiceappbankaccounts.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

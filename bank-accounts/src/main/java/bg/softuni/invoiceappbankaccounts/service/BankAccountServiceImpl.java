@@ -5,7 +5,7 @@ import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountEditBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountView;
 import bg.softuni.invoiceappbankaccounts.model.entity.BankAccount;
 import bg.softuni.invoiceappbankaccounts.repository.BankAccountRepository;
-import bg.softuni.invoiceappbankaccounts.service.exception.ObjectNotFoundException;
+import bg.softuni.invoiceappbankaccounts.exception.ObjectNotFoundException;
 import bg.softuni.invoiceappbankaccounts.utils.InputFormating;
 import org.springframework.stereotype.Service;
 

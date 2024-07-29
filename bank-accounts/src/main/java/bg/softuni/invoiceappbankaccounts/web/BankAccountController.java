@@ -4,15 +4,11 @@ import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountCreateBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountEditBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountView;
 import bg.softuni.invoiceappbankaccounts.service.BankAccountService;
-import bg.softuni.invoiceappbankaccounts.service.exception.ObjectNotFoundException;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bank-accounts")
@@ -58,37 +54,12 @@ public class BankAccountController {
             .toUri()
     ).body(bankAccountView);
   }
-  
+
   @PutMapping("/{id}")
   public ResponseEntity<BankAccountView> updateBankAccount(
       @PathVariable Long id,
       @RequestBody BankAccountEditBindingDto bankAccountEditBindingDto) {
-    BankAccountView updatedBankAccount;
-    try {
-      updatedBankAccount = bankAccountService.updateBankAccount(id, bankAccountEditBindingDto);
-    } catch (IllegalArgumentException e) {
-      return ResponseEntity.badRequest().body(null); // Или можете да върнете съобщението за грешка
-    }
+    BankAccountView updatedBankAccount = bankAccountService.updateBankAccount(id, bankAccountEditBindingDto);
     return ResponseEntity.ok(updatedBankAccount);
-  }
-  
-  @ExceptionHandler(ObjectNotFoundException.class)
-  public ResponseEntity<Void> handleObjectNotFoundException() {
-    return ResponseEntity.notFound().build();
-  }
-  
-  @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-    return ResponseEntity.badRequest().body(ex.getMessage());
-  }
-  
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<List<String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-    List<String> errors = ex.getBindingResult()
-        .getFieldErrors()
-        .stream()
-        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-        .collect(Collectors.toList());
-    return ResponseEntity.badRequest().body(errors);
   }
 }
