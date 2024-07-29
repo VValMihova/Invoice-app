@@ -1,7 +1,6 @@
 package bg.softuni.invoiceappbankaccounts.model.dto;
 
 import bg.softuni.invoiceappbankaccounts.validation.annotation.LatinCharacters;
-import bg.softuni.invoiceappbankaccounts.validation.annotation.UniqueIban;
 import bg.softuni.invoiceappbankaccounts.validation.annotation.ValidBic;
 import bg.softuni.invoiceappbankaccounts.validation.annotation.ValidIban;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +9,6 @@ import jakarta.validation.constraints.Size;
 public class BankAccountEditBindingDto {
   
   private Long id;
-  @UniqueIban
   @ValidIban
   @NotNull(message = "{bank.account.iban.not.null}")
   @Size(min = 15, max = 34, message = "{bank.account.iban.length}")

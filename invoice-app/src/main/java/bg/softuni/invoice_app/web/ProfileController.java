@@ -85,16 +85,23 @@ public class ProfileController {
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bankAccountData", bindingResult);
       return "redirect:/profile/add-bank-account";
     }
-    bankAccountService.addBankAccountUser(bankAccountData, userService.getUser().getUuid());
     
-    // redirectAttributes.addFlashAttribute("successMessage", "Bank account added successfully!");
+    try {
+      bankAccountService.addBankAccountUser(bankAccountData, userService.getUser().getUuid());
+    } catch (IllegalArgumentException ex) {
+      bindingResult.rejectValue("iban", "error.bankAccountData", ex.getMessage());
+      redirectAttributes.addFlashAttribute("bankAccountData", bankAccountData);
+      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bankAccountData", bindingResult);
+      return "redirect:/profile/add-bank-account";
+    }
+    
     return "redirect:/profile";
-    
   }
+  
   
   @GetMapping("/edit-bank-account/{id}")
   public String showEditBankAccountForm(@PathVariable Long id, Model model) {
-    model.addAttribute("bankAccount", this.bankAccountService.getViewById(id));
+    model.addAttribute("bankAccountDataEdit", this.bankAccountService.getViewById(id));
     return "bank-account-edit";
   }
   
@@ -104,17 +111,25 @@ public class ProfileController {
       @Valid BankAccountEditBindingDto bankAccountDataEdit,
       BindingResult bindingResult,
       Model model) {
+    
     if (bindingResult.hasErrors()) {
-      model.addAttribute("bankAccount", bankAccountDataEdit);
-      model.addAttribute("org.springframework.validation.BindingResult.bankAccount", bindingResult);
-      return "bank-account-edit";
+      model.addAttribute("bankAccountDataEdit", bankAccountDataEdit);
+      model.addAttribute("org.springframework.validation.BindingResult.bankAccountDataEdit", bindingResult);
+      return "bank-account-edit";  // Връщане на името на шаблона директно
     }
-
-//    this.bankAccountService.editBankAccount(id, bankAccountDataEdit);
-    this.bankAccountService.updateBankAccount(id, bankAccountDataEdit);
+    
+    try {
+      bankAccountService.updateBankAccount(id, bankAccountDataEdit);
+    } catch (IllegalArgumentException ex) {
+      bindingResult.rejectValue("iban", "error.bankAccountDataEdit", ex.getMessage());
+      model.addAttribute("bankAccountDataEdit", bankAccountDataEdit);
+      model.addAttribute("org.springframework.validation.BindingResult.bankAccountDataEdit", bindingResult);
+      return "bank-account-edit";  // Връщане на името на шаблона директно
+    }
+    
     return "redirect:/profile";
   }
-  
+
   @PostMapping("/delete-bank-account/{id}")
   public String deleteBankAccount(@PathVariable Long id) {
     

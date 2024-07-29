@@ -39,22 +39,32 @@ public class BankAccountServiceImpl implements BankAccountService {
         .map(BankAccountView::new)
         .toList();
   }
-  
-  @Override
-  public BankAccountView addBankAccountUser(BankAccountCreateBindingDto bankAccountCreate, String uuid) {
-    return new BankAccountView(bankAccountRepository.save(mapToBankAccount(bankAccountCreate, uuid)));
+
+@Override
+public BankAccountView addBankAccountUser(BankAccountCreateBindingDto bankAccountCreate, String uuid) {
+  if (bankAccountRepository.existsByIban(bankAccountCreate.getIban())) {
+    throw new IllegalArgumentException("IBAN already exists");
   }
+  return new BankAccountView(bankAccountRepository.save(mapToBankAccount(bankAccountCreate, uuid)));
+}
   
   @Override
   public BankAccountView updateBankAccount(Long id, BankAccountEditBindingDto bankAccountEditBindingDto) {
-    BankAccount bankAccount = getByIdOrElseThrow(id);
-    bankAccount.setIban(InputFormating.format(bankAccountEditBindingDto.getIban()));
-    bankAccount.setBic(InputFormating.format(bankAccountEditBindingDto.getBic()));
-    bankAccount.setCurrency(InputFormating.format(bankAccountEditBindingDto.getCurrency()));
+    BankAccount existingBankAccount = getByIdOrElseThrow(id);
     
-    bankAccountRepository.save(bankAccount);
+    if (!existingBankAccount.getIban().equals(bankAccountEditBindingDto.getIban())) {
+      if (bankAccountRepository.existsByIban(bankAccountEditBindingDto.getIban())) {
+        throw new IllegalArgumentException("IBAN already exists");
+      }
+    }
     
-    return new BankAccountView(bankAccount);
+    existingBankAccount.setIban(InputFormating.format(bankAccountEditBindingDto.getIban()));
+    existingBankAccount.setBic(InputFormating.format(bankAccountEditBindingDto.getBic()));
+    existingBankAccount.setCurrency(InputFormating.format(bankAccountEditBindingDto.getCurrency()));
+    
+    bankAccountRepository.save(existingBankAccount);
+    
+    return new BankAccountView(existingBankAccount);
   }
   
   @Override

@@ -56,17 +56,18 @@ public class InvoicesController {
     model.addAttribute("invoice", invoiceView);
     return "invoice-view";
   }
+  
   //todo changed for rest
-@GetMapping("/edit/{id}")
-public String editInvoice(@PathVariable Long id, Model model) {
-  InvoiceView invoiceView = this.invoiceService.getById(id);
-  InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
-
-  model.addAttribute("bankAccounts",
-      this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
-  model.addAttribute("invoiceData", invoiceEditDto);
-  return "invoice-edit";
-}
+  @GetMapping("/edit/{id}")
+  public String editInvoice(@PathVariable Long id, Model model) {
+    InvoiceView invoiceView = this.invoiceService.getById(id);
+    InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
+    
+    model.addAttribute("bankAccounts",
+        this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
+    model.addAttribute("invoiceData", invoiceEditDto);
+    return "invoice-edit";
+  }
   
   //todo migrate
   //  todo add validation for unique or the same invoice number
@@ -75,13 +76,13 @@ public String editInvoice(@PathVariable Long id, Model model) {
                               @Valid InvoiceEditDto invoiceData,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes) {
-
+    
     if (bindingResult.hasErrors()) {
       redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
       return "redirect:/invoices/edit/" + id;
     }
-
+    
     invoiceService.updateInvoice(id, invoiceData);
     return "redirect:/invoices";
   }
@@ -100,30 +101,31 @@ public String editInvoice(@PathVariable Long id, Model model) {
     response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
     response.getOutputStream().write(pdf);
   }
+  
   //todo changed for rest
   @GetMapping("/create-with-client/{clientId}")
   public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
     RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
-
+    
     model.addAttribute("recipient", recipientDetailsView);
     model.addAttribute("bankAccounts",
         this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
-
+    
     return "invoice-create-with-client";
   }
-
+  
   @PostMapping("/create-with-client/{clientId}")
   public String createInvoiceWithClient(@PathVariable Long clientId,
                                         @Valid InvoiceCreateDto invoiceData,
                                         BindingResult bindingResult,
                                         RedirectAttributes redirectAttributes) {
-
+    
     if (bindingResult.hasErrors()) {
       redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
       return "redirect:/invoices/create-with-client/" + clientId;
     }
-
+    
     invoiceService.createInvoiceWithClient(clientId, invoiceData);
     return "redirect:/invoices";
   }

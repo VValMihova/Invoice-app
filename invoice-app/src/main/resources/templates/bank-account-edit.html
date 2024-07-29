@@ -6,8 +6,8 @@
 <div class="container mt-5">
   <div class="form-container">
     <h2 th:text="#{user.profile.edit.bank.account.header}">Edit Bank Account</h2>
-    <form th:action="@{/profile/edit-bank-account/{id}(id=${bankAccount.id})}"
-          th:object="${bankAccount}"
+    <form th:action="@{/profile/edit-bank-account/{id}(id=${bankAccountDataEdit.id})}"
+          th:object="${bankAccountDataEdit}"
           th:method="post">
       <div class="form-group">
         <label for="iban" th:text="#{user.profile.add.bank.account.iban}">IBAN:</label>

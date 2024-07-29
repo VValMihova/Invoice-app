@@ -12,4 +12,6 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
   BankAccountView getByIban(String iban);
   
   Optional<BankAccount> findByIban(String iban);
+  
+  boolean existsByIban(String iban);
 }
