@@ -24,11 +24,11 @@ import static org.mockito.Mockito.*;
 public class BankAccountServiceImplTest {
   private final static Long ID = 1L;
   private final static Long ID_2 = 2L;
-  private final static String TEST_IBAN = "IBAN123";
-  private final static String TEST_BIC = "BIC123";
+  private final static String TEST_IBAN = "PL27114020040000300201355387";
+  private final static String TEST_BIC = "BNPAFRPP";
   private final static String TEST_CURRENCY = "USD";
-  private final static String TEST_IBAN_2 = "IBAN456";
-  private final static String TEST_BIC_2 = "BIC456";
+  private final static String TEST_IBAN_2 = "IT60X0542811101000000123456";
+  private final static String TEST_BIC_2 = "DABADKKK";
   private final static String TEST_CURRENCY_2 = "EUR";
   private final static String TEST_UUID = "91071533-ae2f-4396-8a46-a7cc3e3d86e0";
   
@@ -40,6 +40,47 @@ public class BankAccountServiceImplTest {
   void setUp() {
     this.toTest = new BankAccountServiceImpl(bankAccountRepository);
   }
+  
+  @Test
+  void updateBankAccount_ibanExists() {
+    BankAccountEditBindingDto editDto = new BankAccountEditBindingDto();
+    editDto.setIban(TEST_IBAN_2);
+    editDto.setBic(TEST_BIC_2);
+    editDto.setCurrency(TEST_CURRENCY_2);
+    
+    BankAccount existingBankAccount = new BankAccount()
+        .setId(ID)
+        .setIban(TEST_IBAN)
+        .setBic(TEST_BIC)
+        .setCurrency(TEST_CURRENCY)
+        .setUser(TEST_UUID);
+    
+    when(bankAccountRepository.findById(ID)).thenReturn(Optional.of(existingBankAccount));
+    when(bankAccountRepository.existsByIban(TEST_IBAN_2)).thenReturn(true);
+    
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> toTest.updateBankAccount(ID, editDto));
+    
+    assertEquals("IBAN already exists", exception.getMessage());
+    verify(bankAccountRepository).findById(ID);
+    verify(bankAccountRepository, never()).save(any(BankAccount.class));
+  }
+  
+  
+  @Test
+  void addBankAccountUser_ibanExists() {
+    BankAccountCreateBindingDto createDto = new BankAccountCreateBindingDto();
+    createDto.setIban(TEST_IBAN);
+    createDto.setBic(TEST_BIC);
+    createDto.setCurrency(TEST_CURRENCY);
+    
+    when(bankAccountRepository.existsByIban(TEST_IBAN)).thenReturn(true);
+    
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> toTest.addBankAccountUser(createDto, TEST_UUID));
+    
+    assertEquals("IBAN already exists", exception.getMessage());
+    verify(bankAccountRepository, never()).save(any(BankAccount.class));
+  }
+  
   
   @Test
   void getBankAccountByIban_found() {
@@ -62,6 +103,7 @@ public class BankAccountServiceImplTest {
     
     verify(bankAccountRepository).findByIban(iban);
   }
+  
   @Test
   void getBankAccountByIban_notFound() {
     String iban = TEST_IBAN;
@@ -99,6 +141,7 @@ public class BankAccountServiceImplTest {
     verify(bankAccountRepository).findById(ID);
     verify(bankAccountRepository).save(any(BankAccount.class));
   }
+  
   @Test
   void updateBankAccount_notFound() {
     BankAccountEditBindingDto editDto = new BankAccountEditBindingDto();
