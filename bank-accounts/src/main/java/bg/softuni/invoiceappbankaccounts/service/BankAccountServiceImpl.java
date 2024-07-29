@@ -77,7 +77,5 @@ public class BankAccountServiceImpl implements BankAccountService {
   private BankAccount getByIdOrElseThrow(Long id) {
     return bankAccountRepository.findById(id)
         .orElseThrow(ObjectNotFoundException::new);
-    // todo add exception here
-    // .orElseThrow(() -> new NotFoundObjectException("Bank account"));
   }
 }
