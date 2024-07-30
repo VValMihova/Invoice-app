@@ -25,6 +25,20 @@ public class InvoiceView {
   
   public InvoiceView() {
   }
+  
+  public InvoiceView(BigDecimal amountDue, BankAccountPersist bankAccount, Long id, Long invoiceNumber, LocalDate issueDate, List<InvoiceItemView> items, RecipientDetailsView recipient, CompanyDetailsView supplier, BigDecimal totalAmount, BigDecimal vat) {
+    this.amountDue = amountDue;
+    this.bankAccount = bankAccount;
+    this.id = id;
+    this.invoiceNumber = invoiceNumber;
+    this.issueDate = issueDate;
+    this.items = items;
+    this.recipient = recipient;
+    this.supplier = supplier;
+    this.totalAmount = totalAmount;
+    this.vat = vat;
+  }
+  
   public InvoiceView(Invoice invoice) {
     this.id = invoice.getId();
     this.invoiceNumber = invoice.getInvoiceNumber();

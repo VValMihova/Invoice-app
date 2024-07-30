@@ -15,6 +15,14 @@ public class AllInvoicesView {
   public AllInvoicesView() {
   }
   
+  public AllInvoicesView(Long id, Long invoiceNumber, LocalDate issueDate, CompanyDetailsEditBindingDto recipient, BigDecimal amountDue) {
+    this.id = id;
+    this.invoiceNumber = invoiceNumber;
+    this.issueDate = issueDate;
+    this.recipient = recipient;
+    this.amountDue = amountDue;
+  }
+  
   public Long getInvoiceNumber() {
     return invoiceNumber;
   }

@@ -7,6 +7,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static java.sql.Types.VARCHAR;
 
@@ -45,10 +46,17 @@ public class User {
   @JdbcTypeCode(VARCHAR)
   private String uuid;
   
+  
+  
   public User() {
     this.roles = new HashSet<>();
     this.invoices = new OrderedHashSet<>();
     this.roles = new HashSet<>();
+  }
+  
+  public User(UUID userUuid) {
+    this();
+    this.uuid = userUuid.toString();
   }
   
   public Long getId() {

@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
+import static bg.softuni.invoice_app.util.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -31,9 +32,9 @@ public class BankAccountPersistServiceImplTest {
   @Test
   void testDelete() {
     BankAccountPersist account = new BankAccountPersist()
-        .setIban("DE89370400440532013000")
-        .setBic("DEUTDEFF")
-        .setCurrency("EUR");
+        .setIban(IBAN_1)
+        .setBic(BIC_CODE)
+        .setCurrency(CURRENCY_1);
     
     toTest.delete(account);
     
@@ -56,12 +57,12 @@ public class BankAccountPersistServiceImplTest {
   @Test
   void testAdd_BankAccountDoesNotExist() {
     BankAccountView bankAccountView = new BankAccountView();
-    bankAccountView.setIban("DE89370400440532013000");
-    bankAccountView.setBic("DEUTDEFF");
-    bankAccountView.setCurrency("EUR");
+    bankAccountView.setIban(IBAN_1);
+    bankAccountView.setBic(BIC_CODE);
+    bankAccountView.setCurrency(CURRENCY_1);
     
     User user = new User();
-    user.setId(1L);
+    user.setId(TEST_ID);
     
     BankAccountPersist mappedBankAccount = new BankAccountPersist();
     mappedBankAccount.setIban(bankAccountView.getIban())
@@ -90,12 +91,12 @@ public class BankAccountPersistServiceImplTest {
   @Test
   void testAdd_BankAccountExists() {
     BankAccountView bankAccountView = new BankAccountView();
-    bankAccountView.setIban("DE89370400440532013000");
-    bankAccountView.setBic("DEUTDEFF");
-    bankAccountView.setCurrency("EUR");
+    bankAccountView.setIban(IBAN_1);
+    bankAccountView.setBic(BIC_CODE);
+    bankAccountView.setCurrency(CURRENCY_1);
     
     User user = new User();
-    user.setId(1L);
+    user.setId(TEST_ID);
     
     BankAccountPersist existingBankAccount = new BankAccountPersist();
     existingBankAccount.setIban(bankAccountView.getIban())

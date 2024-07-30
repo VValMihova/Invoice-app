@@ -12,16 +12,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static bg.softuni.invoice_app.util.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class CompanyDetailsServiceImplTest {
-  private final static String TEST_COMPANY_NAME = "Test Company";
-  private final static String TEST_ADDRESS = "Test Address";
-  private final static String TEST_EIK = "1234567890";
-  private final static String TEST_VAT = "BG1234567890";
-  private final static String TEST_MANAGER = "Test Manager";
-  private final static Long NON_EXIST_ID = 1L;
   
   private CompanyDetailsService toTest;
   
@@ -36,11 +31,11 @@ public class CompanyDetailsServiceImplTest {
   @Test
   public void testAddWithRegistration_Success() {
     CompanyDetails newCompany = new CompanyDetails()
-        .setCompanyName(TEST_COMPANY_NAME)
-        .setEik(TEST_EIK)
-        .setAddress(TEST_ADDRESS)
-        .setVatNumber(TEST_VAT)
-        .setManager(TEST_MANAGER);
+        .setCompanyName(COMPANY_NAME)
+        .setEik(COMPANY_EIK)
+        .setAddress(COMPANY_ADDRESS)
+        .setVatNumber(COMPANY_VAT_NUMBER)
+        .setManager(COMPANY_MANAGER);
     
     when(mockCompanyDetailsRepository.save(newCompany)).thenReturn(newCompany);
     
@@ -61,19 +56,19 @@ public class CompanyDetailsServiceImplTest {
   public void testUpdate_Found() {
     Long companyId = 1L;
     CompanyDetailsEditBindingDto companyData = new CompanyDetailsEditBindingDto();
-    companyData.setCompanyName("Updated Company")
-        .setAddress("Updated Address")
-        .setEik("0987654321")
-        .setVatNumber("BG0987654321")
-        .setManager("Updated Manager");
+    companyData.setCompanyName(UPDATED_COMPANY_NAME)
+        .setAddress(UPDATED_COMPANY_ADDRESS)
+        .setEik(UPDATED_COMPANY_EIK)
+        .setVatNumber(UPDATED_COMPANY_VAT_NUMBER)
+        .setManager(UPDATED_COMPANY_MANAGER);
     
     CompanyDetails existingCompany = new CompanyDetails()
         .setId(companyId)
-        .setCompanyName(TEST_COMPANY_NAME)
-        .setEik(TEST_EIK)
-        .setAddress(TEST_ADDRESS)
-        .setVatNumber(TEST_VAT)
-        .setManager(TEST_MANAGER);
+        .setCompanyName(COMPANY_NAME)
+        .setEik(COMPANY_EIK)
+        .setAddress(COMPANY_ADDRESS)
+        .setVatNumber(COMPANY_VAT_NUMBER)
+        .setManager(COMPANY_MANAGER);
     
     when(mockCompanyDetailsRepository.findById(companyId)).thenReturn(Optional.of(existingCompany));
     when(mockCompanyDetailsRepository.save(existingCompany)).thenReturn(existingCompany);
@@ -92,7 +87,7 @@ public class CompanyDetailsServiceImplTest {
   
   @Test
   public void testUpdate_NotFound() {
-    Long nonExist = NON_EXIST_ID;
+    Long nonExist = TEST_ID;
     when(mockCompanyDetailsRepository.findById(nonExist)).thenReturn(Optional.empty());
     
     NotFoundObjectException exception = assertThrows(NotFoundObjectException.class,
@@ -105,49 +100,49 @@ public class CompanyDetailsServiceImplTest {
   
   @Test
   public void testExistsByEik_ReturnsTrue() {
-    when(mockCompanyDetailsRepository.existsByEik(TEST_EIK)).thenReturn(true);
-    boolean result = toTest.existsByEik(TEST_EIK);
+    when(mockCompanyDetailsRepository.existsByEik(COMPANY_EIK)).thenReturn(true);
+    boolean result = toTest.existsByEik(COMPANY_EIK);
     assertTrue(result);
-    verify(mockCompanyDetailsRepository).existsByEik(TEST_EIK);
+    verify(mockCompanyDetailsRepository).existsByEik(COMPANY_EIK);
   }
   
   @Test
   public void testExistsByEik_ReturnsFalse() {
-    when(mockCompanyDetailsRepository.existsByEik(TEST_EIK)).thenReturn(false);
-    boolean result = toTest.existsByEik(TEST_EIK);
+    when(mockCompanyDetailsRepository.existsByEik(COMPANY_EIK)).thenReturn(false);
+    boolean result = toTest.existsByEik(COMPANY_EIK);
     assertFalse(result);
-    verify(mockCompanyDetailsRepository).existsByEik(TEST_EIK);
+    verify(mockCompanyDetailsRepository).existsByEik(COMPANY_EIK);
   }
   
   @Test
   public void testExistsByVat_ReturnsTrue() {
-    when(mockCompanyDetailsRepository.existsByVatNumber(TEST_VAT)).thenReturn(true);
-    boolean result = toTest.existsByVatNumber(TEST_VAT);
+    when(mockCompanyDetailsRepository.existsByVatNumber(COMPANY_VAT_NUMBER)).thenReturn(true);
+    boolean result = toTest.existsByVatNumber(COMPANY_VAT_NUMBER);
     assertTrue(result);
-    verify(mockCompanyDetailsRepository).existsByVatNumber(TEST_VAT);
+    verify(mockCompanyDetailsRepository).existsByVatNumber(COMPANY_VAT_NUMBER);
   }
   
   @Test
   public void testExistsByVat_ReturnsFalse() {
-    when(mockCompanyDetailsRepository.existsByVatNumber(TEST_VAT)).thenReturn(false);
-    boolean result = toTest.existsByVatNumber(TEST_VAT);
+    when(mockCompanyDetailsRepository.existsByVatNumber(COMPANY_VAT_NUMBER)).thenReturn(false);
+    boolean result = toTest.existsByVatNumber(COMPANY_VAT_NUMBER);
     assertFalse(result);
-    verify(mockCompanyDetailsRepository).existsByVatNumber(TEST_VAT);
+    verify(mockCompanyDetailsRepository).existsByVatNumber(COMPANY_VAT_NUMBER);
   }
   
   @Test
   public void testExistsByCompanyName_ReturnsTrue() {
-    when(mockCompanyDetailsRepository.existsByCompanyName(TEST_COMPANY_NAME)).thenReturn(true);
-    boolean result = toTest.existsByCompanyName(TEST_COMPANY_NAME);
+    when(mockCompanyDetailsRepository.existsByCompanyName(COMPANY_NAME)).thenReturn(true);
+    boolean result = toTest.existsByCompanyName(COMPANY_NAME);
     assertTrue(result);
-    verify(mockCompanyDetailsRepository).existsByCompanyName(TEST_COMPANY_NAME);
+    verify(mockCompanyDetailsRepository).existsByCompanyName(COMPANY_NAME);
   }
   
   @Test
   public void testExistsByCompanyName_ReturnsFalse() {
-    when(mockCompanyDetailsRepository.existsByCompanyName(TEST_COMPANY_NAME)).thenReturn(false);
-    boolean result = toTest.existsByCompanyName(TEST_COMPANY_NAME);
+    when(mockCompanyDetailsRepository.existsByCompanyName(COMPANY_NAME)).thenReturn(false);
+    boolean result = toTest.existsByCompanyName(COMPANY_NAME);
     assertFalse(result);
-    verify(mockCompanyDetailsRepository).existsByCompanyName(TEST_COMPANY_NAME);
+    verify(mockCompanyDetailsRepository).existsByCompanyName(COMPANY_NAME);
   }
 }

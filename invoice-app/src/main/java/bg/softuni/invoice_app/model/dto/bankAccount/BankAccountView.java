@@ -10,6 +10,11 @@ public class BankAccountView {
   public BankAccountView() {
   }
   
+  public BankAccountView(String bic, String currency, String iban) {
+    this.bic = bic;
+    this.currency = currency;
+    this.iban = iban;
+  }
   
   public String getIban() {
     return iban;

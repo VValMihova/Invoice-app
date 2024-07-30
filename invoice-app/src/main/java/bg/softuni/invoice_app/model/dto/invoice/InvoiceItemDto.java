@@ -25,6 +25,14 @@ public class InvoiceItemDto {
   
   public InvoiceItemDto() {
   }
+  
+  public InvoiceItemDto(String name, BigDecimal quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
+    this.name = name;
+    this.quantity = quantity;
+    this.unitPrice = unitPrice;
+    this.totalPrice = totalPrice;
+  }
+  
   public InvoiceItemDto(InvoiceItemView itemView) {
     this.name = itemView.getName();
     this.quantity = itemView.getQuantity();
