@@ -115,7 +115,7 @@ public class ProfileController {
     if (bindingResult.hasErrors()) {
       model.addAttribute("bankAccountDataEdit", bankAccountDataEdit);
       model.addAttribute("org.springframework.validation.BindingResult.bankAccountDataEdit", bindingResult);
-      return "bank-account-edit";  // Връщане на името на шаблона директно
+      return "bank-account-edit";
     }
     
     try {
@@ -124,7 +124,7 @@ public class ProfileController {
       bindingResult.rejectValue("iban", "error.bankAccountDataEdit", ex.getMessage());
       model.addAttribute("bankAccountDataEdit", bankAccountDataEdit);
       model.addAttribute("org.springframework.validation.BindingResult.bankAccountDataEdit", bindingResult);
-      return "bank-account-edit";  // Връщане на името на шаблона директно
+      return "bank-account-edit";
     }
     
     return "redirect:/profile";
