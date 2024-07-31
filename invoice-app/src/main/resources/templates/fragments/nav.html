@@ -40,6 +40,9 @@
           <input class="nav-link btn-logout" type="submit" th:value="#{nav.logout}" value="Logout">
         </form>
       </li>
+      <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+        <a class="nav-link" th:href="@{/admin}" th:text="#{nav.admin.panel}">Admin Panel</a>
+      </li>
     </ul>
   </div>
 </nav>

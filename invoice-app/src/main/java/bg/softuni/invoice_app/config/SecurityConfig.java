@@ -24,6 +24,7 @@ public class SecurityConfig {
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .requestMatchers("/", "/users/login", "/users/register",
                         "/error", "/users/login?error=true").permitAll()
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated())
         .formLogin(
             formLogin ->

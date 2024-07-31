@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+<div class="container mt-5">
+  <h1 th:text="'Deleted Invoices for ' + ${companyName}">Deleted Invoices</h1>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+      <tr>
+        <th th:text="#{invoice.number}">Invoice Number</th>
+        <th th:text="#{invoice.issueDate}">Issue Date</th>
+        <th th:text="#{invoice.recipient}">Recipient Company</th>
+        <th th:text="#{invoice.deletedAt}">Deleted At</th>
+        <th th:text="#{actions}">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="invoice : ${deletedInvoices.content}">
+        <td th:text="${invoice.invoiceNumber}">123456</td>
+        <td th:text="${invoice.issueDate}">2024-07-31</td>
+        <td th:text="${invoice.recipient.companyName}">Recipient Company</td>
+        <td th:text="${invoice.deletedAt}">2024-07-31T12:34:56</td>
+        <td>
+          <form th:action="@{/admin/restore-invoice/{invoiceId}(invoiceId=${invoice.id}, userId=${userId})}" method="post">
+            <button class="btn btn-success" type="submit">Restore</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:if="${deletedInvoices.hasPrevious()}">
+    <a th:href="@{/admin/deleted-invoices(page=${deletedInvoices.number - 1}, userId=${userId})}" class="btn btn-secondary">Previous</a>
+  </div>
+  <div th:if="${deletedInvoices.hasNext()}">
+    <a th:href="@{/admin/deleted-invoices(page=${deletedInvoices.number + 1}, userId=${userId})}" class="btn btn-secondary">Next</a>
+  </div>
+</div>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

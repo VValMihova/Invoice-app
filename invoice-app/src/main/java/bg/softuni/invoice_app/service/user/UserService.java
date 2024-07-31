@@ -5,6 +5,8 @@ import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Optional;
 
@@ -26,4 +28,8 @@ public interface UserService {
   Long getCurrentUserId();
   
   User getUser();
+  
+  Page<User> findAllExceptCurrent(PageRequest of);
+  
+  User findById(Long userId);
 }
