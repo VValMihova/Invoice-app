@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RoleServiceImplTest {
-  private final String ROLE_ADMIN = "ADMIN";
+
   @Mock
   private RoleRepository mockRoleRepository;
   

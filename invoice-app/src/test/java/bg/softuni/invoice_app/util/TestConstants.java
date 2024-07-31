@@ -1,5 +1,8 @@
 package bg.softuni.invoice_app.util;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 public class TestConstants {
   
   // URLs for Invoices
@@ -60,6 +63,11 @@ public class TestConstants {
   public static final String UPDATED_COMPANY_MANAGER = "Updated Manager";
   public static final String UPDATED_COMPANY_EIK = "0987654321";
   public static final String UPDATED_COMPANY_VAT_NUMBER = "BG0987654321";
+  public static final String ANOTHER_COMPANY_NAME = "Another Company";
+  public static final String ANOTHER_COMPANY_ADDRESS = "Another Address";
+  public static final String ANOTHER_COMPANY_EIK = "0987654321";
+  public static final String ANOTHER_COMPANY_VAT = "BG0987654321";
+  public static final String ANOTHER_COMPANY_MANAGER = "Another Manager";
   
   // Test Recipient Details
   public static final String RECIPIENT_NAME = "Test Recipient";
@@ -71,8 +79,11 @@ public class TestConstants {
   // Test IDs
   public static final Long TEST_ID = 1L;
   public static final Long TEST_ID_2 = 2L;
+  public static final Long INVOICE_NUMBER = 123L;
+  public static final Long NON_EXIST_USER_ID = 1000000L;
   
   // Test Dates
+  public static final LocalDate TEST_DATE_NOW = LocalDate.now();
   public static final String TEST_START_DATE = "2023-01-01";
   public static final String TEST_END_DATE = "2023-12-31";
   
@@ -90,5 +101,23 @@ public class TestConstants {
   public static final String LOGIN_VIEW_NAME = "user-login";
   public static final String LOGIN_URL = "/users/login";
   public static final String LOGIN_ERROR_PARAM = "error";
+  
+  //Invoice Items
+  public static final String INVOICE_ITEM_1_NAME = "Item 1";
+  public static final String INVOICE_ITEM_2_NAME = "Item 2";
+  public static final BigDecimal ITEM_QUANTITY = BigDecimal.valueOf(1);
+  public static final BigDecimal ITEM_UNIT_PRICE = BigDecimal.valueOf(100);
+  public static final BigDecimal ITEM_TOTAL_PRICE = BigDecimal.valueOf(100);
+  
+  //Invoice
+  public static final BigDecimal INVOICE_TOTAL_AMOUNT = BigDecimal.valueOf(100);
+  public static final BigDecimal INVOICE_VAT = BigDecimal.valueOf(20);
+  public static final BigDecimal INVOICE_AMOUNT_DUE = BigDecimal.valueOf(80);
+  
+  //Roles
+  public static final String ROLE_ADMIN = "ADMIN";
+  
+  // Formating
+  public static final String EXPECTED_FORMATED_STRING = "HELLO WORLD";
 }
 

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static bg.softuni.invoice_app.util.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -52,24 +53,28 @@ class InvoiceServiceImplTest {
   public void setUp() {
     MockitoAnnotations.openMocks(this);
   }
+  
   @Test
   void testConvertToEditDto() {
     InvoiceView invoiceView = new InvoiceView();
-    invoiceView.setId(1L);
-    invoiceView.setInvoiceNumber(123L);
-    invoiceView.setIssueDate(LocalDate.now());
-    invoiceView.setRecipient(new RecipientDetailsView().setId(1L));
-    BankAccountPersist bankAccountPersist = new BankAccountPersist().setIban("DE89370400440532013000");
+    invoiceView.setId(TEST_ID);
+    invoiceView.setInvoiceNumber(INVOICE_NUMBER);
+    invoiceView.setIssueDate(TEST_DATE_NOW);
+    invoiceView.setRecipient(new RecipientDetailsView().setId(TEST_ID));
+    
+    BankAccountPersist bankAccountPersist = new BankAccountPersist()
+        .setIban(IBAN_1);
     invoiceView.setBankAccountPersist(bankAccountPersist);
+    
     InvoiceItemView itemView = new InvoiceItemView()
-        .setName("Item1")
-        .setQuantity(BigDecimal.valueOf(1))
-        .setUnitPrice(BigDecimal.valueOf(100))
-        .setTotalPrice(BigDecimal.valueOf(100));
+        .setName(INVOICE_ITEM_1_NAME)
+        .setQuantity(ITEM_QUANTITY)
+        .setUnitPrice(ITEM_UNIT_PRICE)
+        .setTotalPrice(ITEM_TOTAL_PRICE);
     invoiceView.setItems(List.of(itemView));
-    invoiceView.setTotalAmount(BigDecimal.valueOf(100));
-    invoiceView.setVat(BigDecimal.valueOf(20));
-    invoiceView.setAmountDue(BigDecimal.valueOf(80));
+    invoiceView.setTotalAmount(INVOICE_TOTAL_AMOUNT);
+    invoiceView.setVat(INVOICE_VAT);
+    invoiceView.setAmountDue(INVOICE_AMOUNT_DUE);
     
     InvoiceEditDto result = toTest.convertToEditDto(invoiceView);
     
@@ -86,23 +91,23 @@ class InvoiceServiceImplTest {
   
   @Test
   void testCreateInvoiceWithClient() {
-    Long clientId = 1L;
-    User user = new User().setId(1L);
-    CompanyDetails companyDetails = new CompanyDetails().setId(1L);
+    Long clientId = TEST_ID;
+    User user = new User().setId(TEST_ID);
+    CompanyDetails companyDetails = new CompanyDetails().setId(TEST_ID);
     RecipientDetails recipient = new RecipientDetails().setId(clientId);
     
     InvoiceCreateDto invoiceCreateDto = new InvoiceCreateDto()
-        .setInvoiceNumber(123L)
-        .setIssueDate(LocalDate.now())
+        .setInvoiceNumber(INVOICE_NUMBER)
+        .setIssueDate(TEST_DATE_NOW)
         .setItems(List.of(new InvoiceItemDto()
-            .setName("Item1")
-            .setQuantity(BigDecimal.valueOf(1))
-            .setUnitPrice(BigDecimal.valueOf(100))
-            .setTotalPrice(BigDecimal.valueOf(100))))
-        .setTotalAmount(BigDecimal.valueOf(100))
-        .setVat(BigDecimal.valueOf(20))
-        .setAmountDue(BigDecimal.valueOf(80))
-        .setBankAccountIban("DE89370400440532013000");
+            .setName(INVOICE_ITEM_1_NAME)
+            .setQuantity(ITEM_QUANTITY)
+            .setUnitPrice(ITEM_UNIT_PRICE)
+            .setTotalPrice(ITEM_TOTAL_PRICE)))
+        .setTotalAmount(INVOICE_TOTAL_AMOUNT)
+        .setVat(INVOICE_VAT)
+        .setAmountDue(INVOICE_AMOUNT_DUE)
+        .setBankAccountIban(IBAN_1);
     
     BankAccountView bankAccountView = new BankAccountView();
     BankAccountPersist bankAccountPersist = new BankAccountPersist();
@@ -141,25 +146,24 @@ class InvoiceServiceImplTest {
   }
   
   
-  
   @Test
   void testDeleteById_Success() {
-    Long invoiceId = 1L;
+    Long invoiceId = TEST_ID;
     Invoice invoice = new Invoice().setId(invoiceId);
     
     when(mockRepository.findById(invoiceId)).thenReturn(Optional.of(invoice));
     
     toTest.deleteById(invoiceId);
     
-    verify(mockRepository, times(1)).findById(invoiceId);
-    verify(mockSaleService, times(1)).deleteAllByInvoiceId(invoiceId);
-    verify(mockRepository, times(1)).delete(invoice);
+    verify(mockRepository).findById(invoiceId);
+    verify(mockSaleService).deleteAllByInvoiceId(invoiceId);
+    verify(mockRepository).delete(invoice);
     verifyNoMoreInteractions(mockRepository, mockSaleService);
   }
   
   @Test
   void testDeleteById_NotFound() {
-    Long invoiceId = 1L;
+    Long invoiceId = TEST_ID;
     when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
     
     NotFoundObjectException exception = assertThrows(NotFoundObjectException.class, () -> toTest.deleteById(invoiceId));
@@ -174,19 +178,19 @@ class InvoiceServiceImplTest {
   
   @Test
   void testGetById_Found() {
-    Long invoiceId = 1L;
+    Long invoiceId = TEST_ID;
     Invoice invoice = new Invoice()
         .setId(invoiceId)
-        .setInvoiceNumber(123L)
-        .setUser(new User().setId(1L))
-        .setRecipient(new RecipientDetails().setId(1L))
-        .setBankAccountPersist(new BankAccountPersist().setId(1L))
-        .setItems(List.of(new InvoiceItem().setId(1L).setName("Item1")))
-        .setTotalAmount(BigDecimal.valueOf(100))
-        .setVat(BigDecimal.valueOf(20))
-        .setAmountDue(BigDecimal.valueOf(80))
-        .setIssueDate(LocalDate.now())
-        .setSupplier(new CompanyDetails().setId(1L));
+        .setInvoiceNumber(INVOICE_NUMBER)
+        .setUser(new User().setId(TEST_ID))
+        .setRecipient(new RecipientDetails().setId(TEST_ID))
+        .setBankAccountPersist(new BankAccountPersist().setId(TEST_ID))
+        .setItems(List.of(new InvoiceItem().setId(TEST_ID).setName(INVOICE_ITEM_1_NAME)))
+        .setTotalAmount(INVOICE_TOTAL_AMOUNT)
+        .setVat(INVOICE_VAT)
+        .setAmountDue(INVOICE_AMOUNT_DUE)
+        .setIssueDate(TEST_DATE_NOW)
+        .setSupplier(new CompanyDetails().setId(TEST_ID));
     
     when(mockRepository.findById(invoiceId)).thenReturn(Optional.of(invoice));
     
@@ -210,7 +214,7 @@ class InvoiceServiceImplTest {
   
   @Test
   void testGetById_NotFound() {
-    Long invoiceId = 1L;
+    Long invoiceId = TEST_ID;
     when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
     
     assertThrows(NotFoundObjectException.class, () -> toTest.getById(invoiceId));
@@ -219,17 +223,17 @@ class InvoiceServiceImplTest {
   
   @Test
   void testUpdateInvoice() {
-    Long invoiceId = 1L;
-    User user = new User().setId(1L);
+    Long invoiceId = TEST_ID;
+    User user = new User().setId(TEST_ID);
     Invoice invoice = new Invoice().setId(invoiceId);
     InvoiceEditDto invoiceEditDto = new InvoiceEditDto();
-    invoiceEditDto.setInvoiceNumber(123L);
-    invoiceEditDto.setIssueDate(LocalDate.now());
-    invoiceEditDto.setItems(List.of(new InvoiceItemDto().setName("Item1")));
-    invoiceEditDto.setTotalAmount(BigDecimal.valueOf(100));
-    invoiceEditDto.setVat(BigDecimal.valueOf(20));
-    invoiceEditDto.setAmountDue(BigDecimal.valueOf(80));
-    invoiceEditDto.setBankAccountIban("DE89370400440532013000");
+    invoiceEditDto.setInvoiceNumber(INVOICE_NUMBER);
+    invoiceEditDto.setIssueDate(TEST_DATE_NOW);
+    invoiceEditDto.setItems(List.of(new InvoiceItemDto().setName(INVOICE_ITEM_1_NAME)));
+    invoiceEditDto.setTotalAmount(INVOICE_TOTAL_AMOUNT);
+    invoiceEditDto.setVat(INVOICE_VAT);
+    invoiceEditDto.setAmountDue(INVOICE_AMOUNT_DUE);
+    invoiceEditDto.setBankAccountIban(IBAN_1);
     
     BankAccountView bankAccountView = new BankAccountView();
     BankAccountPersist bankAccountPersist = new BankAccountPersist();
@@ -250,9 +254,9 @@ class InvoiceServiceImplTest {
     
     toTest.updateInvoice(invoiceId, invoiceEditDto);
     
-    verify(mockRepository, times(1)).findById(invoiceId);
-    verify(mockRepository, times(1)).save(invoice);
-    verify(mockSaleService, times(1)).deleteAllByInvoiceId(invoiceId);
+    verify(mockRepository).findById(invoiceId);
+    verify(mockRepository).save(invoice);
+    verify(mockSaleService).deleteAllByInvoiceId(invoiceId);
     verify(mockSaleService, times(invoiceEditDto.getItems().size())).save(any(Sale.class));
     
     assertEquals(invoiceEditDto.getInvoiceNumber(), invoice.getInvoiceNumber());
@@ -274,8 +278,8 @@ class InvoiceServiceImplTest {
   
   @Test
   void testGetAllInvoices() {
-    Long userId = 1L;
-    Invoice invoice = new Invoice().setId(1L);
+    Long userId = TEST_ID;
+    Invoice invoice = new Invoice().setId(TEST_ID);
     AllInvoicesView allInvoicesView = new AllInvoicesView();
     
     List<Invoice> invoices = new ArrayList<>();
@@ -289,38 +293,38 @@ class InvoiceServiceImplTest {
     
     assertEquals(1, result.size());
     assertEquals(allInvoicesView, result.getFirst());
-    verify(mockUserService, times(1)).getCurrentUserId();
-    verify(mockRepository, times(1)).findAllByUserId(userId);
-    verify(modelMapper, times(1)).map(invoice, AllInvoicesView.class);
+    verify(mockUserService).getCurrentUserId();
+    verify(mockRepository).findAllByUserId(userId);
+    verify(modelMapper).map(invoice, AllInvoicesView.class);
   }
   
   @Test
   void testCheckInvoiceExists_True() {
-    User user = new User().setId(1L);
+    User user = new User().setId(TEST_ID);
     Invoice invoice = new Invoice()
-        .setInvoiceNumber(1L)
+        .setInvoiceNumber(TEST_ID)
         .setUser(user);
     
-    when(mockUserService.getCurrentUserId()).thenReturn(1L);
-    when(mockRepository.findByUserIdAndInvoiceNumber(1L, 1L))
+    when(mockUserService.getCurrentUserId()).thenReturn(TEST_ID);
+    when(mockRepository.findByUserIdAndInvoiceNumber(TEST_ID, TEST_ID))
         .thenReturn(Optional.of(invoice));
     
-    boolean result = toTest.checkInvoiceExists(1L);
+    boolean result = toTest.checkInvoiceExists(TEST_ID);
     
     assertTrue(result);
-    verify(mockRepository, times(1)).findByUserIdAndInvoiceNumber(1L, 1L);
+    verify(mockRepository).findByUserIdAndInvoiceNumber(TEST_ID, TEST_ID);
   }
   
   @Test
   void testCheckInvoiceExists_False() {
-    when(mockUserService.getCurrentUserId()).thenReturn(1000000L);
-    when(mockRepository.findByUserIdAndInvoiceNumber(1000000L, 1L))
+    when(mockUserService.getCurrentUserId()).thenReturn(NON_EXIST_USER_ID);
+    when(mockRepository.findByUserIdAndInvoiceNumber(NON_EXIST_USER_ID, TEST_ID))
         .thenReturn(Optional.empty());
     
-    boolean result = toTest.checkInvoiceExists(1L);
+    boolean result = toTest.checkInvoiceExists(TEST_ID);
     
     assertFalse(result);
-    verify(mockRepository, times(1)).findByUserIdAndInvoiceNumber(1000000L, 1L);
+    verify(mockRepository).findByUserIdAndInvoiceNumber(NON_EXIST_USER_ID, TEST_ID);
   }
   
   @Test
@@ -333,18 +337,18 @@ class InvoiceServiceImplTest {
   
   @Test
   void testFindByIdOrThrow_Found() {
-    Long invoiceId = 1L;
+    Long invoiceId = TEST_ID;
     Invoice invoice = new Invoice()
-        .setId(1L)
-        .setInvoiceNumber(1L)
-        .setUser(new User().setId(1L))
-        .setRecipient(new RecipientDetails().setId(1L))
-        .setBankAccountPersist(new BankAccountPersist().setId(1L))
-        .setItems(List.of(new InvoiceItem().setId(1L)))
-        .setTotalAmount(BigDecimal.valueOf(100))
-        .setVat(BigDecimal.valueOf(20))
-        .setAmountDue(BigDecimal.valueOf(80))
-        .setIssueDate(LocalDate.now());
+        .setId(TEST_ID)
+        .setInvoiceNumber(TEST_ID)
+        .setUser(new User().setId(TEST_ID))
+        .setRecipient(new RecipientDetails().setId(TEST_ID))
+        .setBankAccountPersist(new BankAccountPersist().setId(TEST_ID))
+        .setItems(List.of(new InvoiceItem().setId(TEST_ID)))
+        .setTotalAmount(INVOICE_TOTAL_AMOUNT)
+        .setVat(INVOICE_VAT)
+        .setAmountDue(INVOICE_AMOUNT_DUE)
+        .setIssueDate(TEST_DATE_NOW);
     
     when(mockRepository.findById(invoiceId)).thenReturn(Optional.of(invoice));
     
@@ -360,17 +364,17 @@ class InvoiceServiceImplTest {
     Assertions.assertEquals(result.getVat(), invoice.getVat());
     Assertions.assertEquals(result.getAmountDue(), invoice.getAmountDue());
     Assertions.assertEquals(result.getIssueDate(), invoice.getIssueDate());
-    verify(mockRepository, times(1)).findById(invoiceId);
+    verify(mockRepository).findById(invoiceId);
   }
   
   @Test
   void testFindByIdOrThrow_NotFound() {
-    Long invoiceId = 1L;
+    Long invoiceId = TEST_ID;
     
     when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
     
     assertThrows(NotFoundObjectException.class, () -> toTest.findByIdOrThrow(invoiceId));
-    verify(mockRepository, times(1)).findById(invoiceId);
+    verify(mockRepository).findById(invoiceId);
   }
 }
 

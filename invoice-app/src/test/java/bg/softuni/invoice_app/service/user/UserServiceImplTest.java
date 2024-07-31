@@ -29,25 +29,13 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import static bg.softuni.invoice_app.util.TestConstants.*;
 import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
-  private static final String TEST_EMAIL = "test@example.com";
-  private static final String TEST_PASSWORD = "password123";
-  private static final String TEST_COMPANY_NAME = "Test Company";
-  private static final String TEST_ADDRESS = "Test Address";
-  private static final String TEST_EIK = "1234567890";
-  private static final String TEST_VAT = "BG1234567890";
-  private static final String TEST_MANAGER = "Test Manager";
-  private static final String NEW_COMPANY_NAME = "New Company";
-  private static final String NEW_ADDRESS = "New Address";
-  private static final String NEW_EIK = "0987654321";
-  private static final String NEW_VAT = "BG0987654321";
-  private static final String NEW_MANAGER = "New Manager";
-  
   private UserServiceImpl toTest;
   
   @Mock
@@ -79,35 +67,35 @@ public class UserServiceImplTest {
     user.setEmail(TEST_EMAIL);
     user.setPassword(TEST_PASSWORD);
     user.setCompanyDetails(new CompanyDetails()
-        .setCompanyName(TEST_COMPANY_NAME)
-        .setAddress(TEST_ADDRESS)
-        .setEik(TEST_EIK)
-        .setVatNumber(TEST_VAT)
-        .setManager(TEST_MANAGER));
+        .setCompanyName(COMPANY_NAME)
+        .setAddress(COMPANY_ADDRESS)
+        .setEik(COMPANY_EIK)
+        .setVatNumber(COMPANY_VAT_NUMBER)
+        .setManager(COMPANY_MANAGER));
     
-    when(mockUserRepository.findByCompanyDetailsVatNumber(TEST_VAT)).thenReturn(Optional.of(user));
+    when(mockUserRepository.findByCompanyDetailsVatNumber(COMPANY_VAT_NUMBER)).thenReturn(Optional.of(user));
     
-    User result = toTest.getUserByCompanyVat(TEST_VAT);
+    User result = toTest.getUserByCompanyVat(COMPANY_VAT_NUMBER);
     
     assertNotNull(result);
     assertEquals(TEST_EMAIL, result.getEmail());
-    assertEquals(TEST_COMPANY_NAME, result.getCompanyDetails().getCompanyName());
-    assertEquals(TEST_ADDRESS, result.getCompanyDetails().getAddress());
-    assertEquals(TEST_EIK, result.getCompanyDetails().getEik());
-    assertEquals(TEST_VAT, result.getCompanyDetails().getVatNumber());
-    assertEquals(TEST_MANAGER, result.getCompanyDetails().getManager());
+    assertEquals(COMPANY_NAME, result.getCompanyDetails().getCompanyName());
+    assertEquals(COMPANY_ADDRESS, result.getCompanyDetails().getAddress());
+    assertEquals(COMPANY_EIK, result.getCompanyDetails().getEik());
+    assertEquals(COMPANY_VAT_NUMBER, result.getCompanyDetails().getVatNumber());
+    assertEquals(COMPANY_MANAGER, result.getCompanyDetails().getManager());
     
-    verify(mockUserRepository).findByCompanyDetailsVatNumber(TEST_VAT);
+    verify(mockUserRepository).findByCompanyDetailsVatNumber(COMPANY_VAT_NUMBER);
   }
   
   @Test
   void testGetUserByCompanyVat_NotFound() {
-    when(mockUserRepository.findByCompanyDetailsVatNumber(TEST_VAT)).thenReturn(Optional.empty());
+    when(mockUserRepository.findByCompanyDetailsVatNumber(COMPANY_VAT_NUMBER)).thenReturn(Optional.empty());
     
-    User result = toTest.getUserByCompanyVat(TEST_VAT);
+    User result = toTest.getUserByCompanyVat(COMPANY_VAT_NUMBER);
     
     assertNull(result);
-    verify(mockUserRepository).findByCompanyDetailsVatNumber(TEST_VAT);
+    verify(mockUserRepository).findByCompanyDetailsVatNumber(COMPANY_VAT_NUMBER);
   }
   @Test
   void testGetUserByCompanyEik_Found() {
@@ -115,35 +103,35 @@ public class UserServiceImplTest {
     user.setEmail(TEST_EMAIL);
     user.setPassword(TEST_PASSWORD);
     user.setCompanyDetails(new CompanyDetails()
-        .setCompanyName(TEST_COMPANY_NAME)
-        .setAddress(TEST_ADDRESS)
-        .setEik(TEST_EIK)
-        .setVatNumber(TEST_VAT)
-        .setManager(TEST_MANAGER));
+        .setCompanyName(COMPANY_NAME)
+        .setAddress(COMPANY_ADDRESS)
+        .setEik(COMPANY_EIK)
+        .setVatNumber(COMPANY_VAT_NUMBER)
+        .setManager(COMPANY_MANAGER));
     
-    when(mockUserRepository.findByCompanyDetailsEik(TEST_EIK)).thenReturn(Optional.of(user));
+    when(mockUserRepository.findByCompanyDetailsEik(COMPANY_EIK)).thenReturn(Optional.of(user));
     
-    User result = toTest.getUserByCompanyEik(TEST_EIK);
+    User result = toTest.getUserByCompanyEik(COMPANY_EIK);
     
     assertNotNull(result);
     assertEquals(TEST_EMAIL, result.getEmail());
-    assertEquals(TEST_COMPANY_NAME, result.getCompanyDetails().getCompanyName());
-    assertEquals(TEST_ADDRESS, result.getCompanyDetails().getAddress());
-    assertEquals(TEST_EIK, result.getCompanyDetails().getEik());
-    assertEquals(TEST_VAT, result.getCompanyDetails().getVatNumber());
-    assertEquals(TEST_MANAGER, result.getCompanyDetails().getManager());
+    assertEquals(COMPANY_NAME, result.getCompanyDetails().getCompanyName());
+    assertEquals(COMPANY_ADDRESS, result.getCompanyDetails().getAddress());
+    assertEquals(COMPANY_EIK, result.getCompanyDetails().getEik());
+    assertEquals(COMPANY_VAT_NUMBER, result.getCompanyDetails().getVatNumber());
+    assertEquals(COMPANY_MANAGER, result.getCompanyDetails().getManager());
     
-    verify(mockUserRepository).findByCompanyDetailsEik(TEST_EIK);
+    verify(mockUserRepository).findByCompanyDetailsEik(COMPANY_EIK);
   }
   
   @Test
   void testGetUserByCompanyEik_NotFound() {
-    when(mockUserRepository.findByCompanyDetailsEik(TEST_EIK)).thenReturn(Optional.empty());
+    when(mockUserRepository.findByCompanyDetailsEik(COMPANY_EIK)).thenReturn(Optional.empty());
     
-    User result = toTest.getUserByCompanyEik(TEST_EIK);
+    User result = toTest.getUserByCompanyEik(COMPANY_EIK);
     
     assertNull(result);
-    verify(mockUserRepository).findByCompanyDetailsEik(TEST_EIK);
+    verify(mockUserRepository).findByCompanyDetailsEik(COMPANY_EIK);
   }
   @Test
   void testGetUserByEmail_Found() {
@@ -151,11 +139,11 @@ public class UserServiceImplTest {
     user.setEmail(TEST_EMAIL);
     user.setPassword(TEST_PASSWORD);
     user.setCompanyDetails(new CompanyDetails()
-        .setCompanyName(TEST_COMPANY_NAME)
-        .setAddress(TEST_ADDRESS)
-        .setEik(TEST_EIK)
-        .setVatNumber(TEST_VAT)
-        .setManager(TEST_MANAGER));
+        .setCompanyName(COMPANY_NAME)
+        .setAddress(COMPANY_ADDRESS)
+        .setEik(COMPANY_EIK)
+        .setVatNumber(COMPANY_VAT_NUMBER)
+        .setManager(COMPANY_MANAGER));
     
     when(mockUserRepository.findByEmail(TEST_EMAIL)).thenReturn(Optional.of(user));
     
@@ -164,11 +152,11 @@ public class UserServiceImplTest {
     assertNotNull(result);
     assertEquals(TEST_EMAIL, result.getEmail());
     assertEquals(TEST_PASSWORD, result.getPassword());
-    assertEquals(TEST_COMPANY_NAME, result.getCompanyDetails().getCompanyName());
-    assertEquals(TEST_ADDRESS, result.getCompanyDetails().getAddress());
-    assertEquals(TEST_EIK, result.getCompanyDetails().getEik());
-    assertEquals(TEST_VAT, result.getCompanyDetails().getVatNumber());
-    assertEquals(TEST_MANAGER, result.getCompanyDetails().getManager());
+    assertEquals(COMPANY_NAME, result.getCompanyDetails().getCompanyName());
+    assertEquals(COMPANY_ADDRESS, result.getCompanyDetails().getAddress());
+    assertEquals(COMPANY_EIK, result.getCompanyDetails().getEik());
+    assertEquals(COMPANY_VAT_NUMBER, result.getCompanyDetails().getVatNumber());
+    assertEquals(COMPANY_MANAGER, result.getCompanyDetails().getManager());
     
     verify(mockUserRepository).findByEmail(TEST_EMAIL);
   }
