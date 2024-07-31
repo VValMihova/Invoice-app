@@ -29,8 +29,7 @@ public class Invoice {
   @JoinColumn(name = "recipient_id", nullable = false)
   private RecipientDetails recipient;
   
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "invoice_id")
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "invoice")
   private List<InvoiceItem> items;
   
   @Column(nullable = false)

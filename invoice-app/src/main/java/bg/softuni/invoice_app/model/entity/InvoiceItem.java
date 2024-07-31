@@ -24,6 +24,10 @@ public class InvoiceItem {
   @Column(nullable = false)
   private BigDecimal totalPrice;
   
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "invoice_id", nullable = false)
+  private Invoice invoice;
+  
   public InvoiceItem() {
   }
   
@@ -84,5 +88,14 @@ public class InvoiceItem {
     BigDecimal bd = BigDecimal.valueOf(value);
     bd = bd.setScale(places, RoundingMode.HALF_UP);
     return bd.doubleValue();
+  }
+  
+  public Invoice getInvoice() {
+    return invoice;
+  }
+  
+  public InvoiceItem setInvoice(Invoice invoice) {
+    this.invoice = invoice;
+    return this;
   }
 }

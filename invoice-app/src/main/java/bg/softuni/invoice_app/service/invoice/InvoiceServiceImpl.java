@@ -10,8 +10,12 @@ import bg.softuni.invoice_app.service.bankAccountPersist.BankAccountPersistServi
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.sale.SaleService;
 import bg.softuni.invoice_app.service.user.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   private final UserService userService;
   private final SaleService saleService;
   private final BankAccountPersistService bankAccountPersistService;
+  private final ApplicationEventPublisher eventPublisher;
   
   
   public InvoiceServiceImpl(
@@ -36,7 +41,7 @@ public class InvoiceServiceImpl implements InvoiceService {
       BankAccountService bankAccountService,
       UserService userService,
       SaleService saleService,
-      BankAccountPersistService bankAccountPersistService
+      BankAccountPersistService bankAccountPersistService, ApplicationEventPublisher eventPublisher
   ) {
     this.invoiceRepository = invoiceRepository;
     this.modelMapper = modelMapper;
@@ -45,6 +50,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     this.userService = userService;
     this.saleService = saleService;
     this.bankAccountPersistService = bankAccountPersistService;
+    this.eventPublisher = eventPublisher;
   }
   
   @Override
@@ -53,31 +59,31 @@ public class InvoiceServiceImpl implements InvoiceService {
         .stream().map(invoice -> modelMapper.map(invoice, AllInvoicesView.class))
         .toList();
   }
-
+  
   @Transactional
   @Override
   public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
     User currentUser = userService.getUser();
     Invoice invoice = invoiceRepository.findById(id)
         .orElseThrow(() -> new NotFoundObjectException("Invoice"));
-
+    
     invoice.setInvoiceNumber(invoiceData.getInvoiceNumber())
         .setIssueDate(invoiceData.getIssueDate())
         .setSupplier(userService.getCompanyDetails());
-
+    
     BankAccountView bankAccount = bankAccountService.getViewByIban(invoiceData.getBankAccountIban());
     BankAccountPersist accountPersist =
         bankAccountPersistService.add(bankAccount, currentUser);
     invoice.setBankAccountPersist(accountPersist);
-
+    
     List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems());
     invoice.getItems().clear();
     invoice.getItems().addAll(updatedItems);
-
+    
     invoice.setTotalAmount(invoiceData.getTotalAmount())
         .setVat(invoiceData.getVat())
         .setAmountDue(invoiceData.getAmountDue());
-
+    
     invoiceRepository.save(invoice);
     saleService.deleteAllByInvoiceId(invoice.getId());
     for (InvoiceItem updatedItem : updatedItems) {
@@ -97,13 +103,31 @@ public class InvoiceServiceImpl implements InvoiceService {
         .findByUserIdAndInvoiceNumber(userService.getCurrentUserId(), invoiceNumber)
         .isPresent();
   }
+
+//  @Override
+//  @Transactional
+//  public void deleteById(Long id) {
+//    Invoice invoice = findByIdOrThrow(id);
+//    saleService.deleteAllByInvoiceId(id);
+//    invoiceRepository.delete(invoice);
+//  }
   
-  @Override
+  private static final Logger logger = LoggerFactory.getLogger(InvoiceService.class);
+  
   @Transactional
-  public void deleteById(Long id) {
-    Invoice invoice = findByIdOrThrow(id);
-    saleService.deleteAllByInvoiceId(id);
+  public void deleteById(Long invoiceId) {
+    Invoice invoice = invoiceRepository.findById(invoiceId)
+        .orElseThrow(() -> new EntityNotFoundException("Invoice not found"));
+    
+    logger.info("Deleting invoice with ID: {}", invoice.getId());
+    
+    // Публикуване на събитие за изтриване на фактура
+    eventPublisher.publishEvent(new InvoiceDeletedEvent(this, invoice));
+    
+    // Изтриване на фактурата
     invoiceRepository.delete(invoice);
+    
+    logger.info("Deleted invoice with ID: {}", invoice.getId());
   }
   
   @Override
@@ -119,25 +143,25 @@ public class InvoiceServiceImpl implements InvoiceService {
         .setInvoiceNumber(invoiceData.getInvoiceNumber())
         .setIssueDate(invoiceData.getIssueDate())
         .setSupplier(userService.getCompanyDetails());
-
+    
     RecipientDetails recipient = recipientDetailsService.getById(clientId);
     invoice.setRecipient(recipient);
-
+    
     List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems());
     invoice.setItems(invoiceItems)
         .setTotalAmount(invoiceData.getTotalAmount())
         .setVat(invoiceData.getVat())
         .setAmountDue(invoiceData.getAmountDue());
-
+    
     BankAccountView bankAccount = bankAccountService.getViewByIban(invoiceData.getBankAccountIban());
     BankAccountPersist accountPersist = bankAccountPersistService.add(bankAccount, currentUser);
     invoice.setBankAccountPersist(accountPersist)
         .setUser(currentUser);
-
+    
     invoiceRepository.save(invoice);
     addSales(invoiceData, invoiceItems, currentUser);
   }
-
+  
   @Override
   public InvoiceEditDto convertToEditDto(InvoiceView invoiceView) {
     InvoiceEditDto dto = new InvoiceEditDto();
