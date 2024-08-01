@@ -103,14 +103,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         .findByUserIdAndInvoiceNumber(userService.getCurrentUserId(), invoiceNumber)
         .isPresent();
   }
-
-//  @Override
-//  @Transactional
-//  public void deleteById(Long id) {
-//    Invoice invoice = findByIdOrThrow(id);
-//    saleService.deleteAllByInvoiceId(id);
-//    invoiceRepository.delete(invoice);
-//  }
   
   private static final Logger logger = LoggerFactory.getLogger(InvoiceService.class);
   
@@ -121,10 +113,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     
     logger.info("Deleting invoice with ID: {}", invoice.getId());
     
-    // Публикуване на събитие за изтриване на фактура
     eventPublisher.publishEvent(new InvoiceDeletedEvent(this, invoice));
-    
-    // Изтриване на фактурата
+    saleService.deleteAllByInvoiceId(invoiceId);
     invoiceRepository.delete(invoice);
     
     logger.info("Deleted invoice with ID: {}", invoice.getId());

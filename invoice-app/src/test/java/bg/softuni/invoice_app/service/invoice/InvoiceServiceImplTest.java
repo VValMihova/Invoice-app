@@ -11,6 +11,7 @@ import bg.softuni.invoice_app.service.bankAccountPersist.BankAccountPersistServi
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.sale.SaleService;
 import bg.softuni.invoice_app.service.user.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +20,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +46,8 @@ class InvoiceServiceImplTest {
   SaleService mockSaleService;
   @Mock
   BankAccountPersistService mockBankAccountPersistService;
+  @Mock
+  private ApplicationEventPublisher mockEventPublisher;
   @InjectMocks
   private InvoiceServiceImpl toTest;
   
@@ -145,7 +147,6 @@ class InvoiceServiceImplTest {
     assertEquals(user, capturedInvoice.getUser());
   }
   
-  
   @Test
   void testDeleteById_Success() {
     Long invoiceId = TEST_ID;
@@ -158,7 +159,8 @@ class InvoiceServiceImplTest {
     verify(mockRepository).findById(invoiceId);
     verify(mockSaleService).deleteAllByInvoiceId(invoiceId);
     verify(mockRepository).delete(invoice);
-    verifyNoMoreInteractions(mockRepository, mockSaleService);
+    verify(mockEventPublisher).publishEvent(any(InvoiceDeletedEvent.class));
+    verifyNoMoreInteractions(mockRepository, mockSaleService, mockEventPublisher);
   }
   
   @Test
@@ -166,15 +168,15 @@ class InvoiceServiceImplTest {
     Long invoiceId = TEST_ID;
     when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
     
-    NotFoundObjectException exception = assertThrows(NotFoundObjectException.class, () -> toTest.deleteById(invoiceId));
-    assertEquals("Invoice", exception.getObjectType());
+    EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> toTest.deleteById(invoiceId));
+    assertEquals("Invoice not found", exception.getMessage());
     
     verify(mockRepository, times(1)).findById(invoiceId);
     verify(mockSaleService, never()).deleteAllByInvoiceId(invoiceId);
     verify(mockRepository, never()).delete(any(Invoice.class));
-    verifyNoMoreInteractions(mockRepository, mockSaleService);
+    verify(mockEventPublisher, never()).publishEvent(any(InvoiceDeletedEvent.class));
+    verifyNoMoreInteractions(mockRepository, mockSaleService, mockEventPublisher);
   }
-  
   
   @Test
   void testGetById_Found() {
