@@ -4,39 +4,42 @@
 <body>
 <nav th:replace="fragments/nav :: nav"></nav>
 <div class="container mt-5">
-  <h1 th:text="#{admin.panel}">Admin Panel</h1>
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered">
-      <thead>
-      <tr>
-        <th th:text="#{user.email}">Email</th>
-        <th th:text="#{user.companyName}">Company Name</th>
-        <th th:text="#{user.eik}">EIK</th>
-        <th th:text="#{user.role}">Role</th>
-        <th th:text="#{actions}">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="user : ${users}">
-        <td th:text="${user.email}">example@example.com</td>
-        <td th:text="${user.companyDetails.companyName}">Company Name</td>
-        <td th:text="${user.companyDetails.eik}">123456789</td>
-        <td th:text="${user.roles[0].name}">User</td>
-        <td>
-          <a class="btn btn-warning" th:href="@{/admin/deleted-invoices(userId=${user.id})}">View Deleted Invoices</a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div th:if="${users.hasPrevious()}">
-    <a th:href="@{/admin(page=${users.number - 1})}" class="btn btn-secondary">Previous</a>
-  </div>
-  <div th:if="${users.hasNext()}">
-    <a th:href="@{/admin(page=${users.number + 1})}" class="btn btn-secondary">Next</a>
+  <div class="invoices-container">
+    <h1 th:text="#{admin.panel}">Admin Panel</h1>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+          <th th:text="#{user.email}">Email</th>
+          <th th:text="#{user.companyName}">Company Name</th>
+          <th th:text="#{user.eik}">EIK</th>
+          <th th:text="#{user.role}">Role</th>
+          <th th:text="#{actions}">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+          <td th:text="${user.email}">example@example.com</td>
+          <td th:text="${user.companyDetails.companyName}">Company Name</td>
+          <td th:text="${user.companyDetails.eik}">123456789</td>
+          <td th:text="${user.roles[0].name}">User</td>
+          <td>
+            <a class="btn btn-sm btn-info" th:href="@{/admin/deleted-invoices(userId=${user.id})}"
+               th:text="#{actions.viewDeletedInvoices}">View Deleted Invoices</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:if="${users.hasPrevious()}">
+      <a th:href="@{/admin(page=${users.number - 1})}" class="btn btn-secondary">Previous</a>
+    </div>
+    <div th:if="${users.hasNext()}">
+      <a th:href="@{/admin(page=${users.number + 1})}" class="btn btn-secondary">Next</a>
+    </div>
   </div>
 </div>
-
 <footer th:replace="fragments/footer :: footer"></footer>
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
