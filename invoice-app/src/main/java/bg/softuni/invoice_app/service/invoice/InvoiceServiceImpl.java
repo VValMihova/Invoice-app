@@ -76,7 +76,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         bankAccountPersistService.add(bankAccount, currentUser);
     invoice.setBankAccountPersist(accountPersist);
     
-    List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems());
+    List<InvoiceItem> updatedItems = mapToInvoiceItems(invoiceData.getItems(), invoice);
     invoice.getItems().clear();
     invoice.getItems().addAll(updatedItems);
     
@@ -137,7 +137,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     RecipientDetails recipient = recipientDetailsService.getById(clientId);
     invoice.setRecipient(recipient);
     
-    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems());
+    List<InvoiceItem> invoiceItems = mapToInvoiceItems(invoiceData.getItems(), invoice);
     invoice.setItems(invoiceItems)
         .setTotalAmount(invoiceData.getTotalAmount())
         .setVat(invoiceData.getVat())
@@ -187,10 +187,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
   }
   
-  private List<InvoiceItem> mapToInvoiceItems(List<InvoiceItemDto> items) {
+  private List<InvoiceItem> mapToInvoiceItems(List<InvoiceItemDto> items, Invoice invoice) {
     List<InvoiceItem> invoiceItems = new ArrayList<>();
     for (InvoiceItemDto itemDto : items) {
-      InvoiceItem invoiceItem = modelMapper.map(itemDto, InvoiceItem.class);
+      InvoiceItem invoiceItem = modelMapper.map(itemDto, InvoiceItem.class).setInvoice(invoice);
       invoiceItems.add(invoiceItem);
     }
     return invoiceItems;

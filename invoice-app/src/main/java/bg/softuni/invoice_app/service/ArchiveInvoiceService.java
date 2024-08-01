@@ -35,8 +35,14 @@ public class ArchiveInvoiceService {
     ArchiveInvoice archiveInvoice = archiveInvoiceRepository.findById(invoiceId)
         .orElseThrow(() -> new EntityNotFoundException("Archive Invoice not found"));
     
+    Long invoiceNumber = archiveInvoice.getInvoiceNumber();
+    if (invoiceRepository.existsByInvoiceNumber(invoiceNumber)) {
+      Long maxInvoiceNumber = invoiceRepository.findMaxInvoiceNumber();
+      invoiceNumber = (maxInvoiceNumber != null) ? maxInvoiceNumber + 1L : 1L;
+    }
+    
     Invoice invoice = new Invoice();
-    invoice.setInvoiceNumber(archiveInvoice.getInvoiceNumber());
+    invoice.setInvoiceNumber(invoiceNumber);
     invoice.setIssueDate(archiveInvoice.getIssueDate());
     invoice.setSupplier(archiveInvoice.getSupplier());
     invoice.setRecipient(archiveInvoice.getRecipient());
