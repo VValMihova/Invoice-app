@@ -38,6 +38,11 @@ public class PdfGenerationService {
     try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
       ITextRenderer renderer = new ITextRenderer();
       renderer.setDocumentFromString(htmlContent);
+      renderer.getFontResolver()
+          .addFont("C:/Users/YOGA/repositories/Invoice-app/invoice-app/src/main/resources/fonts/verdana.ttf",
+              BaseFont.IDENTITY_H,
+              BaseFont.NOT_EMBEDDED
+          );
       renderer.layout();
       renderer.createPDF(byteArrayOutputStream);
       return byteArrayOutputStream.toByteArray();
