@@ -12,4 +12,6 @@ public interface SaleService {
   void deleteAllByInvoiceId(Long id);
   
   List<SaleReportDto> generateReport(ReportCriteria reportCriteria);
+  
+  List<Sale> findAllByInvoiceId(Long id);
 }

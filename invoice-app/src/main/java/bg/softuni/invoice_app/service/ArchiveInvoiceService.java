@@ -1,11 +1,10 @@
 package bg.softuni.invoice_app.service;
 
-import bg.softuni.invoice_app.model.entity.ArchiveInvoice;
-import bg.softuni.invoice_app.model.entity.ArchiveInvoiceItem;
-import bg.softuni.invoice_app.model.entity.Invoice;
-import bg.softuni.invoice_app.model.entity.InvoiceItem;
+import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.ArchiveInvoiceRepository;
+import bg.softuni.invoice_app.repository.ArchiveSaleRepository;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
+import bg.softuni.invoice_app.repository.SaleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +24,17 @@ public class ArchiveInvoiceService {
   @Autowired
   private InvoiceRepository invoiceRepository;
   
+  @Autowired
+  private ArchiveSaleRepository archiveSaleRepository;
+  
+  @Autowired
+  private SaleRepository saleRepository;
+  
   @Transactional
   public void restoreInvoice(Long invoiceId) {
     ArchiveInvoice archiveInvoice = archiveInvoiceRepository.findById(invoiceId)
         .orElseThrow(() -> new EntityNotFoundException("Archive Invoice not found"));
     
-    // Възстановяване на фактурата
     Invoice invoice = new Invoice();
     invoice.setInvoiceNumber(archiveInvoice.getInvoiceNumber());
     invoice.setIssueDate(archiveInvoice.getIssueDate());
@@ -56,8 +60,19 @@ public class ArchiveInvoiceService {
     
     invoiceRepository.save(invoice);
     
-    // Изтриване на архивната фактура
+    List<ArchiveSale> archiveSales = archiveSaleRepository.findAllByInvoiceId(invoiceId);
+    for (ArchiveSale archiveSale : archiveSales) {
+      Sale sale = new Sale();
+      sale.setProductName(archiveSale.getProductName());
+      sale.setQuantity(archiveSale.getQuantity());
+      sale.setSaleDate(archiveSale.getSaleDate());
+      sale.setInvoiceId(invoice.getId());
+      sale.setUser(invoice.getUser());
+      saleRepository.save(sale);
+    }
+    
     archiveInvoiceRepository.delete(archiveInvoice);
+    archiveSaleRepository.deleteAll(archiveSales);
   }
   
   @Transactional

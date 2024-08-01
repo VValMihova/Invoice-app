@@ -19,4 +19,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
          "FROM Sale s WHERE s.saleDate BETWEEN :startDate AND :endDate GROUP BY s.productName" +
          " ORDER BY s.productName DESC ")
   List<SaleReportDto> findSalesReport(LocalDate startDate, LocalDate endDate);
+  
+  List<Sale> findAllByInvoiceId(Long id);
 }

@@ -32,4 +32,9 @@ public class SaleServiceImpl implements SaleService {
   public List<SaleReportDto> generateReport(ReportCriteria criteria) {
     return saleRepository.findSalesReport(criteria.getStartDate(), criteria.getEndDate());
   }
+  
+  @Override
+  public List<Sale> findAllByInvoiceId(Long id) {
+    return saleRepository.findAllByInvoiceId(id);
+  }
 }
