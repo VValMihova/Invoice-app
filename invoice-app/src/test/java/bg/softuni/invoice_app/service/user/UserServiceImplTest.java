@@ -11,7 +11,6 @@ import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.role.RoleService;
-import bg.softuni.invoice_app.utils.SecurityUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,11 +19,13 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.Principal;
@@ -32,12 +33,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
-import static bg.softuni.invoice_app.util.TestConstants.*;
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -194,7 +190,7 @@ public class UserServiceImplTest {
     
     verify(mockUserRepository, never()).findByEmail(anyString());
   }
-
+  
   
   @Test
   void testUpdateCompany() {
@@ -299,7 +295,6 @@ public class UserServiceImplTest {
     verify(mockUserRepository).getById(TEST_ID);
     verify(mockModelMapper).map(companyDetails, CompanyDetailsView.class);
   }
-
   
   
   @Test

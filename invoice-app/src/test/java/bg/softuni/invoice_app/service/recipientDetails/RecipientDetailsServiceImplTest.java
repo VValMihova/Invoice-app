@@ -19,13 +19,13 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.Optional;
 
-import static bg.softuni.invoice_app.util.TestConstants.*;
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class RecipientDetailsServiceImplTest {
-
+  
   
   private RecipientDetailsService toTest;
   
@@ -45,6 +45,7 @@ public class RecipientDetailsServiceImplTest {
         mockModelMapper,
         mockUserService);
   }
+  
   @Test
   void testFindAll_Found() {
     Long userId = TEST_ID;
@@ -106,6 +107,7 @@ public class RecipientDetailsServiceImplTest {
     verify(mockRepository).findAllByUserId(userId);
     verifyNoMoreInteractions(mockRepository, mockModelMapper);
   }
+  
   @Test
   void testEdit() {
     Long recipientId = TEST_ID;
@@ -306,6 +308,7 @@ public class RecipientDetailsServiceImplTest {
         () -> toTest.findById(1000000000L)
     );
   }
+  
   @Test
   void testGetById_Found() {
     Long recipientId = TEST_ID;

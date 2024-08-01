@@ -14,7 +14,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
-import static bg.softuni.invoice_app.util.TestConstants.*;
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 

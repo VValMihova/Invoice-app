@@ -1,9 +1,8 @@
-package bg.softuni.invoice_app.util;
+package bg.softuni.invoice_app.utils;
 
 import bg.softuni.invoice_app.model.entity.BankAccountPersist;
 import bg.softuni.invoice_app.service.bankAccountPersist.BankAccountPersistService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
-import bg.softuni.invoice_app.utils.ScheduledJob;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

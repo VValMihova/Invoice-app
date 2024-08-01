@@ -2,7 +2,7 @@ package bg.softuni.invoice_app.utils;
 
 import org.junit.jupiter.api.Test;
 
-import static bg.softuni.invoice_app.util.TestConstants.EXPECTED_FORMATED_STRING;
+import static bg.softuni.invoice_app.TestConstants.EXPECTED_FORMATED_STRING;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InputFormatingTest {

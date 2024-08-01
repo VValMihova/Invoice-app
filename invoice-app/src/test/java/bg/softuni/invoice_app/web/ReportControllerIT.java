@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static bg.softuni.invoice_app.util.TestConstants.*;
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

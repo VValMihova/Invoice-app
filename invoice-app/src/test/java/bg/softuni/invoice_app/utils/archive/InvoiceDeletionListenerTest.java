@@ -1,11 +1,9 @@
-package bg.softuni.invoice_app.util.archive;
+package bg.softuni.invoice_app.utils.archive;
 
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.ArchiveInvoiceRepository;
 import bg.softuni.invoice_app.repository.ArchiveSaleRepository;
 import bg.softuni.invoice_app.service.sale.SaleService;
-import bg.softuni.invoice_app.utils.archive.InvoiceDeletedEvent;
-import bg.softuni.invoice_app.utils.archive.InvoiceDeletionListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static bg.softuni.invoice_app.util.TestConstants.*;
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.util;
+package bg.softuni.invoice_app;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

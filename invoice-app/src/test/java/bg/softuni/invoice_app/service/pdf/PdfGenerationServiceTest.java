@@ -1,6 +1,5 @@
 package bg.softuni.invoice_app.service.pdf;
 
-import bg.softuni.invoice_app.exeption.PdfGenerationException;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
@@ -15,8 +14,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.List;
 
-import static bg.softuni.invoice_app.util.TestConstants.TEST_ID;
-import static org.junit.jupiter.api.Assertions.*;
+import static bg.softuni.invoice_app.TestConstants.TEST_ID;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -55,6 +54,7 @@ public class PdfGenerationServiceTest {
     verify(invoiceService).getById(invoiceId);
     verify(templateEngine).process(anyString(), any(Context.class));
   }
+  
   @Test
   void testGenerateSalesReportPdf() throws Exception {
     List<SaleReportDto> reportData = List.of(new SaleReportDto(), new SaleReportDto());
@@ -66,5 +66,5 @@ public class PdfGenerationServiceTest {
     assertNotNull(pdfBytes);
     verify(templateEngine).process(anyString(), any(Context.class));
   }
-
+  
 }

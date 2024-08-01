@@ -12,9 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static bg.softuni.invoice_app.util.TestConstants.*;
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class CompanyDetailsServiceImplTest {
   
@@ -28,6 +29,7 @@ public class CompanyDetailsServiceImplTest {
   public void setUp() {
     toTest = new CompanyDetailsServiceImpl(mockCompanyDetailsRepository);
   }
+  
   @Test
   public void testAddWithRegistration_Success() {
     CompanyDetails newCompany = new CompanyDetails()
