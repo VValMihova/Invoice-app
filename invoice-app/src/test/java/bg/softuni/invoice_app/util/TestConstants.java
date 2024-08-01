@@ -49,6 +49,8 @@ public class TestConstants {
   
   // Test User Credentials
   public static final String TEST_EMAIL = "test@example.com";
+  public static final String TEST_EMAIL_2 = "user1@example.com";
+  public static final String TEST_EMAIL_3 = "user2@example.com";
   public static final String TEST_PASSWORD = "password";
   public static final String TEST_CONFIRM_PASSWORD = "password";
   

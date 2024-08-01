@@ -2,7 +2,7 @@ package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.entity.ArchiveInvoice;
 import bg.softuni.invoice_app.model.entity.User;
-import bg.softuni.invoice_app.service.ArchiveInvoiceService;
+import bg.softuni.invoice_app.service.archive.ArchiveInvoiceService;
 import bg.softuni.invoice_app.service.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

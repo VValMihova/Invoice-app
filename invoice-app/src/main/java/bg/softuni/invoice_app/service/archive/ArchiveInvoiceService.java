@@ -1,4 +1,4 @@
-package bg.softuni.invoice_app.service;
+package bg.softuni.invoice_app.service.archive;
 
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.ArchiveInvoiceRepository;
@@ -41,6 +41,26 @@ public class ArchiveInvoiceService {
       invoiceNumber = (maxInvoiceNumber != null) ? maxInvoiceNumber + 1L : 1L;
     }
     
+    Invoice invoice = getInvoice(invoiceNumber, archiveInvoice);
+    
+    invoiceRepository.save(invoice);
+    
+    List<ArchiveSale> archiveSales = archiveSaleRepository.findAllByInvoiceId(invoiceId);
+    for (ArchiveSale archiveSale : archiveSales) {
+      Sale sale = new Sale();
+      sale.setProductName(archiveSale.getProductName());
+      sale.setQuantity(archiveSale.getQuantity());
+      sale.setSaleDate(archiveSale.getSaleDate());
+      sale.setInvoiceId(invoice.getId());
+      sale.setUser(invoice.getUser());
+      saleRepository.save(sale);
+    }
+    
+    archiveInvoiceRepository.delete(archiveInvoice);
+    archiveSaleRepository.deleteAll(archiveSales);
+  }
+  
+  private static Invoice getInvoice(Long invoiceNumber, ArchiveInvoice archiveInvoice) {
     Invoice invoice = new Invoice();
     invoice.setInvoiceNumber(invoiceNumber);
     invoice.setIssueDate(archiveInvoice.getIssueDate());
@@ -63,22 +83,7 @@ public class ArchiveInvoiceService {
       items.add(item);
     }
     invoice.setItems(items);
-    
-    invoiceRepository.save(invoice);
-    
-    List<ArchiveSale> archiveSales = archiveSaleRepository.findAllByInvoiceId(invoiceId);
-    for (ArchiveSale archiveSale : archiveSales) {
-      Sale sale = new Sale();
-      sale.setProductName(archiveSale.getProductName());
-      sale.setQuantity(archiveSale.getQuantity());
-      sale.setSaleDate(archiveSale.getSaleDate());
-      sale.setInvoiceId(invoice.getId());
-      sale.setUser(invoice.getUser());
-      saleRepository.save(sale);
-    }
-    
-    archiveInvoiceRepository.delete(archiveInvoice);
-    archiveSaleRepository.deleteAll(archiveSales);
+    return invoice;
   }
   
   @Transactional

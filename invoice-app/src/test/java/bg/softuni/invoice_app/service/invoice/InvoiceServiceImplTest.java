@@ -11,6 +11,7 @@ import bg.softuni.invoice_app.service.bankAccountPersist.BankAccountPersistServi
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.sale.SaleService;
 import bg.softuni.invoice_app.service.user.UserService;
+import bg.softuni.invoice_app.utils.archive.InvoiceDeletedEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

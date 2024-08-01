@@ -123,6 +123,9 @@ public class UserServiceImpl implements UserService {
       return null;
     }
     User userByEmail = this.getUserByEmail(currentUser.getName());
+    if (userByEmail == null) {
+      return null;
+    }
     return userByEmail.getId();
   }
   
