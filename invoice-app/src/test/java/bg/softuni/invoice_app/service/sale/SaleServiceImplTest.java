@@ -2,6 +2,7 @@ package bg.softuni.invoice_app.service.sale;
 
 import bg.softuni.invoice_app.model.dto.report.ReportCriteria;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
+import bg.softuni.invoice_app.model.entity.Sale;
 import bg.softuni.invoice_app.repository.SaleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,57 @@ public class SaleServiceImplTest {
   void setUp() {
     toTest = new SaleServiceImpl(mockSaleRepository);
   }
+  
+  @Test
+  void testFindAllByInvoiceId() {
+    Long invoiceId = TEST_ID;
+    List<Sale> expectedSales = Arrays.asList(
+        new Sale()
+            .setProductName(INVOICE_ITEM_1_NAME)
+            .setQuantity(ITEM_QUANTITY)
+            .setSaleDate(TEST_DATE_NOW)
+            .setInvoiceId(invoiceId),
+        new Sale()
+            .setProductName(INVOICE_ITEM_2_NAME)
+            .setQuantity(ITEM_QUANTITY)
+            .setSaleDate(TEST_DATE_NOW)
+            .setInvoiceId(invoiceId)
+    );
+    
+    when(mockSaleRepository.findAllByInvoiceId(invoiceId)).thenReturn(expectedSales);
+    
+    List<Sale> result = toTest.findAllByInvoiceId(invoiceId);
+    
+    assertEquals(expectedSales.size(), result.size());
+    assertEquals(expectedSales.get(0).getProductName(), result.get(0).getProductName());
+    assertEquals(expectedSales.get(1).getProductName(), result.get(1).getProductName());
+    
+    verify(mockSaleRepository).findAllByInvoiceId(invoiceId);
+  }
+  
+  @Test
+  void testDeleteAllByInvoiceId() {
+    Long invoiceId = TEST_ID;
+    
+    toTest.deleteAllByInvoiceId(invoiceId);
+    
+    verify(mockSaleRepository).deleteAllByInvoiceId(invoiceId);
+  }
+  
+  @Test
+  void testSave() {
+    Sale sale = new Sale();
+    sale.setProductName(INVOICE_ITEM_1_NAME);
+    sale.setQuantity(ITEM_QUANTITY);
+    sale.setSaleDate(TEST_DATE_NOW);
+    sale.setInvoiceId(TEST_ID);
+    sale.setUser(null);
+    
+    toTest.save(sale);
+    
+    verify(mockSaleRepository).save(sale);
+  }
+  
   
   @Test
   void testGenerateReport() {
