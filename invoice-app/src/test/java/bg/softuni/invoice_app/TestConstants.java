@@ -83,6 +83,7 @@ public class TestConstants {
   public static final Long TEST_ID_2 = 2L;
   public static final Long INVOICE_NUMBER = 123L;
   public static final Long NON_EXIST_USER_ID = 1000000L;
+  public static final String TEST_UUID = "123e4567-e89b-12d3-a456-426614174000";
   
   // Test Dates
   public static final LocalDate TEST_DATE_NOW = LocalDate.now();
@@ -121,5 +122,42 @@ public class TestConstants {
   
   // Formating
   public static final String EXPECTED_FORMATED_STRING = "HELLO WORLD";
+  
+  //  Attributes
+  public static final String ATTRIBUTE_COMPANY_NAME = "companyName";
+  public static final String ATTRIBUTE_INVOICES = "invoices";
+  public static final String ATTRIBUTE_INVOICE = "invoice";
+  public static final String ATTRIBUTE_INVOICE_DATA = "invoiceData";
+  public static final String ATTRIBUTE_BANK_ACCOUNTS = "bankAccounts";
+  public static final String ATTRIBUTE_RECIPIENT = "recipient";
+  public static final String ATTRIBUTE_COMPANY_DETAILS = "companyDetails";
+  public static final String ATTRIBUTE_BANK_ACCOUNT_DATA = "bankAccountData";
+  public static final String ATTRIBUTE_BANK_ACCOUNT_DATA_EDIT = "bankAccountDataEdit";
+  public static final String ATTRIBUTE_BINDING_RESULT = "org.springframework.validation.BindingResult.";
+  public static final String ATTRIBUTE_USERS = "users";
+  public static final String ATTRIBUTE_DELETED_INVOICES = "deletedInvoices";
+  public static final String ATTRIBUTE_USER_ID = "userId";
+  
+  //  Views
+  public static final String VIEW_INDEX = "index";
+  public static final String VIEW_INVOICES = "invoices";
+  public static final String VIEW_INVOICE_VIEW = "invoice-view";
+  public static final String VIEW_INVOICE_EDIT = "invoice-edit";
+  public static final String VIEW_INVOICE_CREATE_WITH_CLIENT = "invoice-create-with-client";
+  public static final String VIEW_USER_PROFILE = "user-profile";
+  public static final String VIEW_COMPANY_EDIT = "company-edit";
+  public static final String VIEW_BANK_ACCOUNT_ADD = "bank-account-add";
+  public static final String VIEW_BANK_ACCOUNT_EDIT = "bank-account-edit";
+  public static final String VIEW_ADMIN = "admin";
+  public static final String VIEW_ADMIN_DELETED_INVOICES = "admin-deleted-invoices";
+  
+  
+  // Redirect URLs
+  public static final String REDIRECT_PROFILE = "redirect:/profile";
+  public static final String REDIRECT_PROFILE_ADD_BANK_ACCOUNT = "redirect:/profile/add-bank-account";
+  public static final String PATH_ADMIN = "/admin";
+  public static final String PATH_ADMIN_DELETED_INVOICES = "/admin/deleted-invoices";
+  public static final String PATH_ADMIN_RESTORE_INVOICE = "/admin/restore-invoice/{invoiceId}";
+  public static final String REDIRECT_ADMIN_DELETED_INVOICES = "redirect:/admin/deleted-invoices?userId=";
 }
 

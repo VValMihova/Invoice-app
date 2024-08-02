@@ -24,6 +24,9 @@ public class BankAccountEditBindingDto {
   @Size(min = 3, max = 3, message = "{bank.account.currency.length}")
   private String currency;
   
+  public BankAccountEditBindingDto() {
+  }
+  
   public String getIban() {
     return iban;
   }
