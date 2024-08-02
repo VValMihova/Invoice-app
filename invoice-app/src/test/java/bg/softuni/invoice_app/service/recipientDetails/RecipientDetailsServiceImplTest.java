@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.recipientDetails;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
+import bg.softuni.invoice_app.exeption.RecipientNotFoundException;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsEdit;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
@@ -100,13 +101,14 @@ public class RecipientDetailsServiceImplTest {
     when(mockUserService.getCurrentUserId()).thenReturn(userId);
     when(mockRepository.findAllByUserId(userId)).thenReturn(Optional.empty());
     
-    NotFoundObjectException exception = assertThrows(NotFoundObjectException.class, () -> toTest.findAll());
-    assertEquals("Recipient", exception.getObjectType());
+    RecipientNotFoundException exception = assertThrows(RecipientNotFoundException.class, () -> toTest.findAll());
+    assertEquals(ErrorMessages.RECIPIENT_NOT_FOUND, exception.getMessage());
     
     verify(mockUserService).getCurrentUserId();
     verify(mockRepository).findAllByUserId(userId);
     verifyNoMoreInteractions(mockRepository, mockModelMapper);
   }
+  
   
   @Test
   void testEdit() {
@@ -150,7 +152,8 @@ public class RecipientDetailsServiceImplTest {
     
     when(mockRepository.findById(recipientId)).thenReturn(Optional.empty());
     
-    assertThrows(NotFoundObjectException.class, () -> toTest.edit(editDto, recipientId));
+    RecipientNotFoundException exception = assertThrows(RecipientNotFoundException.class, () -> toTest.edit(editDto, recipientId));
+    assertEquals(ErrorMessages.RECIPIENT_NOT_FOUND, exception.getMessage());
     
     verify(mockRepository).findById(recipientId);
     verify(mockRepository, never()).save(any(RecipientDetails.class));
@@ -303,10 +306,14 @@ public class RecipientDetailsServiceImplTest {
   
   @Test
   public void testFindById_NotFound() {
-    Assertions.assertThrows(
-        NotFoundObjectException.class,
-        () -> toTest.findById(1000000000L)
-    );
+    Long nonExistentId = NON_EXIST_USER_ID;
+    
+    when(mockRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+    
+    RecipientNotFoundException exception = assertThrows(RecipientNotFoundException.class,
+        () -> toTest.findById(nonExistentId));
+    assertEquals(ErrorMessages.RECIPIENT_NOT_FOUND, exception.getMessage());
+    
   }
   
   @Test
@@ -341,10 +348,11 @@ public class RecipientDetailsServiceImplTest {
     Long nonExistRecipientId = TEST_ID;
     when(mockRepository.findById(nonExistRecipientId)).thenReturn(Optional.empty());
     
-    NotFoundObjectException exception = assertThrows(NotFoundObjectException.class,
+    RecipientNotFoundException exception = assertThrows(RecipientNotFoundException.class,
         () -> toTest.getById(nonExistRecipientId));
-    assertEquals("Recipient", exception.getObjectType());
+    assertEquals(ErrorMessages.RECIPIENT_NOT_FOUND, exception.getMessage());
     
     verify(mockRepository).findById(nonExistRecipientId);
   }
+
 }

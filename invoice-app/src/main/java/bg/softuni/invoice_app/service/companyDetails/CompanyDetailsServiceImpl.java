@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.companyDetails;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.exeption.CompanyNotFoundException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
@@ -43,7 +44,7 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
   @Override
   public CompanyDetails update(Long id, CompanyDetailsEditBindingDto companyData) {
     CompanyDetails existingCompany = this.companyDetailsRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Company"));
+        .orElseThrow(() -> new CompanyNotFoundException(ErrorMessages.COMPANY_NOT_FOUND));
     
     existingCompany.setCompanyName(companyData.getCompanyName())
         .setAddress(companyData.getAddress())

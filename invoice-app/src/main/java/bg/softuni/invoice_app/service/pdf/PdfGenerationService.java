@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.service.pdf;
 
+import bg.softuni.invoice_app.exeption.ErrorMessages;
 import bg.softuni.invoice_app.exeption.PdfGenerationException;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
@@ -47,7 +48,7 @@ public class PdfGenerationService {
       renderer.createPDF(byteArrayOutputStream);
       return byteArrayOutputStream.toByteArray();
     } catch (Exception e) {
-      throw new PdfGenerationException("Pdf");
+      throw new PdfGenerationException(ErrorMessages.PDF_GENERATION_FAILED, e);
     }
   }
   
@@ -71,7 +72,7 @@ public class PdfGenerationService {
       renderer.createPDF(byteArrayOutputStream);
       return byteArrayOutputStream.toByteArray();
     } catch (Exception e) {
-      throw new PdfGenerationException("Pdf");
+      throw new PdfGenerationException(ErrorMessages.PDF_GENERATION_FAILED, e);
     }
   }
 }

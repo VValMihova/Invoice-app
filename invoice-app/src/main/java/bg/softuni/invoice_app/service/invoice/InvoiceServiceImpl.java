@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.invoice;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
+import bg.softuni.invoice_app.exeption.InvoiceNotFoundException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.entity.*;
@@ -11,7 +12,6 @@ import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.sale.SaleService;
 import bg.softuni.invoice_app.service.user.UserService;
 import bg.softuni.invoice_app.utils.archive.InvoiceDeletedEvent;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -66,7 +66,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   public void updateInvoice(Long id, InvoiceEditDto invoiceData) {
     User currentUser = userService.getUser();
     Invoice invoice = invoiceRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
+        .orElseThrow(() -> new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND));
     
     invoice.setInvoiceNumber(invoiceData.getInvoiceNumber())
         .setIssueDate(invoiceData.getIssueDate())
@@ -110,7 +110,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   @Transactional
   public void deleteById(Long invoiceId) {
     Invoice invoice = invoiceRepository.findById(invoiceId)
-        .orElseThrow(() -> new EntityNotFoundException("Invoice not found"));
+        .orElseThrow(() -> new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND));
     
     logger.info("Deleting invoice with ID: {}", invoice.getId());
     
@@ -199,6 +199,6 @@ public class InvoiceServiceImpl implements InvoiceService {
   
   protected Invoice findByIdOrThrow(Long id) {
     return this.invoiceRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Invoice"));
+        .orElseThrow(() -> new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND));
   }
 }

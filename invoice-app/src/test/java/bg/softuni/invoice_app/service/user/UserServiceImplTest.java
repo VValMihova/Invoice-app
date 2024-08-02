@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.user;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
+import bg.softuni.invoice_app.exeption.UserNotFoundException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
@@ -98,11 +99,12 @@ public class UserServiceImplTest {
     when(mockUserRepository.findById(TEST_ID)).thenReturn(Optional.empty());
     when(toTest.getCurrentUserId()).thenReturn(TEST_ID);
     
-    NotFoundObjectException exception = assertThrows(NotFoundObjectException.class, () -> toTest.getUser());
+    UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> toTest.getUser());
     
-    assertEquals("User", exception.getObjectType());
+    assertEquals(ErrorMessages.USER_NOT_FOUND, exception.getMessage());
     verify(mockUserRepository).findById(TEST_ID);
   }
+
   
   @Test
   void testFindAllExceptCurrent() {
@@ -247,9 +249,9 @@ public class UserServiceImplTest {
   void testFindById_NotFound() {
     when(mockUserRepository.findById(TEST_ID)).thenReturn(Optional.empty());
     
-    NotFoundObjectException exception = assertThrows(NotFoundObjectException.class, () -> toTest.findById(TEST_ID));
+    UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> toTest.findById(TEST_ID));
     
-    assertEquals("User", exception.getObjectType());
+    assertEquals(ErrorMessages.USER_NOT_FOUND, exception.getMessage());
     verify(mockUserRepository).findById(TEST_ID);
   }
   

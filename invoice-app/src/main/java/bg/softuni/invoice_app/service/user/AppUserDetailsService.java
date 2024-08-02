@@ -1,5 +1,7 @@
 package bg.softuni.invoice_app.service.user;
 
+import bg.softuni.invoice_app.exeption.ErrorMessages;
+import bg.softuni.invoice_app.exeption.UserNotFoundException;
 import bg.softuni.invoice_app.model.entity.Role;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.model.enums.RoleName;
@@ -25,8 +27,8 @@ public class AppUserDetailsService implements org.springframework.security.core.
     return userRepository
         .findByEmail(email)
         .map(this::mapToUserDetails)
-        .orElseThrow(() -> new UsernameNotFoundException(
-            "User with email " + email + " not found!"));
+        .orElseThrow(() -> new UserNotFoundException(
+            String.format(ErrorMessages.USER_WITH_EMAIL_NOT_FOUND, email)));
   }
   
   private UserDetails mapToUserDetails(User user) {

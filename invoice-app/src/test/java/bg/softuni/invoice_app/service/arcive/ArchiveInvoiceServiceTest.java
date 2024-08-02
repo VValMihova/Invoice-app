@@ -1,5 +1,7 @@
 package bg.softuni.invoice_app.service.arcive;
 
+import bg.softuni.invoice_app.exeption.ArchiveInvoiceNotFoundException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.ArchiveInvoiceRepository;
 import bg.softuni.invoice_app.repository.ArchiveSaleRepository;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static bg.softuni.invoice_app.TestConstants.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -87,9 +90,13 @@ public class ArchiveInvoiceServiceTest {
   void testRestoreInvoice_InvoiceNotFound() {
     when(mockArchiveInvoiceRepository.findById(archiveInvoice.getId())).thenReturn(Optional.empty());
     
-    assertThrows(EntityNotFoundException.class, () -> toTest.restoreInvoice(archiveInvoice.getId()));
+    ArchiveInvoiceNotFoundException exception = assertThrows(ArchiveInvoiceNotFoundException.class,
+        () -> toTest.restoreInvoice(archiveInvoice.getId()));
+    
+    assertEquals(ErrorMessages.ARCHIVE_INVOICE_NOT_FOUND, exception.getMessage());
     
     verify(mockArchiveInvoiceRepository).findById(archiveInvoice.getId());
     verifyNoMoreInteractions(mockInvoiceRepository, mockArchiveSaleRepository, mockSaleRepository);
   }
+
 }

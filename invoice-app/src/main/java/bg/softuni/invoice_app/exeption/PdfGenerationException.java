@@ -6,14 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class PdfGenerationException extends RuntimeException {
   
-  private final String objectType;
-  
-  public String getObjectType() {
-    return objectType;
+  public PdfGenerationException(String message) {
+    super(message);
   }
   
-  public PdfGenerationException(String objectType) {
-    this.objectType = objectType;
+  public PdfGenerationException(String message, Throwable cause) {
+    super(message, cause);
   }
-  
 }

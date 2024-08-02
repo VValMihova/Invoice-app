@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.recipientDetails;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
+import bg.softuni.invoice_app.exeption.RecipientNotFoundException;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsEdit;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
@@ -41,7 +42,7 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
     if (recipientDetailsList.isPresent()) {
       return recipientDetailsList.get().stream().map(recipientDetails -> modelMapper.map(recipientDetails, RecipientDetailsView.class)).toList();
     } else {
-      throw new NotFoundObjectException("Recipient");
+      throw new RecipientNotFoundException(ErrorMessages.RECIPIENT_NOT_FOUND);
     }
   }
   
@@ -49,13 +50,13 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
   public RecipientDetailsView findById(Long id) {
     return this.recipientDetailsRepository.findById(id)
         .map(recipientDetails -> modelMapper.map(recipientDetails, RecipientDetailsView.class))
-        .orElseThrow(() -> new NotFoundObjectException("Recipient"));
+        .orElseThrow(() -> new RecipientNotFoundException(ErrorMessages.RECIPIENT_NOT_FOUND));
   }
   
   @Override
   public RecipientDetails getById(Long id) {
     return this.recipientDetailsRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Recipient"));
+        .orElseThrow(() -> new RecipientNotFoundException(ErrorMessages.RECIPIENT_NOT_FOUND));
   }
   
   @Override
@@ -68,7 +69,7 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
   @Override
   public void edit(RecipientDetailsEdit recipientDetailsEdit, Long id) {
     RecipientDetails recipientDetails = recipientDetailsRepository.findById(id)
-        .orElseThrow(() -> new NotFoundObjectException("Recipient"));
+        .orElseThrow(() -> new RecipientNotFoundException(ErrorMessages.RECIPIENT_NOT_FOUND));
     recipientDetails.setCompanyName(recipientDetailsEdit.getCompanyName())
         .setAddress(recipientDetailsEdit.getAddress())
         .setEik(recipientDetailsEdit.getEik())

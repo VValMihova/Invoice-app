@@ -1,11 +1,12 @@
 package bg.softuni.invoice_app.service.archive;
 
+import bg.softuni.invoice_app.exeption.ArchiveInvoiceNotFoundException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.ArchiveInvoiceRepository;
 import bg.softuni.invoice_app.repository.ArchiveSaleRepository;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.repository.SaleRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Service
 public class ArchiveInvoiceService {
-  
+//  todo change
   @Autowired
   private ArchiveInvoiceRepository archiveInvoiceRepository;
   
@@ -33,7 +34,7 @@ public class ArchiveInvoiceService {
   @Transactional
   public void restoreInvoice(Long invoiceId) {
     ArchiveInvoice archiveInvoice = archiveInvoiceRepository.findById(invoiceId)
-        .orElseThrow(() -> new EntityNotFoundException("Archive Invoice not found"));
+        .orElseThrow(() -> new ArchiveInvoiceNotFoundException(ErrorMessages.ARCHIVE_INVOICE_NOT_FOUND));
     
     Long invoiceNumber = archiveInvoice.getInvoiceNumber();
     if (invoiceRepository.existsByInvoiceNumber(invoiceNumber)) {

@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.companyDetails;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.exeption.CompanyNotFoundException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.repository.CompanyDetailsRepository;
@@ -92,9 +93,9 @@ public class CompanyDetailsServiceImplTest {
     Long nonExist = TEST_ID;
     when(mockCompanyDetailsRepository.findById(nonExist)).thenReturn(Optional.empty());
     
-    NotFoundObjectException exception = assertThrows(NotFoundObjectException.class,
+    CompanyNotFoundException exception = assertThrows(CompanyNotFoundException.class,
         () -> toTest.update(nonExist, new CompanyDetailsEditBindingDto()));
-    assertEquals("Company", exception.getObjectType());
+    assertEquals(ErrorMessages.COMPANY_NOT_FOUND, exception.getMessage());
     
     verify(mockCompanyDetailsRepository).findById(nonExist);
     verify(mockCompanyDetailsRepository, never()).save(any(CompanyDetails.class));

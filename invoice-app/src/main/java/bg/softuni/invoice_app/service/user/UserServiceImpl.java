@@ -1,14 +1,15 @@
 package bg.softuni.invoice_app.service.user;
 
 import bg.softuni.invoice_app.exeption.DatabaseException;
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
+import bg.softuni.invoice_app.exeption.RoleNotFoundException;
+import bg.softuni.invoice_app.exeption.UserNotFoundException;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
 import bg.softuni.invoice_app.model.dto.user.UserRegisterBindingDto;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.Role;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.model.enums.RoleName;
-import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
 import bg.softuni.invoice_app.repository.UserRepository;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.role.RoleService;
@@ -18,7 +19,6 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
   
   private User registerUser(UserRegisterBindingDto registerData) {
     Role userRole = roleService.getRole(RoleName.USER)
-        .orElseThrow(() -> new NotFoundObjectException("Role"));
+        .orElseThrow(() -> new RoleNotFoundException(ErrorMessages.ROLE_NOT_FOUND));
     
     return userRepository.save(new User()
         .setEmail(registerData.getEmail())
@@ -132,7 +131,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User getUser() {
     return this.userRepository.findById(getCurrentUserId())
-        .orElseThrow(() -> new NotFoundObjectException("User"));
+        .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND));
   }
   
   @Override
@@ -145,6 +144,6 @@ public class UserServiceImpl implements UserService {
   @Override
   public User findById(Long userId) {
     return this.userRepository.findById(userId)
-        .orElseThrow(()-> new NotFoundObjectException("User"));
+        .orElseThrow(()-> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND));
   }
 }

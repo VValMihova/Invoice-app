@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.service.invoice;
 
-import bg.softuni.invoice_app.exeption.NotFoundObjectException;
+import bg.softuni.invoice_app.exeption.ErrorMessages;
+import bg.softuni.invoice_app.exeption.InvoiceNotFoundException;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.invoice.*;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
@@ -56,6 +57,29 @@ class InvoiceServiceImplTest {
   public void setUp() {
     MockitoAnnotations.openMocks(this);
   }
+  
+  @Test
+  void testGetById_NotFound() {
+    Long invoiceId = TEST_ID;
+    when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
+    
+    InvoiceNotFoundException exception = assertThrows(InvoiceNotFoundException.class, () -> toTest.getById(invoiceId));
+    assertEquals(ErrorMessages.INVOICE_NOT_FOUND, exception.getMessage());
+    
+    verify(mockRepository, times(1)).findById(invoiceId);
+  }
+  @Test
+  void testFindByIdOrThrow_NotFound() {
+    Long invoiceId = TEST_ID;
+    
+    when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
+    
+    InvoiceNotFoundException exception = assertThrows(InvoiceNotFoundException.class, () -> toTest.findByIdOrThrow(invoiceId));
+    assertEquals(ErrorMessages.INVOICE_NOT_FOUND, exception.getMessage());
+    
+    verify(mockRepository).findById(invoiceId);
+  }
+  
   
   @Test
   void testConvertToEditDto() {
@@ -169,8 +193,8 @@ class InvoiceServiceImplTest {
     Long invoiceId = TEST_ID;
     when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
     
-    EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> toTest.deleteById(invoiceId));
-    assertEquals("Invoice not found", exception.getMessage());
+    InvoiceNotFoundException exception = assertThrows(InvoiceNotFoundException.class, () -> toTest.deleteById(invoiceId));
+    assertEquals(ErrorMessages.INVOICE_NOT_FOUND, exception.getMessage());
     
     verify(mockRepository, times(1)).findById(invoiceId);
     verify(mockSaleService, never()).deleteAllByInvoiceId(invoiceId);
@@ -178,6 +202,7 @@ class InvoiceServiceImplTest {
     verify(mockEventPublisher, never()).publishEvent(any(InvoiceDeletedEvent.class));
     verifyNoMoreInteractions(mockRepository, mockSaleService, mockEventPublisher);
   }
+
   
   @Test
   void testGetById_Found() {
@@ -214,15 +239,6 @@ class InvoiceServiceImplTest {
     verify(mockRepository, times(1)).findById(invoiceId);
   }
   
-  
-  @Test
-  void testGetById_NotFound() {
-    Long invoiceId = TEST_ID;
-    when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
-    
-    assertThrows(NotFoundObjectException.class, () -> toTest.getById(invoiceId));
-    verify(mockRepository, times(1)).findById(invoiceId);
-  }
   
   @Test
   void testUpdateInvoice() {
@@ -370,14 +386,5 @@ class InvoiceServiceImplTest {
     verify(mockRepository).findById(invoiceId);
   }
   
-  @Test
-  void testFindByIdOrThrow_NotFound() {
-    Long invoiceId = TEST_ID;
-    
-    when(mockRepository.findById(invoiceId)).thenReturn(Optional.empty());
-    
-    assertThrows(NotFoundObjectException.class, () -> toTest.findByIdOrThrow(invoiceId));
-    verify(mockRepository).findById(invoiceId);
-  }
 }
 
