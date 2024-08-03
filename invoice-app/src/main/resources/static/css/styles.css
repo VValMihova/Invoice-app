@@ -47,12 +47,13 @@ body {
 }
 
 .form-container,
-.invoice-details{
+.invoice-details {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 60%;
     margin: 0 auto;
 }
-.card{
+
+.card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
 }
@@ -63,7 +64,7 @@ body {
     font-size: 1.5em;
 }
 
-.card-title{
+.card-title {
     margin-bottom: 20px;
     font-size: 1.8em;
     font-weight: bold;
@@ -166,6 +167,21 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
 }
+
 .push {
     height: 4.2rem;
+}
+
+.align-end {
+    display: flex;
+    align-items: flex-end;
+}
+
+.btn-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.btn-wrapper .btn {
+    margin-right: 10px;
 }

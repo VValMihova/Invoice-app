@@ -93,4 +93,11 @@ public class RecipientDetailsServiceImpl implements RecipientDetailsService {
   public boolean existsByEik(String eik) {
     return recipientDetailsRepository.existsByEik(eik);
   }
+  
+  @Override
+  public List<RecipientDetailsView> searchClients(String companyName, String eik) {
+    return recipientDetailsRepository.findAllByUserIdAndCriteria(userService.getCurrentUserId(), companyName, eik)
+        .stream().map(recipientDetails -> modelMapper.map(recipientDetails, RecipientDetailsView.class))
+        .toList();
+  }
 }

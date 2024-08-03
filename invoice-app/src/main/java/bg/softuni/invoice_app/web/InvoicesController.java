@@ -47,22 +47,15 @@ public class InvoicesController {
     this.userService = userService;
   }
   
-  
-//  @GetMapping
-//  public String viewInvoices(Model model) {
-//    model.addAttribute("invoices", invoiceService.getAllInvoices());
-//    return "invoices";
-//  }
-  
   @GetMapping
-  public String viewInvoices(@RequestParam(value = "recipient", required = false) String recipient,
-                             @RequestParam(value = "issueDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDate,
-                             Model model) {
+  public String viewInvoices(
+      @RequestParam(value = "recipient", required = false) String recipient,
+      @RequestParam(value = "issueDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDate,
+      Model model) {
     List<AllInvoicesView> invoices = invoiceService.searchInvoices(recipient, issueDate);
     model.addAttribute("invoices", invoices);
     return "invoices";
   }
-  
   
   @GetMapping("/view/{id}")
   public String viewInvoice(@PathVariable Long id, Model model) {

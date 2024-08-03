@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,11 +26,14 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
   
   @Query("SELECT MAX(i.invoiceNumber) FROM Invoice i")
   Long findMaxInvoiceNumber();
-  @Query("SELECT i FROM Invoice i WHERE i.user.id = :userId AND " +
-         "(:recipient IS NULL OR i.recipient.companyName LIKE %:recipient%) AND " +
-         "(:issueDate IS NULL OR i.issueDate = :issueDate) " +
-         "ORDER BY i.invoiceNumber")
-  List<Invoice> findAllByUserIdAndCriteria(@Param("userId") Long userId,
-                                           @Param("recipient") String recipient,
-                                           @Param("issueDate") LocalDate issueDate);
+  
+  @Query(
+      "SELECT i FROM Invoice i WHERE i.user.id = :userId AND " +
+      "(:recipient IS NULL OR i.recipient.companyName LIKE %:recipient%) AND " +
+      "(:issueDate IS NULL OR i.issueDate = :issueDate) " +
+      "ORDER BY i.invoiceNumber")
+  List<Invoice> findAllByUserIdAndCriteria(
+      @Param("userId") Long userId,
+      @Param("recipient") String recipient,
+      @Param("issueDate") LocalDate issueDate);
 }

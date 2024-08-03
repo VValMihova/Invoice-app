@@ -24,4 +24,12 @@ public interface RecipientDetailsRepository extends JpaRepository<RecipientDetai
   
   boolean existsByEik(String eik);
   
+  @Query(
+      "SELECT r FROM RecipientDetails r WHERE r.user.id = :userId AND " +
+      "(:companyName IS NULL OR r.companyName LIKE %:companyName%) AND " +
+      "(:eik IS NULL OR r.eik LIKE %:eik%) " +
+      "ORDER BY r.companyName")
+  List<RecipientDetails> findAllByUserIdAndCriteria(@Param("userId") Long userId,
+                                                    @Param("companyName") String companyName,
+                                                    @Param("eik") String eik);
 }

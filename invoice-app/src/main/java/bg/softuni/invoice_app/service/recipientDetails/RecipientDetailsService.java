@@ -25,4 +25,6 @@ public interface RecipientDetailsService {
   boolean existsByVatNumber(String vat);
   
   boolean existsByEik(String eik);
+  
+  List<RecipientDetailsView> searchClients(String companyName, String eik);
 }
