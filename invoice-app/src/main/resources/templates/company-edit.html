@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head"></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum=scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Invoice App</title>
+  <th:block th:replace="~{fragments/head :: head}"></th:block>
+</head>
 <body>
-<nav th:replace="fragments/nav :: nav"></nav>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
 <div class="container mt-5">
   <div class="form-container">
     <h2 th:text="#{user.profile.edit.company.details.header}">Edit Company Details</h2>
@@ -92,7 +98,7 @@
   </div>
 </div>
 <div class="push"></div>
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

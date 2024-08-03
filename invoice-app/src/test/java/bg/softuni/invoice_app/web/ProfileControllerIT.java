@@ -1,9 +1,12 @@
 package bg.softuni.invoice_app.web;
 
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
+import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
+import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
+import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -22,8 +25,12 @@ import java.util.UUID;
 
 import static bg.softuni.invoice_app.TestConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,6 +46,25 @@ public class ProfileControllerIT {
   
   @MockBean
   private BankAccountService bankAccountService;
+  
+  @MockBean
+  private CompanyDetailsService companyDetailsService;
+  
+  
+  @Test
+  @WithMockUser(username = TEST_EMAIL, password = TEST_PASSWORD)
+  public void shouldRedirectToCompanyEditOnValidationError() throws Exception {
+    CompanyDetailsView companyDetailsView = new CompanyDetailsView();
+    Mockito.when(userService.showCompanyDetails()).thenReturn(companyDetailsView);
+    
+    CompanyDetailsEditBindingDto companyDetailsEditBindingDto = new CompanyDetailsEditBindingDto();
+    
+    mockMvc.perform(post("/profile/update-company")
+            .flashAttr("companyDetails", companyDetailsEditBindingDto)
+            .with(csrf()))
+        .andExpect(status().isOk())
+        .andExpect(view().name("company-edit"));
+  }
   
   
   @Test

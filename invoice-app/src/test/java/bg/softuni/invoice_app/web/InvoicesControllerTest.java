@@ -1,6 +1,6 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
+import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
@@ -27,68 +27,84 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class InvoicesControllerTest {
+  
+  @Mock
+  private InvoiceService invoiceService;
+  
+  @Mock
+  private PdfGenerationService pdfService;
+  
+  @Mock
+  private RecipientDetailsService recipientDetailsService;
+  
+  @Mock
+  private BankAccountService bankAccountService;
+  
+  @Mock
+  private UserService userService;
+  
+  @Mock
+  private Model model;
+  
+  @Mock
+  private BindingResult bindingResult;
+  
+  @Mock
+  private RedirectAttributes redirectAttributes;
+  
+  @InjectMocks
+  private InvoicesController invoicesController;
+  
+  private User mockUser;
+  
+  @BeforeEach
+  public void setUp() {
+    MockitoAnnotations.openMocks(this);
     
-    @Mock
-    private InvoiceService invoiceService;
+    mockUser = new User();
+    mockUser.setUuid(UUID.randomUUID().toString());
+  }
+  
+  @Test
+  public void testCreateInvoiceWithClient() {
+    RecipientDetailsView recipientDetailsView = new RecipientDetailsView();
+    List<BankAccountView> bankAccounts = List.of(new BankAccountView(), new BankAccountView());
     
-    @Mock
-    private PdfGenerationService pdfService;
+    when(recipientDetailsService.findById(TEST_ID)).thenReturn(recipientDetailsView);
+    when(userService.getUser()).thenReturn(mockUser);
+    when(bankAccountService.getUserAccounts(mockUser.getUuid())).thenReturn(bankAccounts);
     
-    @Mock
-    private RecipientDetailsService recipientDetailsService;
+    String viewName = invoicesController.createInvoiceWithClient(TEST_ID, model);
     
-    @Mock
-    private BankAccountService bankAccountService;
+    assertEquals("invoice-create-with-client", viewName);
+    verify(model).addAttribute("recipient", recipientDetailsView);
+    verify(model).addAttribute("bankAccounts", bankAccounts);
+  }
+  
+  
+  @Test
+  public void testViewInvoice() {
+    InvoiceView invoiceView = new InvoiceView();
+    when(invoiceService.getById(TEST_ID)).thenReturn(invoiceView);
     
-    @Mock
-    private UserService userService;
+    String viewName = invoicesController.viewInvoice(TEST_ID, model);
+    assertEquals(VIEW_INVOICE_VIEW, viewName);
+    verify(model).addAttribute(ATTRIBUTE_INVOICE, invoiceView);
+  }
+  
+  @Test
+  public void testUpdateInvoice_WithoutBindingErrors() {
+    when(bindingResult.hasErrors()).thenReturn(false);
     
-    @Mock
-    private Model model;
-    
-    @Mock
-    private BindingResult bindingResult;
-    
-    @Mock
-    private RedirectAttributes redirectAttributes;
-    
-    @InjectMocks
-    private InvoicesController invoicesController;
-    
-    private User mockUser;
-    
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        
-        mockUser = new User();
-        mockUser.setUuid(UUID.randomUUID().toString());
-    }
-    
-    
-    @Test
-    public void testViewInvoice() {
-        InvoiceView invoiceView = new InvoiceView();
-        when(invoiceService.getById(TEST_ID)).thenReturn(invoiceView);
-        
-        String viewName = invoicesController.viewInvoice(TEST_ID, model);
-        assertEquals(VIEW_INVOICE_VIEW, viewName);
-        verify(model).addAttribute(ATTRIBUTE_INVOICE, invoiceView);
-    }
-    
-    @Test
-    public void testUpdateInvoice_WithoutBindingErrors() {
-        when(bindingResult.hasErrors()).thenReturn(false);
-        
-        String viewName = invoicesController.updateInvoice(TEST_ID, new InvoiceEditDto(), bindingResult, redirectAttributes);
-        assertEquals("redirect:/invoices", viewName);
-        verify(invoiceService).updateInvoice(eq(TEST_ID), any(InvoiceEditDto.class));
-    }
-    
-    @Test
-    public void testDeleteInvoice() {
-        String viewName = invoicesController.deleteInvoice(TEST_ID);
-        assertEquals("redirect:/invoices", viewName);
-        verify(invoiceService).deleteById(TEST_ID);
-    }
+    String viewName = invoicesController.updateInvoice(TEST_ID, new InvoiceEditDto(), bindingResult, redirectAttributes);
+    assertEquals("redirect:/invoices", viewName);
+    verify(invoiceService).updateInvoice(eq(TEST_ID), any(InvoiceEditDto.class));
+  }
+  
+  @Test
+  public void testDeleteInvoice() {
+    String viewName = invoicesController.deleteInvoice(TEST_ID);
+    assertEquals("redirect:/invoices", viewName);
+    verify(invoiceService).deleteById(TEST_ID);
+  }
 }

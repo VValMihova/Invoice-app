@@ -13,10 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import static bg.softuni.invoice_app.TestConstants.*;
@@ -27,6 +25,12 @@ public class ProfileControllerTest {
   
   @Mock
   private BankAccountService bankAccountService;
+  
+  @Mock
+  private CompanyDetailsService companyDetailsService;
+  
+  @Mock
+  private UserService userService;
   
   @Mock
   private Model model;
@@ -48,7 +52,6 @@ public class ProfileControllerTest {
     mockCompanyDetailsView = new CompanyDetailsView();
   }
   
-  
   @Test
   public void testShowAddBankAccountForm() {
     String viewName = profileController.showAddBankAccountForm();
@@ -65,7 +68,6 @@ public class ProfileControllerTest {
     verify(redirectAttributes).addFlashAttribute(eq(ATTRIBUTE_BANK_ACCOUNT_DATA), any());
     verify(redirectAttributes).addFlashAttribute(eq(ATTRIBUTE_BINDING_RESULT + ATTRIBUTE_BANK_ACCOUNT_DATA), eq(bindingResult));
   }
-  
   
   @Test
   public void testEditBankAccount_WithBindingErrors() {
@@ -94,5 +96,39 @@ public class ProfileControllerTest {
     
     assertEquals(REDIRECT_PROFILE, viewName);
     verify(bankAccountService).deleteBankAccount(eq(TEST_ID));
+  }
+  
+  @Test
+  public void testUpdateCompany_WithBindingErrors() {
+    when(bindingResult.hasErrors()).thenReturn(true);
+    
+    String viewName = profileController.updateCompany(new CompanyDetailsEditBindingDto(), bindingResult, model);
+    
+    assertEquals("company-edit", viewName);
+    verify(model).addAttribute(eq("companyDetails"), any(CompanyDetailsEditBindingDto.class));
+    verify(model).addAttribute(eq("org.springframework.validation.BindingResult.companyDetails"), eq(bindingResult));
+  }
+  @Test
+  public void testUpdateCompany_WithoutBindingErrors() {
+    when(bindingResult.hasErrors()).thenReturn(false);
+    CompanyDetails mockCompanyDetails = new CompanyDetails();
+    when(companyDetailsService.update(anyLong(), any(CompanyDetailsEditBindingDto.class))).thenReturn(mockCompanyDetails);
+    
+    CompanyDetailsView companyDetailsView = new CompanyDetailsView();
+    companyDetailsView.setId(1L);
+    when(userService.showCompanyDetails()).thenReturn(companyDetailsView);
+    
+    CompanyDetailsEditBindingDto companyDetailsEditBindingDto = new CompanyDetailsEditBindingDto();
+    companyDetailsEditBindingDto.setCompanyName("Valid Company Name");
+    companyDetailsEditBindingDto.setAddress("Valid Address");
+    companyDetailsEditBindingDto.setManager("Valid Manager");
+    companyDetailsEditBindingDto.setEik("Valid EIK");
+    companyDetailsEditBindingDto.setVatNumber("Valid VAT");
+    
+    String viewName = profileController.updateCompany(companyDetailsEditBindingDto, bindingResult, model);
+    
+    assertEquals("redirect:/profile", viewName);
+    verify(companyDetailsService).update(eq(1L), any(CompanyDetailsEditBindingDto.class));
+    verify(userService).updateCompany(mockCompanyDetails);
   }
 }

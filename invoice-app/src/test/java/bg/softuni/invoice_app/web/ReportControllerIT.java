@@ -36,6 +36,17 @@ public class ReportControllerIT {
   @MockBean
   private PdfGenerationService pdfGenerationService;
   
+  @Test
+  public void shouldRedirectToFormOnValidationError() throws Exception {
+    ReportCriteria criteria = new ReportCriteria();
+    
+    mockMvc.perform(post(REPORT_URL)
+            .with(user("user").password("password").roles("USER"))
+            .flashAttr("reportCriteria", criteria)
+            .with(csrf()))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl(REPORT_URL));
+  }
   
   @Test
   public void shouldShowSalesReportForm() throws Exception {

@@ -3,10 +3,8 @@ package bg.softuni.invoice_app.web;
 import bg.softuni.invoice_app.model.dto.bankAccount.BankAccountView;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsEditBindingDto;
 import bg.softuni.invoice_app.model.dto.companyDetails.CompanyDetailsView;
-import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceItemDto;
-import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
+import bg.softuni.invoice_app.model.dto.invoice.*;
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.model.entity.BankAccountPersist;
 import bg.softuni.invoice_app.model.entity.User;
@@ -15,27 +13,43 @@ import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import bg.softuni.invoice_app.service.pdf.PdfGenerationService;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.MapBindingResult;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static bg.softuni.invoice_app.TestConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -92,9 +106,9 @@ public class InvoicesControllerIT {
     Long invoiceId = TEST_ID;
     byte[] pdfContent = "pdf content".getBytes();
     
-    Mockito.when(pdfService.generateInvoicePdf(Mockito.eq(invoiceId),
-        Mockito.any(),
-        Mockito.any(HttpServletResponse.class))).thenReturn(pdfContent);
+    Mockito.when(pdfService.generateInvoicePdf(eq(invoiceId),
+        any(),
+        any(HttpServletResponse.class))).thenReturn(pdfContent);
     
     MvcResult result = mockMvc.perform(get(DOWNLOAD_PDF_URL + invoiceId))
         .andExpect(status().isOk())
