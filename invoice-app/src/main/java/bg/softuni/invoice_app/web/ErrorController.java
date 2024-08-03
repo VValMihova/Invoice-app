@@ -89,44 +89,11 @@ public class ErrorController {
     model.addAttribute("errorMessage", errorMessage);
     return "error";
   }
-  
-  @GetMapping("/role-not-found")
-  public void throwRoleNotFoundException() {
-    throw new RoleNotFoundException(ErrorMessages.ROLE_NOT_FOUND);
-  }
-  
-  @GetMapping("/company-not-found")
-  public void throwCompanyNotFoundException() {
-    throw new CompanyNotFoundException(ErrorMessages.COMPANY_NOT_FOUND);
-  }
-  
-  @GetMapping("/recipient-not-found")
-  public void throwRecipientNotFoundException() {
-    throw new RecipientNotFoundException(ErrorMessages.RECIPIENT_NOT_FOUND);
-  }
-  
-  @GetMapping("/user-not-found")
-  public void throwUserNotFoundException() {
-    throw new UserNotFoundException(ErrorMessages.USER_NOT_FOUND);
-  }
-  
-  @GetMapping("/invoice-not-found")
-  public void throwInvoiceNotFoundException() {
-    throw new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND);
-  }
-  
-  @GetMapping("/archive-invoice-not-found")
-  public void throwArchiveInvoiceNotFoundException() {
-    throw new ArchiveInvoiceNotFoundException(ErrorMessages.ARCHIVE_INVOICE_NOT_FOUND);
-  }
-  
-  @GetMapping("/pdf-generation-failed")
-  public void throwPdfGenerationException() {
-    throw new PdfGenerationException(ErrorMessages.PDF_GENERATION_FAILED);
-  }
-  
-  @GetMapping("/internal-server-error")
-  public void throwGlobalException() {
-    throw new RuntimeException(ErrorMessages.INTERNAL_SERVER_ERROR);
+  @ExceptionHandler(DatabaseException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public String handleDatabaseException(DatabaseException ex, Model model) {
+    String errorMessage = getLocalizedErrorMessage("error.database");
+    model.addAttribute("errorMessage", errorMessage);
+    return "error";
   }
 }

@@ -8,7 +8,6 @@ import bg.softuni.invoice_app.repository.ArchiveSaleRepository;
 import bg.softuni.invoice_app.repository.InvoiceRepository;
 import bg.softuni.invoice_app.repository.SaleRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,18 +17,17 @@ import java.util.List;
 
 @Service
 public class ArchiveInvoiceService {
-//  todo change
-  @Autowired
-  private ArchiveInvoiceRepository archiveInvoiceRepository;
+  private final ArchiveInvoiceRepository archiveInvoiceRepository;
+  private final InvoiceRepository invoiceRepository;
+  private final ArchiveSaleRepository archiveSaleRepository;
+  private final SaleRepository saleRepository;
   
-  @Autowired
-  private InvoiceRepository invoiceRepository;
-  
-  @Autowired
-  private ArchiveSaleRepository archiveSaleRepository;
-  
-  @Autowired
-  private SaleRepository saleRepository;
+  public ArchiveInvoiceService(ArchiveInvoiceRepository archiveInvoiceRepository, InvoiceRepository invoiceRepository, ArchiveSaleRepository archiveSaleRepository, SaleRepository saleRepository) {
+    this.archiveInvoiceRepository = archiveInvoiceRepository;
+    this.invoiceRepository = invoiceRepository;
+    this.archiveSaleRepository = archiveSaleRepository;
+    this.saleRepository = saleRepository;
+  }
   
   @Transactional
   public void restoreInvoice(Long invoiceId) {

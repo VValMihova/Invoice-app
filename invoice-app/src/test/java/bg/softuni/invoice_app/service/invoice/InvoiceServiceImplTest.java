@@ -13,7 +13,6 @@ import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.sale.SaleService;
 import bg.softuni.invoice_app.service.user.UserService;
 import bg.softuni.invoice_app.utils.archive.InvoiceDeletedEvent;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -305,7 +304,7 @@ class InvoiceServiceImplTest {
     invoices.add(invoice);
     
     when(mockUserService.getCurrentUserId()).thenReturn(userId);
-    when(mockRepository.findAllByUserId(userId)).thenReturn(invoices);
+    when(mockRepository.findAllByUserIdOrderByInvoiceNumber(userId)).thenReturn(invoices);
     when(modelMapper.map(invoice, AllInvoicesView.class)).thenReturn(allInvoicesView);
     
     List<AllInvoicesView> result = toTest.getAllInvoices();
@@ -313,7 +312,7 @@ class InvoiceServiceImplTest {
     assertEquals(1, result.size());
     assertEquals(allInvoicesView, result.getFirst());
     verify(mockUserService).getCurrentUserId();
-    verify(mockRepository).findAllByUserId(userId);
+    verify(mockRepository).findAllByUserIdOrderByInvoiceNumber(userId);
     verify(modelMapper).map(invoice, AllInvoicesView.class);
   }
   

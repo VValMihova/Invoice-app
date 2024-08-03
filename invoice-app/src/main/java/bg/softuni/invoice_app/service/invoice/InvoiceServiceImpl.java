@@ -56,7 +56,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   
   @Override
   public List<AllInvoicesView> getAllInvoices() {
-    return invoiceRepository.findAllByUserId(userService.getCurrentUserId())
+    return invoiceRepository.findAllByUserIdOrderByInvoiceNumber(userService.getCurrentUserId())
         .stream().map(invoice -> modelMapper.map(invoice, AllInvoicesView.class))
         .toList();
   }
