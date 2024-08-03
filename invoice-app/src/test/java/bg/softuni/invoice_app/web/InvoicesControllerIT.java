@@ -44,8 +44,8 @@ import java.util.stream.Collectors;
 
 import static bg.softuni.invoice_app.TestConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -126,16 +126,16 @@ public class InvoicesControllerIT {
     Long invoiceId = TEST_ID;
     UUID userUuid = UUID.randomUUID();
     InvoiceView invoiceView = new InvoiceView(
-        new BigDecimal("120.00"),
+        INVOICE_AMOUNT_DUE,
         new BankAccountPersist(),
         invoiceId,
-        1001L,
-        LocalDate.now(),
+        INVOICE_NUMBER,
+        TEST_DATE_NOW,
         List.of(),
         new RecipientDetailsView(),
         new CompanyDetailsView(),
-        new BigDecimal("100.00"),
-        new BigDecimal("20.00")
+        INVOICE_TOTAL_AMOUNT,
+        INVOICE_VAT
     );
     InvoiceEditDto invoiceEditDto = new InvoiceEditDto();
     invoiceEditDto.setId(invoiceId);
@@ -177,16 +177,16 @@ public class InvoicesControllerIT {
   public void shouldReturnInvoiceView() throws Exception {
     Long invoiceId = TEST_ID;
     InvoiceView invoiceView = new InvoiceView(
-        new BigDecimal("120.00"),
+        INVOICE_AMOUNT_DUE,
         new BankAccountPersist(),
         invoiceId,
-        1001L,
-        LocalDate.now(),
+        INVOICE_NUMBER,
+        TEST_DATE_NOW,
         List.of(),
         new RecipientDetailsView(),
         new CompanyDetailsView(),
-        new BigDecimal("100.00"),
-        new BigDecimal("20.00")
+        INVOICE_TOTAL_AMOUNT,
+        INVOICE_VAT
     );
     Mockito.when(invoiceService.getById(invoiceId)).thenReturn(invoiceView);
     
@@ -205,29 +205,53 @@ public class InvoicesControllerIT {
   public void shouldReturnInvoicesView() throws Exception {
     List<AllInvoicesView> invoices = List.of(
         new AllInvoicesView(
-            1L,
-            1001L,
-            LocalDate.now(),
+            TEST_ID,
+            INVOICE_NUMBER,
+            TEST_DATE_NOW,
             new CompanyDetailsEditBindingDto(),
-            new BigDecimal("120.00")
+            INVOICE_TOTAL_AMOUNT
         ),
         new AllInvoicesView(
-            2L,
+            TEST_ID_2,
             1002L,
-            LocalDate.now(),
+            TEST_DATE_NOW,
             new CompanyDetailsEditBindingDto(),
-            new BigDecimal("240.00")
+            INVOICE_TOTAL_AMOUNT
         )
     );
-    Mockito.when(invoiceService.getAllInvoices()).thenReturn(invoices);
     
-    MvcResult result = mockMvc.perform(get(INVOICES_URL))
+    String recipient = "Test Recipient";
+    LocalDate issueDate = LocalDate.now();
+    
+    Mockito.when(invoiceService.searchInvoices(recipient, issueDate)).thenReturn(invoices);
+    
+    MvcResult result = mockMvc.perform(get(INVOICES_URL)
+            .param("recipient", recipient)
+            .param("issueDate", issueDate.toString())
+            .with(csrf()))
         .andExpect(status().isOk())
         .andReturn();
     
     ModelAndView modelAndView = result.getModelAndView();
     assertThat(modelAndView).isNotNull();
-    assertThat(modelAndView.getViewName()).isEqualTo(INVOICES_VIEW);
+    assertThat(modelAndView.getViewName()).isEqualTo("invoices");
     assertThat(modelAndView.getModel().get("invoices")).isEqualTo(invoices);
+  }
+  
+  @Test
+  @WithMockUser(username = TEST_EMAIL, password = TEST_PASSWORD)
+  public void shouldRedirectToEditInvoiceWhenValidationFails() throws Exception {
+    Long invoiceId = TEST_ID;
+    InvoiceEditDto invoiceEditDto = new InvoiceEditDto();
+    invoiceEditDto.setId(invoiceId);
+    invoiceEditDto.setInvoiceNumber(null);  // Trigger validation error
+    
+    mockMvc.perform(post("/invoices/edit/" + invoiceId)
+            .flashAttr("invoiceData", invoiceEditDto)
+            .with(csrf()))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/invoices/edit/" + invoiceId));
+    
+    verify(invoiceService, never()).updateInvoice(anyLong(), any(InvoiceEditDto.class));
   }
 }

@@ -24,11 +24,6 @@ public class RecipientDetailsController {
     this.recipientDetailsService = recipientDetailsService;
   }
   
-  //  @GetMapping
-//  public String clientsPage(Model model) {
-//    model.addAttribute("clients", recipientDetailsService.findAll());
-//    return "clients";
-//  }
   @GetMapping
   public String clientsPage(
       @RequestParam(value = "companyName", required = false) String companyName,
