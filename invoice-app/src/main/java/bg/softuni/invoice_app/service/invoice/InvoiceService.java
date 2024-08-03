@@ -6,6 +6,7 @@ import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.entity.BankAccountPersist;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface InvoiceService {
@@ -24,4 +25,6 @@ public interface InvoiceService {
   InvoiceEditDto convertToEditDto(InvoiceView invoiceView);
   
   boolean existsByBankAccount(BankAccountPersist account);
+  
+  List<AllInvoicesView> searchInvoices(String recipient, LocalDate issueDate);
 }

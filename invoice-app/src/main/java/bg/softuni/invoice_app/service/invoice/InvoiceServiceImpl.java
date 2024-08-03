@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -173,6 +174,13 @@ public class InvoiceServiceImpl implements InvoiceService {
   @Override
   public boolean existsByBankAccount(BankAccountPersist account) {
     return invoiceRepository.existsByBankAccountPersist(account);
+  }
+  
+  @Override
+  public List<AllInvoicesView> searchInvoices(String recipient, LocalDate issueDate) {
+    return invoiceRepository.findAllByUserIdAndCriteria(userService.getCurrentUserId(), recipient, issueDate)
+        .stream().map(invoice -> modelMapper.map(invoice, AllInvoicesView.class))
+        .toList();
   }
   
   

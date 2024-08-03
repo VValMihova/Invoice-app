@@ -1,5 +1,6 @@
 package bg.softuni.invoice_app.web;
 
+import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
@@ -12,6 +13,7 @@ import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/invoices")
@@ -44,11 +48,21 @@ public class InvoicesController {
   }
   
   
+//  @GetMapping
+//  public String viewInvoices(Model model) {
+//    model.addAttribute("invoices", invoiceService.getAllInvoices());
+//    return "invoices";
+//  }
+  
   @GetMapping
-  public String viewInvoices(Model model) {
-    model.addAttribute("invoices", invoiceService.getAllInvoices());
+  public String viewInvoices(@RequestParam(value = "recipient", required = false) String recipient,
+                             @RequestParam(value = "issueDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDate,
+                             Model model) {
+    List<AllInvoicesView> invoices = invoiceService.searchInvoices(recipient, issueDate);
+    model.addAttribute("invoices", invoices);
     return "invoices";
   }
+  
   
   @GetMapping("/view/{id}")
   public String viewInvoice(@PathVariable Long id, Model model) {
