@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
+import static bg.softuni.invoiceappbankaccounts.util.ErrorConstants.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -23,16 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BankAccountControllerIT {
-  private final static Long ID = 1L;
-  private final static Long NON_EXIST_ID = 999L;
-  private final static String TEST_IBAN = "PL27114020040000300201355387";
-  private final static String TEST_BIC = "BNPAFRPP";
-  private final static String TEST_CURRENCY = "USD";
-  private final static String TEST_IBAN_2 = "IT60X0542811101000000123456";
-  private final static String TEST_BIC_2 = "DABADKKK";
-  private final static String TEST_CURRENCY_2 = "EUR";
-  private final static String TEST_UUID = "91071533-ae2f-4396-8a46-a7cc3e3d86e0";
-  
   @Autowired
   private BankAccountRepository bankAccountRepository;
   
@@ -104,7 +95,7 @@ public class BankAccountControllerIT {
         .setUser(TEST_UUID));
     
     BankAccountEditBindingDto editDto = new BankAccountEditBindingDto();
-    editDto.setIban(TEST_IBAN);  // Повтарящ се IBAN
+    editDto.setIban(TEST_IBAN);
     editDto.setBic(TEST_BIC_2);
     editDto.setCurrency(TEST_CURRENCY_2);
     
@@ -112,8 +103,9 @@ public class BankAccountControllerIT {
             .contentType(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(editDto)))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.message", is("IBAN already exists")));
+        .andExpect(content().string("IBAN already exists"));
   }
+
 
   @Test
   public void testCreateBankAccount() throws Exception {
@@ -149,11 +141,8 @@ public class BankAccountControllerIT {
             .contentType(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(createDto)))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.message", is("IBAN already exists")));
+        .andExpect(content().string("IBAN already exists"));
   }
-
-  
-  
   @Test
   public void testGetUserAccounts() throws Exception {
     BankAccount bankAccount1 = new BankAccount()

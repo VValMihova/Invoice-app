@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static bg.softuni.invoiceappbankaccounts.util.ErrorConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,16 +23,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BankAccountServiceImplTest {
-  private final static Long ID = 1L;
-  private final static Long ID_2 = 2L;
-  private final static String TEST_IBAN = "PL27114020040000300201355387";
-  private final static String TEST_BIC = "BNPAFRPP";
-  private final static String TEST_CURRENCY = "USD";
-  private final static String TEST_IBAN_2 = "IT60X0542811101000000123456";
-  private final static String TEST_BIC_2 = "DABADKKK";
-  private final static String TEST_CURRENCY_2 = "EUR";
-  private final static String TEST_UUID = "91071533-ae2f-4396-8a46-a7cc3e3d86e0";
-  
   @Mock
   private BankAccountRepository bankAccountRepository;
   private BankAccountServiceImpl toTest;
