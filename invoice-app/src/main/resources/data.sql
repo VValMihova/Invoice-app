@@ -3,7 +3,7 @@ INSERT INTO roles (id, name) VALUES (2, 'USER');
 
 INSERT INTO companies_details (id, address, company_name, eik, manager, vat_number) VALUES (1, 'AdminTestAddress', 'AdminTestCompany', '1234567891', 'AdminTestManager',  'BG1234567891');
 INSERT INTO companies_details (id, address, company_name, eik, manager, vat_number) VALUES (2, 'Address2', 'Company2', '1234567892', 'Manager2', 'BG1234567892');
-INSERT INTO companies_details (id, address, company_name, eik, manager, vat_number) VALUES (3, 'Address2', 'Company2', '1234567893', 'Manager2', 'BG1234567893');
+INSERT INTO companies_details (id, address, company_name, eik, manager, vat_number) VALUES (3, 'Address3', 'Company3', '1234567893', 'Manager3', 'BG1234567893');
 
 -- PASSWORD IS "admin"
 INSERT INTO users (id, email, password, company_details_id, uuid) VALUES (1, 'admin@abv.bg', '$2a$10$I54tU8P7K2HPz6IWmUjw.ezRlRW6Es2uzQuBkLBvupYulCSzQViE6', 1, '91071533-ae2f-4396-8a46-a7cc3e3d86e0');
