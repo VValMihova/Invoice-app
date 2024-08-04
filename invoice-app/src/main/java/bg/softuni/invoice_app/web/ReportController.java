@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.model.dto.report.ReportCriteria;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.service.pdf.PdfGenerationService;
 import bg.softuni.invoice_app.service.sale.SaleService;
+import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,10 +24,12 @@ public class ReportController {
   
   private final SaleService saleService;
   private final PdfGenerationService pdfGenerationService;
+  private final UserService userService;
   
-  public ReportController(SaleService saleService, PdfGenerationService pdfGenerationService) {
+  public ReportController(SaleService saleService, PdfGenerationService pdfGenerationService, UserService userService) {
     this.saleService = saleService;
     this.pdfGenerationService = pdfGenerationService;
+    this.userService = userService;
   }
   
   @GetMapping
@@ -46,7 +49,7 @@ public class ReportController {
       return "redirect:/reports";
     }
     
-    List<SaleReportDto> reportData = saleService.generateReport(reportCriteria);
+    List<SaleReportDto> reportData = saleService.generateReport(reportCriteria, userService.getCurrentUserId());
     
     model.addAttribute("reportData", reportData);
     return "report-view";
@@ -60,7 +63,7 @@ public class ReportController {
     reportCriteria.setStartDate(startDate);
     reportCriteria.setEndDate(endDate);
     
-    List<SaleReportDto> reportData = saleService.generateReport(reportCriteria);
+    List<SaleReportDto> reportData = saleService.generateReport(reportCriteria, userService.getCurrentUserId());
     byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData);
     
     response.setContentType("application/pdf");

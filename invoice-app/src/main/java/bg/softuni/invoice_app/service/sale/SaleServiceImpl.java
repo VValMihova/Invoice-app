@@ -29,8 +29,8 @@ public class SaleServiceImpl implements SaleService {
   }
   
   @Override
-  public List<SaleReportDto> generateReport(ReportCriteria criteria) {
-    return saleRepository.findSalesReport(criteria.getStartDate(), criteria.getEndDate());
+  public List<SaleReportDto> generateReport(ReportCriteria criteria, Long userId) {
+    return saleRepository.findSalesReport(criteria.getStartDate(), criteria.getEndDate(), userId);
   }
   
   @Override
