@@ -6,6 +6,29 @@
 <div class="container mt-5">
   <div class="invoices-container">
     <h1 th:text="#{admin.panel}">Admin Panel</h1>
+    <form th:action="@{/admin}" method="get" class="mb-4 mt-3">
+      <div class="form-row align-end">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label th:text="#{user.search.companyName}">Company Name</label>
+            <input type="text" name="companyName" class="form-control" th:placeholder="#{user.search.companyNamePlaceholder}" th:value="${companyName}">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label th:text="#{user.search.eik}">EIK</label>
+            <input type="text" name="eik" class="form-control" th:placeholder="#{user.search.eikPlaceholder}" th:value="${eik}">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group btn-wrapper">
+            <button type="submit" class="btn btn-primary" th:text="#{user.search.button}">Search</button>
+            <a th:href="@{/admin}" class="btn btn-secondary" th:text="#{user.viewAll.button}">View All</a>
+          </div>
+        </div>
+      </div>
+    </form>
+
     <div class="table-responsive">
       <table class="table table-bordered table-hover">
         <thead>

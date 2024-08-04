@@ -135,15 +135,22 @@ public class UserServiceImpl implements UserService {
   }
   
   @Override
-  public Page<User> findAllExceptCurrent(PageRequest pageRequest) {
+  public Page<User> findAllExceptCurrent(PageRequest pageRequest, String companyName, String eik) {
     UserDetails currentUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     String currentUserEmail = currentUser.getUsername();
-    return userRepository.findAllByEmailNot(currentUserEmail, pageRequest);
+    
+    if (companyName != null && !companyName.isEmpty()) {
+      return userRepository.findAllByEmailNotAndCompanyDetails_CompanyNameContainingIgnoreCase(currentUserEmail, companyName, pageRequest);
+    } else if (eik != null && !eik.isEmpty()) {
+      return userRepository.findAllByEmailNotAndCompanyDetails_EikContainingIgnoreCase(currentUserEmail, eik, pageRequest);
+    } else {
+      return userRepository.findAllByEmailNot(currentUserEmail, pageRequest);
+    }
   }
   
   @Override
   public User findById(Long userId) {
     return this.userRepository.findById(userId)
-        .orElseThrow(()-> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND));
+        .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND));
   }
 }

@@ -48,12 +48,14 @@ public class AdminControllerTest {
   public void testAdminPanel() {
     User user = new User();
     Page<User> users = new PageImpl<>(List.of(user));
-    when(userService.findAllExceptCurrent(any(PageRequest.class))).thenReturn(users);
+    when(userService.findAllExceptCurrent(any(PageRequest.class), any(String.class), any(String.class))).thenReturn(users);
     
-    String viewName = adminController.adminPanel(model, 0);
+    String viewName = adminController.adminPanel(model, 0, null, null);
     
-    assertEquals(TestConstants.VIEW_ADMIN, viewName);
-    verify(model).addAttribute(TestConstants.ATTRIBUTE_USERS, users);
+    assertEquals("admin", viewName);
+    verify(model).addAttribute("users", users);
+    verify(model).addAttribute("companyName", null);
+    verify(model).addAttribute("eik", null);
   }
   
   @Test

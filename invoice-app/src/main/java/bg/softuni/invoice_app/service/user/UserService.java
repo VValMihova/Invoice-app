@@ -26,7 +26,7 @@ public interface UserService {
   
   User getUser();
   
-  Page<User> findAllExceptCurrent(PageRequest of);
+  Page<User> findAllExceptCurrent(PageRequest of, String companyName, String eik);
   
   User findById(Long userId);
 }

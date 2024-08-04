@@ -22,13 +22,21 @@ public class AdminController {
     this.userService = userService;
     this.archiveInvoiceService = archiveInvoiceService;
   }
+  
   @Secured("ROLE_ADMIN")
   @GetMapping()
-  public String adminPanel(Model model, @RequestParam(defaultValue = "0") int page) {
-    Page<User> users = userService.findAllExceptCurrent(PageRequest.of(page, 10));
+  public String adminPanel(
+      Model model,
+                           @RequestParam(defaultValue = "0") int page,
+                           @RequestParam(required = false) String companyName,
+                           @RequestParam(required = false) String eik) {
+    Page<User> users = userService.findAllExceptCurrent(PageRequest.of(page, 10), companyName, eik);
     model.addAttribute("users", users);
+    model.addAttribute("companyName", companyName);
+    model.addAttribute("eik", eik);
     return "admin";
   }
+  
   @Secured("ROLE_ADMIN")
   @GetMapping("/deleted-invoices")
   public String viewDeletedInvoices(Model model, @RequestParam Long userId, @RequestParam(defaultValue = "0") int page) {
