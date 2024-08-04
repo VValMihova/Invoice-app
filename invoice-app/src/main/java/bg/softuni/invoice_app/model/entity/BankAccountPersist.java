@@ -3,7 +3,7 @@ package bg.softuni.invoice_app.model.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "bank_accouns_persistant")
+@Table(name = "bank_accounts_persistant")
 public class BankAccountPersist {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
