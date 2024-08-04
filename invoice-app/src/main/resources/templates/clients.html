@@ -16,6 +16,13 @@
       </div>
     </div>
 
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong th:text="${successMessage}"></strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
     <form th:action="@{/clients}" method="get" class="mb-4 mt-3">
       <div class="form-row align-end">
         <div class="col-md-3">
@@ -64,6 +71,6 @@
 </div>
 <div class="push"></div>
 <footer th:replace="fragments/footer :: footer"></footer>
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
