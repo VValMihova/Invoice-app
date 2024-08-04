@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.model.dto.report.ReportCriteria;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.service.pdf.PdfGenerationService;
 import bg.softuni.invoice_app.service.sale.SaleService;
+import bg.softuni.invoice_app.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ReportControllerIT {
-  
   @Autowired
   private MockMvc mockMvc;
   
@@ -35,6 +35,9 @@ public class ReportControllerIT {
   
   @MockBean
   private PdfGenerationService pdfGenerationService;
+  
+  @MockBean
+  private UserService userService;
   
   @Test
   public void shouldRedirectToFormOnValidationError() throws Exception {
@@ -62,7 +65,9 @@ public class ReportControllerIT {
     criteria.setEndDate(LocalDate.parse(TEST_END_DATE));
     
     List<SaleReportDto> reportData = Collections.singletonList(new SaleReportDto());
-    Mockito.when(saleService.generateReport(Mockito.any(ReportCriteria.class))).thenReturn(reportData);
+    Long currentUserId = 1L;
+    Mockito.when(userService.getCurrentUserId()).thenReturn(currentUserId);
+    Mockito.when(saleService.generateReport(Mockito.any(ReportCriteria.class), Mockito.eq(currentUserId))).thenReturn(reportData);
     
     mockMvc.perform(post(REPORT_URL)
             .with(user("user").password("password").roles("USER"))
@@ -77,7 +82,9 @@ public class ReportControllerIT {
   public void shouldDownloadPdfReport() throws Exception {
     List<SaleReportDto> reportData = Collections.singletonList(new SaleReportDto());
     byte[] pdfBytes = new byte[0];
-    Mockito.when(saleService.generateReport(Mockito.any(ReportCriteria.class))).thenReturn(reportData);
+    Long currentUserId = 1L;
+    Mockito.when(userService.getCurrentUserId()).thenReturn(currentUserId);
+    Mockito.when(saleService.generateReport(Mockito.any(ReportCriteria.class), Mockito.eq(currentUserId))).thenReturn(reportData);
     Mockito.when(pdfGenerationService.generateSalesReportPdf(reportData)).thenReturn(pdfBytes);
     
     mockMvc.perform(get(PDF_DOWNLOAD_URL)

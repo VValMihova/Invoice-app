@@ -94,9 +94,9 @@ public class SaleServiceImplTest {
         new SaleReportDto(INVOICE_ITEM_2_NAME, ITEM_QUANTITY)
     );
     
-    when(mockSaleRepository.findSalesReport(criteria.getStartDate(), criteria.getEndDate())).thenReturn(expectedReport);
+    when(mockSaleRepository.findSalesReport(criteria.getStartDate(), criteria.getEndDate(), TEST_ID)).thenReturn(expectedReport);
     
-    List<SaleReportDto> result = toTest.generateReport(criteria);
+    List<SaleReportDto> result = toTest.generateReport(criteria, TEST_ID);
     
     assertEquals(expectedReport.size(), result.size());
     assertEquals(INVOICE_ITEM_1_NAME, result.get(0).getProductName());
@@ -104,6 +104,6 @@ public class SaleServiceImplTest {
     assertEquals(INVOICE_ITEM_2_NAME, result.get(1).getProductName());
     assertEquals(ITEM_QUANTITY, result.get(1).getTotalQuantity());
     
-    verify(mockSaleRepository).findSalesReport(criteria.getStartDate(), criteria.getEndDate());
+    verify(mockSaleRepository).findSalesReport(criteria.getStartDate(), criteria.getEndDate(), TEST_ID);
   }
 }
