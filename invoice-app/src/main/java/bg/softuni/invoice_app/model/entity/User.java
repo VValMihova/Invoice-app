@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.utils.uuid.UUIDSequence;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class User {
   @JoinColumn(name = "user_id")
   private Set<RecipientDetails> recipients;
   
-  @UUIDSequence
+  @UuidGenerator
   @JdbcTypeCode(VARCHAR)
   private String uuid;
   
