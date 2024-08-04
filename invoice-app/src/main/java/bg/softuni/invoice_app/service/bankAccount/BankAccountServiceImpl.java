@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestClientException;
 
 import java.util.List;
 
@@ -62,19 +61,23 @@ public class BankAccountServiceImpl implements BankAccountService {
         .retrieve();
   }
   
-@Override
-public void addBankAccountUser(BankAccountCreateBindingDto bankAccountData, String uuid) {
-  try {
-    restClient
-        .post()
-        .uri("http://localhost:8081/bank-accounts/user/{uuid}", uuid)
-        .body(bankAccountData)
-        .retrieve()
-        .body(BankAccountView.class);
-  } catch (RestClientException ex) {
-    throw new IllegalArgumentException("Failed to add bank account: " + ex.getMessage(), ex);
+  @Override
+  public void addBankAccountUser(BankAccountCreateBindingDto bankAccountData, String uuid) {
+    try {
+      restClient
+          .post()
+          .uri("http://localhost:8081/bank-accounts/user/{uuid}", uuid)
+          .body(bankAccountData)
+          .retrieve()
+          .body(BankAccountView.class);
+    } catch (HttpClientErrorException e) {
+      if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+        String errorMessage = e.getResponseBodyAsString();
+        throw new IllegalArgumentException(errorMessage);
+      }
+      throw new IllegalArgumentException("Failed to add bank account: " + e.getMessage(), e);
+    }
   }
-}
   
   @Override
   public BankAccountView updateBankAccount(Long id, BankAccountEditBindingDto bankAccountView) {
@@ -87,9 +90,11 @@ public void addBankAccountUser(BankAccountCreateBindingDto bankAccountData, Stri
           .body(BankAccountView.class);
     } catch (HttpClientErrorException e) {
       if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
-        throw new IllegalArgumentException("Failed to update bank account: " + e.getResponseBodyAsString(), e);
+        String errorMessage = e.getResponseBodyAsString();
+        throw new IllegalArgumentException(errorMessage);
       }
       throw new IllegalArgumentException("Failed to update bank account: " + e.getMessage(), e);
     }
   }
+
 }

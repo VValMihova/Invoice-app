@@ -1,6 +1,7 @@
 package bg.softuni.invoiceappbankaccounts.exception;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,10 +20,8 @@ public class GlobalExceptionHandler {
   }
   
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
-    Map<String, String> errorResponse = new HashMap<>();
-    errorResponse.put("message", ex.getMessage());
-    return ResponseEntity.badRequest().body(errorResponse);
+  public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+    return ResponseEntity.badRequest().body(ex.getMessage());
   }
   
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -34,4 +33,12 @@ public class GlobalExceptionHandler {
         .collect(Collectors.toList());
     return ResponseEntity.badRequest().body(errors);
   }
+  
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ApiError> handleAllExceptions(Exception ex) {
+    ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR,
+        ex.getLocalizedMessage(), List.of("An unexpected error occurred"));
+    return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  
 }

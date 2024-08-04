@@ -9,6 +9,8 @@ import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.companyDetails.CompanyDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.validation.Valid;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -24,14 +26,16 @@ public class ProfileController {
   private final UserService userService;
   private final BankAccountService bankAccountService;
   private final CompanyDetailsService companyDetailsService;
+  private final MessageSource messageSource;
   
   public ProfileController(
       UserService userService,
       BankAccountService bankAccountService,
-      CompanyDetailsService companyDetailsService) {
+      CompanyDetailsService companyDetailsService, MessageSource messageSource) {
     this.userService = userService;
     this.bankAccountService = bankAccountService;
     this.companyDetailsService = companyDetailsService;
+    this.messageSource = messageSource;
   }
   
   @GetMapping
@@ -89,7 +93,12 @@ public class ProfileController {
     try {
       bankAccountService.addBankAccountUser(bankAccountData, userService.getUser().getUuid());
     } catch (IllegalArgumentException ex) {
-      bindingResult.rejectValue("iban", "error.bankAccountData", ex.getMessage());
+      String errorMessage = ex.getMessage();
+      if ("IBAN already exists".equals(errorMessage)) {
+        errorMessage = messageSource.getMessage("iban.already.exists",
+            null, LocaleContextHolder.getLocale());
+      }
+      bindingResult.rejectValue("iban", "error.bankAccountData", errorMessage);
       redirectAttributes.addFlashAttribute("bankAccountData", bankAccountData);
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bankAccountData", bindingResult);
       return "redirect:/profile/add-bank-account";
@@ -97,6 +106,7 @@ public class ProfileController {
     
     return "redirect:/profile";
   }
+
   
   
   @GetMapping("/edit-bank-account/{id}")
@@ -121,7 +131,12 @@ public class ProfileController {
     try {
       bankAccountService.updateBankAccount(id, bankAccountDataEdit);
     } catch (IllegalArgumentException ex) {
-      bindingResult.rejectValue("iban", "error.bankAccountDataEdit", ex.getMessage());
+      String errorMessage = ex.getMessage();
+      if ("IBAN already exists".equals(errorMessage)) {
+        errorMessage = messageSource.getMessage("iban.already.exists", null,
+            LocaleContextHolder.getLocale());
+      }
+      bindingResult.rejectValue("iban", "error.bankAccountDataEdit", errorMessage);
       model.addAttribute("bankAccountDataEdit", bankAccountDataEdit);
       model.addAttribute("org.springframework.validation.BindingResult.bankAccountDataEdit", bindingResult);
       return "bank-account-edit";
@@ -129,7 +144,8 @@ public class ProfileController {
     
     return "redirect:/profile";
   }
-
+  
+  
   @PostMapping("/delete-bank-account/{id}")
   public String deleteBankAccount(@PathVariable Long id) {
     
