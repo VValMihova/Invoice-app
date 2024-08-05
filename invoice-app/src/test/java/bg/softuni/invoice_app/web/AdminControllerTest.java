@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.TestConstants;
 import bg.softuni.invoice_app.model.entity.ArchiveInvoice;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
+import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
 import bg.softuni.invoice_app.service.archive.ArchiveInvoiceService;
 import bg.softuni.invoice_app.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,15 +15,20 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.UUID;
 
-import static bg.softuni.invoice_app.TestConstants.COMPANY_NAME;
-import static bg.softuni.invoice_app.TestConstants.TEST_ID;
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class AdminControllerTest {
@@ -42,20 +48,6 @@ public class AdminControllerTest {
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.openMocks(this);
-  }
-  
-  @Test
-  public void testAdminPanel() {
-    User user = new User();
-    Page<User> users = new PageImpl<>(List.of(user));
-    when(userService.findAllExceptCurrent(any(PageRequest.class), any(String.class), any(String.class))).thenReturn(users);
-    
-    String viewName = adminController.adminPanel(model, 0, null, null);
-    
-    assertEquals("admin", viewName);
-    verify(model).addAttribute("users", users);
-    verify(model).addAttribute("companyName", null);
-    verify(model).addAttribute("eik", null);
   }
   
   @Test

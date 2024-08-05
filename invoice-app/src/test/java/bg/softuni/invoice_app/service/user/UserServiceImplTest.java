@@ -27,6 +27,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.Principal;
@@ -104,14 +105,14 @@ public class UserServiceImplTest {
     assertEquals(ErrorMessages.USER_NOT_FOUND, exception.getMessage());
     verify(mockUserRepository).findById(TEST_ID);
   }
-
+  
   
   @Test
-  void testFindAllExceptCurrent() {
+  void testFindAllExceptCurrent_NoFilters() {
     String currentUserEmail = TEST_EMAIL;
     String currentUserUUID = UUID.randomUUID().toString();
     
-    InvoiceAppUserDetails currentUserDetails = new InvoiceAppUserDetails(currentUserUUID, currentUserEmail, "password", List.of());
+    UserDetails currentUserDetails = new InvoiceAppUserDetails(currentUserUUID, currentUserEmail, "password", List.of());
     
     Authentication authentication = new UsernamePasswordAuthenticationToken(currentUserDetails, null);
     SecurityContext securityContext = mock(SecurityContext.class);
@@ -130,7 +131,7 @@ public class UserServiceImplTest {
     
     when(mockUserRepository.findAllByEmailNot(currentUserEmail, pageRequest)).thenReturn(page);
     
-    Page<User> result = toTest.findAllExceptCurrent(pageRequest);
+    Page<User> result = toTest.findAllExceptCurrent(pageRequest, null, null);
     
     assertNotNull(result);
     assertEquals(2, result.getContent().size());
@@ -138,6 +139,75 @@ public class UserServiceImplTest {
     assertEquals(TEST_EMAIL_3, result.getContent().get(1).getEmail());
     
     verify(mockUserRepository).findAllByEmailNot(currentUserEmail, pageRequest);
+  }
+  @Test
+  void testFindAllExceptCurrent_WithEik() {
+    String currentUserEmail = TEST_EMAIL;
+    String eik = COMPANY_EIK;
+    String currentUserUUID = UUID.randomUUID().toString();
+    
+    UserDetails currentUserDetails = new InvoiceAppUserDetails(currentUserUUID, currentUserEmail, "password", List.of());
+    
+    Authentication authentication = new UsernamePasswordAuthenticationToken(currentUserDetails, null);
+    SecurityContext securityContext = mock(SecurityContext.class);
+    when(securityContext.getAuthentication()).thenReturn(authentication);
+    SecurityContextHolder.setContext(securityContext);
+    
+    User user1 = new User();
+    user1.setEmail(TEST_EMAIL_2);
+    
+    User user2 = new User();
+    user2.setEmail(TEST_EMAIL_3);
+    
+    List<User> users = List.of(user1, user2);
+    Page<User> page = new PageImpl<>(users);
+    PageRequest pageRequest = PageRequest.of(0, 10);
+    
+    when(mockUserRepository.findAllByEmailNotAndCompanyDetails_EikContainingIgnoreCase(currentUserEmail, eik, pageRequest)).thenReturn(page);
+    
+    Page<User> result = toTest.findAllExceptCurrent(pageRequest, null, eik);
+    
+    assertNotNull(result);
+    assertEquals(2, result.getContent().size());
+    assertEquals(TEST_EMAIL_2, result.getContent().get(0).getEmail());
+    assertEquals(TEST_EMAIL_3, result.getContent().get(1).getEmail());
+    
+    verify(mockUserRepository).findAllByEmailNotAndCompanyDetails_EikContainingIgnoreCase(currentUserEmail, eik, pageRequest);
+  }
+  
+  @Test
+  void testFindAllExceptCurrent_WithCompanyName() {
+    String currentUserEmail = TEST_EMAIL;
+    String companyName = "Test Company";
+    String currentUserUUID = UUID.randomUUID().toString();
+    
+    UserDetails currentUserDetails = new InvoiceAppUserDetails(currentUserUUID, currentUserEmail, "password", List.of());
+    
+    Authentication authentication = new UsernamePasswordAuthenticationToken(currentUserDetails, null);
+    SecurityContext securityContext = mock(SecurityContext.class);
+    when(securityContext.getAuthentication()).thenReturn(authentication);
+    SecurityContextHolder.setContext(securityContext);
+    
+    User user1 = new User();
+    user1.setEmail(TEST_EMAIL_2);
+    
+    User user2 = new User();
+    user2.setEmail(TEST_EMAIL_3);
+    
+    List<User> users = List.of(user1, user2);
+    Page<User> page = new PageImpl<>(users);
+    PageRequest pageRequest = PageRequest.of(0, 10);
+    
+    when(mockUserRepository.findAllByEmailNotAndCompanyDetails_CompanyNameContainingIgnoreCase(currentUserEmail, companyName, pageRequest)).thenReturn(page);
+    
+    Page<User> result = toTest.findAllExceptCurrent(pageRequest, companyName, null);
+    
+    assertNotNull(result);
+    assertEquals(2, result.getContent().size());
+    assertEquals(TEST_EMAIL_2, result.getContent().get(0).getEmail());
+    assertEquals(TEST_EMAIL_3, result.getContent().get(1).getEmail());
+    
+    verify(mockUserRepository).findAllByEmailNotAndCompanyDetails_CompanyNameContainingIgnoreCase(currentUserEmail, companyName, pageRequest);
   }
   
   @Test

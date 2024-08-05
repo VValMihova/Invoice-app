@@ -7,7 +7,6 @@ import bg.softuni.invoice_app.model.entity.RecipientDetails;
 import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +14,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static bg.softuni.invoice_app.TestConstants.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,7 +40,7 @@ public class RecipientDetailsControllerIT {
   
   @Test
   public void shouldShowClientsPage() throws Exception {
-    Mockito.when(recipientDetailsService.findAll()).thenReturn(Collections.emptyList());
+    when(recipientDetailsService.findAll()).thenReturn(Collections.emptyList());
     
     mockMvc.perform(get(CLIENTS_URL).with(user("user").password("password").roles("USER")))
         .andExpect(status().isOk())
@@ -61,7 +63,7 @@ public class RecipientDetailsControllerIT {
     companyDetailsView.setManager(COMPANY_MANAGER);
     companyDetailsView.setEik(COMPANY_EIK);
     companyDetailsView.setVatNumber(COMPANY_VAT_NUMBER);
-    Mockito.when(userService.showCompanyDetails()).thenReturn(companyDetailsView);
+    when(userService.showCompanyDetails()).thenReturn(companyDetailsView);
     
     RecipientDetailsAddDto recipientDetails = new RecipientDetailsAddDto();
     recipientDetails.setCompanyName(RECIPIENT_NAME);
@@ -69,6 +71,8 @@ public class RecipientDetailsControllerIT {
     recipientDetails.setEik(RECIPIENT_EIK);
     recipientDetails.setVatNumber(RECIPIENT_VAT_NUMBER);
     recipientDetails.setManager(RECIPIENT_MANAGER);
+    
+    doNothing().when(recipientDetailsService).addRecipientDetails(any(RecipientDetailsAddDto.class));
     
     mockMvc.perform(post(ADD_URL)
             .param("companyName", recipientDetails.getCompanyName())
@@ -78,8 +82,10 @@ public class RecipientDetailsControllerIT {
             .param("eik", recipientDetails.getEik())
             .with(csrf())
             .with(user(TEST_EMAIL).password(TEST_PASSWORD)))
-        .andExpect(status().isOk())
-        .andExpect(view().name(CLIENTS_VIEW));
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/clients"));
+    
+    verify(recipientDetailsService, times(1)).addRecipientDetails(any(RecipientDetailsAddDto.class));
   }
   
   @Test
@@ -88,7 +94,7 @@ public class RecipientDetailsControllerIT {
     recipientDetails.setId(TEST_ID);
     recipientDetails.setCompanyName(COMPANY_NAME);
     
-    Mockito.when(recipientDetailsService.getById(TEST_ID)).thenReturn(recipientDetails);
+    when(recipientDetailsService.getById(TEST_ID)).thenReturn(recipientDetails);
     
     mockMvc.perform(get(EDIT_CLIENT_URL_TEMPLATE, TEST_ID).with(user("user").password("password").roles("USER")))
         .andExpect(status().isOk())
@@ -104,7 +110,7 @@ public class RecipientDetailsControllerIT {
     companyDetailsView.setManager(COMPANY_MANAGER);
     companyDetailsView.setEik(COMPANY_EIK);
     companyDetailsView.setVatNumber(COMPANY_VAT_NUMBER);
-    Mockito.when(userService.showCompanyDetails()).thenReturn(companyDetailsView);
+    when(userService.showCompanyDetails()).thenReturn(companyDetailsView);
     
     RecipientDetails recipientDetails = new RecipientDetails();
     recipientDetails.setId(TEST_ID);
@@ -113,7 +119,7 @@ public class RecipientDetailsControllerIT {
     recipientDetails.setEik(RECIPIENT_EIK);
     recipientDetails.setVatNumber(RECIPIENT_VAT_NUMBER);
     recipientDetails.setManager(RECIPIENT_MANAGER);
-    Mockito.when(recipientDetailsService.getById(TEST_ID)).thenReturn(recipientDetails);
+    when(recipientDetailsService.getById(TEST_ID)).thenReturn(recipientDetails);
     
     RecipientDetailsEdit recipientDetailsEdit = new RecipientDetailsEdit();
     recipientDetailsEdit.setCompanyName(RECIPIENT_NAME);
