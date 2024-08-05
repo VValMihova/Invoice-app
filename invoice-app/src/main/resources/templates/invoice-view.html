@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="~{fragments/head :: head}"></head>
 <body>
-<nav th:replace="fragments/nav :: nav"></nav>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
 
 <div class="container mt-5">
   <div class="invoice-details">
@@ -10,7 +10,7 @@
       <div class="col-md-6">
         <h2 th:text="#{invoice.number} + ' ' + ${invoice.invoiceNumber}">Invoice #12345</h2>
       </div>
-      <div class="col-md-6 text-right">
+      <div class="col-md-6 text-end pe-4">
         <p><strong th:text="#{invoice.issue.date}">Issue Date:</strong> <span th:text="${invoice.issueDate}">2024-08-10</span></p>
       </div>
     </div>
@@ -46,10 +46,10 @@
     </div>
 
 
-    <div class="row">
+    <div class="table-responsive">
       <div class="col-md-12">
         <h3 th:text="#{invoice.items}">Items</h3>
-        <table class="table">
+        <table class="table table-bordered table-hover">
           <thead>
           <tr>
             <th th:text="#{invoice.item.name}">Item Name</th>
@@ -71,7 +71,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-12 text-right">
+      <div class="col-md-12 text-end pe-5">
         <h3 th:text="#{invoice.summary}">Summary</h3>
         <p><strong th:text="#{invoice.total.amount}">Total Amount:</strong> <span th:text="${invoice.totalAmount}">132.00</span></p>
         <p><strong th:text="#{invoice.vat}">VAT (20%):</strong> <span th:text="${invoice.vat}">26.40</span></p>
@@ -85,14 +85,15 @@
       <div class="col-md-6">
         <a th:href="@{/invoices}" class="btn btn-primary" th:text="#{invoice.back.to.invoices}">Back to Invoices</a>
       </div>
-      <div class="col-md-6 text-right">
+      <div class="col-md-6 text-end">
         <a th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-success" th:text="#{invoice.download.pdf}">Download PDF</a>
       </div>
     </div>
   </div>
 </div>
 <div class="push"></div>
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

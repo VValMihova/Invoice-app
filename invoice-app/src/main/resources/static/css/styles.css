@@ -185,3 +185,6 @@ body {
 .btn-wrapper .btn {
     margin-right: 10px;
 }
+.custom-button {
+    padding: 10px 0;
+}
