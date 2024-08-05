@@ -1,8 +1,104 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+<!--<head th:replace="fragments/head :: head"></head>-->
+<!--<body>-->
+<!--<nav th:replace="fragments/nav :: nav"></nav>-->
+
+<!--<div class="container transparent-bg mt-5">-->
+<!--  <h2 class="text-center mt-2 align-content-center" sec:authorize="!isAuthenticated()" th:text="#{welcome.anonymous1}"></h2>-->
+<!--  <h2 class="text-center mt-2 align-content-center" sec:authorize="!isAuthenticated()" th:text="#{welcome.anonymous2}"></h2>-->
+<!--  <div class="text-center" sec:authorize="!isAuthenticated()">-->
+<!--    <a class="btn btn-primary mx-4" th:href="@{/users/register}" th:text="#{btn.register}"></a>-->
+<!--    <a class="btn btn-secondary mx-4" th:href="@{/users/login}" th:text="#{btn.login}"></a>-->
+<!--  </div>-->
+
+<!--  <h2 class="text-center mt-2" sec:authorize="isAuthenticated()" th:text="#{welcome.authenticated1(${companyName})}"></h2>-->
+<!--  <h2 class="text-center mt-2" sec:authorize="isAuthenticated()" th:text="#{welcome.authenticated2}"></h2>-->
+<!--  <div class="text-center" sec:authorize="isAuthenticated()">-->
+<!--    <a class="btn btn-secondary mx-4" th:href="@{/invoices}" th:text="#{btn.my.invoices}"></a>-->
+<!--    <a class="btn btn-primary mx-4" th:href="@{/clients}" th:text="#{btn.clients}"></a>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="push"></div>-->
+<!--<footer th:replace="fragments/footer :: footer"></footer>-->
+<!--<script src="/js/bootstrap.bundle.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments/head :: head"></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Invoice App</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/css/mobile.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+          integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+          crossorigin=""></script>
+</head>
 <body>
-<nav th:replace="fragments/nav :: nav"></nav>
+<nav
+    class="navbar navbar-expand-lg navbar-light navbar-light-custom">
+  <a class="navbar-brand" th:href="@{/}">InvoiceApp</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" sec:authorize="!isAuthenticated()">
+        <a class="nav-link" th:href="@{/users/login}"
+           th:text="#{nav.login}">Login</a>
+      </li>
+      <li class="nav-item" sec:authorize="!isAuthenticated()">
+        <a class="nav-link" th:href="@{/users/register}"
+           th:text="#{nav.register}">Register</a>
+      </li>
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="nav-link" th:href="@{/profile}"
+           th:text="#{nav.profile}">Profile</a>
+      </li>
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="nav-link" th:href="@{/invoices}"
+           th:text="#{nav.my.invoices}">My Invoices</a>
+      </li>
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="nav-link" th:href="@{/clients}"
+           th:text="#{nav.my.clients}">My Clients</a>
+      </li>
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="nav-link" th:href="@{/reports}"
+           th:text="#{nav.my.reports}">My Reports</a>
+      </li>
+      <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+        <a class="nav-link" th:href="@{/admin}" th:text="#{nav.admin.panel}">Admin Panel</a>
+      </li>
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+        <form th:method="POST" th:action="@{/users/logout}" class="form-inline">
+          <input class="nav-link btn-logout" type="submit" th:value="#{nav.logout}" value="Logout">
+        </form>
+      </li>
+      <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+          Admin
+        </a>
+        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+          <a class="dropdown-item" th:href="@{/admin/all-users}">Всички Потребители</a>
+          <a class="dropdown-item" th:href="@{/admin/all-vehicles}">Всички Превозни Средства</a>
+          <a class="dropdown-item" th:href="@{/admin/all-reservations}">Всички Резервации</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
 
 <div class="container transparent-bg mt-5">
   <h2 class="text-center mt-2 align-content-center" sec:authorize="!isAuthenticated()" th:text="#{welcome.anonymous1}"></h2>
@@ -21,6 +117,9 @@
 </div>
 <div class="push"></div>
 <footer th:replace="fragments/footer :: footer"></footer>
+
+<!-- Локални JS файлове -->
+<script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
