@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
     User user = findById(userId);
     Role adminRole = roleService.getRole(RoleName.ADMIN)
         .orElseThrow(() -> new RoleNotFoundException(ErrorMessages.ROLE_NOT_FOUND));
-    if (!user.getRoles().contains(RoleName.ADMIN)) {
+    if (!user.getRoles().contains(adminRole)) {
       user.getRoles().add(adminRole);
       this.userRepository.save(user);
     }

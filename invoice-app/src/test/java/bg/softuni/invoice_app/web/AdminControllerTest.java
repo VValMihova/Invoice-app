@@ -1,10 +1,8 @@
 package bg.softuni.invoice_app.web;
 
-import bg.softuni.invoice_app.TestConstants;
 import bg.softuni.invoice_app.model.entity.ArchiveInvoice;
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
 import bg.softuni.invoice_app.model.entity.User;
-import bg.softuni.invoice_app.model.user.InvoiceAppUserDetails;
 import bg.softuni.invoice_app.service.archive.ArchiveInvoiceService;
 import bg.softuni.invoice_app.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,29 +13,23 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.ui.Model;
 
 import java.util.List;
-import java.util.UUID;
 
-import static bg.softuni.invoice_app.TestConstants.*;
+import static bg.softuni.invoice_app.TestConstants.TEST_ID;
+import static bg.softuni.invoice_app.TestConstants.TEST_ID_2;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class AdminControllerTest {
   
   @Mock
-  private UserService userService;
+  private ArchiveInvoiceService archiveInvoiceService;
   
   @Mock
-  private ArchiveInvoiceService archiveInvoiceService;
+  private UserService userService;
   
   @Mock
   private Model model;
@@ -51,33 +43,59 @@ public class AdminControllerTest {
   }
   
   @Test
+  @WithMockUser(roles = "ADMIN")
+  public void testMakeAdmin() {
+    Long userId = TEST_ID;
+    
+    String viewName = adminController.makeAdmin(userId);
+    
+    assertEquals("redirect:/admin", viewName);
+    verify(userService).addAdminRoleToUser(userId);
+  }
+  
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  public void testRemoveAdmin() {
+    Long userId = TEST_ID;
+    
+    String viewName = adminController.removeAdmin(userId);
+    
+    assertEquals("redirect:/admin", viewName);
+    verify(userService, times(1)).removeAdminRoleFromUser(userId);
+  }
+  
+  @Test
   public void testViewDeletedInvoices() {
+    Long userId = TEST_ID;
+    int page = 0;
     ArchiveInvoice archiveInvoice = new ArchiveInvoice();
     Page<ArchiveInvoice> deletedInvoices = new PageImpl<>(List.of(archiveInvoice));
-    User user = new User();
     CompanyDetails companyDetails = new CompanyDetails();
-    companyDetails.setCompanyName(COMPANY_NAME);
+    companyDetails.setCompanyName("Test Company");
+    User user = new User();
     user.setCompanyDetails(companyDetails);
     
-    when(archiveInvoiceService.findAllByUserId(eq(TEST_ID), any(PageRequest.class)))
+    when(archiveInvoiceService.findAllByUserId(eq(userId), any(PageRequest.class)))
         .thenReturn(deletedInvoices);
-    when(userService.findById(TEST_ID)).thenReturn(user);
+    when(userService.findById(userId)).thenReturn(user);
     
-    String viewName = adminController.viewDeletedInvoices(model, TEST_ID, 0);
+    String result = adminController.viewDeletedInvoices(model, userId, page);
     
-    assertEquals(TestConstants.VIEW_ADMIN_DELETED_INVOICES, viewName);
-    verify(model).addAttribute(TestConstants.ATTRIBUTE_DELETED_INVOICES, deletedInvoices);
-    verify(model).addAttribute(TestConstants.ATTRIBUTE_COMPANY_NAME, COMPANY_NAME);
-    verify(model).addAttribute(TestConstants.ATTRIBUTE_USER_ID, TEST_ID);
+    
+    assertEquals("admin-deleted-invoices", result);
+    verify(model).addAttribute("deletedInvoices", deletedInvoices);
+    verify(model).addAttribute("companyName", "Test Company");
+    verify(model).addAttribute("userId", userId);
   }
   
   @Test
   public void testRestoreInvoice() {
-    doNothing().when(archiveInvoiceService).restoreInvoice(TEST_ID);
+    Long testId = TEST_ID;
+    Long userId = TEST_ID_2;
     
-    String viewName = adminController.restoreInvoice(TEST_ID, TEST_ID);
+    String result = adminController.restoreInvoice(testId, userId);
     
-    assertEquals(TestConstants.REDIRECT_ADMIN_DELETED_INVOICES + TEST_ID, viewName);
-    verify(archiveInvoiceService).restoreInvoice(TEST_ID);
+    assertEquals("redirect:/admin/deleted-invoices?userId=" + userId, result);
+    verify(archiveInvoiceService).restoreInvoice(testId);
   }
 }

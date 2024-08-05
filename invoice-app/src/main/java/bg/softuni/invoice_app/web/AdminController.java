@@ -27,13 +27,14 @@ public class AdminController {
   }
   
   @GetMapping
-  public String adminPanel(Model model,
-                           @RequestParam(defaultValue = "0") int page,
-                           @RequestParam(required = false) String companyName,
-                           @RequestParam(required = false) String eik) {
+  public String adminPanel(
+      Model model,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(required = false) String companyName,
+      @RequestParam(required = false) String eik) {
     Page<User> users = userService.findAllExceptCurrent(PageRequest.of(page, 10), companyName, eik);
     List<Boolean> isAdminList = users.stream()
-        .map(user -> userService.isUserAdmin(user))
+        .map(userService::isUserAdmin)
         .collect(Collectors.toList());
     model.addAttribute("users", users);
     model.addAttribute("isAdminList", isAdminList);
@@ -66,6 +67,7 @@ public class AdminController {
     userService.addAdminRoleToUser(userId);
     return "redirect:/admin";
   }
+  
   @Secured("ROLE_ADMIN")
   @PostMapping("/remove-admin")
   public String removeAdmin(@RequestParam("userId") Long userId) {

@@ -31,6 +31,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -62,6 +63,66 @@ public class UserServiceImplTest {
   private RoleService mockRoleService;
   @Mock
   private Principal mockPrincipal;
+  
+  @Test
+  public void testIsUserAdmin() {
+    Role adminRole = new Role();
+    adminRole.setName(RoleName.ADMIN);
+    User user = new User();
+    user.setRoles(new HashSet<>());
+    user.getRoles().add(adminRole);
+    
+    boolean isAdmin = toTest.isUserAdmin(user);
+    
+    assertTrue(isAdmin);
+  }
+  
+  @Test
+  public void testIsUserAdminWhenNotAdmin() {
+    Role userRole = new Role();
+    userRole.setName(RoleName.USER);
+    User user = new User();
+    user.setRoles(new HashSet<>());
+    user.getRoles().add(userRole);
+    
+    boolean isAdmin = toTest.isUserAdmin(user);
+    
+    assertFalse(isAdmin);
+  }
+  @Test
+  public void testRemoveAdminRoleFromUser() {
+    Long userId = 1L;
+    Role adminRole = new Role();
+    adminRole.setName(RoleName.ADMIN);
+    User user = new User();
+    user.setRoles(new HashSet<>());
+    user.getRoles().add(adminRole);
+    
+    doReturn(user).when(toTest).findById(userId);
+    when(mockRoleService.getRole(RoleName.ADMIN)).thenReturn(Optional.of(adminRole));
+    
+    toTest.removeAdminRoleFromUser(userId);
+    
+    assertFalse(user.getRoles().contains(adminRole));
+    verify(mockUserRepository).saveAndFlush(user);
+  }
+  
+  @Test
+  public void testAddAdminRoleToUser() {
+    Long userId = TEST_ID;
+    User user = new User();
+    user.setRoles(new HashSet<>());
+    Role adminRole = new Role();
+    adminRole.setName(RoleName.ADMIN);
+    
+    doReturn(user).when(toTest).findById(userId);
+    when(mockRoleService.getRole(RoleName.ADMIN)).thenReturn(Optional.of(adminRole));
+    
+    toTest.addAdminRoleToUser(userId);
+    
+    assertTrue(user.getRoles().contains(adminRole));
+    verify(mockUserRepository).save(user);
+  }
   
   @Test
   void testGetUser_Found() {
