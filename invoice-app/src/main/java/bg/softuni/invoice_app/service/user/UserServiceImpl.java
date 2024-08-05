@@ -153,4 +153,34 @@ public class UserServiceImpl implements UserService {
     return this.userRepository.findById(userId)
         .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND));
   }
+  
+  @Override
+  public void addAdminRoleToUser(Long userId) {
+    User user = findById(userId);
+    Role adminRole = roleService.getRole(RoleName.ADMIN)
+        .orElseThrow(() -> new RoleNotFoundException(ErrorMessages.ROLE_NOT_FOUND));
+    if (!user.getRoles().contains(RoleName.ADMIN)) {
+      user.getRoles().add(adminRole);
+      this.userRepository.save(user);
+    }
+  }
+  
+  @Override
+  public void removeAdminRoleFromUser(Long userId) {
+    User user = findById(userId);
+    Role adminRole = roleService.getRole(RoleName.ADMIN)
+        .orElseThrow(() -> new RoleNotFoundException(ErrorMessages.ROLE_NOT_FOUND));
+    if (user.getRoles().contains(adminRole)) {
+      user.getRoles().remove(adminRole);
+      this.userRepository.saveAndFlush(user);
+    }
+  }
+  
+  @Override
+  public boolean isUserAdmin(User user) {
+    return user.getRoles()
+        .stream()
+        .anyMatch(role -> role.getName()
+            .equals(RoleName.ADMIN));
+  }
 }

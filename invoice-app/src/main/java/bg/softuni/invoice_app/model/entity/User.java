@@ -1,6 +1,5 @@
 package bg.softuni.invoice_app.model.entity;
 
-import bg.softuni.invoice_app.utils.uuid.UUIDSequence;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
 import org.hibernate.annotations.JdbcTypeCode;

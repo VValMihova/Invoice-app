@@ -11,13 +11,15 @@
         <div class="col-md-3 pe-3">
           <div class="form-group">
             <label th:text="#{user.search.companyName}">Company Name</label>
-            <input type="text" name="companyName" class="form-control" th:placeholder="#{user.search.companyNamePlaceholder}" th:value="${companyName}">
+            <input type="text" name="companyName" class="form-control"
+                   th:placeholder="#{user.search.companyNamePlaceholder}" th:value="${companyName}">
           </div>
         </div>
         <div class="col-md-3 pe-3">
           <div class="form-group">
             <label th:text="#{user.search.eik}">EIK</label>
-            <input type="text" name="eik" class="form-control" th:placeholder="#{user.search.eikPlaceholder}" th:value="${eik}">
+            <input type="text" name="eik" class="form-control" th:placeholder="#{user.search.eikPlaceholder}"
+                   th:value="${eik}">
           </div>
         </div>
         <div class="col-md-3">
@@ -41,14 +43,24 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${users}">
+        <tr th:each="user, iterStat : ${users}">
           <td th:text="${user.email}">example@example.com</td>
           <td th:text="${user.companyDetails.companyName}">Company Name</td>
           <td th:text="${user.companyDetails.eik}">123456789</td>
-          <td th:text="${user.roles[0].name}">User</td>
+          <td>
+            <span th:text="${isAdminList[iterStat.index] ? 'Admin' : 'User'}"></span>
+          </td>
           <td>
             <a class="btn btn-sm btn-info" th:href="@{/admin/deleted-invoices(userId=${user.id})}"
                th:text="#{actions.viewDeletedInvoices}">View Deleted Invoices</a>
+            <form th:action="@{/admin/make-admin}" method="post" style="display:inline;" th:if="${!isAdminList[iterStat.index]}">
+              <input type="hidden" name="userId" th:value="${user.id}" />
+              <button type="submit" class="btn btn-sm btn-warning" th:text="#{actions.makeAdmin}">Make Admin</button>
+            </form>
+            <form th:action="@{/admin/remove-admin}" method="post" style="display:inline;" th:if="${isAdminList[iterStat.index]}">
+              <input type="hidden" name="userId" th:value="${user.id}" />
+              <button type="submit" class="btn btn-sm btn-danger" th:text="#{actions.removeAdmin}">Remove Admin</button>
+            </form>
           </td>
         </tr>
         </tbody>

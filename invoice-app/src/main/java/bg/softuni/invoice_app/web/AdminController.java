@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -23,18 +26,20 @@ public class AdminController {
     this.archiveInvoiceService = archiveInvoiceService;
   }
   
-  @Secured("ROLE_ADMIN")
-  @GetMapping()
-  public String adminPanel(
-      Model model,
+  @GetMapping
+  public String adminPanel(Model model,
                            @RequestParam(defaultValue = "0") int page,
                            @RequestParam(required = false) String companyName,
                            @RequestParam(required = false) String eik) {
     Page<User> users = userService.findAllExceptCurrent(PageRequest.of(page, 10), companyName, eik);
+    List<Boolean> isAdminList = users.stream()
+        .map(user -> userService.isUserAdmin(user))
+        .collect(Collectors.toList());
     model.addAttribute("users", users);
+    model.addAttribute("isAdminList", isAdminList);
     model.addAttribute("companyName", companyName);
     model.addAttribute("eik", eik);
-    return "admin";
+    return "admin-panel";
   }
   
   @Secured("ROLE_ADMIN")
@@ -53,5 +58,18 @@ public class AdminController {
   public String restoreInvoice(@PathVariable Long invoiceId, @RequestParam Long userId) {
     archiveInvoiceService.restoreInvoice(invoiceId);
     return "redirect:/admin/deleted-invoices?userId=" + userId;
+  }
+  
+  @Secured("ROLE_ADMIN")
+  @PostMapping("/make-admin")
+  public String makeAdmin(@RequestParam("userId") Long userId) {
+    userService.addAdminRoleToUser(userId);
+    return "redirect:/admin";
+  }
+  @Secured("ROLE_ADMIN")
+  @PostMapping("/remove-admin")
+  public String removeAdmin(@RequestParam("userId") Long userId) {
+    userService.removeAdminRoleFromUser(userId);
+    return "redirect:/admin";
   }
 }

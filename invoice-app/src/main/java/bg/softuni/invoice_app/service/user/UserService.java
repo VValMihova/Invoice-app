@@ -29,4 +29,10 @@ public interface UserService {
   Page<User> findAllExceptCurrent(PageRequest of, String companyName, String eik);
   
   User findById(Long userId);
+  
+  void addAdminRoleToUser(Long userId);
+  
+  void removeAdminRoleFromUser(Long userId);
+  
+  boolean isUserAdmin(User user);
 }
