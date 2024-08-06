@@ -4,6 +4,7 @@ import bg.softuni.invoice_app.model.dto.invoice.AllInvoicesView;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
+import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsAddDto;
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
 import bg.softuni.invoice_app.service.bankAccount.BankAccountService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
@@ -13,6 +14,7 @@ import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,18 +36,20 @@ public class InvoicesController {
   private final RecipientDetailsService recipientDetailsService;
   private final BankAccountService bankAccountService;
   private final UserService userService;
+  private final ModelMapper modelMapper;
   
   public InvoicesController(
       InvoiceService invoiceService,
       PdfGenerationService pdfService,
       RecipientDetailsService recipientDetailsService,
       BankAccountService bankAccountService,
-      UserService userService) {
+      UserService userService, ModelMapper modelMapper) {
     this.invoiceService = invoiceService;
     this.pdfService = pdfService;
     this.recipientDetailsService = recipientDetailsService;
     this.bankAccountService = bankAccountService;
     this.userService = userService;
+    this.modelMapper = modelMapper;
   }
   
   @GetMapping
@@ -87,9 +91,7 @@ public class InvoicesController {
                               @Valid @ModelAttribute("invoiceData") InvoiceEditDto invoiceData,
                               BindingResult bindingResult,
                               Model model) {
-    if (!invoiceService.isInvoiceNumberUniqueOrSame(id, invoiceData.getInvoiceNumber())) {
-      bindingResult.rejectValue("invoiceNumber", "error.invoiceData.invoiceNumber.exists");
-    }
+    invoiceNumberCheck(id, invoiceData, bindingResult);
     
     if (bindingResult.hasErrors()) {
       InvoiceView invoiceView = this.invoiceService.getById(id);
@@ -107,9 +109,36 @@ public class InvoicesController {
     invoiceService.updateInvoice(id, invoiceData);
     return "redirect:/invoices";
   }
-
-
   
+  @GetMapping("/create-with-client/{clientId}")
+  public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
+    RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
+    model.addAttribute("recipient", recipientDetailsView);
+    model.addAttribute("bankAccounts",
+        this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
+    
+    return "invoice-create-with-client";
+  }
+  
+  @PostMapping("/create-with-client/{clientId}")
+  public String createInvoiceWithClient(@PathVariable Long clientId,
+                                        @Valid InvoiceCreateDto invoiceData,
+                                        BindingResult bindingResult,
+                                        Model model) {
+    if (bindingResult.hasErrors()) {
+      model.addAttribute("bankAccounts",
+          this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
+      RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
+      model.addAttribute("recipient", recipientDetailsView);
+      invoiceData.setRecipientDetails(modelMapper.map(recipientDetailsView, RecipientDetailsAddDto.class));
+      model.addAttribute("invoiceData", invoiceData);
+      model.addAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+      return "invoice-create-with-client";
+    }
+    
+    invoiceService.createInvoiceWithClient(clientId, invoiceData);
+    return "redirect:/invoices";
+  }
   
   @PostMapping("/delete/{id}")
   public String deleteInvoice(@PathVariable Long id) {
@@ -125,35 +154,11 @@ public class InvoicesController {
     response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
     response.getOutputStream().write(pdf);
   }
-  
-  //todo changed for rest
-  @GetMapping("/create-with-client/{clientId}")
-  public String createInvoiceWithClient(@PathVariable Long clientId, Model model) {
-    RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
-    
-    model.addAttribute("recipient", recipientDetailsView);
-    model.addAttribute("bankAccounts",
-        this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
-    
-    return "invoice-create-with-client";
-  }
-  
-  @PostMapping("/create-with-client/{clientId}")
-  public String createInvoiceWithClient(@PathVariable Long clientId,
-                                        @Valid InvoiceCreateDto invoiceData,
-                                        BindingResult bindingResult,
-                                        RedirectAttributes redirectAttributes) {
-    
-    if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
-      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
-      return "redirect:/invoices/create-with-client/" + clientId;
+  private void invoiceNumberCheck(Long id, InvoiceEditDto invoiceData, BindingResult bindingResult) {
+    if (!invoiceService.isInvoiceNumberUniqueOrSame(id, invoiceData.getInvoiceNumber())) {
+      bindingResult.rejectValue("invoiceNumber", "error.invoiceData.invoiceNumber.exists");
     }
-    
-    invoiceService.createInvoiceWithClient(clientId, invoiceData);
-    return "redirect:/invoices";
   }
-  
   
   //    MODEL ATTRIBUTES
   @ModelAttribute("invoiceData")
