@@ -26,6 +26,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/invoices")
+@SessionAttributes("invoiceData")
 public class InvoicesController {
   
   private final InvoiceService invoiceService;
@@ -64,35 +65,51 @@ public class InvoicesController {
     return "invoice-view";
   }
   
-  //todo changed for rest
   @GetMapping("/edit/{id}")
   public String editInvoice(@PathVariable Long id, Model model) {
-    InvoiceView invoiceView = this.invoiceService.getById(id);
-    InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
+    if (!model.containsAttribute("org.springframework.validation.BindingResult.invoiceData")) {
+      InvoiceView invoiceView = this.invoiceService.getById(id);
+      InvoiceEditDto invoiceEditDto = invoiceService.convertToEditDto(invoiceView);
+      model.addAttribute("invoiceData", invoiceEditDto);
+      RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(invoiceView.getRecipient().getId());
+      model.addAttribute("recipientDetails", recipientDetailsView);
+    }
+    
     
     model.addAttribute("bankAccounts",
         this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
-    model.addAttribute("invoiceData", invoiceEditDto);
+    
     return "invoice-edit";
   }
   
-  //todo migrate
-  //  todo add validation for unique or the same invoice number
   @PostMapping("/edit/{id}")
   public String updateInvoice(@PathVariable Long id,
-                              @Valid InvoiceEditDto invoiceData,
+                              @Valid @ModelAttribute("invoiceData") InvoiceEditDto invoiceData,
                               BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
+                              Model model) {
+    if (!invoiceService.isInvoiceNumberUniqueOrSame(id, invoiceData.getInvoiceNumber())) {
+      bindingResult.rejectValue("invoiceNumber", "error.invoiceData.invoiceNumber.exists");
+    }
     
     if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute("invoiceData", invoiceData);
-      redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
-      return "redirect:/invoices/edit/" + id;
+      InvoiceView invoiceView = this.invoiceService.getById(id);
+      RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(invoiceView.getRecipient().getId());
+      invoiceData.setRecipient(recipientDetailsView);
+      model.addAttribute("recipientDetails", recipientDetailsView);
+      model.addAttribute("bankAccounts",
+          this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
+      
+      model.addAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+      model.addAttribute("invoiceData", invoiceData);
+      return "invoice-edit";
     }
     
     invoiceService.updateInvoice(id, invoiceData);
     return "redirect:/invoices";
   }
+
+
+  
   
   @PostMapping("/delete/{id}")
   public String deleteInvoice(@PathVariable Long id) {
@@ -138,7 +155,7 @@ public class InvoicesController {
   }
   
   
-  //  MODEL ATTRIBUTES
+  //    MODEL ATTRIBUTES
   @ModelAttribute("invoiceData")
   public InvoiceEditDto invoiceData() {
     return new InvoiceEditDto();

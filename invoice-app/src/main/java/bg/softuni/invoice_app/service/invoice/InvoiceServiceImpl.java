@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -208,5 +210,13 @@ public class InvoiceServiceImpl implements InvoiceService {
   protected Invoice findByIdOrThrow(Long id) {
     return this.invoiceRepository.findById(id)
         .orElseThrow(() -> new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND));
+  }
+  
+  @Override
+  public boolean isInvoiceNumberUniqueOrSame(Long invoiceId, Long invoiceNumber) {
+    Invoice invoice = invoiceRepository.findById(invoiceId)
+        .orElseThrow(() -> new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND));
+    return !invoiceRepository.existsByInvoiceNumber(invoiceNumber)
+           || Objects.equals(invoice.getInvoiceNumber(), invoiceNumber);
   }
 }

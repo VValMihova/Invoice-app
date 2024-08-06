@@ -92,14 +92,6 @@ public class InvoicesControllerTest {
     verify(model).addAttribute(ATTRIBUTE_INVOICE, invoiceView);
   }
   
-  @Test
-  public void testUpdateInvoice_WithoutBindingErrors() {
-    when(bindingResult.hasErrors()).thenReturn(false);
-    
-    String viewName = invoicesController.updateInvoice(TEST_ID, new InvoiceEditDto(), bindingResult, redirectAttributes);
-    assertEquals("redirect:/invoices", viewName);
-    verify(invoiceService).updateInvoice(eq(TEST_ID), any(InvoiceEditDto.class));
-  }
   
   @Test
   public void testDeleteInvoice() {
@@ -107,4 +99,16 @@ public class InvoicesControllerTest {
     assertEquals("redirect:/invoices", viewName);
     verify(invoiceService).deleteById(TEST_ID);
   }
+  @Test
+  public void testUpdateInvoice_WithoutBindingErrors() {
+    when(bindingResult.hasErrors()).thenReturn(false);
+    when(invoiceService.isInvoiceNumberUniqueOrSame(eq(TEST_ID), any(Long.class))).thenReturn(true);
+    
+    InvoiceEditDto invoiceData = new InvoiceEditDto();
+    String viewName = invoicesController.updateInvoice(TEST_ID, invoiceData, bindingResult, model);
+    
+    assertEquals("redirect:/invoices", viewName);
+    verify(invoiceService).updateInvoice(eq(TEST_ID), any(InvoiceEditDto.class));
+  }
+  
 }

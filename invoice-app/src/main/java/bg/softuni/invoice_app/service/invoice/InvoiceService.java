@@ -27,4 +27,6 @@ public interface InvoiceService {
   boolean existsByBankAccount(BankAccountPersist account);
   
   List<AllInvoicesView> searchInvoices(String recipient, LocalDate issueDate);
+  
+  boolean isInvoiceNumberUniqueOrSame(Long invoiceId, Long invoiceNumber);
 }
