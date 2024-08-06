@@ -13,11 +13,16 @@
     <a class="btn btn-secondary mx-4" th:href="@{/users/login}" th:text="#{btn.login}"></a>
   </div>
 
-  <h2 class="text-center mt-2" sec:authorize="isAuthenticated()" th:text="#{welcome.authenticated1(${companyName})}"></h2>
-  <h2 class="text-center mt-2" sec:authorize="isAuthenticated()" th:text="#{welcome.authenticated2}"></h2>
-  <div class="text-center" sec:authorize="isAuthenticated()">
+  <h2 class="text-center mt-2" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')" th:text="#{welcome.authenticated1(${companyName})}"></h2>
+  <h2 class="text-center mt-2" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')" th:text="#{welcome.authenticated2}"></h2>
+  <div class="text-center" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')">
     <a class="btn btn-secondary mx-4" th:href="@{/invoices}" th:text="#{btn.my.invoices}"></a>
     <a class="btn btn-primary mx-4" th:href="@{/clients}" th:text="#{btn.clients}"></a>
+  </div>
+
+  <h2 class="text-center mt-2" sec:authorize="hasRole('ROLE_ADMIN')" th:text="#{welcome.admin}"></h2>
+  <div class="text-center" sec:authorize="hasRole('ROLE_ADMIN')">
+    <a class="btn btn-warning mx-4" th:href="@{/admin}" th:text="#{btn.admin.panel}"></a>
   </div>
 </div>
 <div class="push"></div>

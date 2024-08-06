@@ -15,9 +15,10 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
   
   List<Sale> findBySaleDateBetween(LocalDate startDate, LocalDate endDate);
   
-  @Query("SELECT new bg.softuni.invoice_app.model.dto.sale.SaleReportDto(s.productName, SUM(s.quantity)) " +
-         "FROM Sale s WHERE s.user.id = :userId AND s.saleDate BETWEEN :startDate AND :endDate GROUP BY s.productName" +
-         " ORDER BY s.productName DESC ")
+  @Query(
+      "SELECT new bg.softuni.invoice_app.model.dto.sale.SaleReportDto(s.productName, SUM(s.quantity)) " +
+      "FROM Sale s WHERE s.user.id = :userId AND s.saleDate BETWEEN :startDate AND :endDate GROUP BY s.productName" +
+      " ORDER BY s.productName DESC ")
   List<SaleReportDto> findSalesReport(LocalDate startDate, LocalDate endDate, Long userId);
   
   List<Sale> findAllByInvoiceId(Long id);
