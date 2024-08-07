@@ -26,6 +26,7 @@ public class SaleServiceImpl implements SaleService {
     this.userService = userService;
   }
   
+  @Transactional
   @Override
   public void save(Sale sale) {
     this.saleRepository.save(sale);

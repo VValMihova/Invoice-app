@@ -5,33 +5,29 @@ import bg.softuni.invoice_app.exeption.ErrorMessages;
 import bg.softuni.invoice_app.exeption.InvoiceNotFoundException;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.ArchiveInvoiceRepository;
-import bg.softuni.invoice_app.repository.ArchiveSaleRepository;
-import bg.softuni.invoice_app.repository.InvoiceRepository;
-import bg.softuni.invoice_app.repository.SaleRepository;
+import bg.softuni.invoice_app.service.invoice.InvoiceService;
+import bg.softuni.invoice_app.service.sale.SaleService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class ArchiveInvoiceService {
   private final ArchiveInvoiceRepository archiveInvoiceRepository;
-  private final InvoiceRepository invoiceRepository;
-  private final ArchiveSaleRepository archiveSaleRepository;
-  private final SaleRepository saleRepository;
+  private final InvoiceService invoiceService;
+  private final ArchiveSaleService archiveSaleService;
+  private final SaleService saleService;
   
-  public ArchiveInvoiceService(ArchiveInvoiceRepository archiveInvoiceRepository, InvoiceRepository invoiceRepository, ArchiveSaleRepository archiveSaleRepository, SaleRepository saleRepository) {
+  public ArchiveInvoiceService(ArchiveInvoiceRepository archiveInvoiceRepository, InvoiceService invoiceService, ArchiveSaleService archiveSaleService, SaleService saleService) {
     this.archiveInvoiceRepository = archiveInvoiceRepository;
-    this.invoiceRepository = invoiceRepository;
-    this.archiveSaleRepository = archiveSaleRepository;
-    this.saleRepository = saleRepository;
+    this.invoiceService = invoiceService;
+    this.archiveSaleService = archiveSaleService;
+    this.saleService = saleService;
   }
   
   @Transactional
@@ -40,16 +36,16 @@ public class ArchiveInvoiceService {
         .orElseThrow(() -> new ArchiveInvoiceNotFoundException(ErrorMessages.ARCHIVE_INVOICE_NOT_FOUND));
     
     Long invoiceNumber = archiveInvoice.getInvoiceNumber();
-    if (invoiceRepository.existsByInvoiceNumber(invoiceNumber)) {
-      Long maxInvoiceNumber = invoiceRepository.findMaxInvoiceNumber();
+    if (invoiceService.existsByInvoiceNumberAndUserId(invoiceNumber, userId)) {
+      Long maxInvoiceNumber = invoiceService.findMaxInvoiceNumberByUserId(userId);
       invoiceNumber = (maxInvoiceNumber != null) ? maxInvoiceNumber + 1L : 1L;
     }
     
     Invoice invoice = getInvoice(invoiceNumber, archiveInvoice);
     
-    invoiceRepository.save(invoice);
+    invoiceService.save(invoice);
     
-    List<ArchiveSale> archiveSales = archiveSaleRepository.findAllByInvoiceNumberAndUserId(invoiceNumber, userId);
+    List<ArchiveSale> archiveSales = archiveSaleService.findAllByInvoiceNumberAndUserId(invoiceNumber, userId);
     for (ArchiveSale archiveSale : archiveSales) {
       Sale sale = new Sale();
       sale.setProductName(archiveSale.getProductName());
@@ -57,11 +53,11 @@ public class ArchiveInvoiceService {
       sale.setSaleDate(archiveSale.getSaleDate());
       sale.setInvoiceNumber(invoice.getInvoiceNumber());
       sale.setUser(invoice.getUser());
-      saleRepository.save(sale);
+      saleService.save(sale);
     }
     
     archiveInvoiceRepository.delete(archiveInvoice);
-    archiveSaleRepository.deleteAll(archiveSales);
+    archiveSaleService.deleteAll(archiveSales);
   }
   
   private static Invoice getInvoice(Long invoiceNumber, ArchiveInvoice archiveInvoice) {

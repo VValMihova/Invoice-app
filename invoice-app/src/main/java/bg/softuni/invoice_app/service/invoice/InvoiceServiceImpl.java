@@ -211,4 +211,25 @@ public class InvoiceServiceImpl implements InvoiceService {
     return !invoiceRepository.existsByInvoiceNumber(invoiceNumber)
            || Objects.equals(invoice.getInvoiceNumber(), invoiceNumber);
   }
+  
+  @Override
+  public boolean existsByInvoiceNumber(Long invoiceNumber) {
+    return invoiceRepository.existsByInvoiceNumber(invoiceNumber);
+  }
+  
+  @Override
+  public boolean existsByInvoiceNumberAndUserId(Long invoiceNumber, Long userId) {
+    return this.invoiceRepository.existsByInvoiceNumberAndUserId(invoiceNumber, userId);
+  }
+  
+  @Transactional
+  @Override
+  public void save(Invoice invoice) {
+  this.invoiceRepository.save(invoice);
+  }
+  
+  @Override
+  public Long findMaxInvoiceNumberByUserId(Long userId) {
+    return invoiceRepository.findMaxInvoiceNumberByUserId(userId);
+  }
 }

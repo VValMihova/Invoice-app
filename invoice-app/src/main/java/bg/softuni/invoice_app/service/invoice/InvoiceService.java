@@ -5,6 +5,7 @@ import bg.softuni.invoice_app.model.dto.invoice.InvoiceCreateDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceEditDto;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.entity.BankAccountPersist;
+import bg.softuni.invoice_app.model.entity.Invoice;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,4 +30,12 @@ public interface InvoiceService {
   List<AllInvoicesView> searchInvoices(String recipient, LocalDate issueDate);
   
   boolean isInvoiceNumberUniqueOrSame(Long invoiceId, Long invoiceNumber);
+  
+  boolean existsByInvoiceNumber(Long invoiceNumber);
+  
+  boolean existsByInvoiceNumberAndUserId(Long invoiceNumber, Long userId);
+  
+  void save(Invoice invoice);
+  
+  Long findMaxInvoiceNumberByUserId(Long userId);
 }
