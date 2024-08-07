@@ -26,3 +26,12 @@ After starting, you will have 3 users:
 
 # Application pages
 ![index](invoice-app/src/main/resources/static/images/readme/pic_1.png)
+![register](invoice-app/src/main/resources/static/images/readme/pic_2.png)
+![login](invoice-app/src/main/resources/static/images/readme/pic_3.png)
+![profile](invoice-app/src/main/resources/static/images/readme/pic_4.png)
+![invoices](invoice-app/src/main/resources/static/images/readme/pic_5.png)
+![clients](invoice-app/src/main/resources/static/images/readme/pic_6.png)
+![report](invoice-app/src/main/resources/static/images/readme/pic_7.png)
+![report-results](invoice-app/src/main/resources/static/images/readme/pic_8.png)
+![admin-panel](invoice-app/src/main/resources/static/images/readme/pic_9.png)
+![admin-restore](invoice-app/src/main/resources/static/images/readme/pic_10.png)
