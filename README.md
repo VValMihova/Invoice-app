@@ -1,6 +1,7 @@
 # Invoice-app
 Welcome to my MVP project Invoice App.<br>
-This project is suitable for small businesses that want to issue invoices easily and quickly, and have access to them at any time.
+This project is suitable for small businesses that want to issue invoices easily and quickly,<br>
+and have access to them at any time.
 
 # Functionality
 ### User Features:
@@ -23,6 +24,18 @@ To run the application, you need to set your MySQL username and password as VM o
 After starting, you will have 3 users:
 1. admin@abv.bg with the password "admin";
 2. test@abv.bg and test2@abv.bg, both with the password "11111";
+
+### Note
+In `invoice_app -> service -> pdf -> PdfGenerationService.class`, <br>
+replace the following in `renderer.getFontResolver()` for both methods<br>
+with the absolute path from your computer. <br>
+You will find font Verdana in  `/resources/fonts`.
+
+```java
+.addFont("C:/Users/YOGA/repositories/Invoice-app/invoice-app/src/main/resources/fonts/verdana.ttf",
+    BaseFont.IDENTITY_H,
+    BaseFont.NOT_EMBEDDED); 
+```
 
 # Application pages
 ![index](invoice-app/src/main/resources/static/images/readme/pic_1.png)
