@@ -6,15 +6,19 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 
 <div class="container transparent-bg mt-5">
-  <h2 class="text-center mt-2 align-content-center" sec:authorize="!isAuthenticated()" th:text="#{welcome.anonymous1}"></h2>
-  <h2 class="text-center mt-2 align-content-center" sec:authorize="!isAuthenticated()" th:text="#{welcome.anonymous2}"></h2>
+  <h2 class="text-center mt-2 align-content-center" sec:authorize="!isAuthenticated()"
+      th:text="#{welcome.anonymous1}"></h2>
+  <h2 class="text-center mt-2 align-content-center" sec:authorize="!isAuthenticated()"
+      th:text="#{welcome.anonymous2}"></h2>
   <div class="text-center" sec:authorize="!isAuthenticated()">
     <a class="btn btn-primary mx-4" th:href="@{/users/register}" th:text="#{btn.register}"></a>
     <a class="btn btn-secondary mx-4" th:href="@{/users/login}" th:text="#{btn.login}"></a>
   </div>
 
-  <h2 class="text-center mt-2" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')" th:text="#{welcome.authenticated1(${companyName})}"></h2>
-  <h2 class="text-center mt-2" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')" th:text="#{welcome.authenticated2}"></h2>
+  <h2 class="text-center mt-2" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')"
+      th:text="#{welcome.authenticated1(${companyName})}"></h2>
+  <h2 class="text-center mt-2" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')"
+      th:text="#{welcome.authenticated2}"></h2>
   <div class="text-center" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')">
     <a class="btn btn-secondary mx-4" th:href="@{/invoices}" th:text="#{btn.my.invoices}"></a>
     <a class="btn btn-primary mx-4" th:href="@{/clients}" th:text="#{btn.clients}"></a>

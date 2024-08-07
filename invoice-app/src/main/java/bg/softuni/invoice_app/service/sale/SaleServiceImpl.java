@@ -3,7 +3,6 @@ package bg.softuni.invoice_app.service.sale;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.dto.report.ReportCriteria;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
-import bg.softuni.invoice_app.model.entity.Invoice;
 import bg.softuni.invoice_app.model.entity.Sale;
 import bg.softuni.invoice_app.repository.SaleRepository;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;

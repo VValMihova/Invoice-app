@@ -21,7 +21,7 @@ public class InvoiceDeletionListener implements ApplicationListener<InvoiceDelet
   
   private static final Logger logger = LoggerFactory.getLogger(InvoiceDeletionListener.class);
   
-
+  
   private final ArchiveInvoiceRepository archiveInvoiceRepository;
   private final SaleService saleService;
   private final ArchiveSaleRepository archiveSaleRepository;
@@ -82,8 +82,6 @@ public class InvoiceDeletionListener implements ApplicationListener<InvoiceDelet
     
     logger.info("Archived invoice with ID: {}", archiveInvoice.getId());
     
-    
-
     
     logger.info("Archived sales for invoice with ID: {}", invoice.getId());
   }

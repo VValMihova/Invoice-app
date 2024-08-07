@@ -49,11 +49,11 @@ public class ScheduledJob {
   @Scheduled(cron = "0 0 0 * * ?")
   public void cleanupOldArchive() {
     List<ArchiveInvoice> olderThanTwoMonths = archiveInvoiceService.findOlderThanTwoMonths();
-
+    
     for (ArchiveInvoice invoice : olderThanTwoMonths) {
-    archiveSaleService.deleteArchiveSales(invoice.getInvoiceNumber(), invoice.getUser().getId());
-    archiveInvoiceService.delete(invoice);
-    archiveInvoiceItemService.deleteAllByArchiveInvoiceId(invoice.getId());
+      archiveSaleService.deleteArchiveSales(invoice.getInvoiceNumber(), invoice.getUser().getId());
+      archiveInvoiceService.delete(invoice);
+      archiveInvoiceItemService.deleteAllByArchiveInvoiceId(invoice.getId());
     }
   }
 }

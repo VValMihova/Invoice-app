@@ -354,5 +354,5 @@ public class RecipientDetailsServiceImplTest {
     
     verify(mockRepository).findById(nonExistRecipientId);
   }
-
+  
 }

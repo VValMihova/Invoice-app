@@ -14,6 +14,7 @@ public class ArchiveSaleService {
   public ArchiveSaleService(ArchiveSaleRepository archiveSaleRepository) {
     this.archiveSaleRepository = archiveSaleRepository;
   }
+  
   @Transactional
   public void deleteArchiveSales(Long invoiceNumber, Long id) {
     this.archiveSaleRepository.deleteAllByInvoiceNumberAndUserId(invoiceNumber, id);
@@ -22,6 +23,7 @@ public class ArchiveSaleService {
   public List<ArchiveSale> findAllByInvoiceNumberAndUserId(Long invoiceNumber, Long userId) {
     return archiveSaleRepository.findAllByInvoiceNumberAndUserId(invoiceNumber, userId);
   }
+  
   @Transactional
   public void deleteAll(List<ArchiveSale> archiveSales) {
     archiveSaleRepository.deleteAll(archiveSales);

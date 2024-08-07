@@ -11,6 +11,7 @@ public class ArchiveInvoiceItemService {
   public ArchiveInvoiceItemService(ArchiveInvoiceItemRepository archiveInvoiceItemRepository) {
     this.archiveInvoiceItemRepository = archiveInvoiceItemRepository;
   }
+  
   @Transactional
   public void deleteAllByArchiveInvoiceId(Long id) {
     this.archiveInvoiceItemRepository.deleteAllByArchiveInvoiceId(id);

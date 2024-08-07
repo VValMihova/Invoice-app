@@ -2,7 +2,6 @@ package bg.softuni.invoice_app.model.dto.invoice;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 

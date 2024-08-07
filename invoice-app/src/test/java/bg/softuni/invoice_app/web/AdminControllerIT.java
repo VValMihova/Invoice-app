@@ -39,6 +39,7 @@ public class AdminControllerIT {
   public void setUp() {
     MockitoAnnotations.openMocks(this);
   }
+  
   @Test
   @WithMockUser(roles = "ADMIN")
   public void testAdminPanelWithCompanyNameAndEik() throws Exception {

@@ -27,13 +27,15 @@
         <div class="col-md-3 pe-3">
           <div class="form-group">
             <label th:text="#{clients.search.companyName}"></label>
-            <input type="text" name="companyName" class="form-control" th:placeholder="#{clients.search.companyNamePlaceholder}" th:value="${param.companyName}">
+            <input type="text" name="companyName" class="form-control"
+                   th:placeholder="#{clients.search.companyNamePlaceholder}" th:value="${param.companyName}">
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group pe-3">
             <label th:text="#{clients.search.eik}"></label>
-            <input type="text" name="eik" class="form-control" th:placeholder="#{clients.search.eikPlaceholder}" th:value="${param.eik}">
+            <input type="text" name="eik" class="form-control" th:placeholder="#{clients.search.eikPlaceholder}"
+                   th:value="${param.eik}">
           </div>
         </div>
         <div class="col-md-6">
@@ -51,12 +53,17 @@
       <div class="card mb-4">
         <div class="card-body">
           <h5 class="card-title" th:text="${client.companyName}">Company Name</h5>
-          <p class="card-text"><strong th:text="#{client.address.label}">Address:</strong> <span th:text="${client.address}">Address</span></p>
-          <p class="card-text"><strong th:text="#{client.eik.label}">EIK:</strong> <span th:text="${client.eik}">EIK</span></p>
-          <p class="card-text"><strong th:text="#{client.vat.label}">VAT Number:</strong> <span th:text="${client.vatNumber}">VAT Number</span></p>
-          <p class="card-text"><strong th:text="#{client.manager.label}">Manager:</strong> <span th:text="${client.manager}">Manager</span></p>
+          <p class="card-text"><strong th:text="#{client.address.label}">Address:</strong> <span
+              th:text="${client.address}">Address</span></p>
+          <p class="card-text"><strong th:text="#{client.eik.label}">EIK:</strong> <span
+              th:text="${client.eik}">EIK</span></p>
+          <p class="card-text"><strong th:text="#{client.vat.label}">VAT Number:</strong> <span
+              th:text="${client.vatNumber}">VAT Number</span></p>
+          <p class="card-text"><strong th:text="#{client.manager.label}">Manager:</strong> <span
+              th:text="${client.manager}">Manager</span></p>
           <div class="d-flex justify-content-between">
-            <a th:href="@{/invoices/create-with-client/{clientId}(clientId=${client.id})}" class="btn btn-primary mt-2 mt-md-0 mr-2">
+            <a th:href="@{/invoices/create-with-client/{clientId}(clientId=${client.id})}"
+               class="btn btn-primary mt-2 mt-md-0 mr-2">
               <i class="fas fa-plus"></i> <span th:text="#{recipients.create.invoice.button}">Create Invoice</span>
             </a>
             <a th:href="@{/clients/edit/{clientId}(clientId=${client.id})}" class="btn btn-warning mt-2 mt-md-0 ml-2">

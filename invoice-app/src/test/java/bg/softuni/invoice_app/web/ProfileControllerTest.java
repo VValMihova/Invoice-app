@@ -108,6 +108,7 @@ public class ProfileControllerTest {
     verify(model).addAttribute(eq("companyDetails"), any(CompanyDetailsEditBindingDto.class));
     verify(model).addAttribute(eq("org.springframework.validation.BindingResult.companyDetails"), eq(bindingResult));
   }
+  
   @Test
   public void testUpdateCompany_WithoutBindingErrors() {
     when(bindingResult.hasErrors()).thenReturn(false);

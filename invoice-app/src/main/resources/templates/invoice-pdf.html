@@ -9,19 +9,65 @@
   </style>
   <title th:text="#{invoice.title}">Invoice PDF</title>
   <style>
-      body { font-family: Helvetica, serif; }
-      .container { width: 100%; margin: 0 auto; }
-      h1 { text-align: center; }
-      table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-      th, td { border: 1px solid black; padding: 10px; text-align: left; }
-      th { background-color: #f2f2f2; }
-      .text-right { text-align: right; }
-      .details-container { width: 100%; }
-      .details { width: 45%; display: inline-block; vertical-align: top; }
-      .header-container { width: 100%; overflow: hidden; }
-      .header-left { float: left; }
-      .header-right { float: right; }
-      .details-right { float: right; }
+      body {
+          font-family: Helvetica, serif;
+      }
+
+      .container {
+          width: 100%;
+          margin: 0 auto;
+      }
+
+      h1 {
+          text-align: center;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 20px 0;
+      }
+
+      th, td {
+          border: 1px solid black;
+          padding: 10px;
+          text-align: left;
+      }
+
+      th {
+          background-color: #f2f2f2;
+      }
+
+      .text-right {
+          text-align: right;
+      }
+
+      .details-container {
+          width: 100%;
+      }
+
+      .details {
+          width: 45%;
+          display: inline-block;
+          vertical-align: top;
+      }
+
+      .header-container {
+          width: 100%;
+          overflow: hidden;
+      }
+
+      .header-left {
+          float: left;
+      }
+
+      .header-right {
+          float: right;
+      }
+
+      .details-right {
+          float: right;
+      }
   </style>
 </head>
 <body>
@@ -39,18 +85,23 @@
     <div class="details">
       <h2 th:text="#{supplier.details}">Supplier Details</h2>
       <p th:text="#{supplier.name} + ': ' + ${invoice.supplier.companyName}">Supplier Name: Supplier Ltd.</span></p>
-      <p th:text="#{supplier.address} + ': ' + ${invoice.supplier.address}">Supplier Address: Sofia, Vitosha St. 1</span></p>
+      <p th:text="#{supplier.address} + ': ' + ${invoice.supplier.address}">Supplier Address: Sofia, Vitosha St.
+        1</span></p>
       <p th:text="#{supplier.eik} + ': ' + ${invoice.supplier.eik}">Supplier EIK: 1234567890</span></p>
-      <p th:text="#{supplier.vatNumber} + ': ' + ${invoice.supplier.vatNumber}">Supplier VAT Number: BG1234567890</span></p>
+      <p th:text="#{supplier.vatNumber} + ': ' + ${invoice.supplier.vatNumber}">Supplier VAT Number:
+        BG1234567890</span></p>
       <p th:text="#{supplier.manager} + ': ' + ${invoice.supplier.manager}">Supplier Manager: Ivan Ivanov</span></p>
     </div>
     <div class="details details-right">
       <h2 th:text="#{recipient.details}">Recipient Details</h2>
       <p th:text="#{recipient.name} + ': ' + ${invoice.recipient.companyName}">Recipient Name: Recipient Ltd.</span></p>
-      <p th:text="#{recipient.address} + ': ' + ${invoice.recipient.address}">Recipient Address: Plovdiv, Maria Louisa St. 2</span></p>
+      <p th:text="#{recipient.address} + ': ' + ${invoice.recipient.address}">Recipient Address: Plovdiv, Maria Louisa
+        St. 2</span></p>
       <p th:text="#{recipient.eik} + ': ' + ${invoice.recipient.eik}">Recipient EIK: 0987654321</span></p>
-      <p th:text="#{recipient.vatNumber} + ': ' + ${invoice.recipient.vatNumber}">Recipient VAT Number: BG0987654321</span></p>
-      <p th:text="#{recipient.manager} + ': ' + ${invoice.recipient.manager}">Recipient Manager: Georgi Georgiev</span></p>
+      <p th:text="#{recipient.vatNumber} + ': ' + ${invoice.recipient.vatNumber}">Recipient VAT Number:
+        BG0987654321</span></p>
+      <p th:text="#{recipient.manager} + ': ' + ${invoice.recipient.manager}">Recipient Manager: Georgi
+        Georgiev</span></p>
     </div>
   </div>
   <div class="details-container">

@@ -23,6 +23,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
   boolean existsByBankAccountPersist(BankAccountPersist account);
   
   boolean existsByInvoiceNumber(Long invoiceNumber);
+  
   boolean existsByInvoiceNumberAndUserId(Long invoiceNumber, Long userId);
   
   @Query("SELECT MAX(i.invoiceNumber) FROM Invoice i")

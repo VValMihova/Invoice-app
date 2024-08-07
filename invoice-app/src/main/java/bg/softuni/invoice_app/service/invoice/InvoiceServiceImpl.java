@@ -225,7 +225,7 @@ public class InvoiceServiceImpl implements InvoiceService {
   @Transactional
   @Override
   public void save(Invoice invoice) {
-  this.invoiceRepository.save(invoice);
+    this.invoiceRepository.save(invoice);
   }
   
   @Override

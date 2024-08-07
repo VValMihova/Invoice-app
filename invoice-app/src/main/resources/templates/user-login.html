@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head}"></head>
 <body>
 <nav th:replace="~{fragments/nav :: nav}"></nav>
@@ -10,11 +10,11 @@
       <div th:if="${loginError}" class="alert alert-danger mt-3" th:text="${loginError}"></div>
       <div class="form-group">
         <label for="email" th:text="#{login.email}">Email:</label>
-        <input name="email" type="email" id="email" class="form-control" required />
+        <input name="email" type="email" id="email" class="form-control" required/>
       </div>
       <div class="form-group">
         <label for="password" th:text="#{login.password}">Password:</label>
-        <input name="password" type="password" id="password" class="form-control" required />
+        <input name="password" type="password" id="password" class="form-control" required/>
       </div>
       <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">

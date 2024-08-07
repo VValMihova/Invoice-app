@@ -47,7 +47,6 @@ public class User {
   private String uuid;
   
   
-  
   public User() {
     this.roles = new HashSet<>();
     this.invoices = new OrderedHashSet<>();

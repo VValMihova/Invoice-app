@@ -18,7 +18,7 @@
             th:field="*{iban}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:if="${#fields.hasErrors('iban')}"
             th:errors="*{iban}" class="text-danger">
@@ -33,7 +33,7 @@
             th:field="*{bic}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:if="${#fields.hasErrors('bic')}"
             th:errors="*{bic}" class="text-danger">
@@ -48,7 +48,7 @@
             th:field="*{currency}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:if="${#fields.hasErrors('currency')}"
             th:errors="*{currency}" class="text-danger">

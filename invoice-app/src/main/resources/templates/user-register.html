@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 <head th:replace="~{fragments/head :: head}"></head>
 <body>
 <nav th:replace="~{fragments/nav :: nav}"></nav>
@@ -21,7 +21,7 @@
             th:field="*{email}"
             class="form-control"
             th:errorclass="'is-invalid alert-danger'"
-            required />
+            required/>
         <small
             th:each="err : ${#fields.errors('email')}"
             th:text="${err}" class="text-danger"></small>
@@ -35,7 +35,7 @@
             th:field="*{password}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:each="err : ${#fields.errors('password')}"
             th:text="${err}" class="text-danger"></small>
@@ -49,7 +49,7 @@
             th:field="*{confirmPassword}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:if="${#fields.hasErrors('confirmPassword')}"
             th:errors="*{confirmPassword}"
@@ -66,7 +66,7 @@
             th:field="*{companyName}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:each="err : ${#fields.errors('companyName')}"
             th:text="${err}" class="text-danger"></small>
@@ -80,7 +80,7 @@
             th:field="*{address}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:each="err : ${#fields.errors('address')}"
             th:text="${err}" class="text-danger"></small>
@@ -94,7 +94,7 @@
             th:field="*{eik}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:each="err : ${#fields.errors('eik')}"
             th:text="${err}" class="text-danger"></small>
@@ -108,7 +108,7 @@
             th:field="*{vatNumber}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:each="err : ${#fields.errors('vatNumber')}"
             th:text="${err}" class="text-danger"></small>
@@ -122,7 +122,7 @@
             th:field="*{manager}"
             th:errorclass="'is-invalid alert-danger'"
             class="form-control"
-            required />
+            required/>
         <small
             th:each="err : ${#fields.errors('manager')}"
             th:text="${err}" class="text-danger"></small>

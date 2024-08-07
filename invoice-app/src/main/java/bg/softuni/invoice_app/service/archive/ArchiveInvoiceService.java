@@ -95,7 +95,8 @@ public class ArchiveInvoiceService {
     return this.archiveInvoiceRepository.existsByBankAccountPersist(account);
   }
   
-  public List<ArchiveInvoice> findOlderThanTwoMonths() {{
+  public List<ArchiveInvoice> findOlderThanTwoMonths() {
+    {
       LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(2);
       return archiveInvoiceRepository.findAllDeletedOlderThanTwoMonths(twoMonthsAgo);
     }

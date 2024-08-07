@@ -25,6 +25,7 @@ public class AdminController {
     this.userService = userService;
     this.archiveInvoiceService = archiveInvoiceService;
   }
+  
   @Secured("ROLE_ADMIN")
   @GetMapping
   public String adminPanel(

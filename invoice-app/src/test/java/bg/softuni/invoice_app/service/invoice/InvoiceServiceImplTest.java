@@ -67,6 +67,7 @@ class InvoiceServiceImplTest {
     
     verify(mockRepository, times(1)).findById(invoiceId);
   }
+  
   @Test
   void testFindByIdOrThrow_NotFound() {
     Long invoiceId = TEST_ID;
@@ -171,7 +172,6 @@ class InvoiceServiceImplTest {
     assertEquals(user, capturedInvoice.getUser());
   }
   
-
   
   @Test
   void testDeleteById_NotFound() {
@@ -187,7 +187,7 @@ class InvoiceServiceImplTest {
     verify(mockEventPublisher, never()).publishEvent(any(InvoiceDeletedEvent.class));
     verifyNoMoreInteractions(mockRepository, mockSaleService, mockEventPublisher);
   }
-
+  
   
   @Test
   void testGetById_Found() {
@@ -373,7 +373,7 @@ class InvoiceServiceImplTest {
   
   @Test
   void testDeleteById_Found() {
-    Long invoiceId = 1L;
+    Long invoiceId = TEST_ID;
     Invoice invoice = new Invoice();
     invoice.setId(invoiceId);
     
@@ -389,6 +389,104 @@ class InvoiceServiceImplTest {
     InvoiceDeletedEvent capturedEvent = eventCaptor.getValue();
     assertNotNull(capturedEvent);
     assertEquals(invoice, capturedEvent.getInvoice());
+  }
+  
+  @Test
+  void testIsInvoiceNumberUniqueOrSame_WhenUnique() {
+    Long invoiceId = TEST_ID;
+    Long invoiceNumber = INVOICE_NUMBER;
+    Invoice mockInvoice = new Invoice();
+    mockInvoice.setInvoiceNumber(invoiceNumber);
+    
+    when(mockRepository.findById(invoiceId)).thenReturn(Optional.of(mockInvoice));
+    when(mockRepository.existsByInvoiceNumber(invoiceNumber)).thenReturn(false);
+    
+    boolean result = toTest.isInvoiceNumberUniqueOrSame(invoiceId, invoiceNumber);
+    
+    assertTrue(result);
+    verify(mockRepository).findById(invoiceId);
+    verify(mockRepository).existsByInvoiceNumber(invoiceNumber);
+  }
+  
+  @Test
+  void testIsInvoiceNumberUniqueOrSame_WhenSame() {
+    Long invoiceId = TEST_ID;
+    Long invoiceNumber = INVOICE_NUMBER;
+    Invoice mockInvoice = new Invoice();
+    mockInvoice.setInvoiceNumber(invoiceNumber);
+    
+    when(mockRepository.findById(invoiceId)).thenReturn(Optional.of(mockInvoice));
+    when(mockRepository.existsByInvoiceNumber(invoiceNumber)).thenReturn(true);
+    
+    boolean result = toTest.isInvoiceNumberUniqueOrSame(invoiceId, invoiceNumber);
+    
+    assertTrue(result);
+    verify(mockRepository).findById(invoiceId);
+    verify(mockRepository).existsByInvoiceNumber(invoiceNumber);
+  }
+  
+  @Test
+  void testIsInvoiceNumberUniqueOrSame_WhenNotUnique() {
+    Long invoiceId = TEST_ID;
+    Long invoiceNumber = INVOICE_NUMBER;
+    Invoice mockInvoice = new Invoice();
+    mockInvoice.setInvoiceNumber(456L);
+    
+    when(mockRepository.findById(invoiceId)).thenReturn(Optional.of(mockInvoice));
+    when(mockRepository.existsByInvoiceNumber(invoiceNumber)).thenReturn(true);
+    
+    boolean result = toTest.isInvoiceNumberUniqueOrSame(invoiceId, invoiceNumber);
+    
+    assertFalse(result);
+    verify(mockRepository).findById(invoiceId);
+    verify(mockRepository).existsByInvoiceNumber(invoiceNumber);
+  }
+  
+  @Test
+  void testExistsByInvoiceNumber() {
+    Long invoiceNumber = INVOICE_NUMBER;
+    
+    when(mockRepository.existsByInvoiceNumber(invoiceNumber)).thenReturn(true);
+    
+    boolean result = toTest.existsByInvoiceNumber(invoiceNumber);
+    
+    assertTrue(result);
+    verify(mockRepository).existsByInvoiceNumber(invoiceNumber);
+  }
+  
+  @Test
+  void testExistsByInvoiceNumberAndUserId() {
+    Long invoiceNumber = INVOICE_NUMBER;
+    Long userId = TEST_ID;
+    
+    when(mockRepository.existsByInvoiceNumberAndUserId(invoiceNumber, userId)).thenReturn(true);
+    
+    boolean result = toTest.existsByInvoiceNumberAndUserId(invoiceNumber, userId);
+    
+    assertTrue(result);
+    verify(mockRepository).existsByInvoiceNumberAndUserId(invoiceNumber, userId);
+  }
+  
+  @Test
+  void testSave() {
+    Invoice invoice = new Invoice();
+    
+    toTest.save(invoice);
+    
+    verify(mockRepository).save(invoice);
+  }
+  
+  @Test
+  void testFindMaxInvoiceNumberByUserId() {
+    Long userId = TEST_ID;
+    Long maxInvoiceNumber = 999L;
+    
+    when(mockRepository.findMaxInvoiceNumberByUserId(userId)).thenReturn(maxInvoiceNumber);
+    
+    Long result = toTest.findMaxInvoiceNumberByUserId(userId);
+    
+    assertEquals(maxInvoiceNumber, result);
+    verify(mockRepository).findMaxInvoiceNumberByUserId(userId);
   }
 }
 

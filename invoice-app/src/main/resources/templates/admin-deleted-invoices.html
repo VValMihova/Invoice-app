@@ -22,8 +22,12 @@
           <td th:text="${invoice.invoiceNumber}">123456</td>
           <td th:text="${invoice.issueDate}">2024-07-31</td>
           <td th:text="${invoice.recipient.companyName}">Recipient Company</td>
-          <td th:text="${#strings.replace(#strings.substringBefore(invoice.deletedAt.toString(), '.'), 'T', ' ')}">2024-07-31 12:34:56</td>          <td>
-            <form th:action="@{/admin/restore-invoice/{invoiceId}(invoiceId=${invoice.id}, userId=${userId})}" method="post" style="display:inline;">
+          <td th:text="${#strings.replace(#strings.substringBefore(invoice.deletedAt.toString(), '.'), 'T', ' ')}">
+            2024-07-31 12:34:56
+          </td>
+          <td>
+            <form th:action="@{/admin/restore-invoice/{invoiceId}(invoiceId=${invoice.id}, userId=${userId})}"
+                  method="post" style="display:inline;">
               <button class="btn btn-sm btn-success" type="submit" th:text="#{actions.restore}">Restore</button>
             </form>
           </td>
@@ -32,10 +36,12 @@
       </table>
     </div>
     <div th:if="${deletedInvoices.hasPrevious()}">
-      <a th:href="@{/admin/deleted-invoices(page=${deletedInvoices.number - 1}, userId=${userId})}" class="btn btn-secondary">Previous</a>
+      <a th:href="@{/admin/deleted-invoices(page=${deletedInvoices.number - 1}, userId=${userId})}"
+         class="btn btn-secondary">Previous</a>
     </div>
     <div th:if="${deletedInvoices.hasNext()}">
-      <a th:href="@{/admin/deleted-invoices(page=${deletedInvoices.number + 1}, userId=${userId})}" class="btn btn-secondary">Next</a>
+      <a th:href="@{/admin/deleted-invoices(page=${deletedInvoices.number + 1}, userId=${userId})}"
+         class="btn btn-secondary">Next</a>
     </div>
   </div>
 </div>

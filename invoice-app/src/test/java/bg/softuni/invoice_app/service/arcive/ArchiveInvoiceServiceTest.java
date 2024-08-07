@@ -12,7 +12,9 @@ import bg.softuni.invoice_app.service.sale.SaleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -46,23 +49,23 @@ class ArchiveInvoiceServiceTest {
   @BeforeEach
   void setUp() {
     archiveInvoice = new ArchiveInvoice();
-    archiveInvoice.setId(1L);
-    archiveInvoice.setInvoiceNumber(123L);
-    archiveInvoice.setUser(new User().setId(2L));
+    archiveInvoice.setId(TEST_ID);
+    archiveInvoice.setInvoiceNumber(INVOICE_NUMBER);
+    archiveInvoice.setUser(new User().setId(TEST_ID_2));
     archiveInvoice.setItems(Collections.singletonList(new ArchiveInvoiceItem()));
     
     invoice = new Invoice();
-    invoice.setId(1L);
-    invoice.setInvoiceNumber(123L);
-    invoice.setUser(new User().setId(2L));
+    invoice.setId(TEST_ID);
+    invoice.setInvoiceNumber(INVOICE_NUMBER);
+    invoice.setUser(new User().setId(TEST_ID_2));
   }
   
   @Test
   void testRestoreInvoice_NotFound() {
-    Long invoiceId = 1L;
+    Long invoiceId = TEST_ID;
     when(mockArchiveInvoiceRepository.findById(invoiceId)).thenReturn(Optional.empty());
     
-    ArchiveInvoiceNotFoundException exception = assertThrows(ArchiveInvoiceNotFoundException.class, () -> toTest.restoreInvoice(invoiceId, 1L));
+    ArchiveInvoiceNotFoundException exception = assertThrows(ArchiveInvoiceNotFoundException.class, () -> toTest.restoreInvoice(invoiceId, TEST_ID));
     assertEquals(ErrorMessages.ARCHIVE_INVOICE_NOT_FOUND, exception.getMessage());
     
     verify(mockArchiveInvoiceRepository, times(1)).findById(invoiceId);
@@ -71,9 +74,9 @@ class ArchiveInvoiceServiceTest {
   
   @Test
   void testRestoreInvoice_Found() {
-    Long invoiceId = 1L;
-    Long userId = 2L;
-    Long initialInvoiceNumber = 123L;
+    Long invoiceId = TEST_ID;
+    Long userId = TEST_ID_2;
+    Long initialInvoiceNumber = INVOICE_NUMBER;
     Long newInvoiceNumber = 125L;
     
     ArchiveInvoice archiveInvoice = new ArchiveInvoice();
@@ -108,9 +111,10 @@ class ArchiveInvoiceServiceTest {
     
     verify(mockArchiveSaleService).deleteAll(any());
   }
+  
   @Test
   void testFindAllByUserId() {
-    Long userId = 1L;
+    Long userId = TEST_ID;
     Pageable pageable = Pageable.unpaged();
     Page<ArchiveInvoice> archiveInvoicesPage = Page.empty();
     
@@ -122,6 +126,7 @@ class ArchiveInvoiceServiceTest {
     
     verify(mockArchiveInvoiceRepository).findAllByUserId(userId, pageable);
   }
+  
   @Test
   void testExistsByBankAccount() {
     BankAccountPersist account = new BankAccountPersist();
@@ -134,32 +139,34 @@ class ArchiveInvoiceServiceTest {
     
     verify(mockArchiveInvoiceRepository).existsByBankAccountPersist(account);
   }
+  
   @Test
   void testDelete() {
     ArchiveInvoice archiveInvoice = new ArchiveInvoice();
-    archiveInvoice.setId(1L);
+    archiveInvoice.setId(TEST_ID);
     
-    when(mockArchiveInvoiceRepository.findById(1L)).thenReturn(Optional.of(archiveInvoice));
+    when(mockArchiveInvoiceRepository.findById(TEST_ID)).thenReturn(Optional.of(archiveInvoice));
     
     toTest.delete(archiveInvoice);
     
-    verify(mockArchiveInvoiceRepository).findById(1L);
+    verify(mockArchiveInvoiceRepository).findById(TEST_ID);
     verify(mockArchiveInvoiceRepository).delete(archiveInvoice);
   }
   
   @Test
   void testDelete_NotFound() {
     ArchiveInvoice archiveInvoice = new ArchiveInvoice();
-    archiveInvoice.setId(1L);
+    archiveInvoice.setId(TEST_ID);
     
-    when(mockArchiveInvoiceRepository.findById(1L)).thenReturn(Optional.empty());
+    when(mockArchiveInvoiceRepository.findById(TEST_ID)).thenReturn(Optional.empty());
     
     InvoiceNotFoundException exception = assertThrows(InvoiceNotFoundException.class, () -> toTest.delete(archiveInvoice));
     assertEquals(ErrorMessages.INVOICE_NOT_FOUND, exception.getMessage());
     
-    verify(mockArchiveInvoiceRepository).findById(1L);
+    verify(mockArchiveInvoiceRepository).findById(TEST_ID);
     verify(mockArchiveInvoiceRepository, never()).delete(any(ArchiveInvoice.class));
   }
+  
   @Test
   void testFindOlderThanTwoMonths() {
     List<ArchiveInvoice> expectedList = Collections.singletonList(new ArchiveInvoice());
@@ -172,7 +179,6 @@ class ArchiveInvoiceServiceTest {
     assertEquals(expectedList, result);
     verify(mockArchiveInvoiceRepository).findAllDeletedOlderThanTwoMonths(any(LocalDateTime.class));
   }
-  
   
   
 }

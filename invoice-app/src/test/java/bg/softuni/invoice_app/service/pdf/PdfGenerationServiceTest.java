@@ -1,7 +1,5 @@
 package bg.softuni.invoice_app.service.pdf;
 
-import bg.softuni.invoice_app.exeption.ErrorMessages;
-import bg.softuni.invoice_app.exeption.PdfGenerationException;
 import bg.softuni.invoice_app.model.dto.invoice.InvoiceView;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
@@ -17,8 +15,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.time.LocalDate;
 import java.util.List;
 
-import static bg.softuni.invoice_app.TestConstants.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static bg.softuni.invoice_app.TestConstants.TEST_ID;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -71,10 +69,10 @@ public class PdfGenerationServiceTest {
     
     assertNotNull(pdfBytes);
     
-
+    
     verify(templateEngine).process(anyString(), any(Context.class));
     verify(templateEngine).process(eq("report-pdf"), any(Context.class));
-
+    
     verify(templateEngine).process(eq("report-pdf"), argThat(context -> {
       LocalDate startDate = (LocalDate) context.getVariable("startDate");
       LocalDate endDate = (LocalDate) context.getVariable("endDate");

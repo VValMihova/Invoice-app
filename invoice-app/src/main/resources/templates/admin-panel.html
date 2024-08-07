@@ -53,12 +53,14 @@
           <td>
             <a class="btn btn-sm btn-info" th:href="@{/admin/deleted-invoices(userId=${user.id})}"
                th:text="#{actions.viewDeletedInvoices}">View Deleted Invoices</a>
-            <form th:action="@{/admin/make-admin}" method="post" style="display:inline;" th:if="${!isAdminList[iterStat.index]}">
-              <input type="hidden" name="userId" th:value="${user.id}" />
+            <form th:action="@{/admin/make-admin}" method="post" style="display:inline;"
+                  th:if="${!isAdminList[iterStat.index]}">
+              <input type="hidden" name="userId" th:value="${user.id}"/>
               <button type="submit" class="btn btn-sm btn-warning" th:text="#{actions.makeAdmin}">Make Admin</button>
             </form>
-            <form th:action="@{/admin/remove-admin}" method="post" style="display:inline;" th:if="${isAdminList[iterStat.index]}">
-              <input type="hidden" name="userId" th:value="${user.id}" />
+            <form th:action="@{/admin/remove-admin}" method="post" style="display:inline;"
+                  th:if="${isAdminList[iterStat.index]}">
+              <input type="hidden" name="userId" th:value="${user.id}"/>
               <button type="submit" class="btn btn-sm btn-danger" th:text="#{actions.removeAdmin}">Remove Admin</button>
             </form>
           </td>

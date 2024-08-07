@@ -1,7 +1,6 @@
 package bg.softuni.invoice_app.model.dto.invoice;
 
 import bg.softuni.invoice_app.model.dto.recipientDetails.RecipientDetailsView;
-import bg.softuni.invoice_app.validation.invoice.UniqueInvoiceNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

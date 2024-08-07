@@ -106,7 +106,6 @@ public class ProfileController {
     
     return "redirect:/profile";
   }
-
   
   
   @GetMapping("/edit-bank-account/{id}")

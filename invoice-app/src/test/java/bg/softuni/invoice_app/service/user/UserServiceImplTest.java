@@ -89,9 +89,10 @@ public class UserServiceImplTest {
     
     assertFalse(isAdmin);
   }
+  
   @Test
   public void testRemoveAdminRoleFromUser() {
-    Long userId = 1L;
+    Long userId = TEST_ID;
     Role adminRole = new Role();
     adminRole.setName(RoleName.ADMIN);
     User user = new User();
@@ -201,6 +202,7 @@ public class UserServiceImplTest {
     
     verify(mockUserRepository).findAllByEmailNot(currentUserEmail, pageRequest);
   }
+  
   @Test
   void testFindAllExceptCurrent_WithEik() {
     String currentUserEmail = TEST_EMAIL;

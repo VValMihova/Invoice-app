@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head}"></head>
 <body>
 <nav th:replace="~{fragments/nav :: nav}"></nav>
@@ -12,13 +12,15 @@
         <div class="col-md-3 pe-3">
           <div class="form-group">
             <label th:text="#{invoices.search.recipient}"></label>
-            <input type="text" name="recipient" class="form-control" th:placeholder="#{invoices.search.recipientPlaceholder}" th:value="${param.recipient}">
+            <input type="text" name="recipient" class="form-control"
+                   th:placeholder="#{invoices.search.recipientPlaceholder}" th:value="${param.recipient}">
           </div>
         </div>
         <div class="col-md-3 pe-3">
           <div class="form-group">
             <label th:text="#{invoices.search.issueDate}"></label>
-            <input type="date" name="issueDate" class="form-control" th:placeholder="#{invoices.search.issueDatePlaceholder}" th:value="${param.issueDate}">
+            <input type="date" name="issueDate" class="form-control"
+                   th:placeholder="#{invoices.search.issueDatePlaceholder}" th:value="${param.issueDate}">
           </div>
         </div>
         <div class="col-md-6 pe-3">
@@ -48,12 +50,15 @@
           <td th:text="${invoice.recipient.companyName}">Recipient Name</td>
           <td th:text="${invoice.amountDue}">$1000.00</td>
           <td>
-            <a th:href="@{/invoices/view/{id}(id=${invoice.id})}" class="btn btn-sm btn-info" th:text="#{invoices.action.view}">View</a>
-            <a th:href="@{/invoices/edit/{id}(id=${invoice.id})}" class="btn btn-sm btn-warning" th:text="#{invoices.action.edit}">Edit</a>
+            <a th:href="@{/invoices/view/{id}(id=${invoice.id})}" class="btn btn-sm btn-info"
+               th:text="#{invoices.action.view}">View</a>
+            <a th:href="@{/invoices/edit/{id}(id=${invoice.id})}" class="btn btn-sm btn-warning"
+               th:text="#{invoices.action.edit}">Edit</a>
             <form th:action="@{/invoices/delete/{id}(id=${invoice.id})}" method="post" style="display:inline;">
               <button type="submit" class="btn btn-sm btn-danger" th:text="#{invoices.action.delete}">Delete</button>
             </form>
-            <a th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-sm btn-success" th:text="#{invoices.action.downloadPdf}">Download PDF</a>
+            <a th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-sm btn-success"
+               th:text="#{invoices.action.downloadPdf}">Download PDF</a>
           </td>
         </tr>
         </tbody>

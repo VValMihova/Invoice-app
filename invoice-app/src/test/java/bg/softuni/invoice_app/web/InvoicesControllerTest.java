@@ -99,6 +99,7 @@ public class InvoicesControllerTest {
     assertEquals("redirect:/invoices", viewName);
     verify(invoiceService).deleteById(TEST_ID);
   }
+  
   @Test
   public void testUpdateInvoice_WithoutBindingErrors() {
     when(bindingResult.hasErrors()).thenReturn(false);

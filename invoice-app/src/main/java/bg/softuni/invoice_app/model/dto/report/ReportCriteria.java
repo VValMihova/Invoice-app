@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @ValidDateRange
 public class ReportCriteria {
-  //todo add message for not null
   @NotNull
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate startDate;

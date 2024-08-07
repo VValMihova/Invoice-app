@@ -1,7 +1,8 @@
 package bg.softuni.invoice_app.web;
-import bg.softuni.invoice_app.service.user.UserService;
-import bg.softuni.invoice_app.model.entity.User;
+
 import bg.softuni.invoice_app.model.entity.CompanyDetails;
+import bg.softuni.invoice_app.model.entity.User;
+import bg.softuni.invoice_app.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
