@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface ArchiveSaleRepository extends JpaRepository<ArchiveSale, Long> {
   List<ArchiveSale> findAllByInvoiceNumberAndUserId(Long invoiceId, Long userId);
+  void deleteAllByInvoiceNumberAndUserId(Long invoiceId, Long userId);
 }

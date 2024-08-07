@@ -126,7 +126,7 @@ INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_i
 INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (26, 6, 'Product4', 22.00, '2024-08-07', 3);
 
 -- test@abv.bg
-INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (1, 187.20, '2024-08-07 10:15:57.488028', 3, '2024-08-07', 156.00, 31.20, 3, 2, 2, 2);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (1, 187.20, '2024-06-06 10:15:57.488028', 3, '2024-08-07', 156.00, 31.20, 3, 2, 2, 2);
 INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (2, 324.00, '2024-08-07 10:15:58.879097', 4, '2024-08-07', 270.00, 54.00, 3, 2, 2, 2);
 INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (3, 316.80, '2024-08-07 10:15:59.717514', 5, '2024-08-07', 264.00, 52.80, 3, 5, 2, 2);
 INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (4, 1500.00, '2024-08-07 10:16:00.399693', 6, '2024-08-07', 1250.00, 250.00, 3, 5, 2, 2);

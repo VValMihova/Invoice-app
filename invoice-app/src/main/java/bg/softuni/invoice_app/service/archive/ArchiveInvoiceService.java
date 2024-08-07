@@ -2,6 +2,7 @@ package bg.softuni.invoice_app.service.archive;
 
 import bg.softuni.invoice_app.exeption.ArchiveInvoiceNotFoundException;
 import bg.softuni.invoice_app.exeption.ErrorMessages;
+import bg.softuni.invoice_app.exeption.InvoiceNotFoundException;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.ArchiveInvoiceRepository;
 import bg.softuni.invoice_app.repository.ArchiveSaleRepository;
@@ -12,7 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -92,5 +97,17 @@ public class ArchiveInvoiceService {
   
   public boolean existsByBankAccount(BankAccountPersist account) {
     return this.archiveInvoiceRepository.existsByBankAccountPersist(account);
+  }
+  
+  public List<ArchiveInvoice> findOlderThanTwoMonths() {{
+      LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(2);
+      return archiveInvoiceRepository.findAllDeletedOlderThanTwoMonths(twoMonthsAgo);
+    }
+  }
+  
+  public void delete(ArchiveInvoice invoice) {
+    archiveInvoiceRepository.findById(invoice.getId())
+        .orElseThrow(() -> new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND));
+    archiveInvoiceRepository.delete(invoice);
   }
 }
