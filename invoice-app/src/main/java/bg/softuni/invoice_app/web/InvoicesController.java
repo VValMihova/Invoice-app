@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -79,7 +78,7 @@ public class InvoicesController {
       RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(invoiceView.getRecipient().getId());
       model.addAttribute("recipientDetails", recipientDetailsView);
     }
-
+    
     model.addAttribute("bankAccounts",
         this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
     
@@ -125,14 +124,14 @@ public class InvoicesController {
                                         @Valid InvoiceCreateDto invoiceData,
                                         BindingResult bindingResult,
                                         Model model) {
+    if (invoiceData.getItems().isEmpty()) {
+      bindingResult.rejectValue("items", "error.invoiceData.items.empty");
+      prepareModelForInvoiceForm(clientId, model, invoiceData, bindingResult);
+      return "invoice-create-with-client";
+    }
+    
     if (bindingResult.hasErrors()) {
-      model.addAttribute("bankAccounts",
-          this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
-      RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
-      model.addAttribute("recipient", recipientDetailsView);
-      invoiceData.setRecipientDetails(modelMapper.map(recipientDetailsView, RecipientDetailsAddDto.class));
-      model.addAttribute("invoiceData", invoiceData);
-      model.addAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+      prepareModelForInvoiceForm(clientId, model, invoiceData, bindingResult);
       return "invoice-create-with-client";
     }
     
@@ -147,7 +146,6 @@ public class InvoicesController {
     return "redirect:/invoices";
   }
   
-  
   @GetMapping("/download-pdf/{id}")
   public void downloadPdf(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
     byte[] pdf = pdfService.generateInvoicePdf(id, request, response);
@@ -155,11 +153,22 @@ public class InvoicesController {
     response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
     response.getOutputStream().write(pdf);
   }
+  
   private void invoiceNumberCheck(Long id, InvoiceEditDto invoiceData, BindingResult bindingResult) {
     if (!invoiceService.isInvoiceNumberUniqueOrSame(id, invoiceData.getInvoiceNumber())) {
       bindingResult.rejectValue("invoiceNumber", "error.invoiceData.invoiceNumber.exists");
     }
   }
+  
+  private void prepareModelForInvoiceForm(Long clientId, Model model, InvoiceCreateDto invoiceData, BindingResult bindingResult) {
+    model.addAttribute("bankAccounts", this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
+    RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(clientId);
+    model.addAttribute("recipient", recipientDetailsView);
+    invoiceData.setRecipientDetails(modelMapper.map(recipientDetailsView, RecipientDetailsAddDto.class));
+    model.addAttribute("invoiceData", invoiceData);
+    model.addAttribute("org.springframework.validation.BindingResult.invoiceData", bindingResult);
+  }
+  
   
   //    MODEL ATTRIBUTES
   @ModelAttribute("invoiceData")

@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceCreateDto {
@@ -42,6 +43,10 @@ public class InvoiceCreateDto {
   @NotNull(message = "{invoice.amount.due.not.null}")
   @Positive(message = "{invoice.amount.positive}")
   private BigDecimal amountDue;
+  
+  public InvoiceCreateDto() {
+    this.items = new ArrayList<>();
+  }
   
   public Long getInvoiceNumber() {
     return invoiceNumber;

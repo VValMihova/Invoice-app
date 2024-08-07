@@ -92,6 +92,13 @@
                 th:value="${bankAccount.iban}"
                 th:text="${bankAccount.iban}"></option>
       </select>
+      <small
+          th:each="err : ${#fields.errors('bankAccountIban')}"
+          th:text="${err}" class="text-danger">
+      </small>
+    </div>
+    <div th:if="${#fields.hasErrors('items')}" class="text-danger">
+      <p th:errors="*{items}">Please fill items!</p>
     </div>
 
     <h4 th:text="#{invoice.items.header}">Items</h4>
