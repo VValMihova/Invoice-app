@@ -1,6 +1,7 @@
 package bg.softuni.invoice_app.utils;
 
 import bg.softuni.invoice_app.model.entity.BankAccountPersist;
+import bg.softuni.invoice_app.service.archive.ArchiveInvoiceService;
 import bg.softuni.invoice_app.service.bankAccountPersist.BankAccountPersistService;
 import bg.softuni.invoice_app.service.invoice.InvoiceService;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,9 @@ public class ScheduledJobTest {
   @Mock
   private InvoiceService mockInvoiceService;
   
+  @Mock
+  private ArchiveInvoiceService mockArchiveInvoiceService;
+  
   @InjectMocks
   private ScheduledJob toTest;
   
@@ -40,12 +44,16 @@ public class ScheduledJobTest {
     when(mockBankAccountPersistService.getAllPersistantAccounts()).thenReturn(Arrays.asList(usedAccount, unusedAccount));
     when(mockInvoiceService.existsByBankAccount(usedAccount)).thenReturn(true);
     when(mockInvoiceService.existsByBankAccount(unusedAccount)).thenReturn(false);
+    when(mockArchiveInvoiceService.existsByBankAccount(usedAccount)).thenReturn(false);
+    when(mockArchiveInvoiceService.existsByBankAccount(unusedAccount)).thenReturn(false);
     
     toTest.cleanupUnusedBankAccounts();
     
     verify(mockBankAccountPersistService).getAllPersistantAccounts();
     verify(mockInvoiceService).existsByBankAccount(usedAccount);
     verify(mockInvoiceService).existsByBankAccount(unusedAccount);
+    verify(mockArchiveInvoiceService).existsByBankAccount(usedAccount);
+    verify(mockArchiveInvoiceService).existsByBankAccount(unusedAccount);
     verify(mockBankAccountPersistService).delete(unusedAccount);
     verify(mockBankAccountPersistService, never()).delete(usedAccount);
   }

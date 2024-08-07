@@ -89,4 +89,8 @@ public class ArchiveInvoiceService {
   public Page<ArchiveInvoice> findAllByUserId(Long userId, Pageable pageable) {
     return archiveInvoiceRepository.findAllByUserId(userId, pageable);
   }
+  
+  public boolean existsByBankAccount(BankAccountPersist account) {
+    return this.archiveInvoiceRepository.existsByBankAccountPersist(account);
+  }
 }
