@@ -111,8 +111,6 @@ public class InvoiceServiceImpl implements InvoiceService {
   public void deleteById(Long invoiceId) {
     Invoice invoice = invoiceRepository.findById(invoiceId)
         .orElseThrow(() -> new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND));
-    //    todo change deletion
-//    saleService.deleteAllByInvoiceId(invoiceId);
     eventPublisher.publishEvent(new InvoiceDeletedEvent(this, invoice));
     invoiceRepository.delete(invoice);
     

@@ -171,21 +171,7 @@ class InvoiceServiceImplTest {
     assertEquals(user, capturedInvoice.getUser());
   }
   
-  @Test
-  void testDeleteById_Success() {
-    Long invoiceId = TEST_ID;
-    Invoice invoice = new Invoice().setId(invoiceId);
-    
-    when(mockRepository.findById(invoiceId)).thenReturn(Optional.of(invoice));
-    
-    toTest.deleteById(invoiceId);
-    
-    verify(mockRepository).findById(invoiceId);
-    verify(mockSaleService).deleteAllByInvoiceId(invoiceId);
-    verify(mockRepository).delete(invoice);
-    verify(mockEventPublisher).publishEvent(any(InvoiceDeletedEvent.class));
-    verifyNoMoreInteractions(mockRepository, mockSaleService, mockEventPublisher);
-  }
+
   
   @Test
   void testDeleteById_NotFound() {
@@ -385,5 +371,24 @@ class InvoiceServiceImplTest {
     verify(mockRepository).findById(invoiceId);
   }
   
+  @Test
+  void testDeleteById_Found() {
+    Long invoiceId = 1L;
+    Invoice invoice = new Invoice();
+    invoice.setId(invoiceId);
+    
+    when(mockRepository.findById(invoiceId)).thenReturn(Optional.of(invoice));
+    
+    toTest.deleteById(invoiceId);
+    
+    verify(mockRepository, times(1)).findById(invoiceId);
+    verify(mockRepository, times(1)).delete(invoice);
+    ArgumentCaptor<InvoiceDeletedEvent> eventCaptor = ArgumentCaptor.forClass(InvoiceDeletedEvent.class);
+    verify(mockEventPublisher, times(1)).publishEvent(eventCaptor.capture());
+    
+    InvoiceDeletedEvent capturedEvent = eventCaptor.getValue();
+    assertNotNull(capturedEvent);
+    assertEquals(invoice, capturedEvent.getInvoice());
+  }
 }
 
