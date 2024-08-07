@@ -128,32 +128,34 @@
         </tbody>
       </table>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-12 text-end pe-5">
-      <h3 th:text="#{invoice.summary}">Summary</h3>
-      <p><strong th:text="#{invoice.total.amount}">Total Amount:</strong> <span
-          th:text="${invoice.totalAmount}">132.00</span></p>
-      <p><strong th:text="#{invoice.vat}">VAT (20%):</strong> <span th:text="${invoice.vat}">26.40</span></p>
-      <p><strong th:text="#{invoice.amount.due}">Amount Due:</strong> <span th:text="${invoice.amountDue}">158.40</span>
-      </p>
+
+    <div class="row">
+      <div class="col-md-12 text-end pe-5">
+        <h3 th:text="#{invoice.summary}">Summary</h3>
+        <p><strong th:text="#{invoice.total.amount}">Total Amount:</strong> <span
+            th:text="${invoice.totalAmount}">132.00</span></p>
+        <p><strong th:text="#{invoice.vat}">VAT (20%):</strong> <span th:text="${invoice.vat}">26.40</span></p>
+        <p><strong th:text="#{invoice.amount.due}">Amount Due:</strong> <span
+            th:text="${invoice.amountDue}">158.40</span>
+        </p>
+      </div>
     </div>
-  </div>
 
-  <hr>
+    <hr>
 
-  <div class="row">
-    <div class="col-md-6">
-      <a th:href="@{/invoices}" class="btn btn-primary" th:text="#{invoice.back.to.invoices}">Back to Invoices</a>
-    </div>
-    <div class="col-md-6 text-end">
-      <a th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-success"
-         th:text="#{invoice.download.pdf}">Download PDF</a>
+    <div class="row">
+      <div class="col-md-6">
+        <a th:href="@{/invoices}" class="btn btn-primary" th:text="#{invoice.back.to.invoices}">Back to Invoices</a>
+      </div>
+      <div class="col-md-6 text-end">
+        <a th:href="@{/invoices/download-pdf/{id}(id=${invoice.id})}" class="btn btn-success"
+           th:text="#{invoice.download.pdf}">Download PDF</a>
+      </div>
     </div>
   </div>
 </div>
-</div>
+
 <div class="push"></div>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 <script src="/js/jquery.min.js"></script>
