@@ -47,10 +47,20 @@ INSERT INTO invoices (id, invoice_number, issue_date, total_amount, vat, amount_
 -- Добавяне на данни в таблицата invoices за test@abv.bg
 INSERT INTO invoices (id, invoice_number, issue_date, total_amount, vat, amount_due, bank_account_persist_id, user_id, recipient_id, supplier_id) VALUES (3, 1, '2023-02-01', 2000.00, 400.00, 2400.00, 3, 2, 2, 2);
 INSERT INTO invoices (id, invoice_number, issue_date, total_amount, vat, amount_due, bank_account_persist_id, user_id, recipient_id, supplier_id) VALUES (4, 2, '2023-02-15', 2500.00, 500.00, 3000.00, 4, 2, 5, 2);
+INSERT INTO invoices (id, amount_due, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (7, 367.20, 3, '2024-08-07', 306.00, 61.20, 3, 5, 2, 2);
+INSERT INTO invoices (id, amount_due, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (8, 626.40, 4, '2024-08-07', 522.00, 104.40, 3, 2, 2, 2);
+INSERT INTO invoices (id, amount_due, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (9, 17856.00, 5, '2024-08-07', 14880.00, 2976.00, 3, 2, 2, 2);
+INSERT INTO invoices (id, amount_due, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (10, 1406.40, 6, '2024-08-08', 1172.00, 234.40, 6, 2, 2, 2);
+
 
 -- Добавяне на данни в таблицата invoices за test2@abv.bg
 INSERT INTO invoices (id, invoice_number, issue_date, total_amount, vat, amount_due, bank_account_persist_id, user_id, recipient_id, supplier_id) VALUES (5, 1, '2023-03-01', 3000.00, 600.00, 3600.00, 5, 3, 3, 3);
 INSERT INTO invoices (id, invoice_number, issue_date, total_amount, vat, amount_due, bank_account_persist_id, user_id, recipient_id, supplier_id) VALUES (6, 2, '2023-03-15', 3500.00, 700.00, 4200.00, 6, 3, 6, 3);
+INSERT INTO invoices (id, amount_due, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (11, 1267.20, 3, '2024-08-07', 1056.00, 211.20, 6, 3, 3, 3);
+INSERT INTO invoices (id, amount_due, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (12, 2560.80, 4, '2024-08-07', 2134.00, 426.80, 6, 3, 3, 3);
+INSERT INTO invoices (id, amount_due, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (13, 936.00, 5, '2024-08-07', 780.00, 156.00, 5, 6, 3, 3);
+INSERT INTO invoices (id, amount_due, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (14, 237.60, 6, '2024-08-07', 198.00, 39.60, 5, 5, 3, 3);
+
 
 -- admin@abv.bg
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (1, 'Product1', 1, 500.00, 500.00, 1);
@@ -63,12 +73,26 @@ INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (6, 'Product6', 1, 1000.00, 1000.00, 3);
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (7, 'Product7', 1, 1250.00, 1250.00, 4);
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (8, 'Product8', 1, 1250.00, 1250.00, 4);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (13, 'Product1', 17.0000, 306.00, 18.00, 7);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (15, 'Product12', 12.0000, 180.00, 15.00, 8);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (16, 'Product15', 18.0000, 342.00, 19.00, 8);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (17, 'Product6', 66.0000, 13134.00, 199.00, 9);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (18, 'Product8', 12.0000, 540.00, 45.00, 9);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (19, 'Product9', 18.0000, 1206.00, 67.00, 9);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (20, 'Product16', 12.0000, 204.00, 17.00, 10);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (21, 'Product16', 11.0000, 968.00, 88.00, 10);
+
 
 -- test2@abv.bg
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (9, 'Product9', 1, 1500.00, 1500.00, 5);
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (10, 'Product10', 1, 1500.00, 1500.00, 5);
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (11, 'Product11', 1, 1750.00, 1750.00, 6);
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (12, 'Product12', 1, 1750.00, 1750.00, 6);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (22, 'Product12', 12.0000, 1056.00, 88.00, 11);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (23, 'Product7', 55.0000, 1210.00, 22.00, 12);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (24, 'Product8', 12.0000, 924.00, 77.00, 12);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (25, 'Product9', 65.0000, 780.00, 12.00, 13);
+INSERT INTO invoice_items (id, name, quantity, total_price, unit_price, invoice_id) VALUES (26, 'Product4', 22.0000, 198.00, 9.00, 14);
 
 -- admin@abv.bg
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (1, 'Product1', 1, '2023-01-01', 1, 1);
@@ -81,12 +105,25 @@ INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_i
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (6, 'Product6', 1, '2023-02-01', 1, 2);
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (7, 'Product7', 1, '2023-02-15', 2, 2);
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (8, 'Product8', 1, '2023-02-15', 2, 2);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (13,3,'Product1',17.00,'2024-08-07',2);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (15,4,'Product12',12.00,'2024-08-07',2);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (16,4,'Product15',18.00,'2024-08-07',2);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (17,5,'Product6',66.00,'2024-08-07',2);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (18,5,'Product8',12.00,'2024-08-07',2);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (19,5,'Product9',18.00,'2024-08-07',2);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (20,6,'Product16',12.00,'2024-08-08',2);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (21,6,'Product16',11.00,'2024-08-08',2);
 
 -- test2@abv.bg
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (9, 'Product9', 1, '2023-03-01', 1, 3);
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (10, 'Product10', 1, '2023-03-01', 1, 3);
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (11, 'Product11', 1, '2023-03-15', 2, 3);
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (12, 'Product12', 1, '2023-03-15', 2, 3);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (22, 3, 'Product12', 12.00, '2024-08-07', 3);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (23, 4, 'Product7', 55.00, '2024-08-07', 3);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (24, 4, 'Product8', 12.00, '2024-08-07', 3);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (25, 5, 'Product9', 65.00, '2024-08-07', 3);
+INSERT INTO sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (26, 6, 'Product4', 22.00, '2024-08-07', 3);
 
 -- test@abv.bg
 INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (1, 187.20, '2024-08-07 10:15:57.488028', 3, '2024-08-07', 156.00, 31.20, 3, 2, 2, 2);
