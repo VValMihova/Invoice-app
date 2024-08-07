@@ -15,6 +15,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.ByteArrayOutputStream;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -52,10 +53,12 @@ public class PdfGenerationService {
     }
   }
   
-  public byte[] generateSalesReportPdf(List<SaleReportDto> reportData) {
+  public byte[] generateSalesReportPdf(List<SaleReportDto> reportData, LocalDate startDate, LocalDate endDate) {
     Context context = new Context();
     context.setLocale(LocaleContextHolder.getLocale());
     context.setVariable("reportData", reportData);
+    context.setVariable("startDate", startDate);
+    context.setVariable("endDate", endDate);
     
     String htmlContent = templateEngine.process("report-pdf", context);
     

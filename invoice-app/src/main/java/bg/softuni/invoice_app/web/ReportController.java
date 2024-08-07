@@ -64,7 +64,7 @@ public class ReportController {
     reportCriteria.setEndDate(endDate);
     
     List<SaleReportDto> reportData = saleService.generateReport(reportCriteria, userService.getCurrentUserId());
-    byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData);
+    byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData, startDate, endDate);
     
     response.setContentType("application/pdf");
     response.setHeader("Content-Disposition", "attachment; filename=sales_report.pdf");

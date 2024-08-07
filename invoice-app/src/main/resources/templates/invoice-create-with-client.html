@@ -53,34 +53,47 @@
 
     <hr>
 
-    <div class="row">
-      <div class="col-md-12">
-        <h4 th:text="#{create.invoice.recipient.details}">Recipient Details</h4>
-        <div class="form-group">
-          <label th:text="#{create.invoice.recipient.name}">Recipient Name:</label>
-          <p th:text="${recipient.companyName}">Recipient Name</p>
-        </div>
-        <div class="form-group">
-          <label th:text="#{create.invoice.recipient.address}">Recipient Address:</label>
-          <p th:text="${recipient.address}">Recipient Address</p>
-        </div>
-        <div class="form-group">
-          <label th:text="#{create.invoice.recipient.eik}">Recipient EIK:</label>
-          <p th:text="${recipient.eik}">Recipient EIK</p>
-        </div>
-        <div class="form-group">
-          <label th:text="#{create.invoice.recipient.vat}">Recipient VAT Number:</label>
-          <p th:text="${recipient.vatNumber}">Recipient VAT Number</p>
-        </div>
-        <div class="form-group">
-          <label th:text="#{create.invoice.recipient.manager}">Recipient Manager:</label>
-          <p th:text="${recipient.manager}">Recipient Manager</p>
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-12">
+          <h4 th:text="#{create.invoice.recipient.details}">Recipient Details</h4>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold" th:text="#{create.invoice.recipient.name}">Recipient Name:</label>
+            <div class="col-sm-9">
+              <p class="custom-text" th:text="${recipient.companyName}">Recipient Name</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold" th:text="#{create.invoice.recipient.address}">Recipient Address:</label>
+            <div class="col-sm-9">
+              <p class="custom-text" th:text="${recipient.address}">Recipient Address</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold" th:text="#{create.invoice.recipient.eik}">Recipient EIK:</label>
+            <div class="col-sm-9">
+              <p class="custom-text" th:text="${recipient.eik}">Recipient EIK</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold" th:text="#{create.invoice.recipient.vat}">Recipient VAT Number:</label>
+            <div class="col-sm-9">
+              <p class="custom-text" th:text="${recipient.vatNumber}">Recipient VAT Number</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold" th:text="#{create.invoice.recipient.manager}">Recipient Manager:</label>
+            <div class="col-sm-9">
+              <p class="custom-text" th:text="${recipient.manager}">Recipient Manager</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
+    <h4 class="mt-4 font-weight-bold" th:text="#{create.invoice.bank.account.header}">Bank Details</h4>
     <div class="form-group">
-      <label for="bankAccount" th:text="#{create.invoice.bank.account.header}">Select Bank Account:</label>
+      <label for="bankAccount"></label>
       <select
           id="bankAccount"
           name="bankAccountId"
@@ -97,13 +110,16 @@
           th:text="${err}" class="text-danger">
       </small>
     </div>
+
+    <hr>
+
     <div th:if="${#fields.hasErrors('items')}" class="text-danger">
       <p th:errors="*{items}">Please fill items!</p>
     </div>
 
     <h4 th:text="#{invoice.items.header}">Items</h4>
     <div class="table-responsive">
-      <table class="table table-striped table-bordered text-center">
+      <table class="table table-striped table-bordered text-center custom-table">
         <thead class="thead-light">
         <tr>
           <th th:text="#{invoice.items.name}">Item Name</th>
