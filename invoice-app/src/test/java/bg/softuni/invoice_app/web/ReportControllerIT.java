@@ -61,8 +61,8 @@ public class ReportControllerIT {
   @Test
   public void shouldGenerateReport() throws Exception {
     ReportCriteria criteria = new ReportCriteria();
-    criteria.setStartDate(LocalDate.parse(TEST_START_DATE));
-    criteria.setEndDate(LocalDate.parse(TEST_END_DATE));
+    criteria.setStartDate(LocalDate.parse(TEST_START_DATE_STRING));
+    criteria.setEndDate(LocalDate.parse(TEST_END_DATE_STRING));
     
     List<SaleReportDto> reportData = Collections.singletonList(new SaleReportDto());
     Long currentUserId = 1L;
@@ -78,18 +78,22 @@ public class ReportControllerIT {
         .andExpect(model().attributeExists("reportData"));
   }
   
+  private static final LocalDate TEST_START_DATE = LocalDate.of(2022, 1, 1);
+  private static final LocalDate TEST_END_DATE = LocalDate.of(2022, 12, 31);
+  
   @Test
   public void shouldDownloadPdfReport() throws Exception {
     List<SaleReportDto> reportData = Collections.singletonList(new SaleReportDto());
     byte[] pdfBytes = new byte[0];
     Long currentUserId = 1L;
+    
     Mockito.when(userService.getCurrentUserId()).thenReturn(currentUserId);
     Mockito.when(saleService.generateReport(Mockito.any(ReportCriteria.class), Mockito.eq(currentUserId))).thenReturn(reportData);
-    Mockito.when(pdfGenerationService.generateSalesReportPdf(reportData)).thenReturn(pdfBytes);
+    Mockito.when(pdfGenerationService.generateSalesReportPdf(reportData, TEST_START_DATE, TEST_END_DATE)).thenReturn(pdfBytes);
     
     mockMvc.perform(get(PDF_DOWNLOAD_URL)
-            .param("startDate", TEST_START_DATE)
-            .param("endDate", TEST_END_DATE)
+            .param("startDate", TEST_START_DATE.toString())
+            .param("endDate", TEST_END_DATE.toString())
             .with(user("user").password("password").roles("USER"))
             .with(csrf()))
         .andExpect(status().isOk())

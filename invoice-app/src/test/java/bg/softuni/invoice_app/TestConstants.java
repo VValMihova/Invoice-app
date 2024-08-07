@@ -87,8 +87,8 @@ public class TestConstants {
   
   // Test Dates
   public static final LocalDate TEST_DATE_NOW = LocalDate.now();
-  public static final String TEST_START_DATE = "2023-01-01";
-  public static final String TEST_END_DATE = "2023-12-31";
+  public static final String TEST_START_DATE_STRING = "2023-01-01";
+  public static final String TEST_END_DATE_STRING = "2023-12-31";
   
   // Test Bank Account Details
   public static final String BIC_CODE = "UNCRITMM";

@@ -10,13 +10,11 @@ import bg.softuni.invoice_app.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static bg.softuni.invoice_app.TestConstants.*;
@@ -70,8 +68,8 @@ public class SaleServiceImplTest {
   @Test
   void testGenerateReport() {
     ReportCriteria criteria = new ReportCriteria();
-    criteria.setStartDate(LocalDate.parse(TEST_START_DATE));
-    criteria.setEndDate(LocalDate.parse(TEST_END_DATE));
+    criteria.setStartDate(LocalDate.parse(TEST_START_DATE_STRING));
+    criteria.setEndDate(LocalDate.parse(TEST_END_DATE_STRING));
     Long userId = TEST_ID;
     
     List<SaleReportDto> expectedReports = new ArrayList<>();

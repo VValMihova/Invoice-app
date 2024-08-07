@@ -14,9 +14,10 @@ import org.mockito.MockitoAnnotations;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import static bg.softuni.invoice_app.TestConstants.TEST_ID;
+import static bg.softuni.invoice_app.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -57,16 +58,27 @@ public class PdfGenerationServiceTest {
     verify(templateEngine).process(anyString(), any(Context.class));
   }
   
+  private static final LocalDate TEST_START_DATE = LocalDate.of(2022, 1, 1);
+  private static final LocalDate TEST_END_DATE = LocalDate.of(2022, 12, 31);
+  
   @Test
   void testGenerateSalesReportPdf() throws Exception {
     List<SaleReportDto> reportData = List.of(new SaleReportDto(), new SaleReportDto());
     
     when(templateEngine.process(anyString(), any(Context.class))).thenReturn("<html></html>");
     
-    byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData);
+    byte[] pdfBytes = pdfGenerationService.generateSalesReportPdf(reportData, TEST_START_DATE, TEST_END_DATE);
     
     assertNotNull(pdfBytes);
+    
+
     verify(templateEngine).process(anyString(), any(Context.class));
+    verify(templateEngine).process(eq("report-pdf"), any(Context.class));
+
+    verify(templateEngine).process(eq("report-pdf"), argThat(context -> {
+      LocalDate startDate = (LocalDate) context.getVariable("startDate");
+      LocalDate endDate = (LocalDate) context.getVariable("endDate");
+      return TEST_START_DATE.equals(startDate) && TEST_END_DATE.equals(endDate);
+    }));
   }
-  
 }
