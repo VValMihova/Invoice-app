@@ -11,5 +11,5 @@ public class ErrorConstants {
   public final static String TEST_BIC_2 = "DABADKKK";
   public final static String TEST_CURRENCY_2 = "EUR";
   public final static String TEST_UUID = "91071533-ae2f-4396-8a46-a7cc3e3d86e0";
-
+  
 }

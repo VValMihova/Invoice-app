@@ -54,7 +54,7 @@ public class BankAccountController {
             .toUri()
     ).body(bankAccountView);
   }
-
+  
   @PutMapping("/{id}")
   public ResponseEntity<BankAccountView> updateBankAccount(
       @PathVariable Long id,

@@ -1,11 +1,11 @@
 package bg.softuni.invoiceappbankaccounts.service;
 
+import bg.softuni.invoiceappbankaccounts.exception.ObjectNotFoundException;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountCreateBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountEditBindingDto;
 import bg.softuni.invoiceappbankaccounts.model.dto.BankAccountView;
 import bg.softuni.invoiceappbankaccounts.model.entity.BankAccount;
 import bg.softuni.invoiceappbankaccounts.repository.BankAccountRepository;
-import bg.softuni.invoiceappbankaccounts.exception.ObjectNotFoundException;
 import bg.softuni.invoiceappbankaccounts.utils.InputFormating;
 import org.springframework.stereotype.Service;
 
@@ -39,14 +39,14 @@ public class BankAccountServiceImpl implements BankAccountService {
         .map(BankAccountView::new)
         .toList();
   }
-
-@Override
-public BankAccountView addBankAccountUser(BankAccountCreateBindingDto bankAccountCreate, String uuid) {
-  if (bankAccountRepository.existsByIban(bankAccountCreate.getIban())) {
-    throw new IllegalArgumentException("IBAN already exists");
+  
+  @Override
+  public BankAccountView addBankAccountUser(BankAccountCreateBindingDto bankAccountCreate, String uuid) {
+    if (bankAccountRepository.existsByIban(bankAccountCreate.getIban())) {
+      throw new IllegalArgumentException("IBAN already exists");
+    }
+    return new BankAccountView(bankAccountRepository.save(mapToBankAccount(bankAccountCreate, uuid)));
   }
-  return new BankAccountView(bankAccountRepository.save(mapToBankAccount(bankAccountCreate, uuid)));
-}
   
   @Override
   public BankAccountView updateBankAccount(Long id, BankAccountEditBindingDto bankAccountEditBindingDto) {

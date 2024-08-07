@@ -53,7 +53,7 @@ public class BankAccountControllerIT {
   
   @Test
   public void testDeleteBankAccount_notFound() throws Exception {
-    mockMvc.perform(delete("/bank-accounts/{id}",NON_EXIST_ID )
+    mockMvc.perform(delete("/bank-accounts/{id}", NON_EXIST_ID)
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
   }
@@ -80,6 +80,7 @@ public class BankAccountControllerIT {
         .andExpect(jsonPath("$.bic", is(TEST_BIC_2)))
         .andExpect(jsonPath("$.currency", is(TEST_CURRENCY_2)));
   }
+  
   @Test
   public void testUpdateBankAccount_ibanExists() throws Exception {
     BankAccount bankAccount1 = bankAccountRepository.save(new BankAccount()
@@ -105,8 +106,8 @@ public class BankAccountControllerIT {
         .andExpect(status().isBadRequest())
         .andExpect(content().string("IBAN already exists"));
   }
-
-
+  
+  
   @Test
   public void testCreateBankAccount() throws Exception {
     BankAccountCreateBindingDto createDto = new BankAccountCreateBindingDto()
@@ -143,6 +144,7 @@ public class BankAccountControllerIT {
         .andExpect(status().isBadRequest())
         .andExpect(content().string("IBAN already exists"));
   }
+  
   @Test
   public void testGetUserAccounts() throws Exception {
     BankAccount bankAccount1 = new BankAccount()
