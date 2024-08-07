@@ -22,7 +22,7 @@ public class Sale {
   private LocalDate saleDate;
   
   @Column(nullable = false)
-  private Long invoiceId;
+  private Long invoiceNumber;
   
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -73,12 +73,12 @@ public class Sale {
     return this;
   }
   
-  public Long getInvoiceId() {
-    return invoiceId;
+  public Long getInvoiceNumber() {
+    return invoiceNumber;
   }
   
-  public Sale setInvoiceId(Long invoiceId) {
-    this.invoiceId = invoiceId;
+  public Sale setInvoiceNumber(Long invoiceNumber) {
+    this.invoiceNumber = invoiceNumber;
     return this;
   }
 }

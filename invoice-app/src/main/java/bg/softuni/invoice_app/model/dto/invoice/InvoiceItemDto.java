@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 
 public class InvoiceItemDto {
   @NotNull(message = "{invoice.item.name.not.null}")
-  @Size(min = 2, max = 20, message = "{invoice.item.name.length}")
   private String name;
   
   @NotNull(message = "{invoice.item.not.null}")

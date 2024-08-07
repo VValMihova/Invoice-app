@@ -57,7 +57,7 @@ public class AdminController {
   @Secured("ROLE_ADMIN")
   @PostMapping("/restore-invoice/{invoiceId}")
   public String restoreInvoice(@PathVariable Long invoiceId, @RequestParam Long userId) {
-    archiveInvoiceService.restoreInvoice(invoiceId);
+    archiveInvoiceService.restoreInvoice(invoiceId, userId);
     return "redirect:/admin/deleted-invoices?userId=" + userId;
   }
   

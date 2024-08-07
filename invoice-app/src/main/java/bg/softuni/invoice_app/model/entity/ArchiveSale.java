@@ -22,7 +22,9 @@ public class ArchiveSale {
     private LocalDate saleDate;
     
     @Column(nullable = false)
-    private Long invoiceId;
+    private Long invoiceNumber;
+    
+    private Long userId;
     
     public Long getId() {
         return id;
@@ -60,12 +62,21 @@ public class ArchiveSale {
         return this;
     }
     
-    public Long getInvoiceId() {
-        return invoiceId;
+    public Long getInvoiceNumber() {
+        return invoiceNumber;
     }
     
-    public ArchiveSale setInvoiceId(Long invoiceId) {
-        this.invoiceId = invoiceId;
+    public ArchiveSale setInvoiceNumber(Long invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+        return this;
+    }
+    
+    public Long getUserId() {
+        return userId;
+    }
+    
+    public ArchiveSale setUserId(Long userId) {
+        this.userId = userId;
         return this;
     }
 }

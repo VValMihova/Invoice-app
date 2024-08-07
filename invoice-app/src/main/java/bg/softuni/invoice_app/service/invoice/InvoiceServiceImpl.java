@@ -14,16 +14,14 @@ import bg.softuni.invoice_app.service.user.UserService;
 import bg.softuni.invoice_app.utils.archive.InvoiceDeletedEvent;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +42,7 @@ public class InvoiceServiceImpl implements InvoiceService {
       RecipientDetailsService recipientDetailsService,
       BankAccountService bankAccountService,
       UserService userService,
-      SaleService saleService,
+      @Lazy SaleService saleService,
       BankAccountPersistService bankAccountPersistService, ApplicationEventPublisher eventPublisher
   ) {
     this.invoiceRepository = invoiceRepository;
@@ -95,7 +93,7 @@ public class InvoiceServiceImpl implements InvoiceService {
           .setSaleDate(invoiceData.getIssueDate())
           .setProductName(updatedItem.getName())
           .setQuantity(updatedItem.getQuantity())
-          .setInvoiceId(invoice.getId())
+          .setInvoiceNumber(invoice.getInvoiceNumber())
           .setUser(currentUser);
       saleService.save(sale);
     }
@@ -108,20 +106,16 @@ public class InvoiceServiceImpl implements InvoiceService {
         .isPresent();
   }
   
-  private static final Logger logger = LoggerFactory.getLogger(InvoiceService.class);
   
   @Transactional
   public void deleteById(Long invoiceId) {
     Invoice invoice = invoiceRepository.findById(invoiceId)
         .orElseThrow(() -> new InvoiceNotFoundException(ErrorMessages.INVOICE_NOT_FOUND));
-    
-    logger.info("Deleting invoice with ID: {}", invoice.getId());
-    
+    //    todo change deletion
+//    saleService.deleteAllByInvoiceId(invoiceId);
     eventPublisher.publishEvent(new InvoiceDeletedEvent(this, invoice));
-    saleService.deleteAllByInvoiceId(invoiceId);
     invoiceRepository.delete(invoice);
     
-    logger.info("Deleted invoice with ID: {}", invoice.getId());
   }
   
   @Override
@@ -192,7 +186,7 @@ public class InvoiceServiceImpl implements InvoiceService {
           .setSaleDate(invoiceData.getIssueDate())
           .setProductName(invoiceItem.getName())
           .setQuantity(invoiceItem.getQuantity())
-          .setInvoiceId(invoiceData.getInvoiceNumber())
+          .setInvoiceNumber(invoiceData.getInvoiceNumber())
           .setUser(currentUser);
       saleService.save(sale);
     }

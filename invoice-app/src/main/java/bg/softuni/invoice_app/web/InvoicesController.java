@@ -13,6 +13,7 @@ import bg.softuni.invoice_app.service.recipientDetails.RecipientDetailsService;
 import bg.softuni.invoice_app.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -78,8 +79,7 @@ public class InvoicesController {
       RecipientDetailsView recipientDetailsView = recipientDetailsService.findById(invoiceView.getRecipient().getId());
       model.addAttribute("recipientDetails", recipientDetailsView);
     }
-    
-    
+
     model.addAttribute("bankAccounts",
         this.bankAccountService.getUserAccounts(this.userService.getUser().getUuid()));
     
@@ -140,6 +140,7 @@ public class InvoicesController {
     return "redirect:/invoices";
   }
   
+  @Transactional
   @PostMapping("/delete/{id}")
   public String deleteInvoice(@PathVariable Long id) {
     invoiceService.deleteById(id);

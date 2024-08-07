@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface ArchiveSaleRepository extends JpaRepository<ArchiveSale, Long> {
-  List<ArchiveSale> findAllByInvoiceId(Long invoiceId);
+  List<ArchiveSale> findAllByInvoiceNumberAndUserId(Long invoiceId, Long userId);
 }

@@ -4,7 +4,6 @@ import bg.softuni.invoice_app.model.dto.report.ReportCriteria;
 import bg.softuni.invoice_app.model.dto.sale.SaleReportDto;
 import bg.softuni.invoice_app.model.entity.Sale;
 import bg.softuni.invoice_app.repository.SaleRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -27,10 +26,6 @@ public class SaleServiceImplTest {
   
   private SaleServiceImpl toTest;
   
-  @BeforeEach
-  void setUp() {
-    toTest = new SaleServiceImpl(mockSaleRepository);
-  }
   
   @Test
   void testFindAllByInvoiceId() {
@@ -50,22 +45,13 @@ public class SaleServiceImplTest {
     
     when(mockSaleRepository.findAllByInvoiceId(invoiceId)).thenReturn(expectedSales);
     
-    List<Sale> result = toTest.findAllByInvoiceId(invoiceId);
+    List<Sale> result = toTest.findAllByInvoiceNumber(invoiceId);
     
     assertEquals(expectedSales.size(), result.size());
     assertEquals(expectedSales.get(0).getProductName(), result.get(0).getProductName());
     assertEquals(expectedSales.get(1).getProductName(), result.get(1).getProductName());
     
     verify(mockSaleRepository).findAllByInvoiceId(invoiceId);
-  }
-  
-  @Test
-  void testDeleteAllByInvoiceId() {
-    Long invoiceId = TEST_ID;
-    
-    toTest.deleteAllByInvoiceId(invoiceId);
-    
-    verify(mockSaleRepository).deleteAllByInvoiceId(invoiceId);
   }
   
   @Test

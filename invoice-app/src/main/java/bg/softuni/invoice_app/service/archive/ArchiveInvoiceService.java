@@ -30,7 +30,7 @@ public class ArchiveInvoiceService {
   }
   
   @Transactional
-  public void restoreInvoice(Long invoiceId) {
+  public void restoreInvoice(Long invoiceId, Long userId) {
     ArchiveInvoice archiveInvoice = archiveInvoiceRepository.findById(invoiceId)
         .orElseThrow(() -> new ArchiveInvoiceNotFoundException(ErrorMessages.ARCHIVE_INVOICE_NOT_FOUND));
     
@@ -44,13 +44,13 @@ public class ArchiveInvoiceService {
     
     invoiceRepository.save(invoice);
     
-    List<ArchiveSale> archiveSales = archiveSaleRepository.findAllByInvoiceId(invoiceId);
+    List<ArchiveSale> archiveSales = archiveSaleRepository.findAllByInvoiceNumberAndUserId(invoiceNumber, userId);
     for (ArchiveSale archiveSale : archiveSales) {
       Sale sale = new Sale();
       sale.setProductName(archiveSale.getProductName());
       sale.setQuantity(archiveSale.getQuantity());
       sale.setSaleDate(archiveSale.getSaleDate());
-      sale.setInvoiceId(invoice.getId());
+      sale.setInvoiceNumber(invoice.getInvoiceNumber());
       sale.setUser(invoice.getUser());
       saleRepository.save(sale);
     }

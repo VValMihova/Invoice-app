@@ -11,9 +11,7 @@ import java.util.List;
 
 @Repository
 public interface SaleRepository extends JpaRepository<Sale, Long> {
-  void deleteAllByInvoiceId(Long id);
-  
-  List<Sale> findBySaleDateBetween(LocalDate startDate, LocalDate endDate);
+  void deleteAllByInvoiceNumberAndUserId(Long id, Long userId);
   
   @Query(
       "SELECT new bg.softuni.invoice_app.model.dto.sale.SaleReportDto(s.productName, SUM(s.quantity)) " +
@@ -21,5 +19,5 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
       " ORDER BY s.productName DESC ")
   List<SaleReportDto> findSalesReport(LocalDate startDate, LocalDate endDate, Long userId);
   
-  List<Sale> findAllByInvoiceId(Long id);
+  List<Sale> findAllByInvoiceNumberAndUserId(Long invoiceNumber, Long userId);
 }

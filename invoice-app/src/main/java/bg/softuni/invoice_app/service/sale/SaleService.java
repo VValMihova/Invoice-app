@@ -13,5 +13,5 @@ public interface SaleService {
   
   List<SaleReportDto> generateReport(ReportCriteria reportCriteria, Long userId);
   
-  List<Sale> findAllByInvoiceId(Long id);
+  List<Sale> findAllByInvoiceNumber(Long invoiceNumber, Long userId);
 }

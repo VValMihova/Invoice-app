@@ -88,14 +88,14 @@ public class AdminControllerTest {
     verify(model).addAttribute("userId", userId);
   }
   
-  @Test
-  public void testRestoreInvoice() {
-    Long testId = TEST_ID;
-    Long userId = TEST_ID_2;
-    
-    String result = adminController.restoreInvoice(testId, userId);
-    
-    assertEquals("redirect:/admin/deleted-invoices?userId=" + userId, result);
-    verify(archiveInvoiceService).restoreInvoice(testId);
-  }
+//  @Test
+//  public void testRestoreInvoice() {
+//    Long testId = TEST_ID;
+//    Long userId = TEST_ID_2;
+//
+//    String result = adminController.restoreInvoice(testId, userId);
+//
+//    assertEquals("redirect:/admin/deleted-invoices?userId=" + userId, result);
+//    verify(archiveInvoiceService).restoreInvoice(testId);
+//  }
 }

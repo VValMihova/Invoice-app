@@ -71,19 +71,19 @@ INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_
 INSERT INTO invoice_items (id, name, quantity, unit_price, total_price, invoice_id) VALUES (12, 'Product12', 1, 1750.00, 1750.00, 6);
 
 -- admin@abv.bg
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (1, 'Product1', 1, '2023-01-01', 1, 1);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (2, 'Product2', 1, '2023-01-01', 1, 1);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (3, 'Product3', 1, '2023-01-15', 2, 1);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (4, 'Product4', 1, '2023-01-15', 2, 1);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (1, 'Product1', 1, '2023-01-01', 1, 1);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (2, 'Product2', 1, '2023-01-01', 1, 1);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (3, 'Product3', 1, '2023-01-15', 2, 1);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (4, 'Product4', 1, '2023-01-15', 2, 1);
 
 -- test@abv.bg
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (5, 'Product5', 1, '2023-02-01', 3, 2);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (6, 'Product6', 1, '2023-02-01', 3, 2);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (7, 'Product7', 1, '2023-02-15', 4, 2);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (8, 'Product8', 1, '2023-02-15', 4, 2);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (5, 'Product5', 1, '2023-02-01', 1, 2);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (6, 'Product6', 1, '2023-02-01', 1, 2);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (7, 'Product7', 1, '2023-02-15', 2, 2);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (8, 'Product8', 1, '2023-02-15', 2, 2);
 
 -- test2@abv.bg
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (9, 'Product9', 1, '2023-03-01', 5, 3);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (10, 'Product10', 1, '2023-03-01', 5, 3);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (11, 'Product11', 1, '2023-03-15', 6, 3);
-INSERT INTO sales (id, product_name, quantity, sale_date, invoice_id, user_id) VALUES (12, 'Product12', 1, '2023-03-15', 6, 3);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (9, 'Product9', 1, '2023-03-01', 1, 3);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (10, 'Product10', 1, '2023-03-01', 1, 3);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (11, 'Product11', 1, '2023-03-15', 2, 3);
+INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (12, 'Product12', 1, '2023-03-15', 2, 3);

@@ -61,13 +61,13 @@ public class InvoiceDeletionListenerTest {
   
   @Test
   void testOnApplicationEvent_Success() {
-    when(mockSaleService.findAllByInvoiceId(invoice.getId())).thenReturn(sales);
+    when(mockSaleService.findAllByInvoiceNumber(invoice.getId())).thenReturn(sales);
     
     InvoiceDeletedEvent event = new InvoiceDeletedEvent(this, invoice);
     toTest.onApplicationEvent(event);
     
     verify(mockArchiveInvoiceRepository).save(any(ArchiveInvoice.class));
-    verify(mockSaleService).findAllByInvoiceId(invoice.getId());
+    verify(mockSaleService).findAllByInvoiceNumber(invoice.getId());
     verify(mockArchiveSaleRepository, times(sales.size())).save(any(ArchiveSale.class));
   }
 }

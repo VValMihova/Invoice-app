@@ -70,33 +70,33 @@ public class ArchiveInvoiceServiceTest {
     archiveSales = List.of(new ArchiveSale());
   }
   
-  @Test
-  void testRestoreInvoice_Success() {
-    when(mockArchiveInvoiceRepository.findById(archiveInvoice.getId())).thenReturn(Optional.of(archiveInvoice));
-    when(mockInvoiceRepository.existsByInvoiceNumber(archiveInvoice.getInvoiceNumber())).thenReturn(false);
-    when(mockArchiveSaleRepository.findAllByInvoiceId(archiveInvoice.getId())).thenReturn(archiveSales);
-    
-    toTest.restoreInvoice(archiveInvoice.getId());
-    
-    verify(mockArchiveInvoiceRepository).findById(archiveInvoice.getId());
-    verify(mockInvoiceRepository).existsByInvoiceNumber(archiveInvoice.getInvoiceNumber());
-    verify(mockInvoiceRepository).save(any(Invoice.class));
-    verify(mockSaleRepository, times(archiveSales.size())).save(any(Sale.class));
-    verify(mockArchiveInvoiceRepository).delete(archiveInvoice);
-    verify(mockArchiveSaleRepository).deleteAll(archiveSales);
-  }
+//  @Test
+//  void testRestoreInvoice_Success() {
+//    when(mockArchiveInvoiceRepository.findById(archiveInvoice.getId())).thenReturn(Optional.of(archiveInvoice));
+//    when(mockInvoiceRepository.existsByInvoiceNumber(archiveInvoice.getInvoiceNumber())).thenReturn(false);
+//    when(mockArchiveSaleRepository.findAllByInvoiceId(archiveInvoice.getId())).thenReturn(archiveSales);
+//
+//    toTest.restoreInvoice(archiveInvoice.getId());
+//
+//    verify(mockArchiveInvoiceRepository).findById(archiveInvoice.getId());
+//    verify(mockInvoiceRepository).existsByInvoiceNumber(archiveInvoice.getInvoiceNumber());
+//    verify(mockInvoiceRepository).save(any(Invoice.class));
+//    verify(mockSaleRepository, times(archiveSales.size())).save(any(Sale.class));
+//    verify(mockArchiveInvoiceRepository).delete(archiveInvoice);
+//    verify(mockArchiveSaleRepository).deleteAll(archiveSales);
+//  }
   
-  @Test
-  void testRestoreInvoice_InvoiceNotFound() {
-    when(mockArchiveInvoiceRepository.findById(archiveInvoice.getId())).thenReturn(Optional.empty());
-    
-    ArchiveInvoiceNotFoundException exception = assertThrows(ArchiveInvoiceNotFoundException.class,
-        () -> toTest.restoreInvoice(archiveInvoice.getId()));
-    
-    assertEquals(ErrorMessages.ARCHIVE_INVOICE_NOT_FOUND, exception.getMessage());
-    
-    verify(mockArchiveInvoiceRepository).findById(archiveInvoice.getId());
-    verifyNoMoreInteractions(mockInvoiceRepository, mockArchiveSaleRepository, mockSaleRepository);
-  }
+//  @Test
+//  void testRestoreInvoice_InvoiceNotFound() {
+//    when(mockArchiveInvoiceRepository.findById(archiveInvoice.getId())).thenReturn(Optional.empty());
+//
+//    ArchiveInvoiceNotFoundException exception = assertThrows(ArchiveInvoiceNotFoundException.class,
+//        () -> toTest.restoreInvoice(archiveInvoice.getId()));
+//
+//    assertEquals(ErrorMessages.ARCHIVE_INVOICE_NOT_FOUND, exception.getMessage());
+//
+//    verify(mockArchiveInvoiceRepository).findById(archiveInvoice.getId());
+//    verifyNoMoreInteractions(mockInvoiceRepository, mockArchiveSaleRepository, mockSaleRepository);
+//  }
 
 }

@@ -3,10 +3,11 @@ package bg.softuni.invoice_app.utils.archive;
 import bg.softuni.invoice_app.model.entity.*;
 import bg.softuni.invoice_app.repository.ArchiveInvoiceRepository;
 import bg.softuni.invoice_app.repository.ArchiveSaleRepository;
+import bg.softuni.invoice_app.repository.SaleRepository;
 import bg.softuni.invoice_app.service.sale.SaleService;
+import bg.softuni.invoice_app.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,14 +21,20 @@ public class InvoiceDeletionListener implements ApplicationListener<InvoiceDelet
   
   private static final Logger logger = LoggerFactory.getLogger(InvoiceDeletionListener.class);
   
-  @Autowired
-  private ArchiveInvoiceRepository archiveInvoiceRepository;
+
+  private final ArchiveInvoiceRepository archiveInvoiceRepository;
+  private final SaleService saleService;
+  private final ArchiveSaleRepository archiveSaleRepository;
+  private final UserService userService;
+  private final SaleRepository saleRepository;
   
-  @Autowired
-  private SaleService saleService;
-  
-  @Autowired
-  private ArchiveSaleRepository archiveSaleRepository;
+  public InvoiceDeletionListener(ArchiveInvoiceRepository archiveInvoiceRepository, SaleService saleService, ArchiveSaleRepository archiveSaleRepository, UserService userService, SaleRepository saleRepository) {
+    this.archiveInvoiceRepository = archiveInvoiceRepository;
+    this.saleService = saleService;
+    this.archiveSaleRepository = archiveSaleRepository;
+    this.userService = userService;
+    this.saleRepository = saleRepository;
+  }
   
   @Override
   @Transactional
@@ -35,6 +42,18 @@ public class InvoiceDeletionListener implements ApplicationListener<InvoiceDelet
     Invoice invoice = event.getInvoice();
     
     logger.info("Starting to archive invoice with ID: {}", invoice.getId());
+    
+    List<Sale> sales = saleService.findAllByInvoiceNumber(invoice.getInvoiceNumber(), userService.getCurrentUserId());
+    for (Sale sale : sales) {
+      ArchiveSale archiveSale = new ArchiveSale();
+      archiveSale.setProductName(sale.getProductName());
+      archiveSale.setQuantity(sale.getQuantity());
+      archiveSale.setSaleDate(sale.getSaleDate());
+      archiveSale.setInvoiceNumber(sale.getInvoiceNumber());
+      archiveSale.setUserId(sale.getUser().getId());
+      archiveSaleRepository.save(archiveSale);
+      saleRepository.delete(sale);
+    }
     
     ArchiveInvoice archiveInvoice = new ArchiveInvoice();
     archiveInvoice.setInvoiceNumber(invoice.getInvoiceNumber());
@@ -64,15 +83,7 @@ public class InvoiceDeletionListener implements ApplicationListener<InvoiceDelet
     logger.info("Archived invoice with ID: {}", archiveInvoice.getId());
     
     
-    List<Sale> sales = saleService.findAllByInvoiceId(invoice.getId());
-    for (Sale sale : sales) {
-      ArchiveSale archiveSale = new ArchiveSale();
-      archiveSale.setProductName(sale.getProductName());
-      archiveSale.setQuantity(sale.getQuantity());
-      archiveSale.setSaleDate(sale.getSaleDate());
-      archiveSale.setInvoiceId(sale.getInvoiceId());
-      archiveSaleRepository.save(archiveSale);
-    }
+
     
     logger.info("Archived sales for invoice with ID: {}", invoice.getId());
   }
