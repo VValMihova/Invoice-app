@@ -87,3 +87,53 @@ INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_i
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (10, 'Product10', 1, '2023-03-01', 1, 3);
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (11, 'Product11', 1, '2023-03-15', 2, 3);
 INSERT INTO sales (id, product_name, quantity, sale_date, invoice_number, user_id) VALUES (12, 'Product12', 1, '2023-03-15', 2, 3);
+
+-- test@abv.bg
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (1, 187.20, '2024-08-07 10:15:57.488028', 3, '2024-08-07', 156.00, 31.20, 3, 2, 2, 2);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (2, 324.00, '2024-08-07 10:15:58.879097', 4, '2024-08-07', 270.00, 54.00, 3, 2, 2, 2);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (3, 316.80, '2024-08-07 10:15:59.717514', 5, '2024-08-07', 264.00, 52.80, 3, 5, 2, 2);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (4, 1500.00, '2024-08-07 10:16:00.399693', 6, '2024-08-07', 1250.00, 250.00, 3, 5, 2, 2);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (5, 1274.40, '2024-08-07 10:16:01.061740', 7, '2024-08-07', 1062.00, 212.40, 3, 2, 2, 2);
+
+-- test@abv.bg
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (1, 'Product1', 12.0000, 156.00, 13.00, 1);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (2, 'Product22', 15.0000, 270.00, 18.00, 2);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (3, 'Product23', 22.0000, 264.00, 12.00, 3);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (4, 'Product1', 12.0000, 1200.00, 100.00, 4);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (5, 'Product3', 10.0000, 50.00, 5.00, 4);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (6, 'Product6', 12.0000, 204.00, 17.00, 5);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (7, 'Product3', 66.0000, 858.00, 13.00, 5);
+
+-- test@abv.bg
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (1, 3, 'Product1', 12.00, '2024-08-07', 2);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (2, 4, 'Product22', 15.00, '2024-08-07', 2);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (3, 5, 'Product23', 22.00, '2024-08-07', 2);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (4, 6, 'Product1', 12.00, '2024-08-07', 2);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (5, 6, 'Product3', 10.00, '2024-08-07', 2);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (6, 7, 'Product6', 12.00, '2024-08-07', 2);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (7, 7, 'Product3', 66.00, '2024-08-07', 2);
+
+-- test2@abv.bg
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (6, 187.20, '2024-08-07 10:15:57.488028', 3, '2024-08-07', 156.00, 31.20, 3, 2, 2, 3);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (7, 324.00, '2024-08-07 10:15:58.879097', 4, '2024-08-07', 270.00, 54.00, 3, 2, 2, 3);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (8, 316.80, '2024-08-07 10:15:59.717514', 5, '2024-08-07', 264.00, 52.80, 3, 5, 2, 3);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (9, 1500.00, '2024-08-07 10:16:00.399693', 6, '2024-08-07', 1250.00, 250.00, 3, 5, 2, 3);
+INSERT INTO archive_invoices (id, amount_due, deleted_at, invoice_number, issue_date, total_amount, vat, bank_account_persist_id, recipient_id, supplier_id, user_id) VALUES (10, 1274.40, '2024-08-07 10:16:01.061740', 7, '2024-08-07', 1062.00, 212.40, 3, 2, 2, 3);
+
+-- test2@abv.bg
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (8, 'Product1', 12.0000, 156.00, 13.00, 6);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (9, 'Product22', 15.0000, 270.00, 18.00, 7);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (10, 'Product23', 22.0000, 264.00, 12.00, 8);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (11, 'Product1', 12.0000, 1200.00, 100.00, 9);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (12, 'Product3', 10.0000, 50.00, 5.00, 9);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (13, 'Product6', 12.0000, 204.00, 17.00, 10);
+INSERT INTO archive_invoice_items (id, name, quantity, total_price, unit_price, archive_invoice_id) VALUES (14, 'Product3', 66.0000, 858.00, 13.00, 10);
+
+-- test2@abv.bg
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (8, 3, 'Product1', 12.00, '2024-08-07', 3);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (9, 4, 'Product22', 15.00, '2024-08-07', 3);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (10, 5, 'Product23', 22.00, '2024-08-07', 3);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (11, 6, 'Product1', 12.00, '2024-08-07', 3);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (12, 6, 'Product3', 10.00, '2024-08-07', 3);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (13, 7, 'Product6', 12.00, '2024-08-07', 3);
+INSERT INTO archive_sales (id, invoice_number, product_name, quantity, sale_date, user_id) VALUES (14, 7, 'Product3', 66.00, '2024-08-07', 3);
